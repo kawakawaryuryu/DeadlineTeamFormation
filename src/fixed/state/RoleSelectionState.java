@@ -30,15 +30,15 @@ public class RoleSelectionState implements FixedState {
 	public void agentAction(FixedAgent agent) {
 		// リーダ時の期待報酬を計算
 		double expectedLeaderReward = roleSelectionStrategy.calculateExpectedLeaderReward(agent, agent.getParameter().getMarkedTask());
-		System.out.println("リーダ時の期待報酬 = " + expectedLeaderReward);
+//		System.out.println("リーダ時の期待報酬 = " + expectedLeaderReward);
 		
 		// メンバ時の期待報酬を計算
 		double expectedMemberReward = roleSelectionStrategy.calculateExpectedMemberReward(agent, agent.getParameter().getOfferMessages());
-		System.out.println("メンバ時の期待報酬 = " + expectedMemberReward);
+//		System.out.println("メンバ時の期待報酬 = " + expectedMemberReward);
 		
 		// 役割を決定する
 		FutureRole role = decideRole(expectedLeaderReward, expectedMemberReward);
-		System.out.println("役割は " + role + " に決まりました");
+//		System.out.println("役割は " + role + " に決まりました");
 		
 		// 役割ごとに行動する
 		strategyMap.get(role).action(agent);

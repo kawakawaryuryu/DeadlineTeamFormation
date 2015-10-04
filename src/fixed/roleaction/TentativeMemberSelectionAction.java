@@ -24,12 +24,12 @@ public class TentativeMemberSelectionAction implements RoleAction {
 		
 		// メンバ候補を探せた場合
 		if(isCandidates){
-			System.out.println("メンバ候補探しに成功しました");
+//			System.out.println("メンバ候補探しに成功しました");
 			actionInSearchingSuccessCase(agent);
 		}
 		// メンバ候補を探せなかった場合
 		else{
-			System.out.println("メンバ候補探しに失敗しました");
+//			System.out.println("メンバ候補探しに失敗しました");
 			actionInSearchingFailureCase(agent);
 		}
 
@@ -37,7 +37,7 @@ public class TentativeMemberSelectionAction implements RoleAction {
 	
 	private void refuseOfferMessages(FixedAgent agent) {
 		for(FixedOfferMessage offer : agent.getParameter().getOfferMessages()){
-			System.out.println(offer.getFrom() + "からのメッセージを断ります");
+//			System.out.println(offer.getFrom() + "からのメッセージを断ります");
 			TeamFormationMain.getPost().postAnswerMessage(offer.getFrom(), 
 					new FixedAnswerMessage(agent, offer.getFrom(), false, offer.getSubtask()));
 		}

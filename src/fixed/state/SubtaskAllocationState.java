@@ -22,7 +22,7 @@ public class SubtaskAllocationState implements FixedState {
 	public void agentAction(FixedAgent leader) {
 		// エージェントを参加OKかNGかで分類
 		classifyMessageIntoTrueOrFalse(leader);
-		debugAnswerAgents(leader);
+//		debugAnswerAgents(leader);
 		
 		// 仮メンバにサブタスクを割り当て、メンバを決定する
 		strategy.decideMembers(leader);
@@ -39,8 +39,8 @@ public class SubtaskAllocationState implements FixedState {
 		
 		// チーム編成に成功した場合
 		if(leader.getParameter().getLeaderField().isTeaming){
-			System.out.println("チーム編成に成功しました");
-			debugExecutedSubtask(leader);
+//			System.out.println("チーム編成に成功しました");
+//			debugExecutedSubtask(leader);
 			
 			// データを計測
 			TeamFormationMain.getMeasure().countInSuccessCase(leader.getParameter().getMarkedTask().getTaskRequireSum(), 
@@ -59,7 +59,7 @@ public class SubtaskAllocationState implements FixedState {
 		}
 		// チーム編成に失敗した場合
 		else{
-			System.out.println("チーム編成に失敗しました");
+//			System.out.println("チーム編成に失敗しました");
 			
 			// チーム編成失敗回数をカウント
 			TeamFormationMain.getMeasure().countFailureTeamFormationNum();
@@ -133,7 +133,7 @@ public class SubtaskAllocationState implements FixedState {
 			if(!leader.getParameter().getLeaderField().memberSubtaskMap.containsKey(agent) 
 					|| !leader.getParameter().getLeaderField().isTeaming){
 				TeamFormationMain.getPost().postTeamFormationMessage(agent, new FixedTeamFormationMessage(leader, agent, false));
-				System.out.println(agent + " にチーム編成失敗メッセージを送信しました");
+//				System.out.println(agent + " にチーム編成失敗メッセージを送信しました");
 			}
 			else if(leader.getParameter().getLeaderField().memberSubtaskMap.containsKey(agent) 
 					&& leader.getParameter().getLeaderField().isTeaming){
@@ -141,7 +141,7 @@ public class SubtaskAllocationState implements FixedState {
 				FixedTeam team = leader.getParameter().getParticipatingTeam();
 				TeamFormationMain.getPost().postTeamFormationMessage(agent, 
 						new FixedTeamFormationMessage(leader, agent, true, subtasks, leftReward, leftRequireSum, team));
-				System.out.println(agent + " にチーム編成成功メッセージを送信しました");
+//				System.out.println(agent + " にチーム編成成功メッセージを送信しました");
 			}
 			else{
 				System.err.println("sendTeamFormationMessage: このようなパターンはありません");

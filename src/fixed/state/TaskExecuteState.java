@@ -10,19 +10,19 @@ public class TaskExecuteState implements FixedState {
 	@Override
 	public void agentAction(FixedAgent agent) {
 		agent.getParameter().countTaskExecuteStateTimer();
-		debugExecuteTime(agent);
+//		debugExecuteTime(agent);
 		
 		if(agent.getParameter().getTaskExecuteStateTimer() <= agent.getParameter().getExecuteTime() &&
 				agent.getParameter().getTaskExecuteStateTimer() != agent.getParameter().getParticipatingTeam().getTeamExecuteTime()){
-			debugExecutedSubtask(agent);
+//			debugExecutedSubtask(agent);
 		}
 		else if(agent.getParameter().getExecuteTime() < agent.getParameter().getTaskExecuteStateTimer() &&
 				agent.getParameter().getTaskExecuteStateTimer() < agent.getParameter().getParticipatingTeam().getTeamExecuteTime()){
-			System.out.println("他のメンバの処理終了待ちです");
+//			System.out.println("他のメンバの処理終了待ちです");
 		}
 		else if(agent.getParameter().getTaskExecuteStateTimer() == agent.getParameter().getParticipatingTeam().getTeamExecuteTime()){
 			agent.getParameter().changeState(TaskSelectionState.getState());
-			System.out.println("チームの処理が終了しました");
+//			System.out.println("チームの処理が終了しました");
 		}
 		else{
 			System.err.println("TaskExecuteStateでこのようなパターンはありえません");

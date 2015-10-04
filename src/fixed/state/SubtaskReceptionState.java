@@ -28,12 +28,12 @@ public class SubtaskReceptionState implements FixedState {
 			// 状態遷移
 			member.getParameter().changeState(TaskExecuteState.getState());
 			
-			System.out.println("チーム編成成功メッセージを受信しました");
-			debugExecutedSubtask(member);
+//			System.out.println("チーム編成成功メッセージを受信しました");
+//			debugExecutedSubtask(member);
 		}
 		// チーム編成失敗の場合
 		else{
-			System.out.println("チーム編成失敗メッセージを受信しました");
+//			System.out.println("チーム編成失敗メッセージを受信しました");
 			// 状態遷移
 			member.getParameter().changeState(TaskSelectionState.getState());
 		}

@@ -65,9 +65,9 @@ public class FixedAgent {
 	}
 	
 	public void action() {
-		System.out.println(this + " の行動 / " + this.parameter.state);
+//		System.out.println(this + " の行動 / " + this.parameter.state);
 		parameter.getState().agentAction(this);
-		System.out.println();
+//		System.out.println();
 	}
 	
 	public AgentParameter getParameter() {

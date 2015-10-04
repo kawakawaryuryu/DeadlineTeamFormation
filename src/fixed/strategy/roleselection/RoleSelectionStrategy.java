@@ -39,12 +39,12 @@ public class RoleSelectionStrategy implements FixedRoleSelectionStrategy {
 		// εの確率でランダムに選ぶ
 		if(probability <= FixedConstant.EPSILON){
 			maxExpectedRewardMessage = messages.get(RandomManager.getRandom(RandomKey.SELECT_RANDOM_1).nextInt(messages.size()));
-			System.out.println(maxExpectedRewardMessage + " をランダムで選びました");
+//			System.out.println(maxExpectedRewardMessage + " をランダムで選びました");
 		}
 		// 1-εの確率で期待報酬の大きいエージェントを選ぶ
 		else{
 			maxExpectedRewardMessage = getOfferMessageOfMaxExpectedMemberReward(messages, agent);
-			System.out.println(maxExpectedRewardMessage + " を報酬期待度順で選びました");
+//			System.out.println(maxExpectedRewardMessage + " を報酬期待度順で選びました");
 		}
 		return maxExpectedRewardMessage;
 	}
@@ -78,13 +78,13 @@ public class RoleSelectionStrategy implements FixedRoleSelectionStrategy {
 		
 		// 来ている提案メッセージから処理できるメッセージを抽出
 		ArrayList<FixedOfferMessage> canBeExecutedMessages = AgentTaskLibrary.getCanExecuteOfferMessages(agent.getParameter().getOfferMessages(), agent);
-		System.out.println("来ている提案メッセージの中で処理できるメッセージ");
-		debugOfferMessage(canBeExecutedMessages);
+//		System.out.println("来ている提案メッセージの中で処理できるメッセージ");
+//		debugOfferMessage(canBeExecutedMessages);
 		
 		double memberReward;
 		
 		if(canBeExecutedMessages.isEmpty()){
-			System.out.println("処理できるメッセージは来ませんでした");
+//			System.out.println("処理できるメッセージは来ませんでした");
 			memberReward = 0;
 		}
 		else{

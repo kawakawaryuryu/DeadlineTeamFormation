@@ -112,7 +112,7 @@ public class TeamFormationParameter {
 					RandomManager.getRandom(RandomKey.TASK_RANDOM).nextInt(FixedConstant.SUBTASK_IN_TASK_NUM) + FixedConstant.SUBTASK_IN_TASK_INIT, 
 					RandomManager.getRandom(RandomKey.DEADLINE_RANDOM).nextInt(FixedConstant.DEADLINE_MAX) + FixedConstant.DEADLINE_INIT));
 		}
-		debugTaskQueue();
+//		debugTaskQueue();
 	}
 	
 	public void debugTaskQueue() {

@@ -21,7 +21,7 @@ public class MainMain {
 			random.initialize(experimentNumber);
 			
 			// 実験条件のファイル書き込み
-			FileWriteManager.fileExplain();
+//			FileWriteManager.fileExplain();
 			
 			// チーム編成を行う
 			TeamFormationMain.teamFormation(experimentNumber);
@@ -33,7 +33,7 @@ public class MainMain {
 		measure.saveAllMeasuredData();
 		
 		// 実験データを書き込み
-		writeMeasuredData();
+//		writeMeasuredData();
 		
 		
 		long stop = System.currentTimeMillis();

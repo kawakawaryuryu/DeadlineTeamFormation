@@ -40,42 +40,42 @@ public class TeamFormationMain {
 		for(FixedAgent agent : parameter.agentsMap.get(TaskSelectionState.getState())){
 			agent.getParameter().initialize();
 		}
-		System.out.println("------- タスク選択状態のエージェントの行動 -------");
+//		System.out.println("------- タスク選択状態のエージェントの行動 -------");
 		for(FixedAgent agent : parameter.agentsMap.get(TaskSelectionState.getState())){
 			agent.action();
 		}
-		System.out.println();
-		System.out.println("------- 役割選択状態のエージェントの行動 / タスクをマークしたエージェント -------");
+//		System.out.println();
+//		System.out.println("------- 役割選択状態のエージェントの行動 / タスクをマークしたエージェント -------");
 		for(FixedAgent agent : parameter.taskMarkingAgentMap.get(TaskMarking.TASK_MARKING)){
 			agent.action();
 		}
-		System.out.println();
-		System.out.println("------- 役割選択状態のエージェントの行動 / タスクをマークしていないエージェント -------");
+//		System.out.println();
+//		System.out.println("------- 役割選択状態のエージェントの行動 / タスクをマークしていないエージェント -------");
 		for(FixedAgent agent : parameter.taskMarkingAgentMap.get(TaskMarking.NO_TASK_MARKING)){
 			agent.action();
 		}
-		System.out.println();
+//		System.out.println();
 	}
 	
 	private static void actionByLeaderOrMemberAgent() {
-		System.out.println("------- リーダ状態のエージェントの行動 -------");
+//		System.out.println("------- リーダ状態のエージェントの行動 -------");
 		for(FixedAgent agent : parameter.agentsMap.get(SubtaskAllocationState.getState())){
 			agent.action();
 		}
-		System.out.println();
-		System.out.println("------- メンバ状態のエージェントの行動 -------");
+//		System.out.println();
+//		System.out.println("------- メンバ状態のエージェントの行動 -------");
 		for(FixedAgent agent : parameter.agentsMap.get(SubtaskReceptionState.getState())){
 			agent.action();
 		}
-		System.out.println();
+//		System.out.println();
 	}
 	
 	private static void actionByExecuteAgent() {
-		System.out.println("------- タスク実行状態のエージェントの行動 -------");
+//		System.out.println("------- タスク実行状態のエージェントの行動 -------");
 		for(FixedAgent agent : parameter.agentsMap.get(TaskExecuteState.getState())){
 			agent.action();
 		}
-		System.out.println();
+//		System.out.println();
 	}
 
 	public static void teamFormation(int experimentNumber) throws IOException {
@@ -86,14 +86,14 @@ public class TeamFormationMain {
 		for(int id = 0; id < FixedConstant.AGENT_NUM; id++){
 			parameter.agents.add(new FixedAgent(id));
 		}
-		parameter.debugAgents();
+//		parameter.debugAgents();
 		
 		// ファイル書き込み用のPrintWriterインスタンスを取得
-		PrintWriter greedyWriter = FileWriteManager.writeHeaderOfGreedy(parameter.agents);
+//		PrintWriter greedyWriter = FileWriteManager.writeHeaderOfGreedy(parameter.agents);
 		
 		// チーム編成の開始
 		for(turn = 1; turn <= FixedConstant.TURN_NUM; turn++){
-			System.out.println("======= " + turn + " ターン目 =======");
+//			System.out.println("======= " + turn + " ターン目 =======");
 			
 			// キューにタスクを追加
 			parameter.addTaskToQueue();
@@ -121,7 +121,7 @@ public class TeamFormationMain {
 			
 			// Q値をファイルに書き込み
 			if(turn % FixedConstant.MEASURE_Q_TURN_NUM == 0){
-				writeMeasuredData(greedyWriter, turn, parameter.agents);
+//				writeMeasuredData(greedyWriter, turn, parameter.agents);
 			}
 			
 			// 可視化用計測データをファイルに書き込み
@@ -138,7 +138,7 @@ public class TeamFormationMain {
 		// 1回のチーム編成におけるエージェントごとのデータを計測
 		measure.measureAtEnd(parameter.agents);
 		
-		debugExecutedTaskRequire();
+//		debugExecutedTaskRequire();
 	}
 	
 	private static void debugExecutedTaskRequire() {

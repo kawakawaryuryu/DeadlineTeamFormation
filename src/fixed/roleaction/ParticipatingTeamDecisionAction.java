@@ -26,12 +26,12 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 	private void answerToOfferMessages(FixedAgent agent) {
 		for(FixedOfferMessage offer : agent.getParameter().getOfferMessages()){
 			if(agent.getParameter().getSelectedOfferMessage() != offer){
-				System.out.println(offer.getFrom() + " に参加NGメッセージを返信しました");
+//				System.out.println(offer.getFrom() + " に参加NGメッセージを返信しました");
 				TeamFormationMain.getPost().postAnswerMessage(offer.getFrom(), 
 						new FixedAnswerMessage(agent, offer.getFrom(), false, offer.getSubtask()));
 			}
 			else{
-				System.out.println(offer.getFrom() + " に参加OKメッセージを返信しました");
+//				System.out.println(offer.getFrom() + " に参加OKメッセージを返信しました");
 				TeamFormationMain.getPost().postAnswerMessage(offer.getFrom(), 
 						new FixedAnswerMessage(agent, offer.getFrom(), true, offer.getSubtask()));
 			}
