@@ -2,7 +2,7 @@ package fixed.constant;
 
 public class FixedConstant {
 	/* Main */
-	public static final int AGENT_NUM = 3500;	//エージェント数
+	public static final int AGENT_NUM = 350;	//エージェント数
 	public static final int TURN_NUM = 50000;	//実行ターン数
 	public static final double ADD_TASK_PER_TURN = 2;	//1ターンあたりに追加する平均タスク数
 	public static final int AGENT_ABILITY_MAX = 6;	//エージェントリソースの最大値（１〜１０）
