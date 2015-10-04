@@ -36,6 +36,7 @@ public class ConcreteSubtaskAllocationStrategy implements
 		// チーム編成成功の場合は、メンバをチームに加える
 		if(leader.getParameter().getLeaderField().isTeaming){
 //			System.out.println("チーム編成成功！");
+			leader.getParameter().getParticipatingTeam().addTeamMate(leader);
 			for(FixedAgent member : leader.getParameter().getLeaderField().memberSubtaskMap.keySet()){
 				for(FixedSubtask subtask : leader.getParameter().getLeaderField().memberSubtaskMap.get(member)){
 					member.getParameter().setExecutedSubtasks(subtask, AgentTaskLibrary.calculateExecuteTime(member, subtask));

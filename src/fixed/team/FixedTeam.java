@@ -21,7 +21,6 @@ public class FixedTeam {
 	public FixedTeam(FixedAgent leader) {
 		this.leader = leader;
 		addTentativeTeamMate(leader);
-		addTeamMate(leader);
 	}
 	
 	public void addTentativeTeamMate(FixedAgent agent) {

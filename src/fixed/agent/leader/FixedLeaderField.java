@@ -32,6 +32,7 @@ public class FixedLeaderField {
 		notAssignedSubTask.clear();
 		isTeaming = true;
 		isTeamingAgainAllocation = true;
+		memberSubtaskMap.clear();
 	}
 	
 	public void setAgentToMemberSubtaskMap(FixedAgent member) {
