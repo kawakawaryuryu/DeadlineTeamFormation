@@ -42,6 +42,9 @@ public class SubtaskAllocationState implements FixedState {
 //			System.out.println("チーム編成に成功しました");
 //			debugExecutedSubtask(leader);
 			
+			// チームでの処理時間 & 拘束時間を算出
+			calculateExecutingTimeAndBindingTimeInTeam(leader.getParameter().getParticipatingTeam());
+			
 			// データを計測
 			TeamFormationMain.getMeasure().countInSuccessCase(leader.getParameter().getMarkedTask().getTaskRequireSum(), 
 					leader.getParameter().getParticipatingTeam());
@@ -161,6 +164,11 @@ public class SubtaskAllocationState implements FixedState {
 		for(FixedAgent agent : leader.getParameter().getLeaderField().falseAgents){
 			leader.feedbackTrust(agent, false);
 		}
+	}
+	
+	private void calculateExecutingTimeAndBindingTimeInTeam(FixedTeam team) {
+		team.calculateExecutingTime();
+		team.calculateBindingTime();
 	}
 
 	public static FixedState getState() {

@@ -722,25 +722,25 @@ public class FileWriteManager {
 				(path + "data/other/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/otherInfo_" + fileNumber + ".csv", isWrite), "Shift_JIS")));
 		
 		pw.println("仮チームの平均サイズ" + "," + (double)MainMain.measure.tentativeTeamSize / (double)MainMain.EXPERIMENT_NUM);
-		pw.println("チームの平均サイズ" + "," + MainMain.measure.teamSize / (double)MainMain.EXPERIMENT_NUM);
-		pw.println("チームの平均処理時間" + "," + MainMain.measure.teamExecuteTime / (double)MainMain.EXPERIMENT_NUM);
-		pw.println("主にリーダを担当したエージェント数" + "," + MainMain.measure.leaderMain / (double)MainMain.EXPERIMENT_NUM);
-		pw.println("主にメンバを担当したエージェント数" + "," + MainMain.measure.memberMain / (double)MainMain.EXPERIMENT_NUM);
-		pw.println("主な役割がリーダでもメンバでもないエージェント数" + "," + MainMain.measure.neitherLeaderNorMember / (double)MainMain.EXPERIMENT_NUM);
-		pw.println("1人あたりの初期状態にかけた時間" + "," + MainMain.measure.initialTime / (double)MainMain.EXPERIMENT_NUM);
-		pw.println("1人あたりのリーダ状態にかけた時間" + "," + MainMain.measure.leaderTime / (double)MainMain.EXPERIMENT_NUM);
-		pw.println("1人あたりのメンバ状態にかけた時間" + "," + MainMain.measure.memberTime / (double)MainMain.EXPERIMENT_NUM);
-		pw.println("1人あたりの実行状態にかけた時間" + "," + MainMain.measure.executeTime / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("チームの平均サイズ" + "," + (double)MainMain.measure.teamSize / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("チームの平均処理時間" + "," + (double)MainMain.measure.teamExecuteTime / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("主にリーダを担当したエージェント数" + "," + (double)MainMain.measure.leaderMain / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("主にメンバを担当したエージェント数" + "," + (double)MainMain.measure.memberMain / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("主な役割がリーダでもメンバでもないエージェント数" + "," + (double)MainMain.measure.neitherLeaderNorMember / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("1人あたりの初期状態にかけた時間" + "," + (double)MainMain.measure.initialTime / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("1人あたりのリーダ状態にかけた時間" + "," + (double)MainMain.measure.leaderTime / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("1人あたりのメンバ状態にかけた時間" + "," + (double)MainMain.measure.memberTime / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("1人あたりの実行状態にかけた時間" + "," + (double)MainMain.measure.executeTime / (double)MainMain.EXPERIMENT_NUM);
 		pw.println("1チーム中の1人あたりの最後の数ターンに処理していた時間" + "," + MainMain.measure.executingTimePerAgentInTeamAtEnd / (double)MainMain.EXPERIMENT_NUM);
 		pw.println("1チーム中の1人あたりの最後の数ターンに拘束されていた時間" + "," + MainMain.measure.bindingTimePerAgentInTeamAtEnd / (double)MainMain.EXPERIMENT_NUM);
-		pw.println("総タスク処理リソースの平均" + "," + MainMain.measure.allSuccessTaskRequire / (double)MainMain.EXPERIMENT_NUM);
-		pw.println("総タスク廃棄リソースの平均" + "," + MainMain.measure.allFailureTaskRequire / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("総タスク処理リソースの平均" + "," + (double)MainMain.measure.allSuccessTaskRequire / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("総タスク廃棄リソースの平均" + "," + (double)MainMain.measure.allFailureTaskRequire / (double)MainMain.EXPERIMENT_NUM);
 		pw.println();
 		
 		pw.println("チーム内人数" + "," + "1チームの不要な拘束時間" + "," + "1チーム中の1人あたりの不要な拘束時間" + "," + "チーム編成成功数");
 		for(int i = 0; i < MainMain.measure.bindingTimeInTeamEveryTeamSize.length; i++){
 			pw.println(i + "," + MainMain.measure.bindingTimeInTeamEveryTeamSize[i] / (double)MainMain.EXPERIMENT_NUM + ","
-					+ (MainMain.measure.bindingTimeInTeamEveryTeamSize[i] / (double)(i-1)) / (double)MainMain.EXPERIMENT_NUM + ","
+					+ (MainMain.measure.bindingTimeInTeamEveryTeamSize[i] / (double)i) / (double)MainMain.EXPERIMENT_NUM + ","
 					+ MainMain.measure.allSuccessTeamFormationNumEveryTeamSize[i] / (double)MainMain.EXPERIMENT_NUM);
 		}
 		
