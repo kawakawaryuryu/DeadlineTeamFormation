@@ -26,11 +26,11 @@ public class MainMain {
 			// チーム編成を行う
 			TeamFormationMain.teamFormation(experimentNumber);
 			
+			// 1回の実験で計測したデータを保存
+			measure.saveAllMeasuredData();
+			
 			System.out.println("Team formation at " + experimentNumber + " times finish!");
 		}
-		
-		// 1回の実験で計測したデータを保存
-		measure.saveAllMeasuredData();
 		
 		// 実験データを書き込み
 		writeMeasuredData();
