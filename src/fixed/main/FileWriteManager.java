@@ -721,9 +721,9 @@ public class FileWriteManager {
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
 				(path + "data/other/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/otherInfo_" + fileNumber + ".csv", isWrite), "Shift_JIS")));
 		
-		pw.println("仮チームの平均サイズ" + "," + (double)MainMain.measure.tentativeTeamSize / (double)MainMain.EXPERIMENT_NUM);
-		pw.println("チームの平均サイズ" + "," + (double)MainMain.measure.teamSize / (double)MainMain.EXPERIMENT_NUM);
-		pw.println("チームの平均処理時間" + "," + (double)MainMain.measure.teamExecuteTime / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("仮チームの平均サイズ" + "," + MainMain.measure.tentativeTeamSize / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("チームの平均サイズ" + "," + MainMain.measure.teamSize / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("チームの平均処理時間" + "," + MainMain.measure.teamExecuteTime / (double)MainMain.EXPERIMENT_NUM);
 		pw.println("主にリーダを担当したエージェント数" + "," + (double)MainMain.measure.leaderMain / (double)MainMain.EXPERIMENT_NUM);
 		pw.println("主にメンバを担当したエージェント数" + "," + (double)MainMain.measure.memberMain / (double)MainMain.EXPERIMENT_NUM);
 		pw.println("主な役割がリーダでもメンバでもないエージェント数" + "," + (double)MainMain.measure.neitherLeaderNorMember / (double)MainMain.EXPERIMENT_NUM);

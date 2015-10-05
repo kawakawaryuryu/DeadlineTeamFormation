@@ -105,6 +105,9 @@ public class TeamFormationMeasuredData {
 		allSuccessTaskRequire += require;
 		successTeamFormationNum[arrayIndex]++;
 		allSuccessTeamFormationNum++;
+		if(FixedConstant.TURN_NUM - TeamFormationMain.getTurn() < FixedConstant.MEASURE_SUCCESS_AT_END_TURN_NUM) {
+			successTeamFormationNumAtEnd++;
+		}
 	}
 	
 	public void countFailure(int require) {

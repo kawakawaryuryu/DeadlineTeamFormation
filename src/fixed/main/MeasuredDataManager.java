@@ -21,15 +21,15 @@ public class MeasuredDataManager {
 	double[] allSuccessTeamFormationNumEveryTeamSize = new double[FixedConstant.ARRAY_SIZE_FOR_TEAM];
 	double[] bindingTimeInTeamEveryTeamSize = new double[FixedConstant.ARRAY_SIZE_FOR_TEAM];
 
-	int teamExecuteTime;
-	int[] bindingTimeInTeam = new int[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
+	double teamExecuteTime;
+	double[] bindingTimeInTeam = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
 	double[] executingTimePerAgentInTeam = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
 	double[] bindingTimePerAgentInTeam = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
 	double executingTimePerAgentInTeamAtEnd;
 	double bindingTimePerAgentInTeamAtEnd;
 	
-	int tentativeTeamSize;
-	int teamSize;
+	double tentativeTeamSize;
+	double teamSize;
 	
 	int leaderMain;
 	int memberMain;
