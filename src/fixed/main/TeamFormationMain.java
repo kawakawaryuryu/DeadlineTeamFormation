@@ -20,6 +20,8 @@ public class TeamFormationMain {
 	private static TeamFormationMeasuredData measure = new TeamFormationMeasuredData();
 	private static Post post = new Post();
 	
+	private static PrintWriter greedyWriter;
+	
 	public static TeamFormationParameter getParameter() {
 		return parameter;
 	}
@@ -89,7 +91,7 @@ public class TeamFormationMain {
 //		parameter.debugAgents();
 		
 		// ファイル書き込み用のPrintWriterインスタンスを取得
-//		PrintWriter greedyWriter = FileWriteManager.writeHeaderOfGreedy(parameter.agents);
+		greedyWriter = getGreedyWriter(experimentNumber);
 		
 		// チーム編成の開始
 		for(turn = 1; turn <= FixedConstant.TURN_NUM; turn++){
@@ -113,6 +115,9 @@ public class TeamFormationMain {
 			actionByLeaderOrMemberAgent();
 			actionByExecuteAgent();
 			
+			// デッドラインを減らす
+			parameter.decreaseTaskDeadline(measure);
+			
 			// 一定時間ごとに、計測データを退避
 			if(turn % FixedConstant.MEASURE_TURN_NUM == 0){
 				// 計測データの配列添え字をインクリメント
@@ -121,7 +126,7 @@ public class TeamFormationMain {
 			
 			// Q値をファイルに書き込み
 			if(turn % FixedConstant.MEASURE_Q_TURN_NUM == 0){
-//				writeMeasuredData(greedyWriter, turn, parameter.agents);
+				writeMeasuredData(greedyWriter, turn, parameter.agents, experimentNumber);
 			}
 			
 			// 可視化用計測データをファイルに書き込み
@@ -129,14 +134,13 @@ public class TeamFormationMain {
 				
 			}
 			
-			// デッドラインを減らす
-			parameter.decreaseTaskDeadline(measure);
-			
-			
 		}
 		
 		// 1回のチーム編成におけるエージェントごとのデータを計測
 		measure.measureAtEnd(parameter.agents);
+		
+		// greedyWriterをclose
+		closeGreedyWrite(experimentNumber);
 		
 //		debugExecutedTaskRequire();
 	}
@@ -146,10 +150,27 @@ public class TeamFormationMain {
 		System.out.println("処理したタスク数 = " + measure.allSuccessTeamFormationNum);
 	}
 	
-	private static void writeMeasuredData(PrintWriter greedy, int turn, ArrayList<FixedAgent> agents) throws IOException {
-		FileWriteManager.writeBodyOfGreedy(greedy, turn, agents);
-		FileWriteManager.writeTrust(agents, turn);
-		FileWriteManager.writeRewardExpectation(agents, turn);
+	private static PrintWriter getGreedyWriter(int experimentNumber) throws IOException {
+		if(experimentNumber == 1){
+			return FileWriteManager.writeHeaderOfGreedy(parameter.agents);
+		}
+		else{
+			return null;
+		}
+	}
+	
+	private static void closeGreedyWrite(int experimentNumber) {
+		if(experimentNumber == 1){
+			greedyWriter.close();
+		}
+	}
+	
+	private static void writeMeasuredData(PrintWriter greedy, int turn, ArrayList<FixedAgent> agents, int experimentNumber) throws IOException {
+		if(experimentNumber == 1){
+			FileWriteManager.writeBodyOfGreedy(greedy, turn, agents);
+			FileWriteManager.writeTrust(agents, turn);
+			FileWriteManager.writeRewardExpectation(agents, turn);
+		}
 	}
 
 }
