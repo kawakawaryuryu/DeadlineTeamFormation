@@ -76,6 +76,7 @@ public class MeasuredDataManager {
 	
 	public void saveAllMeasuredData() {
 		saveMeasuredDataPerTurn();
+		saveMeasuredDataAtEnd();
 		saveMeasuredDataEveryTeamSize();
 		saveTeamExecuteData();
 		saveTeamSizeData();
@@ -95,9 +96,16 @@ public class MeasuredDataManager {
 				successTeamFormationNumEveryTeamSize[i][j] += TeamFormationMain.getMeasure().successTeamFormationNumEveryTeamSize[i][j];
 			}
 			bindingTimeInTeam[i] += TeamFormationMain.getMeasure().getAverageBindingTimeInTeam(i);
-			executingTimePerAgentInTeam[i] += TeamFormationMain.getMeasure().getAverageBindingTimePerAgentInTeam(i);
-			bindingTimePerAgentInTeam[i] += TeamFormationMain.getMeasure().getAverageExecutingTimePerAgentInTeam(i);
+			executingTimePerAgentInTeam[i] += TeamFormationMain.getMeasure().getAverageExecutingTimePerAgentInTeam(i);
+			bindingTimePerAgentInTeam[i] += TeamFormationMain.getMeasure().getAverageBindingTimePerAgentInTeam(i);
 		}
+	}
+	
+	private void saveMeasuredDataAtEnd() {
+		allSuccessTaskRequire += TeamFormationMain.getMeasure().allSuccessTaskRequire;
+		allFailureTaskRequire += TeamFormationMain.getMeasure().allFailureTaskRequire;
+		allSuccessTeamFormationNum += TeamFormationMain.getMeasure().allSuccessTeamFormationNum;
+		successTeamFormationNumAtEnd += TeamFormationMain.getMeasure().successTeamFormationNumAtEnd;
 	}
 	
 	private void saveMeasuredDataEveryTeamSize() {
