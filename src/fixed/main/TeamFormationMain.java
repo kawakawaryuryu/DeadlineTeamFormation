@@ -126,7 +126,7 @@ public class TeamFormationMain {
 			
 			// Q値をファイルに書き込み
 			if(turn % FixedConstant.MEASURE_Q_TURN_NUM == 0){
-				writeMeasuredData(greedyWriter, turn, parameter.agents, experimentNumber);
+				writeMeasuredDataPerTurn(greedyWriter, turn, parameter.agents, experimentNumber);
 			}
 			
 			// 可視化用計測データをファイルに書き込み
@@ -135,6 +135,9 @@ public class TeamFormationMain {
 			}
 			
 		}
+		
+		// チーム編成1回のみに必要なデータを計測
+		writeMeasuredData(parameter.agents, experimentNumber);
 		
 		// 1回のチーム編成におけるエージェントごとのデータを計測
 		measure.measureAtEnd(parameter.agents);
@@ -165,7 +168,14 @@ public class TeamFormationMain {
 		}
 	}
 	
-	private static void writeMeasuredData(PrintWriter greedy, int turn, ArrayList<FixedAgent> agents, int experimentNumber) throws IOException {
+	private static void writeMeasuredData(ArrayList<FixedAgent> agents, int experimentNumber) throws IOException {
+		if(experimentNumber == 1){
+			FileWriteManager.writeBodyOfRoleNumber(agents);
+			FileWriteManager.writeTeamFormationWithAgent(agents);
+		}
+	}
+	
+	private static void writeMeasuredDataPerTurn(PrintWriter greedy, int turn, ArrayList<FixedAgent> agents, int experimentNumber) throws IOException {
 		if(experimentNumber == 1){
 			FileWriteManager.writeBodyOfGreedy(greedy, turn, agents);
 			FileWriteManager.writeTrust(agents, turn);

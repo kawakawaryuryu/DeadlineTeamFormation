@@ -24,6 +24,10 @@ public class FixedSubtask {
 		this.deadline = deadline;
 	}
 	
+	public int getRequire(int i) {
+		return require[i];
+	}
+	
 	/**
 	 * リソースを返す
 	 * @return

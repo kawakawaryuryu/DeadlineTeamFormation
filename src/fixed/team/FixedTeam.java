@@ -21,6 +21,9 @@ public class FixedTeam {
 	public FixedTeam(FixedAgent leader) {
 		this.leader = leader;
 		addTentativeTeamMate(leader);
+		for(FixedAgent member : leader.getParameter().getSendAgents()){
+			addTentativeTeamMate(member);
+		}
 	}
 	
 	public void addTentativeTeamMate(FixedAgent agent) {

@@ -51,7 +51,9 @@ public class ConcreteTentativeMemberSelection implements
 		
 		for(FixedSubtask subtask : task.getSubTaskList()){
 			if(AgentTaskLibrary.isExecuteSubTask(leader, subtask, leftDeadline) && !isAssigned){
-				leader.getParameter().setExecutedSubtasks(subtask, AgentTaskLibrary.calculateExecuteTime(leader, subtask));
+				int executeTime = AgentTaskLibrary.calculateExecuteTime(leader, subtask);
+				leftDeadline -= executeTime;
+				leader.getParameter().setExecutedSubtasks(subtask, executeTime);
 				isAssigned = true;
 //				System.out.println("リーダの処理するサブタスク " + subtask);
 			}

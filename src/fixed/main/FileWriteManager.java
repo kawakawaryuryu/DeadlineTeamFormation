@@ -543,11 +543,10 @@ public class FileWriteManager {
 	/**
 	 * 役割の担当回数の書き込み（最初）
 	 * @param agents
-	 * @param experimentNumber 実験回数
 	 * @return
 	 * @throws IOException
 	 */
-	private static PrintWriter writeHeaderOfRoleNumber(ArrayList<FixedAgent> agents, int experimentNumber) throws IOException{
+	private static PrintWriter writeHeaderOfRoleNumber(ArrayList<FixedAgent> agents) throws IOException{
 		File directory = new File(path + "data/role/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/role/");
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
 		if(!directory.exists()){
@@ -555,7 +554,6 @@ public class FileWriteManager {
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
 				(path + "data/role/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/role/roleNumber_" + fileNumber + ".csv", isWrite), "Shift_JIS")));
-		pw.println(experimentNumber + "回目");
 		pw.print(",");
 		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
 			pw.print(agents.get(i));
@@ -573,8 +571,8 @@ public class FileWriteManager {
 	 * @param exprimentNumber TODO
 	 * @throws Exception 
 	 */
-	public static void writeBodyOfRoleNumber(ArrayList<FixedAgent> agents, int experimentNumber) throws Exception{
-		PrintWriter pw = writeHeaderOfRoleNumber(agents, experimentNumber);
+	public static void writeBodyOfRoleNumber(ArrayList<FixedAgent> agents) throws IOException{
+		PrintWriter pw = writeHeaderOfRoleNumber(agents);
 		pw.print("Leader");
 		pw.print(",");
 		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
@@ -589,6 +587,7 @@ public class FileWriteManager {
 			pw.print(",");
 		}
 		pw.println();
+		pw.close();
 		/*pw.println();
 		pw.print("初期状態にかけた時間割合");
 		pw.print(",");
@@ -626,7 +625,7 @@ public class FileWriteManager {
 	 * @param agents
 	 * @throws Exception 
 	 */
-	public static void writeTeamFormationWithAgent(ArrayList<FixedAgent> agents) throws Exception{
+	public static void writeTeamFormationWithAgent(ArrayList<FixedAgent> agents) throws IOException{
 		File directory = new File(path + "data/role/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/teaming/");
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
 		if(!directory.exists()){

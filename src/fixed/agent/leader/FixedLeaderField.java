@@ -36,10 +36,21 @@ public class FixedLeaderField {
 	}
 	
 	public void setAgentToMemberSubtaskMap(FixedAgent member) {
-		memberSubtaskMap.put(member, new ArrayList<FixedSubtask>());
+		if(!memberSubtaskMap.containsKey(member)){
+			memberSubtaskMap.put(member, new ArrayList<FixedSubtask>());
+		}
+		else{
+			System.err.println("すでに " + member + " が格納されています");
+			System.exit(-1);
+		}
 	}
 	
 	public void addSubtaskToMemberSubtaskMap(FixedAgent member, FixedSubtask subtask) {
-		memberSubtaskMap.get(member).add(subtask);
+		if(!memberSubtaskMap.get(member).contains(subtask)){
+			memberSubtaskMap.get(member).add(subtask);
+		}
+		else{
+			System.err.println("すでに " + member + " のキーに対応するリストに " + subtask + " が格納されています");
+		}
 	}
 }

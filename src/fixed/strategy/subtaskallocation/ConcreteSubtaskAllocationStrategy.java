@@ -144,7 +144,8 @@ public class ConcreteSubtaskAllocationStrategy implements
 		for(FixedSubtask subtask : leader.getParameter().getLeaderField().notAssignedSubTask){
 			boolean isAllocated = false;
 			for(FixedAgent member : sortedAgents){
-				int deadline = subtask.getDeadline() - member.getParameter().getExecuteTime() - FixedConstant.DEADLINE_MIN_1;
+				int executeTime = getExecuteTime(leader, member);
+				int deadline = subtask.getDeadline() - executeTime - FixedConstant.DEADLINE_MIN_1;
 				if(AgentTaskLibrary.isExecuteSubTask(member, subtask, deadline)){
 					if(!leader.getParameter().getLeaderField().memberSubtaskMap.containsKey(member)){
 						leader.getParameter().getLeaderField().members.add(member);
@@ -166,6 +167,16 @@ public class ConcreteSubtaskAllocationStrategy implements
 		}
 		
 		return true;
+	}
+	
+	private int getExecuteTime(FixedAgent leader, FixedAgent member) {
+		if(leader.getParameter().getLeaderField().memberSubtaskMap.containsKey(member)){
+			return AgentTaskLibrary.calculateExecuteTimeSum(member, 
+					leader.getParameter().getLeaderField().memberSubtaskMap.get(member));
+		}
+		else{
+			return 0;
+		}
 	}
 
 }

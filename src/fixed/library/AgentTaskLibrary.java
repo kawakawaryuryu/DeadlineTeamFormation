@@ -16,15 +16,23 @@ public class AgentTaskLibrary {
 	public static int calculateExecuteTime(FixedAgent agent, FixedSubtask subtask){
 		int[] time = new int[FixedConstant.RESOURCE_NUM];
 		int executeTime = 0;
-		for(int i = 0; i < FixedConstant.RESOURCE_NUM; i++){
+		for(int i = 0; i < time.length; i++){
 			/* タスク処理にかかる時間の計算 */
-			time[i] = (int)Math.ceil((double)subtask.getRequire()[i] / (double)agent.getAbility(i));
+			time[i] = (int)Math.ceil((double)subtask.getRequire(i) / (double)agent.getAbility(i));
 			
 			if(executeTime < time[i]){
 				executeTime = time[i];
 			}
 		}
 		return executeTime;
+	}
+	
+	public static int calculateExecuteTimeSum(FixedAgent agent, ArrayList<FixedSubtask> subtasks){
+		int executeTimeSum = 0;
+		for(FixedSubtask subtask : subtasks){
+			executeTimeSum += calculateExecuteTime(agent, subtask);
+		}
+		return executeTimeSum;
 	}
 	
 	public static FixedAgent[] getSortedAgentsFromArray(double[] array, ArrayList<FixedAgent> agents){
