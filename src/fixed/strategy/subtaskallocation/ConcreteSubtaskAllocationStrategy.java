@@ -174,6 +174,9 @@ public class ConcreteSubtaskAllocationStrategy implements
 			return AgentTaskLibrary.calculateExecuteTimeSum(member, 
 					leader.getParameter().getLeaderField().memberSubtaskMap.get(member));
 		}
+		else if(leader.equals(member)){
+			return AgentTaskLibrary.calculateExecuteTimeSum(leader, leader.getParameter().getExecutedSubtasks());
+		}
 		else{
 			return 0;
 		}
