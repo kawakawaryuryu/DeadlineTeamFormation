@@ -11,7 +11,7 @@ public interface TentativeMemberSelectionStrategy {
 	
 	public abstract void pullExecutedSubtaskByLeader(FixedAgent leader, FixedTask task);
 	
-	public abstract boolean selectTentativeMemberEverySubtask(FixedAgent leader, FixedTask task, ArrayList<FixedAgent> selctedAgents, FixedAgent[] sortedAgents);
+	public abstract boolean selectTentativeMemberEverySubtask(FixedAgent leader, FixedTask task, ArrayList<FixedAgent> selectedAgents, FixedAgent[] sortedAgents);
 	
 	public abstract void sendOfferMessageToTentativeMembers(FixedTask task, FixedAgent leader);
 }

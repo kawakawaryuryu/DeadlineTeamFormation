@@ -77,7 +77,7 @@ public class RoleSelectionStrategy implements FixedRoleSelectionStrategy {
 			ArrayList<FixedOfferMessage> messages) {
 		
 		// 来ている提案メッセージから処理できるメッセージを抽出
-		ArrayList<FixedOfferMessage> canBeExecutedMessages = AgentTaskLibrary.getCanExecuteOfferMessages(agent.getParameter().getOfferMessages(), agent);
+		ArrayList<FixedOfferMessage> canBeExecutedMessages = AgentTaskLibrary.getCanExecuteOfferMessages(messages, agent);
 //		System.out.println("来ている提案メッセージの中で処理できるメッセージ");
 //		debugOfferMessage(canBeExecutedMessages);
 		
