@@ -51,38 +51,6 @@ public class FixedConstant {
 	public static final int NO_PAST_TEAMS = -1;	// チーム履歴がないとき
 	
 	/**
-	 * 最大公約数を求める
-	 * @param a
-	 * @param b
-	 * @return
-	 */
-	public static int gcd(int a, int b){
-		return b == 0 ? a : gcd(b, a % b);
-	}
-	
-	/**
-	 * 最小公倍数を求める
-	 * @param a
-	 * @param b
-	 * @return
-	 */
-	public static int lcm(int a, int b){
-		return a * b / gcd(a, b);
-	}
-	
-	/**
-	 * タスクリソースの最小公倍数を求める
-	 * @return
-	 */
-	public static int taskRequireLcm(){
-		int lcmNum = lcm(FixedConstant.AGENT_ABILITY_INIT, FixedConstant.AGENT_ABILITY_INIT + 1);
-		for(int i = FixedConstant.AGENT_ABILITY_INIT + 2; i < FixedConstant.AGENT_ABILITY_MAX + FixedConstant.AGENT_ABILITY_INIT - 1; i++){
-			lcmNum = lcm(i, lcmNum);
-		}
-		return lcmNum;
-	}
-	
-	/**
 	 * 可視化のためのエージェント間のエッジの閾値を配列に代入
 	 */
 	public static void setTeamFormationPercentageBorder(){

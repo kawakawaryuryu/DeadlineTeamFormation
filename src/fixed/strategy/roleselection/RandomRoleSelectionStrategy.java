@@ -11,13 +11,7 @@ import fixed.message.FixedOfferMessage;
 import fixed.task.FixedTask;
 
 public class RandomRoleSelectionStrategy implements FixedRoleSelectionStrategy {
-
-	@Override
-	public FixedOfferMessage getOfferMessageOfMaxExpectedMemberReward(
-			ArrayList<FixedOfferMessage> messages, FixedAgent agent) {
-		return null;
-	}
-
+	
 	@Override
 	public FixedOfferMessage selectMessage(
 			ArrayList<FixedOfferMessage> messages, FixedAgent agent) {
@@ -71,6 +65,10 @@ public class RandomRoleSelectionStrategy implements FixedRoleSelectionStrategy {
 		double memberReward = (double)expectedExecuteTime * agent.getRewardExpectation(message.getFrom());
 		
 		return memberReward;
+	}
+	
+	public String toString() {
+		return "（リーダにもメンバにもなれるときは）ランダムに役割を選ぶ";
 	}
 
 }

@@ -16,15 +16,22 @@ import fixed.task.FixedSubtask;
 
 public class StrategyManager {
 	
+	// 学習あり＋見積もりあり、学習なし＋見積もりあり
 	private static FixedTaskSelectionStrategy taskSelectionStrategy = new FixedFirstInFirstOutStrategy();
 	private static FixedRoleSelectionStrategy roleSelectionStrategy = new RoleSelectionStrategy();
 	private static SubtaskAllocationStrategy allocationStrategy = new ConcreteSubtaskAllocationStrategy();
+	private static TentativeMemberSelectionStrategy memberSelectionStrategy = new ConcreteTentativeMemberSelection();
 	
+	// 学習あり＋見積もりなし
+//	private static FixedTaskSelectionStrategy taskSelectionStrategy = new FixedNoEstimationFirstInFirstOutStrategy();
+//	private static FixedRoleSelectionStrategy roleSelectionStrategy = new RoleSelectionStrategy();
+//	private static SubtaskAllocationStrategy allocationStrategy = new ConcreteSubtaskAllocationStrategy();
+//	private static TentativeMemberSelectionStrategy memberSelectionStrategy = new ConcreteTentativeMemberSelection();
+	
+	// ランダム＋見積もりなし
 //	private static FixedTaskSelectionStrategy taskSelectionStrategy = new FixedNoEstimationFirstInFirstOutStrategy();
 //	private static FixedRoleSelectionStrategy roleSelectionStrategy = new RandomRoleSelectionStrategy();
 //	private static SubtaskAllocationStrategy allocationStrategy = new RandomSubtaskAllocationStrategy();
-	
-	private static TentativeMemberSelectionStrategy memberSelectionStrategy = new ConcreteTentativeMemberSelection();
 //	private static TentativeMemberSelectionStrategy memberSelectionStrategy = new RandomTentativeMemberSelection();
 	
 	

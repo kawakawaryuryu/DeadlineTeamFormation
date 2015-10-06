@@ -63,7 +63,6 @@ public class FileWriteManager {
 		pw.println("ε-greedyのε" + "," + FixedConstant.EPSILON);
 		pw.println("ε-greedyのε（メンバ候補の決定時）" + "," + FixedConstant.EPSILON2);
 		pw.println("1サブタスクごとに送るメッセージ数" + "," + FixedConstant.SELECT_MEMBER_NUM);
-		pw.println("タスクのリソースの最小公倍数" + "," + FixedConstant.taskRequireLcm());
 		pw.println("タスク選択の戦略" + "," + taskSelectionStrategy.toString());
 		pw.println("役割選択の戦略" + "," + roleSelectionStrategy.toString());
 		pw.println("サブタスク割り当ての戦略" + "," + allocationStrategy.toString());

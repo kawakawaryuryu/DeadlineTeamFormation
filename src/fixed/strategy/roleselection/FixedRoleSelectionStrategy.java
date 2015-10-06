@@ -11,8 +11,6 @@ import fixed.task.FixedTask;
  */
 public interface FixedRoleSelectionStrategy {
 	
-	public FixedOfferMessage getOfferMessageOfMaxExpectedMemberReward(ArrayList<FixedOfferMessage> messages, FixedAgent agent);
-	
 	/**
 	 * 提案メッセージを選択する
 	 * @param messages

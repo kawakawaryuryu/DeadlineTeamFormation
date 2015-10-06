@@ -121,4 +121,8 @@ public class ConcreteTentativeMemberSelection implements
 			}
 		}	
 	}
+	
+	public String toString() {
+		return "仮メンバを信頼度の高い順に選ぶ";
+	}
 }

@@ -108,5 +108,9 @@ public class RandomTentativeMemberSelection implements
 			}
 		}
 	}
+	
+	public String toString() {
+		return "ランダムに仮メンバを選ぶ";
+	}
 
 }

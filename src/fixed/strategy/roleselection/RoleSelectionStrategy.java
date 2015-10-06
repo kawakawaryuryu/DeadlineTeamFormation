@@ -12,22 +12,6 @@ import fixed.message.FixedOfferMessage;
 import fixed.task.FixedTask;
 
 public class RoleSelectionStrategy implements FixedRoleSelectionStrategy {
-	
-	@Override
-	public FixedOfferMessage getOfferMessageOfMaxExpectedMemberReward(ArrayList<FixedOfferMessage> messages, FixedAgent agent) {
-		FixedOfferMessage maxExpectedRewardMessage = messages.get(0);
-		for(int i = 1; i < messages.size(); i++){
-			FixedOfferMessage message = messages.get(i);
-			double expectedReward = getExpectedMemberReward(agent, message);
-			double maxExpectedReward = getExpectedMemberReward(agent, maxExpectedRewardMessage);
-			
-			if(expectedReward > maxExpectedReward){
-				maxExpectedRewardMessage = message;
-			}
-		}
-		
-		return maxExpectedRewardMessage;
-	}
 
 	@Override
 	public FixedOfferMessage selectMessage(ArrayList<FixedOfferMessage> messages,
@@ -46,6 +30,21 @@ public class RoleSelectionStrategy implements FixedRoleSelectionStrategy {
 			maxExpectedRewardMessage = getOfferMessageOfMaxExpectedMemberReward(messages, agent);
 //			System.out.println(maxExpectedRewardMessage + " を報酬期待度順で選びました");
 		}
+		return maxExpectedRewardMessage;
+	}
+	
+	private FixedOfferMessage getOfferMessageOfMaxExpectedMemberReward(ArrayList<FixedOfferMessage> messages, FixedAgent agent) {
+		FixedOfferMessage maxExpectedRewardMessage = messages.get(0);
+		for(int i = 1; i < messages.size(); i++){
+			FixedOfferMessage message = messages.get(i);
+			double expectedReward = getExpectedMemberReward(agent, message);
+			double maxExpectedReward = getExpectedMemberReward(agent, maxExpectedRewardMessage);
+			
+			if(expectedReward > maxExpectedReward){
+				maxExpectedRewardMessage = message;
+			}
+		}
+		
 		return maxExpectedRewardMessage;
 	}
 
@@ -106,6 +105,10 @@ public class RoleSelectionStrategy implements FixedRoleSelectionStrategy {
 		double memberReward = (double)expectedExecuteTime * agent.getRewardExpectation(message.getFrom());
 		
 		return memberReward;
+	}
+	
+	public String toString() {
+		return "リーダとメンバの期待報酬を比較して、多い方の役割を選ぶ";
 	}
 
 }

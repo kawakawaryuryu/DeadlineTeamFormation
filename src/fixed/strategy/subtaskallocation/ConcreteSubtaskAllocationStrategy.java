@@ -19,18 +19,9 @@ public class ConcreteSubtaskAllocationStrategy implements
 		
 		// サブタスクごとにメンバを絞る
 //		System.out.println("サブタスクごとにメンバを一人に絞り込みます");
-		decideMemberEverySubtask(leader);
+		isTeaming = decideMemberEverySubtask(leader);
 //		System.out.println();
 		
-		// 割り当てが決まっていないサブタスクがある場合は、再割り当てを行う
-		if(!leader.getParameter().getLeaderField().notAssignedSubTask.isEmpty()){
-//			System.out.println("割り当てが決まっていないサブタスクを割り当てます");
-			isTeaming = allocateNotAllocatedSubtask(leader);
-		}
-		else{
-			isTeaming = true;
-			leader.getParameter().getLeaderField().isTeamingAgainAllocation = false;
-		}
 		leader.getParameter().getLeaderField().isTeaming = isTeaming;
 		
 		// チーム編成成功の場合は、メンバをチームに加える
@@ -47,7 +38,7 @@ public class ConcreteSubtaskAllocationStrategy implements
 
 	}
 	
-	private void decideMemberEverySubtask(FixedAgent leader) {
+	private boolean decideMemberEverySubtask(FixedAgent leader) {
 		for(FixedSubtask subtask : leader.getParameter().getMarkedTask().subtasksByMembers){
 			// OKメッセージが返ってきていないエージェントはメンバ候補から削除する
 			for(int i = 0; i < subtask.getAgentInfo().getSelectedAgents().size();){
@@ -83,6 +74,16 @@ public class ConcreteSubtaskAllocationStrategy implements
 				System.err.println("メンバ候補の数がありえません");
 				System.exit(-1);
 			}
+		}
+		
+		// 割り当てが決まっていないサブタスクがある場合は、再割り当てを行う
+		if(!leader.getParameter().getLeaderField().notAssignedSubTask.isEmpty()){
+//			System.out.println("割り当てが決まっていないサブタスクを割り当てます");
+			return allocateNotAllocatedSubtask(leader);
+		}
+		else{
+			leader.getParameter().getLeaderField().isTeamingAgainAllocation = false;
+			return false;
 		}
 	}
 	
@@ -182,4 +183,7 @@ public class ConcreteSubtaskAllocationStrategy implements
 		}
 	}
 
+	public String toString() {
+		return "割り当てが決まらないサブタスクは信頼度の大きい順に再割り当てを行う";
+	}
 }

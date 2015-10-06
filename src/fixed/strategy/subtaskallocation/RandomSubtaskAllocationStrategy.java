@@ -92,4 +92,7 @@ public class RandomSubtaskAllocationStrategy implements
 		return false;
 	}
 
+	public String toString() {
+		return "再割り当ては行わない";
+	}
 }
