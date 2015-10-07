@@ -63,7 +63,7 @@ public class RandomTentativeMemberSelection implements
 		for(FixedSubtask subtask : task.subtasksByMembers){
 			int selected = 0;
 			FixedAgent selectedMember;	//メンバ候補
-			ArrayList<FixedAgent> canExecuteSubTaskAgents = TeamFormationMain.getParameter().getAgent();
+			ArrayList<FixedAgent> canExecuteSubTaskAgents = new ArrayList<FixedAgent>(TeamFormationMain.getParameter().getAgent());
 			
 //			System.out.println("probability = " + probability);
 			while(selected < FixedConstant.SELECT_MEMBER_NUM){
