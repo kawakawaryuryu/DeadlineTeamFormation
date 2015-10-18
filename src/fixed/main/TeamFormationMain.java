@@ -86,7 +86,10 @@ public class TeamFormationMain {
 		
 		// エージェントの生成
 		for(int id = 0; id < FixedConstant.AGENT_NUM; id++){
-			parameter.agents.add(new FixedAgent(id));
+//			parameter.agents.add(new FixedAgent(id));
+			
+			// エージェントの能力を指定して生成
+			makeAgents();
 		}
 //		parameter.debugAgents();
 		
@@ -180,6 +183,16 @@ public class TeamFormationMain {
 			FileWriteManager.writeBodyOfGreedy(greedy, turn, agents);
 			FileWriteManager.writeTrust(agents, turn);
 			FileWriteManager.writeRewardExpectation(agents, turn);
+		}
+	}
+	
+	private static void makeAgents() {
+		for(int id = 0; id < FixedConstant.AGENT_NUM; id++){
+			int[] ability = new int[FixedConstant.RESOURCE_NUM];
+			for(int i = 0; i < ability.length; i++){
+				ability[i] = id % FixedConstant.AGENT_ABILITY_MAX + 1;
+			}
+			parameter.agents.add(new FixedAgent(id, ability));
 		}
 	}
 
