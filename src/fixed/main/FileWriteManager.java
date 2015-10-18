@@ -16,14 +16,13 @@ import fixed.strategy.roleselection.FixedRoleSelectionStrategy;
 import fixed.strategy.subtaskallocation.SubtaskAllocationStrategy;
 import fixed.strategy.taskselection.FixedTaskSelectionStrategy;
 import fixed.constant.FixedConstant;
-import fixed.main.MainMain;
 import fixed.task.FixedTask;
 import fixed.team.FixedTeam;
 
 public class FileWriteManager {
-	private static int fileNumber = 1;	//ファイルのnumber
-	private static boolean isWrite = false;	//追加か上書きか
-	private static String path = "../../Dropbox/research/";
+	static int fileNumber = 8;	//ファイルのnumber
+	static boolean isWrite = false;	//追加か上書きか
+	static String path = "../../Dropbox/research/";
 	
 	/**
 	 * ファイルの内容説明の書き込み
