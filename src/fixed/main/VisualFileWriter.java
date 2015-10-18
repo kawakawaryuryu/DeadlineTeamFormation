@@ -19,7 +19,7 @@ public class VisualFileWriter {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static String getStringMainRole(FixedAgent agent) throws IOException{
+	private static String getStringMainRole(FixedAgent agent) throws IOException{
 		if(agent.getParameter().getElement(Role.LEADER).getRoleNum() > agent.getParameter().getElement(Role.MEMBER).getRoleNum() * 2){
 			return "leader";
 		}
@@ -37,7 +37,7 @@ public class VisualFileWriter {
 	 * @param you
 	 * @return
 	 */
-	public static String getStringMainRoleWithYou(FixedAgent me, FixedAgent you){
+	private static String getStringMainRoleWithYou(FixedAgent me, FixedAgent you){
 		if(me.getMeasure().getTeamFormationNumWithMember(you) > me.getMeasure().getTeamFormationNumWithLeader(you) * 2){
 			return "asLeader";
 		}

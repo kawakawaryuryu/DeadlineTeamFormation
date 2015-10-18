@@ -186,11 +186,18 @@ public class TeamFormationMain {
 		}
 	}
 	
+	private static void writeVisualData(ArrayList<FixedAgent> agents, int experimentNumber, int successTeamFormationEdge) throws IOException {
+		if(experimentNumber == 1){
+			VisualFileWriter.writeVisualizedData(agents, getTurn(), experimentNumber, successTeamFormationEdge);
+			VisualFileWriter.writeVisualizedMoreData(agents, experimentNumber);
+		}
+	}
+	
 	private static void makeAgents() {
 		for(int id = 0; id < FixedConstant.AGENT_NUM; id++){
 			int[] ability = new int[FixedConstant.RESOURCE_NUM];
 			for(int i = 0; i < ability.length; i++){
-				ability[i] = id % FixedConstant.AGENT_ABILITY_MAX + 1;
+				ability[i] = id % FixedConstant.AGENT_ABILITY_MAX + FixedConstant.AGENT_ABILITY_INIT;
 			}
 			parameter.agents.add(new FixedAgent(id, ability));
 		}
