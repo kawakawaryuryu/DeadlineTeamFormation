@@ -134,7 +134,7 @@ public class TeamFormationMain {
 			
 			// 可視化用計測データをファイルに書き込み
 			if(turn % FixedConstant.MEASURE_VISUALIZATION_TURN_NUM == 0){
-				
+				writeVisualData(parameter.agents, experimentNumber, measure.allSuccessTeamFormationEdge);
 			}
 			
 		}
