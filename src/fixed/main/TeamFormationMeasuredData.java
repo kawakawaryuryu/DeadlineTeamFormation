@@ -46,6 +46,8 @@ public class TeamFormationMeasuredData {
 	int memberTime;
 	int executeTime;
 	
+	int allSuccessTeamFormationEdge;
+	
 	public void initialize() {
 		arrayIndex = 0;
 		
@@ -85,6 +87,8 @@ public class TeamFormationMeasuredData {
 		leaderTime = 0;
 		memberTime = 0;
 		executeTime = 0;
+		
+		allSuccessTeamFormationEdge = 0;
 	}
 	
 	public void addArrayIndex() {
@@ -98,6 +102,7 @@ public class TeamFormationMeasuredData {
 		countExecutingTimeInTeam(team.getExecutingTime(), team.getTeamMate().size());
 		countBindingTimeInTeam((int)team.getBindingTime(), team.getTeamMate().size());
 		countTeamSize(team.getTentativeTeamMate().size(), team.getTeamMate().size());
+		countSuccessTeamFormationEdge(team.getTeamMate().size() - 1);
 	}
 	
 	private void countSuccess(int require) {
@@ -184,6 +189,10 @@ public class TeamFormationMeasuredData {
 		leaderTime += agent.getParameter().getElement(Role.LEADER).getStateTime();
 		memberTime += agent.getParameter().getElement(Role.MEMBER).getStateTime();
 		executeTime += agent.getParameter().getElement(Role.EXECUTE).getStateTime();
+	}
+	
+	private void countSuccessTeamFormationEdge(int edge) {
+		allSuccessTeamFormationEdge += edge;
 	}
 	
 	/**
