@@ -88,9 +88,10 @@ public class TeamFormationMain {
 		for(int id = 0; id < FixedConstant.AGENT_NUM; id++){
 //			parameter.agents.add(new FixedAgent(id));
 			
-			// エージェントの能力を指定して生成
-			makeAgents();
 		}
+		// エージェントの能力を指定して生成
+		makeAgents();
+		
 //		parameter.debugAgents();
 		
 		// ファイル書き込み用のPrintWriterインスタンスを取得
