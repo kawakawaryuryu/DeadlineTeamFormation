@@ -86,11 +86,11 @@ public class TeamFormationMain {
 		
 		// エージェントの生成
 		for(int id = 0; id < FixedConstant.AGENT_NUM; id++){
-//			parameter.agents.add(new FixedAgent(id));
+			parameter.agents.add(new FixedAgent(id));
 			
 		}
 		// エージェントの能力を指定して生成
-		makeAgents();
+//		makeAgents();
 		
 //		parameter.debugAgents();
 		
