@@ -23,7 +23,7 @@ import fixed.task.FixedTask;
 import fixed.team.FixedTeam;
 
 public class FileWriteManager {
-	static int fileNumber = 8;	//ファイルのnumber
+	static int fileNumber = 0;	//ファイルのnumber
 	static boolean isWrite = false;	//追加か上書きか
 	static String path = "../../Dropbox/research/";
 	

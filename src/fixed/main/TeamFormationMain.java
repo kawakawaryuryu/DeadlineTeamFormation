@@ -86,11 +86,12 @@ public class TeamFormationMain {
 		
 		// エージェントの生成
 		for(int id = 0; id < FixedConstant.AGENT_NUM; id++){
-//			parameter.agents.add(new FixedAgent(id));
+			parameter.agents.add(new FixedAgent(id));
 			
-			// エージェントの能力を指定して生成
-			makeAgents();
 		}
+		// エージェントの能力を指定して生成
+//		makeAgents();
+		
 //		parameter.debugAgents();
 		
 		// ファイル書き込み用のPrintWriterインスタンスを取得
@@ -189,7 +190,7 @@ public class TeamFormationMain {
 	private static void writeVisualData(ArrayList<FixedAgent> agents, int experimentNumber, int successTeamFormationEdge) throws IOException {
 		if(experimentNumber == 1){
 			VisualFileWriter.writeVisualizedData(agents, getTurn(), experimentNumber, successTeamFormationEdge);
-			VisualFileWriter.writeVisualizedMoreData(agents, experimentNumber);
+			VisualFileWriter.writeVisualizedMoreData(agents, getTurn());
 		}
 	}
 	
