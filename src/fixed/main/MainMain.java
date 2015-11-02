@@ -2,6 +2,8 @@ package fixed.main;
 
 import java.io.IOException;
 
+import fixed.constant.FixedConstant;
+
 public class MainMain {
 	static long start = System.currentTimeMillis();	//実行スタート時間
 	
@@ -12,6 +14,9 @@ public class MainMain {
 	
 	
 	public static void main(String[] args) throws Exception {
+		
+		// チーム編成可視化の閾値のセット
+		FixedConstant.setTeamFormationPercentageBorder();
 		
 		// 実験を行う
 		for(int experimentNumber = 1; experimentNumber <= EXPERIMENT_NUM; experimentNumber++){

@@ -190,7 +190,7 @@ public class TeamFormationMain {
 	private static void writeVisualData(ArrayList<FixedAgent> agents, int experimentNumber, int successTeamFormationEdge) throws IOException {
 		if(experimentNumber == 1){
 			VisualFileWriter.writeVisualizedData(agents, getTurn(), experimentNumber, successTeamFormationEdge);
-			VisualFileWriter.writeVisualizedMoreData(agents, experimentNumber);
+			VisualFileWriter.writeVisualizedMoreData(agents, getTurn());
 		}
 	}
 	
