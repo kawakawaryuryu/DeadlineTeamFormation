@@ -23,9 +23,17 @@ import fixed.task.FixedTask;
 import fixed.team.FixedTeam;
 
 public class FileWriteManager {
-	static int fileNumber = 0;	//ファイルのnumber
+	static int fileNumber;	//ファイルのnumber
 	static boolean isWrite = false;	//追加か上書きか
 	static String path = "../../Dropbox/research/";
+	
+	/**
+	 * ファイル番号を設定する
+	 * @param number
+	 */
+	public static void setFileNumber(int number) {
+		fileNumber = number;
+	}
 	
 	/**
 	 * ファイルの内容説明の書き込み

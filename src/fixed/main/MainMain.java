@@ -3,6 +3,7 @@ package fixed.main;
 import java.io.IOException;
 
 import fixed.constant.FixedConstant;
+import fixed.expriment.Experiment;
 
 public class MainMain {
 	static long start = System.currentTimeMillis();	//実行スタート時間
@@ -14,6 +15,18 @@ public class MainMain {
 	
 	
 	public static void main(String[] args) throws Exception {
+		
+		//-------------------------------------------
+		//
+		// コマンドライン引数 args について
+		// args[1] : exprimentNumber
+		// args[2] : learning or noLearning or random
+		// args[3] : estimation or noEstimation
+		//
+		//--------------------------------------------
+		FileWriteManager.setFileNumber(Integer.parseInt(args[0]));
+		Experiment.set(args[1], args[2]);
+		
 		
 		// チーム編成可視化の閾値のセット
 		FixedConstant.setTeamFormationPercentageBorder();

@@ -25,9 +25,9 @@ public class FixedConstant {
 //	public static final double initialGreedy = Administrator.greedy_random.nextDouble();	//欲張り度の初期値
 	public static final double INITIAL_TRUST = 0.5;	//提案受託期待度の初期値
 	public static final double INITIAL_EXPECTED_REWARD = 1.0;	//報酬期待度の初期値
-	public static final double LEARN_RATE_GREEDY = 0.05;	//欲張り度の学習率
-	public static final double LEARN_RATE_TRUST = 0.05;	//提案受託期待度の学習率
-	public static final double LEARN_RATE_REWARD = 0.05;	//報酬期待度の学習率
+	public static double LEARN_RATE_GREEDY;	//欲張り度の学習率
+	public static double LEARN_RATE_TRUST;	//提案受託期待度の学習率
+	public static double LEARN_RATE_REWARD;	//報酬期待度の学習率
 	public static final int PAST_TEAM_NUM = 10;	//チーム履歴を保持する数
 	
 	/* 可視化のための閾値等 */
@@ -49,6 +49,27 @@ public class FixedConstant {
 	public static final int ARRAY_SIZE_FOR_TEAM = SUBTASK_IN_TASK_INIT + SUBTASK_IN_TASK_NUM + 1;
 	
 	public static final int NO_PAST_TEAMS = -1;	// チーム履歴がないとき
+	
+	/**
+	 * 学習ありのときの学習率を設定する
+	 * @param greedy
+	 * @param trust
+	 * @param reward
+	 */
+	public static void setLearnRateWhenLearning() {
+		LEARN_RATE_GREEDY = 0.05;
+		LEARN_RATE_TRUST = 0.05;
+		LEARN_RATE_REWARD = 0.05;
+	}
+	
+	/**
+	 * 学習なし、ランダムのときの学習率を設定する
+	 */
+	public static void setLearnRateWhenNoLearning() {
+		LEARN_RATE_GREEDY = 0.00;
+		LEARN_RATE_TRUST = 0.00;
+		LEARN_RATE_REWARD = 0.00;
+	}
 	
 	/**
 	 * 可視化のためのエージェント間のエッジの閾値を配列に代入
