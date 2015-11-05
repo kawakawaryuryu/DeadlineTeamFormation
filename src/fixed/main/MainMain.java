@@ -33,13 +33,14 @@ public class MainMain {
 		
 		// 実験を行う
 		for(int experimentNumber = 1; experimentNumber <= EXPERIMENT_NUM; experimentNumber++){
-			System.out.println("Team formation starts!");
+			System.out.println("Team formation at " + experimentNumber + " times starts!");
+			System.out.println("Learning: " + args[1] + " / Estimation: " + args[2]);
 			
 			// 乱数の初期化
 			random.initialize(experimentNumber);
 			
 			// 実験条件のファイル書き込み
-			FileWriteManager.fileExplain();
+			FileWriteManager.fileExplain(args[1], args[2]);
 			
 			// チーム編成を行う
 			TeamFormationMain.teamFormation(experimentNumber);
@@ -47,11 +48,11 @@ public class MainMain {
 			// 1回の実験で計測したデータを保存
 			measure.saveAllMeasuredData();
 			
-			System.out.println("Team formation at " + experimentNumber + " times finish!");
+//			System.out.println("Team formation at " + experimentNumber + " times finish!");
 		}
 		
 		// 実験データを書き込み
-		writeMeasuredData();
+		writeMeasuredData(args[1], args[2]);
 		
 		
 		long stop = System.currentTimeMillis();
@@ -60,10 +61,11 @@ public class MainMain {
 		int minute = (time%3600) / 60;
 		int second = (time%3600) % 60;
 		System.out.println("Executed time = " + time + "秒 = " + hour + "時間" + minute + "分" + second + "秒");
+		System.out.println("Learning: " + args[1] + " / Estimation: " + args[2]);
 	}
 	
-	private static void writeMeasuredData() throws IOException {
-		FileWriteManager.fileExplain();
+	private static void writeMeasuredData(String learning, String estimation) throws IOException {
+		FileWriteManager.fileExplain(learning, estimation);
 		FileWriteManager.writeBodyOfMeasuredDataPerTurn();
 		FileWriteManager.writeBodyOfTeamMeasuredData();
 		FileWriteManager.writeOtherData();

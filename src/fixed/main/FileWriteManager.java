@@ -37,10 +37,12 @@ public class FileWriteManager {
 	
 	/**
 	 * ファイルの内容説明の書き込み
+	 * @param learning TODO
+	 * @param estimation TODO
 	 * @return
 	 * @throws IOException
 	 */
-	public static void fileExplain() throws IOException{
+	public static void fileExplain(String learning, String estimation) throws IOException{
 		FixedTaskSelectionStrategy taskSelectionStrategy = StrategyManager.getTaskSelectionStrategy();
 		FixedRoleSelectionStrategy roleSelectionStrategy = StrategyManager.getRoleSelectionStrategy();
 		SubtaskAllocationStrategy allocationStrategy = StrategyManager.getAllocationStrategy();
@@ -53,7 +55,9 @@ public class FileWriteManager {
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path + "data/file/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/file_" + fileNumber + ".csv", false), "Shift_JIS")));
 		pw.println("ファイル名" + "," + FixedConstant.TURN_NUM + "turn_" + FixedConstant.AGENT_NUM + "agents_" + fileNumber + ".csv");
-		pw.println("FIFO、マークあり、チームの履歴を保持、学習あり、タスク処理の見積もりを行う、1tickごとの獲得報酬で報酬期待度を学習、リーダにはまず1個だけ割り当てる");
+		pw.println("FIFO、マークあり、チームの履歴を保持、1tickごとの獲得報酬で報酬期待度を学習、リーダにはまず1個だけ割り当てる");
+		pw.println("学習" + "," + learning);
+		pw.println("見積もり" + "," + estimation);
 		pw.println("ターン" + "," + FixedConstant.TURN_NUM);
 		pw.println("試行回数" + "," + MainMain.EXPERIMENT_NUM);
 		pw.println("エージェント数" + "," + FixedConstant.AGENT_NUM);
