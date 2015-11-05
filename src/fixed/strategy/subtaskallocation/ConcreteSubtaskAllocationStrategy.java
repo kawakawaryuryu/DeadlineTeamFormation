@@ -83,7 +83,7 @@ public class ConcreteSubtaskAllocationStrategy implements
 		}
 		else{
 			leader.getParameter().getLeaderField().isTeamingAgainAllocation = false;
-			return false;
+			return true;
 		}
 	}
 	
