@@ -33,8 +33,8 @@ public class MainMain {
 		
 		// 実験を行う
 		for(int experimentNumber = 1; experimentNumber <= EXPERIMENT_NUM; experimentNumber++){
-			System.out.println("Team formation at " + experimentNumber + " times starts!");
-			System.out.println("Learning: " + args[1] + " / Estimation: " + args[2]);
+			System.out.print("Team formation at " + experimentNumber + " times starts!");
+			System.out.println("  Learning: " + args[1] + " / Estimation: " + args[2]);
 			
 			// 乱数の初期化
 			random.initialize(experimentNumber);
@@ -60,8 +60,8 @@ public class MainMain {
 		int hour = time/3600;
 		int minute = (time%3600) / 60;
 		int second = (time%3600) % 60;
-		System.out.println("Executed time = " + time + "秒 = " + hour + "時間" + minute + "分" + second + "秒");
-		System.out.println("Learning: " + args[1] + " / Estimation: " + args[2]);
+		System.out.print("Executed time = " + time + "秒 = " + hour + "時間" + minute + "分" + second + "秒");
+		System.out.println("  Learning: " + args[1] + " / Estimation: " + args[2]);
 	}
 	
 	private static void writeMeasuredData(String learning, String estimation) throws IOException {
