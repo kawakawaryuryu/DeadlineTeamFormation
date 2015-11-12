@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import task.Task;
 import fixed.agent.FixedAgent;
 import fixed.constant.FixedConstant;
 import fixed.state.FixedState;
@@ -152,5 +153,16 @@ public class TeamFormationParameter {
 			}
 			else i++;
 		}
+	}
+	
+	public int getNoMarkingTaskNum() {
+		int noMarkSize = 0;
+		for(FixedTask task : taskQueue){
+			if(!task.getMark()){
+				noMarkSize++;
+			}
+		}
+		
+		return noMarkSize;
 	}
 }

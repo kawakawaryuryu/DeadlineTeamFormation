@@ -119,6 +119,9 @@ public class TeamFormationMain {
 			actionByLeaderOrMemberAgent();
 			actionByExecuteAgent();
 			
+			// タスクキューのサイズを計算
+			measure.countTaskQueueNum(parameter.getNoMarkingTaskNum());
+			
 			// デッドラインを減らす
 			parameter.decreaseTaskDeadline(measure);
 			

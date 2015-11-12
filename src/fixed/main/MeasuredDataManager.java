@@ -40,6 +40,8 @@ public class MeasuredDataManager {
 	int memberTime;
 	int executeTime;
 	
+	double taskQueueNum;
+	
 	MeasuredDataManager() {
 		Arrays.fill(successTaskRequire, 0);
 		allSuccessTaskRequire = 0;
@@ -72,6 +74,8 @@ public class MeasuredDataManager {
 		leaderMain = 0;
 		memberMain = 0;
 		neitherLeaderNorMember = 0;
+		
+		taskQueueNum = 0;
 	}
 	
 	public void saveAllMeasuredData() {
@@ -81,6 +85,7 @@ public class MeasuredDataManager {
 		saveTeamExecuteData();
 		saveTeamSizeData();
 		saveMainRoleData();
+		saveTaskQueueNum();
 	}
 	
 	private void saveMeasuredDataPerTurn() {
@@ -133,6 +138,10 @@ public class MeasuredDataManager {
 		leaderMain += TeamFormationMain.getMeasure().leaderMain;
 		memberMain += TeamFormationMain.getMeasure().memberMain;
 		neitherLeaderNorMember += TeamFormationMain.getMeasure().neitherLeaderNorMember;
+	}
+	
+	private void saveTaskQueueNum() {
+		taskQueueNum += TeamFormationMain.getMeasure().getAverageTaskQueueNum();
 	}
 	
 }

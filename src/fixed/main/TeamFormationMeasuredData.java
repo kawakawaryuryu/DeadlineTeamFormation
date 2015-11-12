@@ -48,6 +48,8 @@ public class TeamFormationMeasuredData {
 	
 	int allSuccessTeamFormationEdge;
 	
+	int taskQueueNum;
+	
 	public void initialize() {
 		arrayIndex = 0;
 		
@@ -89,6 +91,8 @@ public class TeamFormationMeasuredData {
 		executeTime = 0;
 		
 		allSuccessTeamFormationEdge = 0;
+		
+		taskQueueNum = 0;
 	}
 	
 	public void addArrayIndex() {
@@ -195,6 +199,10 @@ public class TeamFormationMeasuredData {
 		allSuccessTeamFormationEdge += edge;
 	}
 	
+	public void countTaskQueueNum(int num) {
+		taskQueueNum += num;
+	}
+	
 	/**
 	 * 割る数が0にならないようにする
 	 * @param num
@@ -246,5 +254,9 @@ public class TeamFormationMeasuredData {
 	
 	double getAverageTeamSize() {
 		return (double)teamSize / getDivideNum(allSuccessTeamFormationNum);
+	}
+	
+	double getAverageTaskQueueNum() {
+		return (double)taskQueueNum / (double)FixedConstant.TURN_NUM;
 	}
 }
