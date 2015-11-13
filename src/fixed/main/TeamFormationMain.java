@@ -11,6 +11,7 @@ import fixed.state.SubtaskAllocationState;
 import fixed.state.SubtaskReceptionState;
 import fixed.state.TaskExecuteState;
 import fixed.state.TaskSelectionState;
+import fixed.state.WaitingState;
 
 public class TeamFormationMain {
 	
@@ -72,6 +73,13 @@ public class TeamFormationMain {
 //		System.out.println();
 	}
 	
+	private static void actionByWaitingAgent() {
+//		System.out.println("------- 待機状態のエージェントの行動 -------");
+		for(FixedAgent agent : parameter.agentsMap.get(WaitingState.getState())){
+			agent.action();
+		}
+	}
+	
 	private static void actionByExecuteAgent() {
 //		System.out.println("------- タスク実行状態のエージェントの行動 -------");
 		for(FixedAgent agent : parameter.agentsMap.get(TaskExecuteState.getState())){
@@ -117,6 +125,7 @@ public class TeamFormationMain {
 			// 行動する
 			actionByInitialAgent();
 			actionByLeaderOrMemberAgent();
+			actionByWaitingAgent();
 			actionByExecuteAgent();
 			
 			// タスクキューのサイズを計算

@@ -13,6 +13,7 @@ import fixed.state.SubtaskAllocationState;
 import fixed.state.SubtaskReceptionState;
 import fixed.state.TaskExecuteState;
 import fixed.state.TaskSelectionState;
+import fixed.state.WaitingState;
 import fixed.task.FixedTask;
 
 public class TeamFormationParameter {
@@ -38,6 +39,7 @@ public class TeamFormationParameter {
 		agentsMap.put(SubtaskAllocationState.getState(), new ArrayList<FixedAgent>());
 		agentsMap.put(SubtaskReceptionState.getState(), new ArrayList<FixedAgent>());
 		agentsMap.put(TaskExecuteState.getState(), new ArrayList<FixedAgent>());
+		agentsMap.put(WaitingState.getState(), new ArrayList<FixedAgent>());
 	}
 	
 	private void initializeTaskMarkingAgentsMap() {
