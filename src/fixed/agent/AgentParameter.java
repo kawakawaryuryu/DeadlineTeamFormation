@@ -41,7 +41,10 @@ public class AgentParameter {
 	
 	final PastTeam pastTeam = new PastTeam();
 	
+	int waitingStateTimer;
 	int taskExcuteStateTimer;
+	
+	FixedState nextState;
 	
 	AgentParameter() {
 		elements.put(Role.INITIAL, new InitialMeasuredData());
@@ -59,6 +62,7 @@ public class AgentParameter {
 		executeTime = 0;
 		executedSubtasks.clear();
 		participatingTeam = null;
+		waitingStateTimer = 0;
 		taskExcuteStateTimer = 0;
 		
 		offerMessages.clear();
@@ -114,8 +118,16 @@ public class AgentParameter {
 		selectedOfferMessage = message;
 	}
 	
+	public void countWaitingTime() {
+		waitingStateTimer++;
+	}
+	
 	public void countTaskExecuteStateTimer() {
 		taskExcuteStateTimer++;
+	}
+	
+	public void setNextState(FixedState nextState) {
+		this.nextState = nextState;
 	}
 	
 	public FixedState getState() {
@@ -174,7 +186,15 @@ public class AgentParameter {
 		return memberField;
 	}
 	
+	public int getWaitingStateTimer() {
+		return waitingStateTimer;
+	}
+	
 	public int getTaskExecuteStateTimer() {
 		return taskExcuteStateTimer;
+	}
+	
+	public FixedState getNextState() {
+		return nextState;
 	}
 }

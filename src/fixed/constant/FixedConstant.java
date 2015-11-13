@@ -50,6 +50,8 @@ public class FixedConstant {
 	
 	public static final int NO_PAST_TEAMS = -1;	// チーム履歴がないとき
 	
+	public static final int WAIT_TURN = 10;
+	
 	/**
 	 * 学習ありのときの学習率を設定する
 	 * @param greedy

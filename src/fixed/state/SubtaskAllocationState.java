@@ -58,7 +58,8 @@ public class SubtaskAllocationState implements FixedState {
 			TeamFormationMain.getParameter().removeTask(leader.getParameter().getMarkedTask());
 			
 			// 状態遷移
-			leader.getParameter().changeState(TaskExecuteState.getState());
+			leader.getParameter().setNextState(TaskExecuteState.getState());
+//			leader.getParameter().changeState(TaskExecuteState.getState());
 		}
 		// チーム編成に失敗した場合
 		else{
@@ -74,8 +75,10 @@ public class SubtaskAllocationState implements FixedState {
 			leader.getParameter().getMarkedTask().markingTask(false);
 			
 			// 状態遷移
-			leader.getParameter().changeState(TaskSelectionState.getState());
+			leader.getParameter().setNextState(TaskSelectionState.getState());
+//			leader.getParameter().changeState(TaskSelectionState.getState());
 		}
+		leader.getParameter().changeState(WaitingState.getState());
 		
 		// チーム編成回数をカウント
 		TeamFormationMain.getMeasure().countTryingTeamFormationNum();
