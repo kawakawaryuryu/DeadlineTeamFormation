@@ -19,13 +19,14 @@ public class MainMain {
 		//-------------------------------------------
 		//
 		// コマンドライン引数 args について
-		// args[1] : exprimentNumber
+		// args[0] : experiment or debug
+		// args[1] : exprimentNumber (learning+estimation=1, noLearning+estimation=2, learning+noEstimation=3, random+noEstimation=4)
 		// args[2] : learning or noLearning or random
 		// args[3] : estimation or noEstimation
 		//
 		//--------------------------------------------
-		FileWriteManager.setFileNumber(Integer.parseInt(args[0]));
-		Experiment.set(args[1], args[2]);
+		FileWriteManager.set(args[0], Integer.parseInt(args[1]));
+		Experiment.set(args[2], args[3]);
 		
 		
 		// チーム編成可視化の閾値のセット
@@ -34,13 +35,10 @@ public class MainMain {
 		// 実験を行う
 		for(int experimentNumber = 1; experimentNumber <= EXPERIMENT_NUM; experimentNumber++){
 			System.out.print("Team formation at " + experimentNumber + " times starts!");
-			System.out.println("  Learning: " + args[1] + " / Estimation: " + args[2]);
+			System.out.println("  Learning: " + args[2] + " / Estimation: " + args[3]);
 			
 			// 乱数の初期化
 			random.initialize(experimentNumber);
-			
-			// 実験条件のファイル書き込み
-			FileWriteManager.fileExplain(args[1], args[2]);
 			
 			// チーム編成を行う
 			TeamFormationMain.teamFormation(experimentNumber);
@@ -52,7 +50,7 @@ public class MainMain {
 		}
 		
 		// 実験データを書き込み
-		writeMeasuredData(args[1], args[2]);
+		writeMeasuredData(args[2], args[3]);
 		
 		
 		long stop = System.currentTimeMillis();
@@ -61,7 +59,7 @@ public class MainMain {
 		int minute = (time%3600) / 60;
 		int second = (time%3600) % 60;
 		System.out.print("Executed time = " + time + "秒 = " + hour + "時間" + minute + "分" + second + "秒");
-		System.out.println("  Learning: " + args[1] + " / Estimation: " + args[2]);
+		System.out.println("  Learning: " + args[2] + " / Estimation: " + args[3]);
 	}
 	
 	private static void writeMeasuredData(String learning, String estimation) throws IOException {
