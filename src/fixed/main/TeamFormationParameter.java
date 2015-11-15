@@ -152,7 +152,8 @@ public class TeamFormationParameter {
 		for(int i = 0; i < taskQueue.size(); ){
 			taskQueue.get(i).subtractDeadlineInTask();
 			// タスクのデッドラインが処理できない時間だったらキューから削除する
-			if(taskQueue.get(i).getDeadlineInTask() <= FixedConstant.DEADLINE_MIN_2 && !taskQueue.get(i).getMark()){
+			if(taskQueue.get(i).getDeadlineInTask() <= (FixedConstant.WAIT_TURN + FixedConstant.DEADLINE_MIN_2 - 1) 
+					&& !taskQueue.get(i).getMark()){
 				measure.countFailure(taskQueue.get(i).getTaskRequireSum());
 				removeTask(taskQueue.get(i));
 			}
