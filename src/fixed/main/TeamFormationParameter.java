@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import task.Task;
 import fixed.agent.FixedAgent;
 import fixed.constant.FixedConstant;
 import fixed.state.FixedState;
@@ -13,7 +12,8 @@ import fixed.state.SubtaskAllocationState;
 import fixed.state.SubtaskReceptionState;
 import fixed.state.TaskExecuteState;
 import fixed.state.TaskSelectionState;
-import fixed.state.WaitingState;
+import fixed.state.TaskMarkedWaitingState;
+import fixed.state.TaskUnmarkedWaitingState;
 import fixed.task.FixedTask;
 
 public class TeamFormationParameter {
@@ -39,13 +39,14 @@ public class TeamFormationParameter {
 		agentsMap.put(SubtaskAllocationState.getState(), new ArrayList<FixedAgent>());
 		agentsMap.put(SubtaskReceptionState.getState(), new ArrayList<FixedAgent>());
 		agentsMap.put(TaskExecuteState.getState(), new ArrayList<FixedAgent>());
-		agentsMap.put(WaitingState.getState(), new ArrayList<FixedAgent>());
+		agentsMap.put(TaskMarkedWaitingState.getState(), new ArrayList<FixedAgent>());
+		agentsMap.put(TaskUnmarkedWaitingState.getState(), new ArrayList<FixedAgent>());
 	}
 	
 	private void initializeTaskMarkingAgentsMap() {
 		taskMarkingAgentMap.clear();
-		taskMarkingAgentMap.put(TaskMarking.TASK_MARKING, new ArrayList<FixedAgent>());
-		taskMarkingAgentMap.put(TaskMarking.NO_TASK_MARKING, new ArrayList<FixedAgent>());
+//		taskMarkingAgentMap.put(TaskMarking.TASK_MARKING, new ArrayList<FixedAgent>());
+//		taskMarkingAgentMap.put(TaskMarking.NO_TASK_MARKING, new ArrayList<FixedAgent>());
 	}
 	
 	public FixedAgent getAgent(int i){
@@ -99,7 +100,8 @@ public class TeamFormationParameter {
 	}
 	
 	public void addAgentToTaskMarkingAgentsMap(TaskMarking isMarked, FixedAgent agent) {
-		if(agent.getParameter().getState().equals(TaskSelectionState.getState())){
+		if(agent.getParameter().getState().equals(TaskSelectionState.getState())
+				|| agent.getParameter().getState().equals(TaskMarkedWaitingState.getState())){
 			taskMarkingAgentMap.get(isMarked).add(agent);
 		}
 		else{

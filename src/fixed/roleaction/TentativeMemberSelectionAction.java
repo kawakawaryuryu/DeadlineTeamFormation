@@ -6,7 +6,7 @@ import fixed.message.FixedAnswerMessage;
 import fixed.message.FixedOfferMessage;
 import fixed.role.Role;
 import fixed.state.SubtaskAllocationState;
-import fixed.state.TaskSelectionState;
+import fixed.state.TaskUnmarkedWaitingState;
 import fixed.strategy.StrategyManager;
 import fixed.strategy.memberselection.TentativeMemberSelectionStrategy;
 import fixed.team.FixedTeam;
@@ -51,10 +51,8 @@ public class TentativeMemberSelectionAction implements RoleAction {
 	
 	private void actionInSearchingFailureCase(FixedAgent agent) {
 		agent.getParameter().getMarkedTask().clear();
-		agent.getParameter().getMarkedTask().markingTask(false);
-		agent.getParameter().setMarkedTask(null);
 		TeamFormationMain.getMeasure().countGiveUpTeamFormationNum();
-		agent.getParameter().changeState(TaskSelectionState.getState());
+		agent.getParameter().changeState(TaskUnmarkedWaitingState.getState());
 	}
 	
 	

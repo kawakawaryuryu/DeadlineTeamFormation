@@ -26,8 +26,7 @@ public class SubtaskReceptionState implements FixedState {
 					member.getParameter().getParticipatingTeam());
 			
 			// 状態遷移
-			member.getParameter().setNextState(TaskExecuteState.getState());
-//			member.getParameter().changeState(TaskExecuteState.getState());
+			member.getParameter().changeState(TaskExecuteState.getState());
 			
 //			System.out.println("チーム編成成功メッセージを受信しました");
 //			debugExecutedSubtask(member);
@@ -35,11 +34,9 @@ public class SubtaskReceptionState implements FixedState {
 		// チーム編成失敗の場合
 		else{
 //			System.out.println("チーム編成失敗メッセージを受信しました");
-			// 状態遷移
-			member.getParameter().setNextState(TaskSelectionState.getState());
-//			member.getParameter().changeState(TaskSelectionState.getState());
+			// 状態遷移;
+			member.getParameter().changeState(TaskSelectionState.getState());
 		}
-		member.getParameter().changeState(WaitingState.getState());
 	}
 	
 	private void setInfoFromMessage(FixedAgent member, FixedTeamFormationMessage message) {

@@ -1,7 +1,6 @@
 package fixed.state;
 
 import fixed.agent.FixedAgent;
-import fixed.main.TaskMarking;
 import fixed.main.TeamFormationMain;
 import fixed.strategy.StrategyManager;
 import fixed.strategy.taskselection.FixedTaskSelectionStrategy;
@@ -19,13 +18,11 @@ public class TaskSelectionState implements FixedState {
 		if(selectedTask != null){
 //			System.out.println(selectedTask + "をマークしました");
 			agent.getParameter().setMarkedTask(selectedTask);
-			selectedTask.markingTask(true);
-			TeamFormationMain.getParameter().addAgentToTaskMarkingAgentsMap(TaskMarking.TASK_MARKING, agent);
 		}
 		else{
 //			System.out.println("タスクをマークしませんでした");
-			TeamFormationMain.getParameter().addAgentToTaskMarkingAgentsMap(TaskMarking.NO_TASK_MARKING, agent);
 		}
+		
 		agent.getParameter().changeState(RoleSelectionState.getState());
 		TeamFormationMain.getParameter().addAgentToAgentsMap(RoleSelectionState.getState(), agent);
 	}

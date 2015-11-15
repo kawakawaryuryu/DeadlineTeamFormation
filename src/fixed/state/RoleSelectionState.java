@@ -6,9 +6,9 @@ import fixed.main.RandomKey;
 import fixed.main.RandomManager;
 import fixed.role.FutureRole;
 import fixed.roleaction.BackToInitialStateAction;
+import fixed.roleaction.MoveToWaitingAction;
 import fixed.roleaction.ParticipatingTeamDecisionAction;
 import fixed.roleaction.RoleAction;
-import fixed.roleaction.TentativeMemberSelectionAction;
 import fixed.strategy.StrategyManager;
 import fixed.strategy.roleselection.FixedRoleSelectionStrategy;
 
@@ -21,7 +21,7 @@ public class RoleSelectionState implements FixedState {
 	private HashMap<FutureRole, RoleAction> strategyMap = new HashMap<FutureRole, RoleAction>();
 	
 	private RoleSelectionState() {
-		strategyMap.put(FutureRole.LEADER_FUTURE, new TentativeMemberSelectionAction());
+		strategyMap.put(FutureRole.LEADER_FUTURE, new MoveToWaitingAction());
 		strategyMap.put(FutureRole.MEMBER_FUTURE, new ParticipatingTeamDecisionAction());
 		strategyMap.put(FutureRole.NO_ROLE_FUTURE, new BackToInitialStateAction());
 	}

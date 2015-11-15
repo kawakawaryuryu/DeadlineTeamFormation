@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import fixed.agent.FixedAgent;
 import fixed.constant.FixedConstant;
 import fixed.post.Post;
+import fixed.state.RoleSelectionState;
 import fixed.state.SubtaskAllocationState;
 import fixed.state.SubtaskReceptionState;
 import fixed.state.TaskExecuteState;
 import fixed.state.TaskSelectionState;
-import fixed.state.WaitingState;
+import fixed.state.TaskMarkedWaitingState;
+import fixed.state.TaskUnmarkedWaitingState;
 
 public class TeamFormationMain {
 	
@@ -48,13 +50,19 @@ public class TeamFormationMain {
 			agent.action();
 		}
 //		System.out.println();
-//		System.out.println("------- 役割選択状態のエージェントの行動 / タスクをマークしたエージェント -------");
-		for(FixedAgent agent : parameter.taskMarkingAgentMap.get(TaskMarking.TASK_MARKING)){
+	}
+	
+	private static void actionByMarkedWatingAgent() {
+//		System.out.println("------- タスクマーク待機状態のエージェントの行動 -------");
+		for(FixedAgent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
 			agent.action();
 		}
 //		System.out.println();
+	}
+	
+	private static void actionByRoleSelectionAgent() {
 //		System.out.println("------- 役割選択状態のエージェントの行動 / タスクをマークしていないエージェント -------");
-		for(FixedAgent agent : parameter.taskMarkingAgentMap.get(TaskMarking.NO_TASK_MARKING)){
+		for(FixedAgent agent : parameter.agentsMap.get(RoleSelectionState.getState())){
 			agent.action();
 		}
 //		System.out.println();
@@ -73,9 +81,9 @@ public class TeamFormationMain {
 //		System.out.println();
 	}
 	
-	private static void actionByWaitingAgent() {
-//		System.out.println("------- 待機状態のエージェントの行動 -------");
-		for(FixedAgent agent : parameter.agentsMap.get(WaitingState.getState())){
+	private static void actionByUnmarkedWaitingAgent() {
+//		System.out.println("------- タスクマーク外し待機状態のエージェントの行動 -------");
+		for(FixedAgent agent : parameter.agentsMap.get(TaskUnmarkedWaitingState.getState())){
 			agent.action();
 		}
 	}
@@ -124,8 +132,10 @@ public class TeamFormationMain {
 			
 			// 行動する
 			actionByInitialAgent();
+			actionByMarkedWatingAgent();
+			actionByRoleSelectionAgent();
 			actionByLeaderOrMemberAgent();
-			actionByWaitingAgent();
+			actionByUnmarkedWaitingAgent();
 			actionByExecuteAgent();
 			
 			// タスクキューのサイズを計算
