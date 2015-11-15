@@ -7,13 +7,25 @@ import fixed.constant.FixedConstant;
 
 public class FileDeletion {
 
-	private static int fileNumber = 0;
+	private static int fileNumber = 1;
+	private static String isExperiment;
+	private static String fileName;
+	private static String filePath;
+	
+	private static void set() {
+		isExperiment = "debug";
+//		isExperiment = "experiment";
+		String date = "2015-11-15";
+		String time = "03-28";
+		filePath = FileWriteManager.path + isExperiment + "/" + date + "/";
+		fileName = time + "_" + fileNumber;
+	}
 	
 	/**
 	 * ファイルを消去
 	 */
 	public static void fileDeleteWrite() {
-		File file = new File(FileWriteManager.path + "data/file/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/file_" + fileNumber + ".csv");
+		File file = new File(filePath + "data/file/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/file_" + fileName + ".csv");
 		file.delete();
 	}
 	
@@ -58,7 +70,7 @@ public class FileDeletion {
 	 * タスク処理リソース量の消去
 	 */
 	private static void taskRequireAverageDeleteWrite() {
-		File file = new File(FileWriteManager.path + "data/TaskRequireResult/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/average/require_average_" + fileNumber + ".csv");
+		File file = new File(filePath + "data/TaskRequireResult/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/average/require_average_" + fileName + ".csv");
 		delete(file);
 	}
 	
@@ -66,7 +78,7 @@ public class FileDeletion {
 	 * チーム人数ごとのチーム編成成功回数の消去
 	 */
 	private static void teamingSuccessDeleteWrite() {
-		File file = new File(FileWriteManager.path + "data/TaskRequireResult/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/teamingSuccess/teaming_success_" + fileNumber + ".csv");
+		File file = new File(filePath + "data/TaskRequireResult/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/teamingSuccess/teaming_success_" + fileName + ".csv");
 		delete(file);
 	}
 	
@@ -74,7 +86,7 @@ public class FileDeletion {
 	 * 欲張り度の消去
 	 */
 	private static void greedyDeleteWrite() {
-		File file = new File(FileWriteManager.path + "data/greedy/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/greedy_" + fileNumber + ".csv");
+		File file = new File(filePath + "data/greedy/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/greedy_" + fileName + ".csv");
 		delete(file);
 	}
 	
@@ -83,7 +95,7 @@ public class FileDeletion {
 	 * @throws IOException 
 	 */
 	private static void trustDeleteWrite() {
-		File file = new File(FileWriteManager.path + "data/trust/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + fileNumber);
+		File file = new File(filePath + "data/trust/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + fileName);
 		delete(file);
 	}
 	
@@ -91,7 +103,7 @@ public class FileDeletion {
 	 * 可視化のファイルを消去
 	 */
 	private static void visualizationDataDeleteWrite() {
-		File file = new File(FileWriteManager.path + "data/visualization/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + fileNumber);
+		File file = new File(filePath + "data/visualization/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + fileName);
 		delete(file);
 	}
 	
@@ -99,7 +111,7 @@ public class FileDeletion {
 	 * 報酬期待度の消去
 	 */
 	private static void expectedRewardDeleteWrite() {
-		File file = new File(FileWriteManager.path + "data/expectedReward/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + fileNumber);
+		File file = new File(filePath + "data/expectedReward/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + fileName);
 		delete(file);
 	}
 	
@@ -107,7 +119,7 @@ public class FileDeletion {
 	 * 役割担当回数の消去
 	 */
 	private static void roleNumberDeleteWrite() {
-		File file = new File(FileWriteManager.path + "data/role/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/role/roleNumber_" + fileNumber + ".csv");
+		File file = new File(filePath + "data/role/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/role/roleNumber_" + fileName + ".csv");
 		delete(file);
 	}
 	
@@ -115,7 +127,7 @@ public class FileDeletion {
 	 * 各エージェントとのチーム編成回数記録を消去
 	 */
 	private static void teamingNumDeleteWrite() {
-		File file = new File(FileWriteManager.path + "data/role/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/teaming/teamingNumber_" + fileNumber + ".csv");
+		File file = new File(filePath + "data/role/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/teaming/teamingNumber_" + fileName + ".csv");
 		delete(file);
 	}
 	
@@ -123,7 +135,7 @@ public class FileDeletion {
 	 * タスクキューの消去
 	 */
 	private static void taskQueueDeleteWrite() {
-		File file = new File(FileWriteManager.path + "data/queue/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/taskQueue_" + fileNumber + ".csv");
+		File file = new File(filePath + "data/queue/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/taskQueue_" + fileName + ".csv");
 		delete(file);
 	}
 	
@@ -131,7 +143,7 @@ public class FileDeletion {
 	 * その他情を消去
 	 */
 	private static void otherInfoDeleteWrite(){
-		File file = new File(FileWriteManager.path + "data/other/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/otherInfo_" + fileNumber + ".csv");
+		File file = new File(filePath + "data/other/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/otherInfo_" + fileName + ".csv");
 		delete(file);
 	}
 	
@@ -139,7 +151,7 @@ public class FileDeletion {
 	 * チーム平均リソースを消去
 	 */
 	private static void teamResourceAverageDeleteWrite(){
-		File file = new File(FileWriteManager.path + "data/team/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/teamResourceAverage_" + fileNumber + ".csv");
+		File file = new File(filePath + "data/team/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/teamResourceAverage_" + fileName + ".csv");
 		delete(file);
 	}
 	
@@ -147,7 +159,7 @@ public class FileDeletion {
 	 * 状態ごとのエージェント数を消去
 	 */
 	private static void agentStateNumDeleteWrite(){
-		File file = new File(FileWriteManager.path + "data/state/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/agentStateNum_" + fileNumber + ".csv");
+		File file = new File(filePath + "data/state/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/agentStateNum_" + fileName + ".csv");
 		delete(file);
 	}
 	
@@ -155,11 +167,12 @@ public class FileDeletion {
 	 * ヒストグラム用のデータを消去
 	 */
 	private static void teamNumHistogramDeleteWrite(){
-		File file = new File(FileWriteManager.path + "data/histogram/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/teamNumHistogram_" + fileNumber + ".csv");
+		File file = new File(filePath + "data/histogram/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/teamNumHistogram_" + fileName + ".csv");
 		delete(file);
 	}
 	
 	public static void main(String[] args) {
+		set();
 		fileDeleteWrite();
 		taskRequireAverageDeleteWrite();
 		teamingSuccessDeleteWrite();
