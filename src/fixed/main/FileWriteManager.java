@@ -84,6 +84,8 @@ public class FileWriteManager {
 		pw.println("タスクのリソース" + "," + (FixedConstant.TASK_REQUIRE_INIT * FixedConstant.TASK_REQUIRE_MALTIPLE) + " ~　" + ((FixedConstant.TASK_REQUIRE_INIT + FixedConstant.TASK_REQUIRE_MAX - 1) * FixedConstant.TASK_REQUIRE_MALTIPLE));
 		pw.println("タスクのデッドライン" + "," + FixedConstant.DEADLINE_INIT + " ~ " + (FixedConstant.DEADLINE_INIT + FixedConstant.DEADLINE_MAX - 1));
 		pw.println("1tickに追加する平均タスク数" + "," + FixedConstant.ADD_TASK_PER_TURN);
+		pw.println("タスク追加間隔" + "," + FixedConstant.ADD_TASK_INTERVAL);
+		pw.println("タスクマークにかかる時間" + "," + FixedConstant.WAIT_TURN);
 		pw.println("ε-greedyのε" + "," + FixedConstant.EPSILON);
 		pw.println("ε-greedyのε（メンバ候補の決定時）" + "," + FixedConstant.EPSILON2);
 		pw.println("1サブタスクごとに送るメッセージ数" + "," + FixedConstant.SELECT_MEMBER_NUM);
