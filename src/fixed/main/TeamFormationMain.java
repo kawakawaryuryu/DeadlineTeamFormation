@@ -53,6 +53,10 @@ public class TeamFormationMain {
 	}
 	
 	private static void actionByMarkedWatingAgent() {
+		// 自分に来ているメッセージを破棄
+		for(FixedAgent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
+			agent.getParameter().getOfferMessages().clear();
+		}
 //		System.out.println("------- タスクマーク待機状態のエージェントの行動 -------");
 		for(FixedAgent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
 			agent.action();
