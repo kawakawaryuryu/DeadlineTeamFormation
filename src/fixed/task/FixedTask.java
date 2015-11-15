@@ -32,7 +32,9 @@ public class FixedTask {
 		for(int i = 0; i < numberOfSubtask; i++){
 			int[] require = new int[FixedConstant.RESOURCE_NUM];
 			for(int j = 0; j < require.length; j++){
-				require[j] = FixedConstant.TASK_REQUIRE_MALTIPLE * (RandomManager.getRandom(RandomKey.REQUIRE_RANDOM).nextInt(FixedConstant.TASK_REQUIRE_MAX) + FixedConstant.TASK_REQUIRE_INIT);
+				require[j] = FixedConstant.TASK_REQUIRE_MALTIPLE * FixedConstant.WAIT_TURN
+						* (RandomManager.getRandom(RandomKey.REQUIRE_RANDOM).nextInt(FixedConstant.TASK_REQUIRE_MAX) 
+								+ FixedConstant.TASK_REQUIRE_INIT);
 //				require[j] = 3;
 				taskRequireSum += require[j];	//タスク中の合計リソースを計算
 			}

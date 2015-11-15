@@ -3,8 +3,9 @@ package fixed.constant;
 public class FixedConstant {
 	/* Main */
 	public static final int AGENT_NUM = 350;	//エージェント数
-	public static final int TURN_NUM = 10000;	//実行ターン数
+	public static final int TURN_NUM = 50000;	//実行ターン数
 	public static final double ADD_TASK_PER_TURN = 2;	//1ターンあたりに追加する平均タスク数
+	public static final int ADD_TASK_INTERVAL = 5;
 	public static final int AGENT_ABILITY_MAX = 6;	//エージェントリソースの最大値（１〜１０）
 	public static final int AGENT_ABILITY_INIT = 1;	//エージェントリソースの最小値
 	public static final int SUBTASK_IN_TASK_NUM = 3;	//1タスク中にあるサブタスクの数（２〜４）
@@ -50,7 +51,7 @@ public class FixedConstant {
 	
 	public static final int NO_PAST_TEAMS = -1;	// チーム履歴がないとき
 	
-	public static final int WAIT_TURN = 10;
+	public static final int WAIT_TURN = 5;
 	
 	/**
 	 * 学習ありのときの学習率を設定する

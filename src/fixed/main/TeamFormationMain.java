@@ -118,7 +118,9 @@ public class TeamFormationMain {
 //			System.out.println("======= " + turn + " ターン目 =======");
 			
 			// キューにタスクを追加
-			parameter.addTaskToQueue();
+			if(turn % FixedConstant.ADD_TASK_INTERVAL == 1){
+				parameter.addTaskToQueue();	
+			}
 			
 			// agentsMapを空にする & taskMarkingAgentsMapを空にする
 			parameter.clearAgentsMap();
