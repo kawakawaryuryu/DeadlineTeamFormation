@@ -41,8 +41,7 @@ public class AgentParameter {
 	
 	final PastTeam pastTeam = new PastTeam();
 	
-	int waitingStateTimer;
-	int taskExcuteStateTimer;
+	final TimerField timerField = new TimerField();
 	
 	FixedState nextState;
 	
@@ -62,8 +61,6 @@ public class AgentParameter {
 		executeTime = 0;
 		executedSubtasks.clear();
 		participatingTeam = null;
-		waitingStateTimer = 0;
-		taskExcuteStateTimer = 0;
 		
 		offerMessages.clear();
 		answerMessages.clear();
@@ -71,6 +68,8 @@ public class AgentParameter {
 		selectedOfferMessage = null;
 		
 		leaderField.initialize();
+		
+		timerField.initialize();
 	}
 	
 	public void changeState(FixedState state) {
@@ -116,14 +115,6 @@ public class AgentParameter {
 	
 	public void setSelectedOfferMessage(FixedOfferMessage message) {
 		selectedOfferMessage = message;
-	}
-	
-	public void countWaitingTime() {
-		waitingStateTimer++;
-	}
-	
-	public void countTaskExecuteStateTimer() {
-		taskExcuteStateTimer++;
 	}
 	
 	public void setNextState(FixedState nextState) {
@@ -186,12 +177,8 @@ public class AgentParameter {
 		return memberField;
 	}
 	
-	public int getWaitingStateTimer() {
-		return waitingStateTimer;
-	}
-	
-	public int getTaskExecuteStateTimer() {
-		return taskExcuteStateTimer;
+	public TimerField getTimerField() {
+		return timerField;
 	}
 	
 	public FixedState getNextState() {

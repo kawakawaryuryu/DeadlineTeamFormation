@@ -9,18 +9,18 @@ public class TaskExecuteState implements FixedState {
 
 	@Override
 	public void agentAction(FixedAgent agent) {
-		agent.getParameter().countTaskExecuteStateTimer();
+		agent.getParameter().getTimerField().countTaskExecuteStateTimer();
 //		debugExecuteTime(agent);
 		
-		if(agent.getParameter().getTaskExecuteStateTimer() <= agent.getParameter().getExecuteTime() &&
-				agent.getParameter().getTaskExecuteStateTimer() != agent.getParameter().getParticipatingTeam().getTeamExecuteTime()){
+		if(agent.getParameter().getTimerField().getTaskExecuteStateTimer() <= agent.getParameter().getExecuteTime() &&
+				agent.getParameter().getTimerField().getTaskExecuteStateTimer() != agent.getParameter().getParticipatingTeam().getTeamExecuteTime()){
 //			debugExecutedSubtask(agent);
 		}
-		else if(agent.getParameter().getExecuteTime() < agent.getParameter().getTaskExecuteStateTimer() &&
-				agent.getParameter().getTaskExecuteStateTimer() < agent.getParameter().getParticipatingTeam().getTeamExecuteTime()){
+		else if(agent.getParameter().getExecuteTime() < agent.getParameter().getTimerField().getTaskExecuteStateTimer() &&
+				agent.getParameter().getTimerField().getTaskExecuteStateTimer() < agent.getParameter().getParticipatingTeam().getTeamExecuteTime()){
 //			System.out.println("他のメンバの処理終了待ちです");
 		}
-		else if(agent.getParameter().getTaskExecuteStateTimer() == agent.getParameter().getParticipatingTeam().getTeamExecuteTime()){
+		else if(agent.getParameter().getTimerField().getTaskExecuteStateTimer() == agent.getParameter().getParticipatingTeam().getTeamExecuteTime()){
 			agent.getParameter().changeState(TaskSelectionState.getState());
 //			System.out.println("チームの処理が終了しました");
 		}
@@ -41,7 +41,7 @@ public class TaskExecuteState implements FixedState {
 	private void debugExecuteTime(FixedAgent agent) {
 		System.out.println("タスク処理時間 = " + agent.getParameter().getExecuteTime());
 		System.out.println("チーム処理時間 = " + agent.getParameter().getParticipatingTeam().getTeamExecuteTime());
-		System.out.println("実行状態タイマー = " + agent.getParameter().getTaskExecuteStateTimer());
+		System.out.println("実行状態タイマー = " + agent.getParameter().getTimerField().getTaskExecuteStateTimer());
 	}
 
 	public static FixedState getState() {
