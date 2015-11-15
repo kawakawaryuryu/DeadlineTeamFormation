@@ -64,14 +64,14 @@ public class VisualFileWriter {
 	 * @throws IOException
 	 */
 	public static void writeVisualizedData(ArrayList<FixedAgent> agents, int turn, int experimentNumber, int successTeamingEdgeNum) throws IOException{
-		File directory = new File(FileWriteManager.path + "data/visualization/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + FileWriteManager.fileNumber + "/visual/");
+		File directory = new File(FileWriteManager.path + "data/visualization/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + FileWriteManager.fileName + "/visual/");
 		// ディレクトリが存在しない場合はディレクトリを作成 
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
 		//無向グラフ
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(FileWriteManager.path + "data/visualization/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + FileWriteManager.fileNumber + "/visual/non_directed_" + turn + ".csv", FileWriteManager.isWrite), "Shift_JIS")));
+				(FileWriteManager.path + "data/visualization/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + FileWriteManager.fileName + "/visual/non_directed_" + turn + ".csv", FileWriteManager.isWrite), "Shift_JIS")));
 		pw.print("my_id" + "," + "your_id");
 		pw.print(",");
 		pw.print("my_ability");
@@ -176,13 +176,13 @@ public class VisualFileWriter {
 	 * @throws IOException
 	 */
 	public static void writeVisualizedMoreData(ArrayList<FixedAgent> agents, int turn) throws IOException{
-		File directory = new File(FileWriteManager.path + "data/visualization/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + FileWriteManager.fileNumber + "/data/");
+		File directory = new File(FileWriteManager.path + "data/visualization/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + FileWriteManager.fileName + "/data/");
 		// ディレクトリが存在しない場合はディレクトリを作成 
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(FileWriteManager.path + "data/visualization/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + FileWriteManager.fileNumber + "/data/teaming_" + turn + ".csv", FileWriteManager.isWrite), "Shift_JIS")));
+				(FileWriteManager.path + "data/visualization/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + FileWriteManager.fileName + "/data/teaming_" + turn + ".csv", FileWriteManager.isWrite), "Shift_JIS")));
 		pw.println(turn + "ターン目");
 		pw.print("エージェントID");
 		for(FixedAgent agent : agents){
