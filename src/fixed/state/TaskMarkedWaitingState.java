@@ -19,7 +19,7 @@ public class TaskMarkedWaitingState implements FixedState {
 		
 		agent.getParameter().getTimerField().countTaskMarkedWaitingStateTimer();
 		
-		if(agent.getParameter().getTimerField().getTaskMarkedWaitingStateTimer() < FixedConstant.WAIT_TURN - 1) {
+		if(agent.getParameter().getTimerField().getTaskMarkedWaitingStateTimer() < FixedConstant.WAIT_TURN) {
 			if(isMarkedTask(agent)){
 				// マークしてある場合はメッセージを確認しにいく
 				moveToRoleSelectionState(agent);
@@ -29,7 +29,7 @@ public class TaskMarkedWaitingState implements FixedState {
 			}
 		}
 		
-		else if(agent.getParameter().getTimerField().getTaskMarkedWaitingStateTimer() == FixedConstant.WAIT_TURN - 1) {
+		else if(agent.getParameter().getTimerField().getTaskMarkedWaitingStateTimer() == FixedConstant.WAIT_TURN) {
 			if(isMarkedTask(agent)){
 				// マークしてある場合はメッセージを確認しにいく
 				moveToRoleSelectionState(agent);

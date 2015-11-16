@@ -14,10 +14,10 @@ public class TaskUnmarkedWaitingState implements FixedState {
 
 		agent.getParameter().getTimerField().countTaskUnmarkedWaitingStateTimer();
 		
-		if(agent.getParameter().getTimerField().getTaskUnmarkedWaitingStateTimer() < FixedConstant.WAIT_TURN - 1){
+		if(agent.getParameter().getTimerField().getTaskUnmarkedWaitingStateTimer() < FixedConstant.WAIT_TURN){
 			// 何もしない
 		}
-		else if(agent.getParameter().getTimerField().getTaskUnmarkedWaitingStateTimer() == FixedConstant.WAIT_TURN - 1){
+		else if(agent.getParameter().getTimerField().getTaskUnmarkedWaitingStateTimer() == FixedConstant.WAIT_TURN){
 			agent.getParameter().getMarkedTask().markingTask(false);
 			agent.getParameter().changeState(TaskSelectionState.getState());
 		}

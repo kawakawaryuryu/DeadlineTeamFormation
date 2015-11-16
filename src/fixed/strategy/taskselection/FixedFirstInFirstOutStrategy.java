@@ -49,7 +49,7 @@ public class FixedFirstInFirstOutStrategy implements FixedTaskSelectionStrategy 
 //			System.out.println("チーム履歴がありませんでした");
 		}
 		
-		if(countTime <= task.getDeadlineInTask() - (FixedConstant.WAIT_TURN + FixedConstant.DEADLINE_MIN_2 - 1)){
+		if(countTime <= task.getDeadlineInTask() - (FixedConstant.WAIT_TURN + FixedConstant.DEADLINE_MIN_2)){
 			return true;
 		}
 		else{
