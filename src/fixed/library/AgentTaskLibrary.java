@@ -98,7 +98,7 @@ public class AgentTaskLibrary {
 		ArrayList<FixedOfferMessage> canExecuteMessages = new ArrayList<FixedOfferMessage>();
 		/* 処理できる提案メッセージを抽出 */
 		for(FixedOfferMessage message : messages){
-			if(isExecuteSubTask(agent, message.getSubtask(), message.getSubtask().getDeadline())){
+			if(isExecuteSubTask(agent, message.getSubtask(), message.getSubtask().getDeadline() - FixedConstant.DEADLINE_MIN_2)){
 				canExecuteMessages.add(message);
 			}
 		}
