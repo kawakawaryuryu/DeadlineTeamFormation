@@ -13,7 +13,6 @@ import fixed.state.SubtaskReceptionState;
 import fixed.state.TaskExecuteState;
 import fixed.state.TaskSelectionState;
 import fixed.state.TaskMarkedWaitingState;
-import fixed.state.TaskUnmarkedWaitingState;
 
 public class TeamFormationMain {
 	
@@ -51,13 +50,6 @@ public class TeamFormationMain {
 			agent.action();
 		}
 //		System.out.println();
-	}
-	
-	private static void actionByUnmarkedWaitingAgent() {
-//		System.out.println("------- タスクマーク外し待機状態のエージェントの行動 -------");
-		for(FixedAgent agent : parameter.agentsMap.get(TaskUnmarkedWaitingState.getState())){
-			agent.action();
-		}
 	}
 	
 	private static void actionByInitialAgent() {
@@ -142,7 +134,6 @@ public class TeamFormationMain {
 			actionByMarkedWatingAgent();
 			actionByRoleSelectionAgent();
 			actionByLeaderOrMemberAgent();
-			actionByUnmarkedWaitingAgent();
 			actionByExecuteAgent();
 			
 			// タスクキューのサイズを計算

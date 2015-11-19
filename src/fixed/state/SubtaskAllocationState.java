@@ -74,7 +74,7 @@ public class SubtaskAllocationState implements FixedState {
 			leader.getParameter().getMarkedTask().markingTask(false);
 			
 			// 状態遷移
-			leader.getParameter().changeState(TaskUnmarkedWaitingState.getState());
+			leader.getParameter().changeState(TaskSelectionState.getState());
 		}
 		
 		// チーム編成回数をカウント
