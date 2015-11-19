@@ -65,7 +65,7 @@ public class FileWriteManager {
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path + "data/file/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/file_" + fileName + ".csv", false), "Shift_JIS")));
 		pw.println("ファイル名" + "," + FixedConstant.TURN_NUM + "turn_" + FixedConstant.AGENT_NUM + "agents_" + fileName + ".csv");
-		pw.println("FIFO、マークあり、チームの履歴を保持、1tickごとの獲得報酬で報酬期待度を学習、リーダにはまず1個だけ割り当てる、タスクコピーに時間がかかる");
+		pw.println("FIFO、マークあり、チームの履歴を保持、1tickごとの獲得報酬で報酬期待度を学習、リーダにはまず1個だけ割り当てる、タスクコピーに時間がかかる（失敗時は拘束されない）");
 		pw.println("学習" + "," + learning);
 		pw.println("見積もり" + "," + estimation);
 		pw.println("ターン" + "," + FixedConstant.TURN_NUM);
@@ -85,7 +85,7 @@ public class FileWriteManager {
 		pw.println("タスクのデッドライン" + "," + FixedConstant.DEADLINE_INIT + " ~ " + (FixedConstant.DEADLINE_INIT + FixedConstant.DEADLINE_MAX - 1));
 		pw.println("1tickに追加する平均タスク数" + "," + FixedConstant.ADD_TASK_PER_TURN);
 		pw.println("タスク追加間隔" + "," + FixedConstant.ADD_TASK_INTERVAL);
-		pw.println("タスクマークにかかる時間" + "," + FixedConstant.WAIT_TURN);
+		pw.println("タスクコピーにかかる時間" + "," + FixedConstant.WAIT_TURN);
 		pw.println("ε-greedyのε" + "," + FixedConstant.EPSILON);
 		pw.println("ε-greedyのε（メンバ候補の決定時）" + "," + FixedConstant.EPSILON2);
 		pw.println("1サブタスクごとに送るメッセージ数" + "," + FixedConstant.SELECT_MEMBER_NUM);

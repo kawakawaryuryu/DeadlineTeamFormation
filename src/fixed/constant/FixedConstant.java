@@ -7,7 +7,7 @@ public class FixedConstant {
 	/* Main */
 	public static final int AGENT_NUM = 350;	//エージェント数
 	public static final int TURN_NUM = 50000;	//実行ターン数
-	public static final double ADD_TASK_PER_TURN = 2;	//1ターンあたりに追加する平均タスク数
+	public static final double ADD_TASK_PER_TURN = 3;	//1ターンあたりに追加する平均タスク数
 	
 	// TODO ADD_TASK_INTERVAL=1のときはTeamFormationMainの処理を変える必要性
 	public static final int ADD_TASK_INTERVAL = 1;
