@@ -50,6 +50,7 @@ public class TentativeMemberSelectionAction implements RoleAction {
 	}
 	
 	private void actionInSearchingFailureCase(FixedAgent agent) {
+		agent.getParameter().getMarkedTask().markingTask(false);
 		agent.getParameter().getMarkedTask().clear();
 		TeamFormationMain.getMeasure().countGiveUpTeamFormationNum();
 		agent.getParameter().changeState(TaskUnmarkedWaitingState.getState());

@@ -17,6 +17,7 @@ public class TaskSelectionState implements FixedState {
 		FixedTask selectedTask = strategy.selectTask(agent);
 		if(selectedTask != null){
 //			System.out.println(selectedTask + "をマークしました");
+			selectedTask.markingTask(true);
 			agent.getParameter().setMarkedTask(selectedTask);
 		}
 		else{

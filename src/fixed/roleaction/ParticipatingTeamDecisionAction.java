@@ -14,9 +14,9 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 		// 参加するチームのリーダにはOKメッセージ、それ以外にはNGメッセージを送信する
 		answerToOfferMessages(agent);
 		
-		// マークしようとしていたタスクがある場合は保持しないようにする
+		// マークしていたタスクがある場合はマークを外す
 		if(agent.getParameter().getMarkedTask() != null){
-			agent.getParameter().setMarkedTask(null);
+			agent.getParameter().getMarkedTask().markingTask(false);
 		}
 		
 		agent.getParameter().changeState(SubtaskReceptionState.getState());

@@ -14,7 +14,6 @@ import fixed.state.TaskExecuteState;
 import fixed.state.TaskSelectionState;
 import fixed.state.TaskMarkedWaitingState;
 import fixed.state.TaskUnmarkedWaitingState;
-import fixed.state.TentativeMemberSelectionState;
 
 public class TeamFormationMain {
 	
@@ -67,14 +66,6 @@ public class TeamFormationMain {
 		}
 //		System.out.println("------- タスク選択状態のエージェントの行動 -------");
 		for(FixedAgent agent : parameter.agentsMap.get(TaskSelectionState.getState())){
-			agent.action();
-		}
-//		System.out.println();
-	}
-	
-	private static void actionByTentativeMemberSelectionAgent() {
-//		System.out.println("------- 仮メンバ選択状態のエージェントの行動 / タスクをマークしたエージェント -------");
-		for(FixedAgent agent : parameter.agentsMap.get(TentativeMemberSelectionState.getState())){
 			agent.action();
 		}
 //		System.out.println();
@@ -147,12 +138,11 @@ public class TeamFormationMain {
 			parameter.shuffleAgentsMap();
 			
 			// 行動する
-			actionByMarkedWatingAgent();
 			actionByInitialAgent();
-			actionByTentativeMemberSelectionAgent();
+			actionByMarkedWatingAgent();
 			actionByRoleSelectionAgent();
-			actionByUnmarkedWaitingAgent();
 			actionByLeaderOrMemberAgent();
+			actionByUnmarkedWaitingAgent();
 			actionByExecuteAgent();
 			
 			// タスクキューのサイズを計算

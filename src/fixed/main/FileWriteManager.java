@@ -65,7 +65,7 @@ public class FileWriteManager {
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path + "data/file/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/file_" + fileName + ".csv", false), "Shift_JIS")));
 		pw.println("ファイル名" + "," + FixedConstant.TURN_NUM + "turn_" + FixedConstant.AGENT_NUM + "agents_" + fileName + ".csv");
-		pw.println("FIFO、マークあり、チームの履歴を保持、1tickごとの獲得報酬で報酬期待度を学習、リーダにはまず1個だけ割り当てる、タスクマークに時間がかかる");
+		pw.println("FIFO、マークあり、チームの履歴を保持、1tickごとの獲得報酬で報酬期待度を学習、リーダにはまず1個だけ割り当てる、タスクコピーに時間がかかる");
 		pw.println("学習" + "," + learning);
 		pw.println("見積もり" + "," + estimation);
 		pw.println("ターン" + "," + FixedConstant.TURN_NUM);
