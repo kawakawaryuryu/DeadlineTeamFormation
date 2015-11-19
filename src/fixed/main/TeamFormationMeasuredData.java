@@ -48,6 +48,7 @@ public class TeamFormationMeasuredData {
 	
 	int allSuccessTeamFormationEdge;
 	
+	int unmarkedTaskQueueNum;
 	int taskQueueNum;
 	
 	public void initialize() {
@@ -92,6 +93,7 @@ public class TeamFormationMeasuredData {
 		
 		allSuccessTeamFormationEdge = 0;
 		
+		unmarkedTaskQueueNum = 0;
 		taskQueueNum = 0;
 	}
 	
@@ -199,8 +201,9 @@ public class TeamFormationMeasuredData {
 		allSuccessTeamFormationEdge += edge;
 	}
 	
-	public void countTaskQueueNum(int num) {
-		taskQueueNum += num;
+	public void countTaskQueueNum(int unmarkedNum, int allNum) {
+		unmarkedTaskQueueNum += unmarkedNum;
+		taskQueueNum += allNum;
 	}
 	
 	/**
@@ -254,6 +257,10 @@ public class TeamFormationMeasuredData {
 	
 	double getAverageTeamSize() {
 		return (double)teamSize / getDivideNum(allSuccessTeamFormationNum);
+	}
+	
+	double getAverageUnmarkedTaskQueueNum() {
+		return (double)unmarkedTaskQueueNum / (double)FixedConstant.TURN_NUM;
 	}
 	
 	double getAverageTaskQueueNum() {

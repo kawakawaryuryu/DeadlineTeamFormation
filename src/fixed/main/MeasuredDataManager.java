@@ -40,6 +40,7 @@ public class MeasuredDataManager {
 	int memberTime;
 	int executeTime;
 	
+	double unmarkedTaskQueueNum;
 	double taskQueueNum;
 	
 	MeasuredDataManager() {
@@ -75,6 +76,7 @@ public class MeasuredDataManager {
 		memberMain = 0;
 		neitherLeaderNorMember = 0;
 		
+		unmarkedTaskQueueNum = 0;
 		taskQueueNum = 0;
 	}
 	
@@ -141,6 +143,7 @@ public class MeasuredDataManager {
 	}
 	
 	private void saveTaskQueueNum() {
+		unmarkedTaskQueueNum += TeamFormationMain.getMeasure().getAverageUnmarkedTaskQueueNum();
 		taskQueueNum += TeamFormationMain.getMeasure().getAverageTaskQueueNum();
 	}
 	

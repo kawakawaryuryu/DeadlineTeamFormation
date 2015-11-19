@@ -597,6 +597,7 @@ public class FileWriteManager {
 		pw.println("総タスク処理リソースの平均" + "," + (double)MainMain.measure.allSuccessTaskRequire / (double)MainMain.EXPERIMENT_NUM);
 		pw.println("総タスク廃棄リソースの平均" + "," + (double)MainMain.measure.allFailureTaskRequire / (double)MainMain.EXPERIMENT_NUM);
 		pw.println("タスクキューの平均サイズ" + "," + MainMain.measure.taskQueueNum / (double)MainMain.EXPERIMENT_NUM);
+		pw.println("マークなしのタスクキューの平均サイズ" + "," + MainMain.measure.unmarkedTaskQueueNum / (double)MainMain.EXPERIMENT_NUM);
 		pw.println();
 		
 		pw.println("チーム内人数" + "," + "1チームの不要な拘束時間" + "," + "1チーム中の1人あたりの不要な拘束時間" + "," + "チーム編成成功数");
