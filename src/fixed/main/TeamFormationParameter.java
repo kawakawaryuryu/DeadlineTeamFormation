@@ -14,6 +14,7 @@ import fixed.state.TaskExecuteState;
 import fixed.state.TaskSelectionState;
 import fixed.state.TaskMarkedWaitingState;
 import fixed.state.TaskUnmarkedWaitingState;
+import fixed.state.TentativeMemberSelectionState;
 import fixed.task.FixedTask;
 
 public class TeamFormationParameter {
@@ -41,6 +42,7 @@ public class TeamFormationParameter {
 		agentsMap.put(TaskExecuteState.getState(), new ArrayList<FixedAgent>());
 		agentsMap.put(TaskMarkedWaitingState.getState(), new ArrayList<FixedAgent>());
 		agentsMap.put(TaskUnmarkedWaitingState.getState(), new ArrayList<FixedAgent>());
+		agentsMap.put(TentativeMemberSelectionState.getState(), new ArrayList<FixedAgent>());
 	}
 	
 	private void initializeTaskMarkingAgentsMap() {
@@ -115,8 +117,9 @@ public class TeamFormationParameter {
 		for(int id = 0; id < taskAdditionNum; id++){
 			taskQueue.add(new FixedTask(taskId++, 
 					RandomManager.getRandom(RandomKey.TASK_RANDOM).nextInt(FixedConstant.SUBTASK_IN_TASK_NUM) + FixedConstant.SUBTASK_IN_TASK_INIT, 
+//					FixedConstant.WAIT_TURN *
 					(RandomManager.getRandom(RandomKey.DEADLINE_RANDOM).nextInt(FixedConstant.DEADLINE_MAX) 
-							+ FixedConstant.DEADLINE_INIT) * FixedConstant.WAIT_TURN));
+							+ FixedConstant.DEADLINE_INIT)));
 		}
 //		debugTaskQueue();
 	}

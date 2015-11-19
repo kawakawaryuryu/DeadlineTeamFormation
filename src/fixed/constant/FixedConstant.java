@@ -2,13 +2,16 @@ package fixed.constant;
 
 public class FixedConstant {
 	
-	public static final int WAIT_TURN = 5;
+	public static final int WAIT_TURN = 1;
 	
 	/* Main */
 	public static final int AGENT_NUM = 350;	//エージェント数
 	public static final int TURN_NUM = 50000;	//実行ターン数
 	public static final double ADD_TASK_PER_TURN = 2;	//1ターンあたりに追加する平均タスク数
-	public static final int ADD_TASK_INTERVAL = WAIT_TURN;
+	
+	// TODO ADD_TASK_INTERVAL=1のときはTeamFormationMainの処理を変える必要性
+	public static final int ADD_TASK_INTERVAL = 1;
+	
 	public static final int AGENT_ABILITY_MAX = 6;	//エージェントリソースの最大値（１〜１０）
 	public static final int AGENT_ABILITY_INIT = 1;	//エージェントリソースの最小値
 	public static final int SUBTASK_IN_TASK_NUM = 3;	//1タスク中にあるサブタスクの数（２〜４）
@@ -43,8 +46,8 @@ public class FixedConstant {
 	public static final int SELECT_MEMBER_NUM = 2;	//メンバ候補の選択数
 	
 	public static final int MEASURE_TURN_NUM = 50;	//処理、廃棄リソース量の計測ターン数
-	public static final int MEASURE_Q_TURN_NUM = 2500;	//Q値の計測ターン数
-	public static final int MEASURE_Q_INIT_TURN_NUM = 2500;
+	public static final int MEASURE_Q_TURN_NUM = 10000;	//Q値の計測ターン数
+	public static final int MEASURE_Q_INIT_TURN_NUM = 10000;
 	public static final int MEASURE_VISUALIZATION_TURN_NUM = TURN_NUM;	//可視化のための結果の計測ターン
 	public static final int MEASURE_SUCCESS_AT_END_TURN_NUM = 1000;	//チーム編成成功回数を計測する最後のターン数
 	

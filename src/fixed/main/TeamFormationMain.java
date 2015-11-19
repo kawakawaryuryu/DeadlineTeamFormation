@@ -14,6 +14,7 @@ import fixed.state.TaskExecuteState;
 import fixed.state.TaskSelectionState;
 import fixed.state.TaskMarkedWaitingState;
 import fixed.state.TaskUnmarkedWaitingState;
+import fixed.state.TentativeMemberSelectionState;
 
 public class TeamFormationMain {
 	
@@ -41,6 +42,25 @@ public class TeamFormationMain {
 		return post;
 	}
 	
+	private static void actionByMarkedWatingAgent() {
+		// 自分に来ているメッセージを破棄
+		for(FixedAgent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
+			agent.getParameter().getOfferMessages().clear();
+		}
+//		System.out.println("------- タスクマーク待機状態のエージェントの行動 -------");
+		for(FixedAgent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
+			agent.action();
+		}
+//		System.out.println();
+	}
+	
+	private static void actionByUnmarkedWaitingAgent() {
+//		System.out.println("------- タスクマーク外し待機状態のエージェントの行動 -------");
+		for(FixedAgent agent : parameter.agentsMap.get(TaskUnmarkedWaitingState.getState())){
+			agent.action();
+		}
+	}
+	
 	private static void actionByInitialAgent() {
 		for(FixedAgent agent : parameter.agentsMap.get(TaskSelectionState.getState())){
 			agent.getParameter().initialize();
@@ -52,13 +72,9 @@ public class TeamFormationMain {
 //		System.out.println();
 	}
 	
-	private static void actionByMarkedWatingAgent() {
-		// 自分に来ているメッセージを破棄
-		for(FixedAgent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
-			agent.getParameter().getOfferMessages().clear();
-		}
-//		System.out.println("------- タスクマーク待機状態のエージェントの行動 -------");
-		for(FixedAgent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
+	private static void actionByTentativeMemberSelectionAgent() {
+//		System.out.println("------- 仮メンバ選択状態のエージェントの行動 / タスクをマークしたエージェント -------");
+		for(FixedAgent agent : parameter.agentsMap.get(TentativeMemberSelectionState.getState())){
 			agent.action();
 		}
 //		System.out.println();
@@ -83,13 +99,6 @@ public class TeamFormationMain {
 			agent.action();
 		}
 //		System.out.println();
-	}
-	
-	private static void actionByUnmarkedWaitingAgent() {
-//		System.out.println("------- タスクマーク外し待機状態のエージェントの行動 -------");
-		for(FixedAgent agent : parameter.agentsMap.get(TaskUnmarkedWaitingState.getState())){
-			agent.action();
-		}
 	}
 	
 	private static void actionByExecuteAgent() {
@@ -122,7 +131,8 @@ public class TeamFormationMain {
 //			System.out.println("======= " + turn + " ターン目 =======");
 			
 			// キューにタスクを追加
-			if(turn % FixedConstant.ADD_TASK_INTERVAL == 1){
+			// TODO ADD_TASK_INTERVAL=1のときはturn % FixedConstant.ADD_TASK_INTERVAL == 0に変える必要性
+			if(turn % FixedConstant.ADD_TASK_INTERVAL == 0){
 				parameter.addTaskToQueue();	
 			}
 			
@@ -137,11 +147,12 @@ public class TeamFormationMain {
 			parameter.shuffleAgentsMap();
 			
 			// 行動する
-			actionByInitialAgent();
 			actionByMarkedWatingAgent();
+			actionByInitialAgent();
+			actionByTentativeMemberSelectionAgent();
 			actionByRoleSelectionAgent();
-			actionByLeaderOrMemberAgent();
 			actionByUnmarkedWaitingAgent();
+			actionByLeaderOrMemberAgent();
 			actionByExecuteAgent();
 			
 			// タスクキューのサイズを計算

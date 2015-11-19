@@ -3,14 +3,10 @@ package fixed.state;
 import fixed.agent.FixedAgent;
 import fixed.constant.FixedConstant;
 import fixed.main.TeamFormationMain;
-import fixed.roleaction.RoleAction;
-import fixed.roleaction.TentativeMemberSelectionAction;
 
 public class TaskMarkedWaitingState implements FixedState {
 	
-	private static FixedState state = new TaskMarkedWaitingState();
-	
-	private RoleAction strategy = new TentativeMemberSelectionAction();
+	private static FixedState state = new TaskMarkedWaitingState();;
 
 	@Override
 	public void agentAction(FixedAgent agent) {
@@ -22,7 +18,7 @@ public class TaskMarkedWaitingState implements FixedState {
 		if(agent.getParameter().getTimerField().getTaskMarkedWaitingStateTimer() < FixedConstant.WAIT_TURN) {
 			if(isMarkedTask(agent)){
 				// マークしてある場合はメッセージを確認しにいく
-				moveToRoleSelectionState(agent);
+				moveToRoleSelectionStateForMember(agent);
 			}
 			else{
 				// 何もしない
@@ -32,14 +28,14 @@ public class TaskMarkedWaitingState implements FixedState {
 		else if(agent.getParameter().getTimerField().getTaskMarkedWaitingStateTimer() == FixedConstant.WAIT_TURN) {
 			if(isMarkedTask(agent)){
 				// マークしてある場合はメッセージを確認しにいく
-				moveToRoleSelectionState(agent);
+				moveToRoleSelectionStateForMember(agent);
 			}
 			else{
 				// タスクをマーク
 				agent.getParameter().getMarkedTask().markingTask(true);
 				
-				// メンバ候補探しにいく
-				strategy.action(agent);
+				// リーダとして役割選択状態に
+				moveToTentativeMemberSelectionState(agent);
 			}
 		}
 		
@@ -53,10 +49,15 @@ public class TaskMarkedWaitingState implements FixedState {
 		return agent.getParameter().getMarkedTask().getMark();
 	}
 	
-	private void moveToRoleSelectionState(FixedAgent agent) {
+	private void moveToRoleSelectionStateForMember(FixedAgent agent) {
 		agent.getParameter().setMarkedTask(null);
 		agent.getParameter().changeState(RoleSelectionState.getState());
 		TeamFormationMain.getParameter().addAgentToAgentsMap(RoleSelectionState.getState(), agent);
+	}
+	
+	private void moveToTentativeMemberSelectionState(FixedAgent agent) {
+		agent.getParameter().changeState(TentativeMemberSelectionState.getState());
+		TeamFormationMain.getParameter().addAgentToAgentsMap(TentativeMemberSelectionState.getState(), agent);
 	}
 	
 	public static FixedState getState() {
