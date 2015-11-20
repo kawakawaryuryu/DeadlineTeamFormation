@@ -22,7 +22,6 @@ public class TeamFormationMain {
 	private static TeamFormationMeasuredData measure = new TeamFormationMeasuredData();
 	private static Post post = new Post();
 	
-	private static PrintWriter greedyWriter;
 	
 	public static TeamFormationParameter getParameter() {
 		return parameter;
@@ -107,7 +106,10 @@ public class TeamFormationMain {
 //		parameter.debugAgents();
 		
 		// ファイル書き込み用のPrintWriterインスタンスを取得
-		greedyWriter = getGreedyWriter(experimentNumber);
+		PrintWriter greedyWriter = getGreedyWriter(experimentNumber);
+		
+		// タスクキュー書き込み用PrintWriterインスタンスを取得
+		PrintWriter taskQueueWriter = getTaskQueueWriter(experimentNumber);
 		
 		// チーム編成の開始
 		for(turn = 1; turn <= FixedConstant.TURN_NUM; turn++){
@@ -137,7 +139,8 @@ public class TeamFormationMain {
 			actionByExecuteAgent();
 			
 			// タスクキューのサイズを計算
-			measure.countTaskQueueNum(parameter.getNoMarkingTaskNum(), parameter.taskQueue.size());
+			int noMarkTaskNum = parameter.getNoMarkingTaskNum();
+			measure.countTaskQueueNum(noMarkTaskNum, parameter.taskQueue.size());
 			
 			// デッドラインを減らす
 			parameter.decreaseTaskDeadline(measure);
@@ -158,6 +161,11 @@ public class TeamFormationMain {
 				writeVisualData(parameter.agents, experimentNumber, measure.allSuccessTeamFormationEdge);
 			}
 			
+			// タスクキューの中身を書き込み
+			if(FixedConstant.TURN_NUM - turn < FixedConstant.END_TURN_NUM){
+				writeTaskQueue(experimentNumber, taskQueueWriter, noMarkTaskNum);
+			}
+			
 		}
 		
 		// チーム編成1回のみに必要なデータを計測
@@ -167,7 +175,10 @@ public class TeamFormationMain {
 		measure.measureAtEnd(parameter.agents);
 		
 		// greedyWriterをclose
-		closeGreedyWrite(experimentNumber);
+		closeGreedyWrite(experimentNumber, greedyWriter);
+		
+		// taskQueueWriterをclose
+		closeTaskQueueWrite(experimentNumber, taskQueueWriter);
 		
 //		debugExecutedTaskRequire();
 	}
@@ -186,7 +197,7 @@ public class TeamFormationMain {
 		}
 	}
 	
-	private static void closeGreedyWrite(int experimentNumber) {
+	private static void closeGreedyWrite(int experimentNumber, PrintWriter greedyWriter) {
 		if(experimentNumber == 1){
 			greedyWriter.close();
 		}
@@ -211,6 +222,28 @@ public class TeamFormationMain {
 		if(experimentNumber == 1){
 			VisualFileWriter.writeVisualizedData(agents, getTurn(), experimentNumber, successTeamFormationEdge);
 			VisualFileWriter.writeVisualizedMoreData(agents, getTurn());
+		}
+	}
+	
+	private static PrintWriter getTaskQueueWriter(int experimentNumber) throws IOException {
+		if(experimentNumber == 1){
+			return FileWriteManager.writeHeaderOfTaskQueue();
+		}
+		else{
+			return null;
+		}
+	}
+	
+	private static void writeTaskQueue(int experimentNumber, PrintWriter taskQueueWriter, int noMarkTaskNum) throws IOException {
+		if(experimentNumber == 1){
+			FileWriteManager.writeBodyOfTaskQueue(taskQueueWriter, experimentNumber, parameter.taskQueue
+					, noMarkTaskNum);
+		}
+	}
+	
+	private static void closeTaskQueueWrite(int experimentNumber, PrintWriter taskQueueWriter) throws IOException {
+		if(experimentNumber == 1){
+			taskQueueWriter.close();
 		}
 	}
 	

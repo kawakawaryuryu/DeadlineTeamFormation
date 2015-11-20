@@ -570,6 +570,44 @@ public class FileWriteManager {
 	}
 	
 	/**
+	 * タスクキューの中身を書き込む（最初）
+	 * @return
+	 * @throws IOException
+	 */
+	public static PrintWriter writeHeaderOfTaskQueue() throws IOException {
+		File directory = new File(path + "data/queue/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/");
+		/* ディレクトリが存在しない場合はディレクトリを作成 */
+		if(!directory.exists()){
+			directory.mkdirs();
+		}
+		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
+				(path + "data/queue/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/taskQueue_" + fileName + ".csv", isWrite), "Shift_JIS")));
+		pw.println("経過ターン" + "," + "タスクキューサイズ" + "," + "マークあり数" + "," + "マークなし数" + "," + "タスクキューの中身");
+		
+		return pw;
+	}
+	
+	/**
+	 * タスクキューの中身を書き込む
+	 * @param pw
+	 * @param turn
+	 * @param taskQueue
+	 * @param noMarkTaskNum
+	 * @throws IOException
+	 */
+	public static void writeBodyOfTaskQueue(PrintWriter pw, int turn, ArrayList<FixedTask> taskQueue, int noMarkTaskNum)
+			throws IOException {
+		// マークありのタスク数
+		int markTaskNum = taskQueue.size() - noMarkTaskNum;
+		pw.print(turn + "," + taskQueue.size() + "," + markTaskNum + "," + noMarkTaskNum);
+		for(FixedTask task : taskQueue){
+			pw.print(",");
+			pw.print(task);
+		}
+		pw.println();
+	}
+	
+	/**
 	 * その他の情報を書き込む
 	 * @throws IOException
 	 */

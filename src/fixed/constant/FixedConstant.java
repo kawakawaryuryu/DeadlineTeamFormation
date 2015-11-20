@@ -50,6 +50,7 @@ public class FixedConstant {
 	public static final int MEASURE_Q_INIT_TURN_NUM = 10000;
 	public static final int MEASURE_VISUALIZATION_TURN_NUM = TURN_NUM;	//可視化のための結果の計測ターン
 	public static final int MEASURE_SUCCESS_AT_END_TURN_NUM = 1000;	//チーム編成成功回数を計測する最後のターン数
+	public static final int END_TURN_NUM = 1000;
 	
 	/* エージェントの状態 */
 	public static final int ARRAY_SIZE_FOR_MEASURE = TURN_NUM/MEASURE_TURN_NUM;
