@@ -236,7 +236,7 @@ public class TeamFormationMain {
 	
 	private static void writeTaskQueue(int experimentNumber, PrintWriter taskQueueWriter, int noMarkTaskNum) throws IOException {
 		if(experimentNumber == 1){
-			FileWriteManager.writeBodyOfTaskQueue(taskQueueWriter, experimentNumber, parameter.taskQueue
+			FileWriteManager.writeBodyOfTaskQueue(taskQueueWriter, getTurn(), parameter.taskQueue
 					, noMarkTaskNum);
 		}
 	}
