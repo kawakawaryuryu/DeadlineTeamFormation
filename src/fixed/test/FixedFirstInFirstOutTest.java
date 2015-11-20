@@ -7,6 +7,7 @@ import org.junit.Test;
 import fixed.agent.FixedAgent;
 import fixed.main.TeamFormationMain;
 import fixed.strategy.taskselection.FixedFirstInFirstOutStrategy;
+import fixed.task.Failure;
 import fixed.task.FixedTask;
 import fixed.team.FixedTeam;
 
@@ -83,7 +84,7 @@ public class FixedFirstInFirstOutTest {
 	@Test
 	public void testSelectTask3() {
 		FixedTask task1 = new FixedTask(0, 3, 5);
-		task1.markingTask(true);
+		task1.markingTask(true, Failure.MARK_TURE);
 		FixedTask task2 = new FixedTask(1, 3, 5);
 		TeamFormationMain.getParameter().taskQueue.clear();
 		TeamFormationMain.getParameter().taskQueue.add(task1);

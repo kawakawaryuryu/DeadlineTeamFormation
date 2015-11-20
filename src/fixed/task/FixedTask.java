@@ -14,6 +14,8 @@ public class FixedTask {
 	private int taskRequireSum = 0;	//1タスク中のリソースの合計（サブタスクを全て処理したときの報酬の合計）
 	private int deadlineInTask = 0;	//タスクのデッドライン（デッドラインが一番小さいサブタスクに合わせる）
 	private boolean mark = false;	//タスクがマークされているかどうか
+	private int removedMarkNumByEstimationFailure = 0;	//見積もり失敗によってマークを外された回数
+	private int removedMarkNumByTeamFormationFailure = 0;	//チーム編成失敗によってマークを外された回数
 	private ArrayList<FixedSubtask> subtasks = new ArrayList<FixedSubtask>();	//タスクが持つサブタスクを保持するリスト
 	public ArrayList<FixedSubtask> subtasksByMembers = new ArrayList<FixedSubtask>();	//リーダ以外が処理するサブタスクリスト
 	
@@ -89,9 +91,16 @@ public class FixedTask {
 	/**
 	 * タスクにマークをする
 	 * @param isMarking
+	 * @param failure チーム編成失敗 or 見積もり失敗
 	 */
-	public void markingTask(boolean isMarking){
+	public void markingTask(boolean isMarking, Failure failure){
 		mark = isMarking;
+		if(!isMarking && failure == Failure.ESTIMATION_FAILURE){
+			removedMarkNumByEstimationFailure++;
+		}
+		else if(!isMarking && failure == Failure.TEAM_FORMATION_FAILURE){
+			removedMarkNumByTeamFormationFailure++;
+		}
 	}
 	
 	/**
@@ -154,7 +163,11 @@ public class FixedTask {
 	 */
 	public String toString(){
 		StringBuffer string = new StringBuffer();
-		string.append("id = " + id + " / subtask_num = " + numberOfSubtask + " / deadline = " + deadlineInTask + " / mark = " + mark +  " / taskRequireSum = " + taskRequireSum);
+		string.append("id = " + id + " / subtask_num = " + numberOfSubtask + " / deadline = " + deadlineInTask
+				+ " / mark = " + mark +  " / removedMarkNum(EstimationFailure TeamFormationFailure) = "
+				+ (removedMarkNumByEstimationFailure + removedMarkNumByTeamFormationFailure)
+				+ "(" + removedMarkNumByEstimationFailure + " " + removedMarkNumByTeamFormationFailure + ")"
+				+ " / taskRequireSum = " + taskRequireSum);
 		string.append(" / subtaskList(require) = ");
 		for(FixedSubtask subtask : subtasks){
 			for(int i = 0; i< FixedConstant.RESOURCE_NUM; i++){

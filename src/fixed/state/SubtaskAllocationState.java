@@ -10,6 +10,7 @@ import fixed.role.Role;
 import fixed.strategy.StrategyManager;
 import fixed.strategy.subtaskallocation.SubtaskAllocationStrategy;
 import fixed.team.FixedTeam;
+import fixed.task.Failure;
 import fixed.task.FixedSubtask;
 
 public class SubtaskAllocationState implements FixedState {
@@ -71,7 +72,7 @@ public class SubtaskAllocationState implements FixedState {
 			leader.getParameter().getMarkedTask().clear();
 			
 			// タスクからマークを外す
-			leader.getParameter().getMarkedTask().markingTask(false);
+			leader.getParameter().getMarkedTask().markingTask(false, Failure.TEAM_FORMATION_FAILURE);
 			
 			// 状態遷移
 			leader.getParameter().changeState(TaskSelectionState.getState());

@@ -9,6 +9,7 @@ import fixed.state.SubtaskAllocationState;
 import fixed.state.TaskSelectionState;
 import fixed.strategy.StrategyManager;
 import fixed.strategy.memberselection.TentativeMemberSelectionStrategy;
+import fixed.task.Failure;
 import fixed.team.FixedTeam;
 
 public class TentativeMemberSelectionAction implements RoleAction {
@@ -50,7 +51,7 @@ public class TentativeMemberSelectionAction implements RoleAction {
 	}
 	
 	private void actionInSearchingFailureCase(FixedAgent agent) {
-		agent.getParameter().getMarkedTask().markingTask(false);
+		agent.getParameter().getMarkedTask().markingTask(false, Failure.ESTIMATION_FAILURE);
 		agent.getParameter().getMarkedTask().clear();
 		TeamFormationMain.getMeasure().countGiveUpTeamFormationNum();
 		agent.getParameter().changeState(TaskSelectionState.getState());

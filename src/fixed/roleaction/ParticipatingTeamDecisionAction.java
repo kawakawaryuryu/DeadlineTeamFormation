@@ -6,6 +6,7 @@ import fixed.message.FixedAnswerMessage;
 import fixed.message.FixedOfferMessage;
 import fixed.role.Role;
 import fixed.state.SubtaskReceptionState;
+import fixed.task.Failure;
 
 public class ParticipatingTeamDecisionAction implements RoleAction {
 
@@ -16,7 +17,7 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 		
 		// マークしていたタスクがある場合はマークを外す
 		if(agent.getParameter().getMarkedTask() != null){
-			agent.getParameter().getMarkedTask().markingTask(false);
+			agent.getParameter().getMarkedTask().markingTask(false, Failure.DECIDE_MEMBER_FAILURE);
 		}
 		
 		agent.getParameter().changeState(SubtaskReceptionState.getState());

@@ -4,6 +4,7 @@ import fixed.agent.FixedAgent;
 import fixed.main.TeamFormationMain;
 import fixed.strategy.StrategyManager;
 import fixed.strategy.taskselection.FixedTaskSelectionStrategy;
+import fixed.task.Failure;
 import fixed.task.FixedTask;
 
 public class TaskSelectionState implements FixedState {
@@ -17,7 +18,7 @@ public class TaskSelectionState implements FixedState {
 		FixedTask selectedTask = strategy.selectTask(agent);
 		if(selectedTask != null){
 //			System.out.println(selectedTask + "をマークしました");
-			selectedTask.markingTask(true);
+			selectedTask.markingTask(true, Failure.MARK_TURE);
 			agent.getParameter().setMarkedTask(selectedTask);
 		}
 		else{
