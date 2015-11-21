@@ -35,7 +35,7 @@ public class FixedTask {
 			int[] require = new int[FixedConstant.RESOURCE_NUM];
 			for(int j = 0; j < require.length; j++){
 				require[j] = FixedConstant.TASK_REQUIRE_MALTIPLE * 
-//						FixedConstant.WAIT_TURN *
+						FixedConstant.TASK_DEADLINE_MULTIPLE *
 						(RandomManager.getRandom(RandomKey.REQUIRE_RANDOM).nextInt(FixedConstant.TASK_REQUIRE_MAX) 
 								+ FixedConstant.TASK_REQUIRE_INIT);
 //				require[j] = 3;
