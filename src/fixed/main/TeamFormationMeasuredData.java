@@ -6,6 +6,7 @@ import java.util.Arrays;
 import fixed.agent.FixedAgent;
 import fixed.constant.FixedConstant;
 import fixed.role.Role;
+import fixed.task.FixedTask;
 import fixed.team.FixedTeam;
 
 public class TeamFormationMeasuredData {
@@ -51,6 +52,10 @@ public class TeamFormationMeasuredData {
 	int unmarkedTaskQueueNum;
 	int taskQueueNum;
 	
+	int[] markedTaskNum = new int[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
+	double[] markedTaskRequire = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
+	double[] markedTaskDeadline = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
+	
 	public void initialize() {
 		arrayIndex = 0;
 		
@@ -95,6 +100,10 @@ public class TeamFormationMeasuredData {
 		
 		unmarkedTaskQueueNum = 0;
 		taskQueueNum = 0;
+		
+		Arrays.fill(markedTaskNum, 0);
+		Arrays.fill(markedTaskRequire, 0);
+		Arrays.fill(markedTaskDeadline, 0);
 	}
 	
 	public void addArrayIndex() {
@@ -206,6 +215,12 @@ public class TeamFormationMeasuredData {
 		taskQueueNum += allNum;
 	}
 	
+	public void countMarkedTask(FixedTask markedTask) {
+		markedTaskNum[arrayIndex]++;
+		markedTaskRequire[arrayIndex] += markedTask.getTaskRequireSum();
+		markedTaskDeadline[arrayIndex] += markedTask.getDeadlineInTask();
+	}
+	
 	/**
 	 * 割る数が0にならないようにする
 	 * @param num
@@ -265,5 +280,13 @@ public class TeamFormationMeasuredData {
 	
 	double getAverageTaskQueueNum() {
 		return (double)taskQueueNum / (double)FixedConstant.TURN_NUM;
+	}
+	
+	double getAverageMarkedTaskRequire(int index) {
+		return markedTaskRequire[index] / getDivideNum(markedTaskNum[index]);
+	}
+	
+	double getAverageMarkedTaskDeadline(int index) {
+		return markedTaskDeadline[index] / getDivideNum(markedTaskNum[index]);
 	}
 }

@@ -20,6 +20,9 @@ public class TaskSelectionState implements FixedState {
 //			System.out.println(selectedTask + "をマークしました");
 			selectedTask.markingTask(true, Failure.MARK_TURE);
 			agent.getParameter().setMarkedTask(selectedTask);
+			
+			// マークしたタスクに関するデータを計測
+			TeamFormationMain.getMeasure().countMarkedTask(selectedTask);
 		}
 		else{
 //			System.out.println("タスクをマークしませんでした");

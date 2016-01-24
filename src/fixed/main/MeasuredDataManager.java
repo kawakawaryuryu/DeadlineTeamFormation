@@ -43,6 +43,9 @@ public class MeasuredDataManager {
 	double unmarkedTaskQueueNum;
 	double taskQueueNum;
 	
+	double[] markedTaskRequire = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
+	double[] markedTaskDeadline = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
+	
 	MeasuredDataManager() {
 		Arrays.fill(successTaskRequire, 0);
 		allSuccessTaskRequire = 0;
@@ -78,6 +81,9 @@ public class MeasuredDataManager {
 		
 		unmarkedTaskQueueNum = 0;
 		taskQueueNum = 0;
+		
+		Arrays.fill(markedTaskRequire, 0);
+		Arrays.fill(markedTaskDeadline, 0);
 	}
 	
 	public void saveAllMeasuredData() {
@@ -88,6 +94,7 @@ public class MeasuredDataManager {
 		saveTeamSizeData();
 		saveMainRoleData();
 		saveTaskQueueNum();
+		saveMarkedTask();
 	}
 	
 	private void saveMeasuredDataPerTurn() {
@@ -145,6 +152,13 @@ public class MeasuredDataManager {
 	private void saveTaskQueueNum() {
 		unmarkedTaskQueueNum += TeamFormationMain.getMeasure().getAverageUnmarkedTaskQueueNum();
 		taskQueueNum += TeamFormationMain.getMeasure().getAverageTaskQueueNum();
+	}
+	
+	private void saveMarkedTask() {
+		for(int i = 0; i < FixedConstant.ARRAY_SIZE_FOR_MEASURE; i++){
+			markedTaskRequire[i] += TeamFormationMain.getMeasure().getAverageMarkedTaskRequire(i);
+			markedTaskDeadline[i] += TeamFormationMain.getMeasure().getAverageMarkedTaskDeadline(i);
+		}
 	}
 	
 }

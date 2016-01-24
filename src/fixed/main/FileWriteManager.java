@@ -137,7 +137,11 @@ public class FileWriteManager {
 		pw.print(",");
 		pw.print("1チーム中の1人あたりの平均処理時間");
 		pw.print(",");
-		pw.println("1チーム中の1人あたりの不要な平均拘束時間");
+		pw.print("1チーム中の1人あたりの不要な平均拘束時間");
+		pw.print(",");
+		pw.print("マークしたタスクのリソース");
+		pw.print(",");
+		pw.println("マークしたタスクの残りデッドライン");
 		
 		return pw;
 	}
@@ -171,7 +175,11 @@ public class FileWriteManager {
 			pw.print(",");
 			pw.print(MainMain.measure.executingTimePerAgentInTeam[i] / (double)MainMain.EXPERIMENT_NUM);
 			pw.print(",");
-			pw.println(MainMain.measure.bindingTimePerAgentInTeam[i] / (double)MainMain.EXPERIMENT_NUM);
+			pw.print(MainMain.measure.bindingTimePerAgentInTeam[i] / (double)MainMain.EXPERIMENT_NUM);
+			pw.print(",");
+			pw.print(MainMain.measure.markedTaskRequire[i] / (double)MainMain.EXPERIMENT_NUM);
+			pw.print(",");
+			pw.println(MainMain.measure.markedTaskDeadline[i] / (double)MainMain.EXPERIMENT_NUM);
 		}
 
 		pw.close();
