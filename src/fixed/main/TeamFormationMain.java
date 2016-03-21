@@ -117,7 +117,7 @@ public class TeamFormationMain {
 			
 			// キューにタスクを追加
 			// TODO ADD_TASK_INTERVAL=1のときはturn % FixedConstant.ADD_TASK_INTERVAL == 0に変える必要性
-			if(turn % FixedConstant.ADD_TASK_INTERVAL == 1){
+			if(turn % FixedConstant.ADD_TASK_INTERVAL == 0){
 				parameter.addTaskToQueue();	
 			}
 			
