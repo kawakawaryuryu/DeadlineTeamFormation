@@ -1,6 +1,7 @@
 package fixed.strategy;
 
 import fixed.strategy.memberselection.ConcreteTentativeMemberSelection;
+import fixed.strategy.memberselection.ConcreteTentativeMemberSelection2;
 import fixed.strategy.memberselection.RandomTentativeMemberSelection;
 import fixed.strategy.memberselection.TentativeMemberSelectionStrategy;
 import fixed.strategy.roleselection.FixedRoleSelectionStrategy;
@@ -59,6 +60,16 @@ public class StrategyManager {
 		roleSelectionStrategy = new RoleSelectionStrategy();
 		allocationStrategy = new ConcreteSubtaskAllocationStrategy();
 		memberSelectionStrategy = new ConcreteTentativeMemberSelection();
+	}
+	
+	/**
+	 * 学習あり、学習なし戦略の設定
+	 * 仮メンバの選択方法を変える
+	 */
+	public static void setLearningAndNoLearningStrategyForMemberSelection() {
+		roleSelectionStrategy = new RoleSelectionStrategy();
+		allocationStrategy = new ConcreteSubtaskAllocationStrategy();
+		memberSelectionStrategy = new ConcreteTentativeMemberSelection2();
 	}
 	
 	/**
