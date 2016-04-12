@@ -3,7 +3,7 @@ package fixed.main;
 import java.io.IOException;
 
 import fixed.constant.FixedConstant;
-import fixed.expriment.Experiment;
+import fixed.experiment.Experiment;
 
 public class MainMain {
 	static long start = System.currentTimeMillis();	//実行スタート時間

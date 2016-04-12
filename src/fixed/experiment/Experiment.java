@@ -1,4 +1,4 @@
-package fixed.expriment;
+package fixed.experiment;
 
 import fixed.constant.FixedConstant;
 import fixed.strategy.StrategyManager;
