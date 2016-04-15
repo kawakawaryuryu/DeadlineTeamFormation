@@ -18,8 +18,8 @@ public class Experiment {
 	
 	private static void setStrategy(String isLearning) {
 		if(isLearning.equals("learning") || isLearning.equals("noLearning")) {
-//			StrategyManager.setLearningAndNoLearningStrategy();
-			StrategyManager.setLearningAndNoLearningStrategyForMemberSelection();
+			StrategyManager.setLearningAndNoLearningStrategy();
+//			StrategyManager.setLearningAndNoLearningStrategyForMemberSelection();
 		}
 		else if(isLearning.equals("random")) {
 			StrategyManager.setRandomStrategy();
