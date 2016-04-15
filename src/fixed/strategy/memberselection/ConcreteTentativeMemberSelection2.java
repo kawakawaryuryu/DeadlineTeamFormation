@@ -138,6 +138,6 @@ TentativeMemberSelectionStrategy {
 	}
 
 	public String toString() {
-		return "仮メンバを信頼度の高い順に選ぶ";
+		return "各サブタスクごとに仮メンバを信頼度の高い順に1体ずつ選び、それを" + Constant.SELECT_MEMBER_NUM + "回行う";
 	}
 }
