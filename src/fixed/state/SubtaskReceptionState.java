@@ -28,6 +28,10 @@ public class SubtaskReceptionState implements FixedState {
 			// 状態遷移
 			member.getParameter().changeState(TaskExecuteState.getState());
 			
+			// 報酬期待度のフィードバック
+			member.feedbackExpectedReward(message.getFrom(), true, message.getSubtaskRequireSum(), 
+					message.getLeftReward(), message.getLeftRequireSum());
+			
 //			System.out.println("チーム編成成功メッセージを受信しました");
 //			debugExecutedSubtask(member);
 		}
@@ -36,6 +40,9 @@ public class SubtaskReceptionState implements FixedState {
 //			System.out.println("チーム編成失敗メッセージを受信しました");
 			// 状態遷移;
 			member.getParameter().changeState(TaskSelectionState.getState());
+			
+			// 報酬期待度のフィードバック
+			member.feedbackExpectedReward(message.getFrom(), false, 0, 0, 1);
 		}
 	}
 	
@@ -48,9 +55,6 @@ public class SubtaskReceptionState implements FixedState {
 		// チーム情報を保持
 		member.getParameter().setParticipatingTeam(message.getTeam());
 		
-		// 報酬期待度のフィードバック
-		member.feedbackExpectedReward(message.getFrom(), true, message.getSubtaskRequireSum(), 
-				message.getLeftReward(), message.getLeftRequireSum());
 	}
 	
 	private void debugExecutedSubtask(FixedAgent member) {
