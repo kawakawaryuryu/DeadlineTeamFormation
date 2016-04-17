@@ -1,0 +1,8 @@
+package task;
+
+public enum Failure {
+	ESTIMATION_FAILURE,
+	TEAM_FORMATION_FAILURE,
+	DECIDE_MEMBER_FAILURE,
+	MARK_TURE;
+}
