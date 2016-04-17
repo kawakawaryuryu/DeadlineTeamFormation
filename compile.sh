@@ -12,4 +12,4 @@ compile() {
 	done
 }
 
-compile "$PWD/src/fixed"
+compile "$PWD/src"
