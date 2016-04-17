@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import state.FixedState;
+import state.State;
 import state.RoleSelectionState;
 import state.SubtaskAllocationState;
 import state.SubtaskReceptionState;
 import state.TaskExecuteState;
 import state.TaskMarkedWaitingState;
 import state.TaskSelectionState;
-import task.FixedTask;
-import constant.FixedConstant;
-import agent.FixedAgent;
+import task.Task;
+import constant.Constant;
+import agent.Agent;
 
 public class TeamFormationParameter {
-	final ArrayList<FixedAgent> agents = new ArrayList<FixedAgent>();
-	final HashMap<FixedState, ArrayList<FixedAgent>> agentsMap = new HashMap<FixedState, ArrayList<FixedAgent>>();
-	final HashMap<TaskMarking, ArrayList<FixedAgent>> taskMarkingAgentMap = new HashMap<TaskMarking, ArrayList<FixedAgent>>();
-	public final ArrayList<FixedTask> taskQueue = new ArrayList<FixedTask>();
+	final ArrayList<Agent> agents = new ArrayList<Agent>();
+	final HashMap<State, ArrayList<Agent>> agentsMap = new HashMap<State, ArrayList<Agent>>();
+	final HashMap<TaskMarking, ArrayList<Agent>> taskMarkingAgentMap = new HashMap<TaskMarking, ArrayList<Agent>>();
+	public final ArrayList<Task> taskQueue = new ArrayList<Task>();
 	private int taskId = 0;
 	
 	void initialize() {
@@ -33,61 +33,61 @@ public class TeamFormationParameter {
 	
 	private void initializeAgentsMap() {
 		agentsMap.clear();
-		agentsMap.put(TaskSelectionState.getState(), new ArrayList<FixedAgent>());
-		agentsMap.put(RoleSelectionState.getState(), new ArrayList<FixedAgent>());
-		agentsMap.put(SubtaskAllocationState.getState(), new ArrayList<FixedAgent>());
-		agentsMap.put(SubtaskReceptionState.getState(), new ArrayList<FixedAgent>());
-		agentsMap.put(TaskExecuteState.getState(), new ArrayList<FixedAgent>());
-		agentsMap.put(TaskMarkedWaitingState.getState(), new ArrayList<FixedAgent>());
+		agentsMap.put(TaskSelectionState.getState(), new ArrayList<Agent>());
+		agentsMap.put(RoleSelectionState.getState(), new ArrayList<Agent>());
+		agentsMap.put(SubtaskAllocationState.getState(), new ArrayList<Agent>());
+		agentsMap.put(SubtaskReceptionState.getState(), new ArrayList<Agent>());
+		agentsMap.put(TaskExecuteState.getState(), new ArrayList<Agent>());
+		agentsMap.put(TaskMarkedWaitingState.getState(), new ArrayList<Agent>());
 	}
 	
 	private void initializeTaskMarkingAgentsMap() {
 		taskMarkingAgentMap.clear();
-//		taskMarkingAgentMap.put(TaskMarking.TASK_MARKING, new ArrayList<FixedAgent>());
-//		taskMarkingAgentMap.put(TaskMarking.NO_TASK_MARKING, new ArrayList<FixedAgent>());
+//		taskMarkingAgentMap.put(TaskMarking.TASK_MARKING, new ArrayList<Agent>());
+//		taskMarkingAgentMap.put(TaskMarking.NO_TASK_MARKING, new ArrayList<Agent>());
 	}
 	
-	public FixedAgent getAgent(int i){
+	public Agent getAgent(int i){
 		return agents.get(i);
 	}
 	
-	public ArrayList<FixedAgent> getAgent(){
+	public ArrayList<Agent> getAgent(){
 		return agents;
 	}
 	
 	public void debugAgents() {
 		System.out.println("エージェントリスト");
-		for(FixedAgent agent : agents){
+		for(Agent agent : agents){
 			System.out.println(agent);
 		}
 		System.out.println();
 	}
 	
 	void clearAgentsMap() {
-		for(ArrayList<FixedAgent> agentsList : agentsMap.values()){
+		for(ArrayList<Agent> agentsList : agentsMap.values()){
 			agentsList.clear();
 		}
 	}
 	
 	void clearTaskMarkingAgentsMap() {
-		for(ArrayList<FixedAgent> agentsList : taskMarkingAgentMap.values()){
+		for(ArrayList<Agent> agentsList : taskMarkingAgentMap.values()){
 			agentsList.clear();
 		}
 	}
 	
 	void shuffleAgentsMap() {
-		for(ArrayList<FixedAgent> agentsList : agentsMap.values()){
+		for(ArrayList<Agent> agentsList : agentsMap.values()){
 			Collections.shuffle(agentsList, RandomManager.getRandom(RandomKey.AGENT_MAP_RANDOM));
 		}
 	}
 	
 	void classifyAgentIntoState() {
-		for(FixedAgent agent : agents){
+		for(Agent agent : agents){
 			agentsMap.get(agent.getParameter().getState()).add(agent);
 		}
 	}
 	
-	public void addAgentToAgentsMap(FixedState state, FixedAgent agent) {
+	public void addAgentToAgentsMap(State state, Agent agent) {
 		if(state.equals(agent.getParameter().getState())){
 			agentsMap.get(state).add(agent);
 		}
@@ -97,7 +97,7 @@ public class TeamFormationParameter {
 		}
 	}
 	
-	public void addAgentToTaskMarkingAgentsMap(TaskMarking isMarked, FixedAgent agent) {
+	public void addAgentToTaskMarkingAgentsMap(TaskMarking isMarked, Agent agent) {
 		if(agent.getParameter().getState().equals(TaskSelectionState.getState())
 				|| agent.getParameter().getState().equals(TaskMarkedWaitingState.getState())){
 			taskMarkingAgentMap.get(isMarked).add(agent);
@@ -109,20 +109,20 @@ public class TeamFormationParameter {
 	}
 	
 	void addTaskToQueue() {
-		int taskAdditionNum = getPoissonTaskAdditionNum(FixedConstant.ADD_TASK_PER_TURN);
+		int taskAdditionNum = getPoissonTaskAdditionNum(Constant.ADD_TASK_PER_TURN);
 		for(int id = 0; id < taskAdditionNum; id++){
-			taskQueue.add(new FixedTask(taskId++, 
-					RandomManager.getRandom(RandomKey.TASK_RANDOM).nextInt(FixedConstant.SUBTASK_IN_TASK_NUM) + FixedConstant.SUBTASK_IN_TASK_INIT, 
-					FixedConstant.TASK_DEADLINE_MULTIPLE *
-					(RandomManager.getRandom(RandomKey.DEADLINE_RANDOM).nextInt(FixedConstant.DEADLINE_MAX) 
-							+ FixedConstant.DEADLINE_INIT)));
+			taskQueue.add(new Task(taskId++, 
+					RandomManager.getRandom(RandomKey.TASK_RANDOM).nextInt(Constant.SUBTASK_IN_TASK_NUM) + Constant.SUBTASK_IN_TASK_INIT, 
+					Constant.TASK_DEADLINE_MULTIPLE *
+					(RandomManager.getRandom(RandomKey.DEADLINE_RANDOM).nextInt(Constant.DEADLINE_MAX) 
+							+ Constant.DEADLINE_INIT)));
 		}
 //		debugTaskQueue();
 	}
 	
 	public void debugTaskQueue() {
 		System.out.println("タスクキュー");
-		for(FixedTask task : taskQueue){
+		for(Task task : taskQueue){
 			System.out.println(task);
 		}
 		System.out.println();
@@ -139,11 +139,11 @@ public class TeamFormationParameter {
 		return k;
 	}
 	
-	public ArrayList<FixedTask> lookingTaskQueue(){
+	public ArrayList<Task> lookingTaskQueue(){
 		return taskQueue;
 	}
 	
-	public void removeTask(FixedTask task){
+	public void removeTask(Task task){
 		taskQueue.remove(task);
 	}
 	
@@ -151,7 +151,7 @@ public class TeamFormationParameter {
 		for(int i = 0; i < taskQueue.size(); ){
 			taskQueue.get(i).subtractDeadlineInTask();
 			// タスクのデッドラインが処理できない時間だったらキューから削除する
-			if(taskQueue.get(i).getDeadlineInTask() <= (FixedConstant.WAIT_TURN + FixedConstant.DEADLINE_MIN_2) 
+			if(taskQueue.get(i).getDeadlineInTask() <= (Constant.WAIT_TURN + Constant.DEADLINE_MIN_2) 
 					&& !taskQueue.get(i).getMark()){
 				measure.countFailure(taskQueue.get(i).getTaskRequireSum());
 				removeTask(taskQueue.get(i));
@@ -162,7 +162,7 @@ public class TeamFormationParameter {
 	
 	public int getNoMarkingTaskNum() {
 		int noMarkSize = 0;
-		for(FixedTask task : taskQueue){
+		for(Task task : taskQueue){
 			if(!task.getMark()){
 				noMarkSize++;
 			}

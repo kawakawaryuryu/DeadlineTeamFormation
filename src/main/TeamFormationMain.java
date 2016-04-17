@@ -11,8 +11,8 @@ import state.SubtaskReceptionState;
 import state.TaskExecuteState;
 import state.TaskMarkedWaitingState;
 import state.TaskSelectionState;
-import constant.FixedConstant;
-import agent.FixedAgent;
+import constant.Constant;
+import agent.Agent;
 
 public class TeamFormationMain {
 	
@@ -41,22 +41,22 @@ public class TeamFormationMain {
 	
 	private static void actionByMarkedWatingAgent() {
 		// 自分に来ているメッセージを破棄
-		for(FixedAgent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
+		for(Agent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
 			agent.getParameter().getOfferMessages().clear();
 		}
 //		System.out.println("------- タスクマーク待機状態のエージェントの行動 -------");
-		for(FixedAgent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
+		for(Agent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
 			agent.action();
 		}
 //		System.out.println();
 	}
 	
 	private static void actionByInitialAgent() {
-		for(FixedAgent agent : parameter.agentsMap.get(TaskSelectionState.getState())){
+		for(Agent agent : parameter.agentsMap.get(TaskSelectionState.getState())){
 			agent.getParameter().initialize();
 		}
 //		System.out.println("------- タスク選択状態のエージェントの行動 -------");
-		for(FixedAgent agent : parameter.agentsMap.get(TaskSelectionState.getState())){
+		for(Agent agent : parameter.agentsMap.get(TaskSelectionState.getState())){
 			agent.action();
 		}
 //		System.out.println();
@@ -64,7 +64,7 @@ public class TeamFormationMain {
 	
 	private static void actionByRoleSelectionAgent() {
 //		System.out.println("------- 役割選択状態のエージェントの行動 / タスクをマークしていないエージェント -------");
-		for(FixedAgent agent : parameter.agentsMap.get(RoleSelectionState.getState())){
+		for(Agent agent : parameter.agentsMap.get(RoleSelectionState.getState())){
 			agent.action();
 		}
 //		System.out.println();
@@ -72,12 +72,12 @@ public class TeamFormationMain {
 	
 	private static void actionByLeaderOrMemberAgent() {
 //		System.out.println("------- リーダ状態のエージェントの行動 -------");
-		for(FixedAgent agent : parameter.agentsMap.get(SubtaskAllocationState.getState())){
+		for(Agent agent : parameter.agentsMap.get(SubtaskAllocationState.getState())){
 			agent.action();
 		}
 //		System.out.println();
 //		System.out.println("------- メンバ状態のエージェントの行動 -------");
-		for(FixedAgent agent : parameter.agentsMap.get(SubtaskReceptionState.getState())){
+		for(Agent agent : parameter.agentsMap.get(SubtaskReceptionState.getState())){
 			agent.action();
 		}
 //		System.out.println();
@@ -85,7 +85,7 @@ public class TeamFormationMain {
 	
 	private static void actionByExecuteAgent() {
 //		System.out.println("------- タスク実行状態のエージェントの行動 -------");
-		for(FixedAgent agent : parameter.agentsMap.get(TaskExecuteState.getState())){
+		for(Agent agent : parameter.agentsMap.get(TaskExecuteState.getState())){
 			agent.action();
 		}
 //		System.out.println();
@@ -96,8 +96,8 @@ public class TeamFormationMain {
 		measure.initialize();
 		
 		// エージェントの生成
-		for(int id = 0; id < FixedConstant.AGENT_NUM; id++){
-			parameter.agents.add(new FixedAgent(id));
+		for(int id = 0; id < Constant.AGENT_NUM; id++){
+			parameter.agents.add(new Agent(id));
 			
 		}
 		// エージェントの能力を指定して生成
@@ -112,12 +112,12 @@ public class TeamFormationMain {
 		PrintWriter taskQueueWriter = getTaskQueueWriter(experimentNumber);
 		
 		// チーム編成の開始
-		for(turn = 1; turn <= FixedConstant.TURN_NUM; turn++){
+		for(turn = 1; turn <= Constant.TURN_NUM; turn++){
 //			System.out.println("======= " + turn + " ターン目 =======");
 			
 			// キューにタスクを追加
-			// TODO ADD_TASK_INTERVAL=1のときはturn % FixedConstant.ADD_TASK_INTERVAL == 0に変える必要性
-			if(turn % FixedConstant.ADD_TASK_INTERVAL == 0){
+			// TODO ADD_TASK_INTERVAL=1のときはturn % Constant.ADD_TASK_INTERVAL == 0に変える必要性
+			if(turn % Constant.ADD_TASK_INTERVAL == 0){
 				parameter.addTaskToQueue();	
 			}
 			
@@ -146,23 +146,23 @@ public class TeamFormationMain {
 			parameter.decreaseTaskDeadline(measure);
 			
 			// 一定時間ごとに、計測データを退避
-			if(turn % FixedConstant.MEASURE_TURN_NUM == 0){
+			if(turn % Constant.MEASURE_TURN_NUM == 0){
 				// 計測データの配列添え字をインクリメント
 				measure.addArrayIndex();
 			}
 			
 			// Q値をファイルに書き込み
-			if(turn % FixedConstant.MEASURE_Q_TURN_NUM == 0){
+			if(turn % Constant.MEASURE_Q_TURN_NUM == 0){
 				writeMeasuredDataPerTurn(greedyWriter, turn, parameter.agents, experimentNumber);
 			}
 			
 			// 可視化用計測データをファイルに書き込み
-			if(turn % FixedConstant.MEASURE_VISUALIZATION_TURN_NUM == 0){
+			if(turn % Constant.MEASURE_VISUALIZATION_TURN_NUM == 0){
 				writeVisualData(parameter.agents, experimentNumber, measure.allSuccessTeamFormationEdge);
 			}
 			
 			// タスクキューの中身を書き込み
-			if(FixedConstant.TURN_NUM - turn < FixedConstant.END_TURN_NUM){
+			if(Constant.TURN_NUM - turn < Constant.END_TURN_NUM){
 				writeTaskQueue(experimentNumber, taskQueueWriter, noMarkTaskNum);
 			}
 			
@@ -203,14 +203,14 @@ public class TeamFormationMain {
 		}
 	}
 	
-	private static void writeMeasuredData(ArrayList<FixedAgent> agents, int experimentNumber) throws IOException {
+	private static void writeMeasuredData(ArrayList<Agent> agents, int experimentNumber) throws IOException {
 		if(experimentNumber == 1){
 			FileWriteManager.writeBodyOfRoleNumber(agents);
 			FileWriteManager.writeTeamFormationWithAgent(agents);
 		}
 	}
 	
-	private static void writeMeasuredDataPerTurn(PrintWriter greedy, int turn, ArrayList<FixedAgent> agents, int experimentNumber) throws IOException {
+	private static void writeMeasuredDataPerTurn(PrintWriter greedy, int turn, ArrayList<Agent> agents, int experimentNumber) throws IOException {
 		if(experimentNumber == 1){
 			FileWriteManager.writeBodyOfGreedy(greedy, turn, agents);
 			FileWriteManager.writeTrust(agents, turn);
@@ -218,7 +218,7 @@ public class TeamFormationMain {
 		}
 	}
 	
-	private static void writeVisualData(ArrayList<FixedAgent> agents, int experimentNumber, int successTeamFormationEdge) throws IOException {
+	private static void writeVisualData(ArrayList<Agent> agents, int experimentNumber, int successTeamFormationEdge) throws IOException {
 		if(experimentNumber == 1){
 			VisualFileWriter.writeVisualizedData(agents, getTurn(), experimentNumber, successTeamFormationEdge);
 			VisualFileWriter.writeVisualizedMoreData(agents, getTurn());
@@ -248,12 +248,12 @@ public class TeamFormationMain {
 	}
 	
 	private static void makeAgents() {
-		for(int id = 0; id < FixedConstant.AGENT_NUM; id++){
-			int[] ability = new int[FixedConstant.RESOURCE_NUM];
+		for(int id = 0; id < Constant.AGENT_NUM; id++){
+			int[] ability = new int[Constant.RESOURCE_NUM];
 			for(int i = 0; i < ability.length; i++){
-				ability[i] = id % FixedConstant.AGENT_ABILITY_MAX + FixedConstant.AGENT_ABILITY_INIT;
+				ability[i] = id % Constant.AGENT_ABILITY_MAX + Constant.AGENT_ABILITY_INIT;
 			}
-			parameter.agents.add(new FixedAgent(id, ability));
+			parameter.agents.add(new Agent(id, ability));
 		}
 	}
 

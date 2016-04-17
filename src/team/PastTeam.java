@@ -2,15 +2,15 @@ package team;
 
 import java.util.ArrayList;
 
-import constant.FixedConstant;
+import constant.Constant;
 
 public class PastTeam {
-	private ArrayList<FixedTeam> pastTeams = new ArrayList<FixedTeam>();
+	private ArrayList<Team> pastTeams = new ArrayList<Team>();
 	private double averageAbilitiesPerTeam;
 	
-	public void addTeam(FixedTeam team) {
+	public void addTeam(Team team) {
 		pastTeams.add(team);
-		if(pastTeams.size() > FixedConstant.PAST_TEAM_NUM){
+		if(pastTeams.size() > Constant.PAST_TEAM_NUM){
 			pastTeams.remove(0);
 		}
 		
@@ -19,7 +19,7 @@ public class PastTeam {
 	
 	private void updateAverageTeamAbilities() {
 		double averageAbilitiesSum = 0.0;
-		for(FixedTeam team : pastTeams){
+		for(Team team : pastTeams){
 			averageAbilitiesSum += team.getTeamResourceSum();
 		}
 		

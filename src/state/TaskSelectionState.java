@@ -1,21 +1,21 @@
 package state;
 
 import strategy.StrategyManager;
-import strategy.taskselection.FixedTaskSelectionStrategy;
+import strategy.taskselection.TaskSelectionStrategy;
 import task.Failure;
-import task.FixedTask;
+import task.Task;
 import main.TeamFormationMain;
-import agent.FixedAgent;
+import agent.Agent;
 
-public class TaskSelectionState implements FixedState {
+public class TaskSelectionState implements State {
 	
-	private static FixedState state = new TaskSelectionState();
-	private FixedTaskSelectionStrategy strategy = StrategyManager.getTaskSelectionStrategy();
+	private static State state = new TaskSelectionState();
+	private TaskSelectionStrategy strategy = StrategyManager.getTaskSelectionStrategy();
 
 	@Override
-	public void agentAction(FixedAgent agent) {
+	public void agentAction(Agent agent) {
 		
-		FixedTask selectedTask = strategy.selectTask(agent);
+		Task selectedTask = strategy.selectTask(agent);
 		if(selectedTask != null){
 //			System.out.println(selectedTask + "をマークしました");
 			selectedTask.markingTask(true, Failure.MARK_TURE);
@@ -32,7 +32,7 @@ public class TaskSelectionState implements FixedState {
 		TeamFormationMain.getParameter().addAgentToAgentsMap(RoleSelectionState.getState(), agent);
 	}
 
-	public static FixedState getState() {
+	public static State getState() {
 		return state;
 	}
 	

@@ -1,12 +1,12 @@
 package roleaction;
 
 import state.TaskSelectionState;
-import agent.FixedAgent;
+import agent.Agent;
 
 public class BackToInitialStateAction implements RoleAction {
 
 	@Override
-	public void action(FixedAgent agent) {
+	public void action(Agent agent) {
 		agent.getParameter().changeState(TaskSelectionState.getState());
 	}
 

@@ -1,8 +1,8 @@
 package roleaction;
 
-import agent.FixedAgent;
+import agent.Agent;
 
 public interface RoleAction {
 
-	public abstract void action(FixedAgent agent);
+	public abstract void action(Agent agent);
 }

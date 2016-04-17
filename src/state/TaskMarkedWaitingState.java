@@ -2,27 +2,27 @@ package state;
 
 import roleaction.RoleAction;
 import roleaction.TentativeMemberSelectionAction;
-import constant.FixedConstant;
-import agent.FixedAgent;
+import constant.Constant;
+import agent.Agent;
 
-public class TaskMarkedWaitingState implements FixedState {
+public class TaskMarkedWaitingState implements State {
 
-	private static FixedState state = new TaskMarkedWaitingState();
+	private static State state = new TaskMarkedWaitingState();
 	
 	private RoleAction strategy = new TentativeMemberSelectionAction();
 
 	@Override
-	public void agentAction(FixedAgent agent) {
+	public void agentAction(Agent agent) {
 		// ntick前　マークしようとしているタスクがマークされているかチェック
 		// ntick後　タスクをマークし, 仮メンバ探しをする
 
 		agent.getParameter().getTimerField().countTaskMarkedWaitingStateTimer();
 
-		if(agent.getParameter().getTimerField().getTaskMarkedWaitingStateTimer() < FixedConstant.WAIT_TURN) {
+		if(agent.getParameter().getTimerField().getTaskMarkedWaitingStateTimer() < Constant.WAIT_TURN) {
 			// 何もしない
 		}
 
-		else if(agent.getParameter().getTimerField().getTaskMarkedWaitingStateTimer() == FixedConstant.WAIT_TURN) {
+		else if(agent.getParameter().getTimerField().getTaskMarkedWaitingStateTimer() == Constant.WAIT_TURN) {
 			// 仮メンバを選択する
 			strategy.action(agent);
 		}
@@ -33,7 +33,7 @@ public class TaskMarkedWaitingState implements FixedState {
 		}
 	}
 	
-	public static FixedState getState() {
+	public static State getState() {
 		return state;
 	}
 	

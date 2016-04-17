@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import role.MeasuredDataForEachRole;
-import team.FixedTeam;
+import team.Team;
 import main.TeamFormationMain;
-import constant.FixedConstant;
+import constant.Constant;
 
 public class AgentMeasuredData {
 	private int successNum = 0;
 	
-	int[] teamFormationNumWithLeader = new int[FixedConstant.AGENT_NUM];
-	int[] teamFormationNumWithMember = new int[FixedConstant.AGENT_NUM];
+	int[] teamFormationNumWithLeader = new int[Constant.AGENT_NUM];
+	int[] teamFormationNumWithMember = new int[Constant.AGENT_NUM];
 	
 	int successNumAtEnd = 0;
 	int executingTimeAtEnd = 0;
@@ -23,14 +23,14 @@ public class AgentMeasuredData {
 		Arrays.fill(teamFormationNumWithMember, 0);
 	}
 	
-	public void countInLeaderSuccessCase(MeasuredDataForEachRole element, FixedAgent leader, FixedTeam team) {
+	public void countInLeaderSuccessCase(MeasuredDataForEachRole element, Agent leader, Team team) {
 		countSuccessNum(element);
 		countTeamFormationWithMembers(team.getMembers());
 		countExecutingTimeAtEnd(leader.getParameter().getExecuteTime());
 		countBindingTimeAtEnd(team.getTeamExecuteTime() - leader.getParameter().getExecuteTime());
 	}
 	
-	public void countInMemberSuccessCase(MeasuredDataForEachRole element, FixedAgent member, FixedTeam team) {
+	public void countInMemberSuccessCase(MeasuredDataForEachRole element, Agent member, Team team) {
 		countSuccessNum(element);
 		countTeamFormationNumWithLeader(team.getLeader());
 		countExecutingTimeAtEnd(member.getParameter().getExecuteTime());
@@ -40,7 +40,7 @@ public class AgentMeasuredData {
 	private void countSuccessNum(MeasuredDataForEachRole element) {
 		successNum++;
 		element.countRoleNum();
-		if(FixedConstant.TURN_NUM - TeamFormationMain.getTurn() < FixedConstant.MEASURE_SUCCESS_AT_END_TURN_NUM){
+		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.MEASURE_SUCCESS_AT_END_TURN_NUM){
 			successNumAtEnd++;
 		}
 	}
@@ -53,21 +53,21 @@ public class AgentMeasuredData {
 		return element.getRoleNum();
 	}
 	
-	private void countTeamFormationWithMembers(ArrayList<FixedAgent> members) {
-		for(FixedAgent member : members){
+	private void countTeamFormationWithMembers(ArrayList<Agent> members) {
+		for(Agent member : members){
 			teamFormationNumWithMember[member.getId()]++;
 		}
 	}
 	
-	private void countTeamFormationNumWithLeader(FixedAgent leader) {
+	private void countTeamFormationNumWithLeader(Agent leader) {
 		teamFormationNumWithLeader[leader.getId()]++;
 	}
 	
-	public int getTeamFormationNumWithLeader(FixedAgent leader) {
+	public int getTeamFormationNumWithLeader(Agent leader) {
 		return teamFormationNumWithLeader[leader.getId()];
 	}
 	
-	public int getTeamFormationNumWithMember(FixedAgent member) {
+	public int getTeamFormationNumWithMember(Agent member) {
 		return teamFormationNumWithMember[member.getId()];
 	}
 	
@@ -80,13 +80,13 @@ public class AgentMeasuredData {
 	}
 	
 	public void countExecutingTimeAtEnd(int time) {
-		if(FixedConstant.TURN_NUM - TeamFormationMain.getTurn() < FixedConstant.MEASURE_SUCCESS_AT_END_TURN_NUM){
+		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.MEASURE_SUCCESS_AT_END_TURN_NUM){
 			executingTimeAtEnd += time;
 		}
 	}
 	
 	public void countBindingTimeAtEnd(int time) {
-		if(FixedConstant.TURN_NUM - TeamFormationMain.getTurn() < FixedConstant.MEASURE_SUCCESS_AT_END_TURN_NUM){
+		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.MEASURE_SUCCESS_AT_END_TURN_NUM){
 			bindingTimeAtEnd += time;
 		}
 	}

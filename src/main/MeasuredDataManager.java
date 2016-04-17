@@ -2,29 +2,29 @@ package main;
 
 import java.util.Arrays;
 
-import constant.FixedConstant;
+import constant.Constant;
 
 public class MeasuredDataManager {
-	double[] successTaskRequire = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
+	double[] successTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	int allSuccessTaskRequire;
-	double[] failureTaskRequire = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
+	double[] failureTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	int allFailureTaskRequire;
-	double[] failureTaskNum = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
-	double[] successTeamFormationNum = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
+	double[] failureTaskNum = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	double[] successTeamFormationNum = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	int successTeamFormationNumAtEnd;
 	int allSuccessTeamFormationNum;
-	double[] failureTeamFormationNum = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
-	double[] giveUpTeamFormationNum = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
-	double[] tryingTeamFormationNum = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
+	double[] failureTeamFormationNum = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	double[] giveUpTeamFormationNum = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	double[] tryingTeamFormationNum = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	
-	double[][] successTeamFormationNumEveryTeamSize = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE][FixedConstant.ARRAY_SIZE_FOR_TEAM];
-	double[] allSuccessTeamFormationNumEveryTeamSize = new double[FixedConstant.ARRAY_SIZE_FOR_TEAM];
-	double[] bindingTimeInTeamEveryTeamSize = new double[FixedConstant.ARRAY_SIZE_FOR_TEAM];
+	double[][] successTeamFormationNumEveryTeamSize = new double[Constant.ARRAY_SIZE_FOR_MEASURE][Constant.ARRAY_SIZE_FOR_TEAM];
+	double[] allSuccessTeamFormationNumEveryTeamSize = new double[Constant.ARRAY_SIZE_FOR_TEAM];
+	double[] bindingTimeInTeamEveryTeamSize = new double[Constant.ARRAY_SIZE_FOR_TEAM];
 
 	double teamExecuteTime;
-	double[] bindingTimeInTeam = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
-	double[] executingTimePerAgentInTeam = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
-	double[] bindingTimePerAgentInTeam = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
+	double[] bindingTimeInTeam = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	double[] executingTimePerAgentInTeam = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	double[] bindingTimePerAgentInTeam = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	double executingTimePerAgentInTeamAtEnd;
 	double bindingTimePerAgentInTeamAtEnd;
 	
@@ -43,8 +43,8 @@ public class MeasuredDataManager {
 	double unmarkedTaskQueueNum;
 	double taskQueueNum;
 	
-	double[] markedTaskRequire = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
-	double[] markedTaskDeadline = new double[FixedConstant.ARRAY_SIZE_FOR_MEASURE];
+	double[] markedTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	double[] markedTaskDeadline = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	
 	MeasuredDataManager() {
 		Arrays.fill(successTaskRequire, 0);
@@ -98,7 +98,7 @@ public class MeasuredDataManager {
 	}
 	
 	private void saveMeasuredDataPerTurn() {
-		for(int i = 0; i < FixedConstant.ARRAY_SIZE_FOR_MEASURE; i++){
+		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
 			successTaskRequire[i] += TeamFormationMain.getMeasure().successTaskRequire[i]; 
 			failureTaskRequire[i] += TeamFormationMain.getMeasure().failureTaskRequire[i];
 			failureTaskNum[i] += TeamFormationMain.getMeasure().failureTaskNum[i];
@@ -106,7 +106,7 @@ public class MeasuredDataManager {
 			failureTeamFormationNum[i] += TeamFormationMain.getMeasure().failureTeamFormationNum[i];
 			giveUpTeamFormationNum[i] += TeamFormationMain.getMeasure().giveUpTeamFormationNum[i];
 			tryingTeamFormationNum[i] += TeamFormationMain.getMeasure().tryingTeamFormationNum[i];
-			for(int j = 0; j < FixedConstant.ARRAY_SIZE_FOR_TEAM; j++){
+			for(int j = 0; j < Constant.ARRAY_SIZE_FOR_TEAM; j++){
 				successTeamFormationNumEveryTeamSize[i][j] += TeamFormationMain.getMeasure().successTeamFormationNumEveryTeamSize[i][j];
 			}
 			bindingTimeInTeam[i] += TeamFormationMain.getMeasure().getAverageBindingTimeInTeam(i);
@@ -126,7 +126,7 @@ public class MeasuredDataManager {
 	}
 	
 	private void saveMeasuredDataEveryTeamSize() {
-		for(int i = 0; i < FixedConstant.ARRAY_SIZE_FOR_TEAM; i++){
+		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_TEAM; i++){
 			allSuccessTeamFormationNumEveryTeamSize[i] += TeamFormationMain.getMeasure().allSuccessTeamFormationNumEveryTeamSize[i];
 			bindingTimeInTeamEveryTeamSize[i] += TeamFormationMain.getMeasure().getAverageBindingTimeInTeamEveryTeamSize(i);
 		}
@@ -155,7 +155,7 @@ public class MeasuredDataManager {
 	}
 	
 	private void saveMarkedTask() {
-		for(int i = 0; i < FixedConstant.ARRAY_SIZE_FOR_MEASURE; i++){
+		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
 			markedTaskRequire[i] += TeamFormationMain.getMeasure().getAverageMarkedTaskRequire(i);
 			markedTaskDeadline[i] += TeamFormationMain.getMeasure().getAverageMarkedTaskDeadline(i);
 		}

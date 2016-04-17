@@ -6,21 +6,21 @@ import role.Role;
 import strategy.StrategyManager;
 import strategy.subtaskallocation.SubtaskAllocationStrategy;
 import task.Failure;
-import task.FixedSubtask;
-import team.FixedTeam;
+import task.Subtask;
+import team.Team;
 import main.TeamFormationMain;
-import message.FixedAnswerMessage;
-import message.FixedTeamFormationMessage;
-import agent.FixedAgent;
+import message.AnswerMessage;
+import message.TeamFormationMessage;
+import agent.Agent;
 
-public class SubtaskAllocationState implements FixedState {
+public class SubtaskAllocationState implements State {
 	
-	private static FixedState state = new SubtaskAllocationState();
+	private static State state = new SubtaskAllocationState();
 	private SubtaskAllocationStrategy strategy = StrategyManager.getAllocationStrategy();
 	
 
 	@Override
-	public void agentAction(FixedAgent leader) {
+	public void agentAction(Agent leader) {
 		// エージェントを参加OKかNGかで分類
 		classifyMessageIntoTrueOrFalse(leader);
 //		debugAnswerAgents(leader);
@@ -82,16 +82,16 @@ public class SubtaskAllocationState implements FixedState {
 		TeamFormationMain.getMeasure().countTryingTeamFormationNum();
 	}
 	
-	private void debugExecutedSubtask(FixedAgent leader) {
+	private void debugExecutedSubtask(Agent leader) {
 		System.out.println("処理するサブタスク");
-		for(FixedSubtask subtask : leader.getParameter().getExecutedSubtasks()){
+		for(Subtask subtask : leader.getParameter().getExecutedSubtasks()){
 			System.out.println(subtask);
 		}
 	}
 	
-	private void classifyMessageIntoTrueOrFalse(FixedAgent leader) {
+	private void classifyMessageIntoTrueOrFalse(Agent leader) {
 		// 返答メッセージによってエージェントを分類
-		for(FixedAnswerMessage answer : leader.getParameter().getAnswerMessages()){
+		for(AnswerMessage answer : leader.getParameter().getAnswerMessages()){
 			leader.getParameter().getLeaderField().answerAgents.add(answer.getFrom());
 			if(answer.getIsOk()){
 				leader.getParameter().getLeaderField().trueAgents.add(answer.getFrom());
@@ -102,49 +102,49 @@ public class SubtaskAllocationState implements FixedState {
 		}
 		
 		// 返答メッセージが返ってきていないエージェントをリストに追加
-		for(FixedAgent agent : leader.getParameter().getSendAgents()){
+		for(Agent agent : leader.getParameter().getSendAgents()){
 			if(!leader.getParameter().getLeaderField().answerAgents.contains(agent)){
 				leader.getParameter().getLeaderField().falseAgents.add(agent);
 			}
 		}
 	}
 	
-	private void debugAnswerAgents(FixedAgent leader) {
+	private void debugAnswerAgents(Agent leader) {
 		System.out.println("OKメッセージを送ったエージェント");
-		for(FixedAgent agent : leader.getParameter().getLeaderField().trueAgents){
+		for(Agent agent : leader.getParameter().getLeaderField().trueAgents){
 			System.out.println(agent);
 		}
 		System.out.println("NGメッセージを送ったエージェント");
-		for(FixedAgent agent : leader.getParameter().getLeaderField().falseAgents){
+		for(Agent agent : leader.getParameter().getLeaderField().falseAgents){
 			System.out.println(agent);
 		}
 	}
 	
-	private double calculateLeftReward(FixedAgent leader) {
+	private double calculateLeftReward(Agent leader) {
 		return (double)leader.getParameter().getMarkedTask().getTaskRequireSum() * (1.0 - leader.getGreedy());
 	}
 	
-	private int calculateLeftRequireSum(FixedAgent leader) {
+	private int calculateLeftRequireSum(Agent leader) {
 		int leftRequireSum = leader.getParameter().getMarkedTask().getTaskRequireSum();
-		for(FixedSubtask subtask : leader.getParameter().getExecutedSubtasks()){
+		for(Subtask subtask : leader.getParameter().getExecutedSubtasks()){
 			leftRequireSum -= subtask.getRequireSum();
 		}
 		return leftRequireSum;
 	}
 	
-	private void sendTeamFormationMessage(FixedAgent leader, double leftReward, int leftRequireSum) {
-		for(FixedAgent agent : leader.getParameter().getLeaderField().trueAgents){
+	private void sendTeamFormationMessage(Agent leader, double leftReward, int leftRequireSum) {
+		for(Agent agent : leader.getParameter().getLeaderField().trueAgents){
 			if(!leader.getParameter().getLeaderField().memberSubtaskMap.containsKey(agent) 
 					|| !leader.getParameter().getLeaderField().isTeaming){
-				TeamFormationMain.getPost().postTeamFormationMessage(agent, new FixedTeamFormationMessage(leader, agent, false));
+				TeamFormationMain.getPost().postTeamFormationMessage(agent, new TeamFormationMessage(leader, agent, false));
 //				System.out.println(agent + " にチーム編成失敗メッセージを送信しました");
 			}
 			else if(leader.getParameter().getLeaderField().memberSubtaskMap.containsKey(agent) 
 					&& leader.getParameter().getLeaderField().isTeaming){
-				ArrayList<FixedSubtask> subtasks = leader.getParameter().getLeaderField().memberSubtaskMap.get(agent);
-				FixedTeam team = leader.getParameter().getParticipatingTeam();
+				ArrayList<Subtask> subtasks = leader.getParameter().getLeaderField().memberSubtaskMap.get(agent);
+				Team team = leader.getParameter().getParticipatingTeam();
 				TeamFormationMain.getPost().postTeamFormationMessage(agent, 
-						new FixedTeamFormationMessage(leader, agent, true, subtasks, leftReward, leftRequireSum, team));
+						new TeamFormationMessage(leader, agent, true, subtasks, leftReward, leftRequireSum, team));
 //				System.out.println(agent + " にチーム編成成功メッセージを送信しました");
 			}
 			else{
@@ -154,25 +154,25 @@ public class SubtaskAllocationState implements FixedState {
 		}
 	}
 	
-	private void feedbackGreedyAndTrust(FixedAgent leader) {
+	private void feedbackGreedyAndTrust(Agent leader) {
 		// 欲張り度
 		leader.feedbackGreedy(leader.getParameter().getLeaderField().isTeaming);
 		
 		// 信頼度
-		for(FixedAgent agent : leader.getParameter().getLeaderField().trueAgents){
+		for(Agent agent : leader.getParameter().getLeaderField().trueAgents){
 			leader.feedbackTrust(agent, true);
 		}
-		for(FixedAgent agent : leader.getParameter().getLeaderField().falseAgents){
+		for(Agent agent : leader.getParameter().getLeaderField().falseAgents){
 			leader.feedbackTrust(agent, false);
 		}
 	}
 	
-	private void calculateExecutingTimeAndBindingTimeInTeam(FixedTeam team) {
+	private void calculateExecutingTimeAndBindingTimeInTeam(Team team) {
 		team.calculateExecutingTime();
 		team.calculateBindingTime();
 	}
 
-	public static FixedState getState() {
+	public static State getState() {
 		return state;
 	}
 	

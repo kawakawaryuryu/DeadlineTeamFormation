@@ -2,23 +2,23 @@ package task;
 
 import java.util.ArrayList;
 
-import constant.FixedConstant;
-import agent.FixedAgent;
+import constant.Constant;
+import agent.Agent;
 
 public class AgentInfo {
 
-	private ArrayList<FixedAgent> agents = new ArrayList<FixedAgent>();
+	private ArrayList<Agent> agents = new ArrayList<Agent>();
 	
-	public void addSelectedAgent(FixedAgent agent) {
+	public void addSelectedAgent(Agent agent) {
 		agents.add(agent);
 		isOverSelectedNum();
 	}
 	
-	public ArrayList<FixedAgent> getSelectedAgents() {
+	public ArrayList<Agent> getSelectedAgents() {
 		return agents;
 	}
 	
-	public FixedAgent getSelectedAgent(int index) {
+	public Agent getSelectedAgent(int index) {
 		return agents.get(index);
 	}
 	
@@ -27,8 +27,8 @@ public class AgentInfo {
 	}
 	
 	private void isOverSelectedNum() {
-		if(agents.size() > FixedConstant.SELECT_MEMBER_NUM){
-			System.err.println("subtaskが保持するagentsのリストのサイズが" + FixedConstant.SELECT_MEMBER_NUM + "を超えています");
+		if(agents.size() > Constant.SELECT_MEMBER_NUM){
+			System.err.println("subtaskが保持するagentsのリストのサイズが" + Constant.SELECT_MEMBER_NUM + "を超えています");
 			System.exit(-1);
 		}
 	}

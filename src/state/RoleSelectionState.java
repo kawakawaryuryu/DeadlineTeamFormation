@@ -8,16 +8,16 @@ import roleaction.MoveToWaitingAction;
 import roleaction.ParticipatingTeamDecisionAction;
 import roleaction.RoleAction;
 import strategy.StrategyManager;
-import strategy.roleselection.FixedRoleSelectionStrategy;
+import strategy.roleselection.RoleSelectionStrategy;
 import main.RandomKey;
 import main.RandomManager;
-import constant.FixedConstant;
-import agent.FixedAgent;
+import constant.Constant;
+import agent.Agent;
 
-public class RoleSelectionState implements FixedState {
+public class RoleSelectionState implements State {
 	
-	private static FixedState state = new RoleSelectionState();
-	private FixedRoleSelectionStrategy roleSelectionStrategy = StrategyManager.getRoleSelectionStrategy();
+	private static State state = new RoleSelectionState();
+	private RoleSelectionStrategy roleSelectionStrategy = StrategyManager.getRoleSelectionStrategy();
 	private HashMap<FutureRole, RoleAction> strategyMap = new HashMap<FutureRole, RoleAction>();
 	
 	private RoleSelectionState() {
@@ -27,7 +27,7 @@ public class RoleSelectionState implements FixedState {
 	}
 
 	@Override
-	public void agentAction(FixedAgent agent) {
+	public void agentAction(Agent agent) {
 		// リーダ時の期待報酬を計算
 		double expectedLeaderReward = roleSelectionStrategy.calculateExpectedLeaderReward(agent, agent.getParameter().getMarkedTask());
 //		System.out.println("リーダ時の期待報酬 = " + expectedLeaderReward);
@@ -47,7 +47,7 @@ public class RoleSelectionState implements FixedState {
 	
 	private FutureRole decideRole(double expectedLeaderReward, double expectedMemberReward) {
 		// マークしたタスクはあるが、チーム履歴がない場合
-		if(expectedLeaderReward == FixedConstant.NO_PAST_TEAMS){
+		if(expectedLeaderReward == Constant.NO_PAST_TEAMS){
 			// 提案メッセージもある場合
 			if(expectedMemberReward > 0){
 				// ランダムに役割を決める
@@ -75,7 +75,7 @@ public class RoleSelectionState implements FixedState {
 		}
 	}
 
-	public static FixedState getState() {
+	public static State getState() {
 		return state;
 	}
 	

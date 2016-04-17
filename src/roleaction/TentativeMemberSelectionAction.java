@@ -6,17 +6,17 @@ import state.TaskSelectionState;
 import strategy.StrategyManager;
 import strategy.memberselection.TentativeMemberSelectionStrategy;
 import task.Failure;
-import team.FixedTeam;
+import team.Team;
 import main.TeamFormationMain;
-import message.FixedAnswerMessage;
-import message.FixedOfferMessage;
-import agent.FixedAgent;
+import message.AnswerMessage;
+import message.OfferMessage;
+import agent.Agent;
 
 public class TentativeMemberSelectionAction implements RoleAction {
 	private TentativeMemberSelectionStrategy strategy = StrategyManager.getMemberSelectionStrategy();
 
 	@Override
-	public void action(FixedAgent agent) {
+	public void action(Agent agent) {
 		// 提案メッセージの全送信者に参加拒否メッセージを送る
 		refuseOfferMessages(agent);
 		
@@ -36,21 +36,21 @@ public class TentativeMemberSelectionAction implements RoleAction {
 
 	}
 	
-	private void refuseOfferMessages(FixedAgent agent) {
-		for(FixedOfferMessage offer : agent.getParameter().getOfferMessages()){
+	private void refuseOfferMessages(Agent agent) {
+		for(OfferMessage offer : agent.getParameter().getOfferMessages()){
 //			System.out.println(offer.getFrom() + "からのメッセージを断ります");
 			TeamFormationMain.getPost().postAnswerMessage(offer.getFrom(), 
-					new FixedAnswerMessage(agent, offer.getFrom(), false, offer.getSubtask()));
+					new AnswerMessage(agent, offer.getFrom(), false, offer.getSubtask()));
 		}
 	}
 	
-	private void actionInSearchingSuccessCase(FixedAgent agent) {
-		agent.getParameter().setParticipatingTeam(new FixedTeam(agent));
+	private void actionInSearchingSuccessCase(Agent agent) {
+		agent.getParameter().setParticipatingTeam(new Team(agent));
 		agent.getParameter().changeState(SubtaskAllocationState.getState());
 		agent.getParameter().changeRole(Role.LEADER);
 	}
 	
-	private void actionInSearchingFailureCase(FixedAgent agent) {
+	private void actionInSearchingFailureCase(Agent agent) {
 		agent.getParameter().getMarkedTask().markingTask(false, Failure.ESTIMATION_FAILURE);
 		agent.getParameter().getMarkedTask().clear();
 		TeamFormationMain.getMeasure().countGiveUpTeamFormationNum();

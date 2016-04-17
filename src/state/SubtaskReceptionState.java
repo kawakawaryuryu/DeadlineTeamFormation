@@ -1,18 +1,18 @@
 package state;
 
 import role.Role;
-import task.FixedSubtask;
-import message.FixedTeamFormationMessage;
-import agent.FixedAgent;
+import task.Subtask;
+import message.TeamFormationMessage;
+import agent.Agent;
 
-public class SubtaskReceptionState implements FixedState {
+public class SubtaskReceptionState implements State {
 	
-	private static FixedState state = new SubtaskReceptionState();
+	private static State state = new SubtaskReceptionState();
 
 	@Override
-	public void agentAction(FixedAgent member) {
+	public void agentAction(Agent member) {
 		// チーム編成成否メッセージの取得
-		FixedTeamFormationMessage message = member.getParameter().getTeamFormationMessage();
+		TeamFormationMessage message = member.getParameter().getTeamFormationMessage();
 
 		member.getParameter().getMemberField().isTeaming = message.getIsOk();
 		
@@ -46,9 +46,9 @@ public class SubtaskReceptionState implements FixedState {
 		}
 	}
 	
-	private void setInfoFromMessage(FixedAgent member, FixedTeamFormationMessage message) {
+	private void setInfoFromMessage(Agent member, TeamFormationMessage message) {
 		// 処理するサブタスクをセット
-		/*for(FixedSubtask subtask : message.getSubtasks()){
+		/*for(Subtask subtask : message.getSubtasks()){
 			member.getParameter().setExecutedSubtasks(subtask, AgentTaskLibrary.calculateExecuteTime(member, subtask));
 		}*/
 		
@@ -57,14 +57,14 @@ public class SubtaskReceptionState implements FixedState {
 		
 	}
 	
-	private void debugExecutedSubtask(FixedAgent member) {
+	private void debugExecutedSubtask(Agent member) {
 		System.out.println("処理するサブタスク");
-		for(FixedSubtask subtask : member.getParameter().getExecutedSubtasks()){
+		for(Subtask subtask : member.getParameter().getExecutedSubtasks()){
 			System.out.println(subtask);
 		}
 	}
 
-	public static FixedState getState() {
+	public static State getState() {
 		return state;
 	}
 	

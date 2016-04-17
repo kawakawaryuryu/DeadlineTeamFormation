@@ -1,5 +1,5 @@
 package agent.member;
 
-public class FixedMemberField {
+public class MemberField {
 	public boolean isTeaming;
 }

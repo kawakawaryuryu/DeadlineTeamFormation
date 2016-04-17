@@ -1,15 +1,15 @@
 package strategy.taskselection;
 
-import task.FixedTask;
+import task.Task;
 import main.TeamFormationMain;
-import constant.FixedConstant;
-import agent.FixedAgent;
+import constant.Constant;
+import agent.Agent;
 
 /**
  * キューはそのまま並び替えない
  * （タスク選択はキューの先頭から選ぶ）
  */
-public class FixedFirstInFirstOutStrategy implements FixedTaskSelectionStrategy {
+public class FirstInFirstOutStrategy implements TaskSelectionStrategy {
 	
 	/**
 	 * キューからタスクを選ぶ
@@ -18,8 +18,8 @@ public class FixedFirstInFirstOutStrategy implements FixedTaskSelectionStrategy 
 	 * @return
 	 */
 	@Override
-	public FixedTask selectTask(FixedAgent agent){
-		for(FixedTask task : TeamFormationMain.getParameter().lookingTaskQueue()){
+	public Task selectTask(Agent agent){
+		for(Task task : TeamFormationMain.getParameter().lookingTaskQueue()){
 			if(!task.getMark()){
 				if(canExecuteTaskInTeam(agent, task)){
 					return task;
@@ -35,7 +35,7 @@ public class FixedFirstInFirstOutStrategy implements FixedTaskSelectionStrategy 
 	 * @param task
 	 * @return
 	 */
-	public boolean canExecuteTaskInTeam(FixedAgent agent, FixedTask task){
+	public boolean canExecuteTaskInTeam(Agent agent, Task task){
 		int countTime = 0;
 		int leftTaskResource = task.getTaskRequireSum();
 		
@@ -49,7 +49,7 @@ public class FixedFirstInFirstOutStrategy implements FixedTaskSelectionStrategy 
 //			System.out.println("チーム履歴がありませんでした");
 		}
 		
-		if(countTime <= task.getDeadlineInTask() - (FixedConstant.WAIT_TURN + FixedConstant.DEADLINE_MIN_2)){
+		if(countTime <= task.getDeadlineInTask() - (Constant.WAIT_TURN + Constant.DEADLINE_MIN_2)){
 			return true;
 		}
 		else{

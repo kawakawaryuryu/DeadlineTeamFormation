@@ -1,21 +1,21 @@
 package post;
 
-import message.FixedAnswerMessage;
-import message.FixedOfferMessage;
-import message.FixedTeamFormationMessage;
-import agent.FixedAgent;
+import message.AnswerMessage;
+import message.OfferMessage;
+import message.TeamFormationMessage;
+import agent.Agent;
 
 public class Post {
 	
-	public void postOfferMessage(FixedAgent to, FixedOfferMessage message) {
+	public void postOfferMessage(Agent to, OfferMessage message) {
 		to.getParameter().addOfferMessage(message);
 	}
 	
-	public void postAnswerMessage(FixedAgent to, FixedAnswerMessage message) {
+	public void postAnswerMessage(Agent to, AnswerMessage message) {
 		to.getParameter().addAnswerMessage(message);
 	}
 	
-	public void postTeamFormationMessage(FixedAgent to, FixedTeamFormationMessage message) {
+	public void postTeamFormationMessage(Agent to, TeamFormationMessage message) {
 		to.getParameter().setTeamFormationMessage(message);
 	}
 }

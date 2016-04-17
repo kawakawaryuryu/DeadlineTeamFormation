@@ -2,16 +2,16 @@ package message;
 
 import java.util.ArrayList;
 
-import task.FixedSubtask;
-import team.FixedTeam;
-import agent.FixedAgent;
+import task.Subtask;
+import team.Team;
+import agent.Agent;
 
-public class FixedTeamFormationMessage extends Message {
+public class TeamFormationMessage extends Message {
 	private boolean isok;
-	private ArrayList<FixedSubtask> subtasks = new ArrayList<FixedSubtask>();
+	private ArrayList<Subtask> subtasks = new ArrayList<Subtask>();
 	private double leftReward;
 	private int leftRequireSum;
-	private FixedTeam team;
+	private Team team;
 	private int subtaskRequireSum = 0;
 	
 	/**
@@ -20,7 +20,7 @@ public class FixedTeamFormationMessage extends Message {
 	 * @param to
 	 * @param isok
 	 */
-	public FixedTeamFormationMessage(FixedAgent from, FixedAgent to, boolean isok) {
+	public TeamFormationMessage(Agent from, Agent to, boolean isok) {
 		super(from, to);
 		this.isok = isok;
 	}
@@ -35,8 +35,8 @@ public class FixedTeamFormationMessage extends Message {
 	 * @param leftRequireSum
 	 * @param team
 	 */
-	public FixedTeamFormationMessage(FixedAgent from, FixedAgent to, boolean isok, ArrayList<FixedSubtask> subtasks, 
-			double leftReward, int leftRequireSum, FixedTeam team) {
+	public TeamFormationMessage(Agent from, Agent to, boolean isok, ArrayList<Subtask> subtasks, 
+			double leftReward, int leftRequireSum, Team team) {
 		this(from, to, isok);
 		this.subtasks = subtasks;
 		this.leftReward = leftReward;
@@ -46,7 +46,7 @@ public class FixedTeamFormationMessage extends Message {
 	}
 	
 	private void calculateSubtaskRequireSum() {
-		for(FixedSubtask subtask : subtasks){
+		for(Subtask subtask : subtasks){
 			subtaskRequireSum += subtask.getRequireSum();
 		}
 	}
@@ -55,7 +55,7 @@ public class FixedTeamFormationMessage extends Message {
 		return isok;
 	}
 	
-	public ArrayList<FixedSubtask> getSubtasks() {
+	public ArrayList<Subtask> getSubtasks() {
 		return subtasks;
 	}
 	
@@ -67,7 +67,7 @@ public class FixedTeamFormationMessage extends Message {
 		return leftRequireSum;
 	}
 	
-	public FixedTeam getTeam() {
+	public Team getTeam() {
 		return team;
 	}
 	

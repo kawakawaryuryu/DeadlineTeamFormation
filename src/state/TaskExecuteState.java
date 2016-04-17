@@ -1,14 +1,14 @@
 package state;
 
-import task.FixedSubtask;
-import agent.FixedAgent;
+import task.Subtask;
+import agent.Agent;
 
-public class TaskExecuteState implements FixedState {
+public class TaskExecuteState implements State {
 	
-	private static FixedState state = new TaskExecuteState();
+	private static State state = new TaskExecuteState();
 
 	@Override
-	public void agentAction(FixedAgent agent) {
+	public void agentAction(Agent agent) {
 		agent.getParameter().getTimerField().countTaskExecuteStateTimer();
 //		debugExecuteTime(agent);
 		
@@ -31,20 +31,20 @@ public class TaskExecuteState implements FixedState {
 
 	}
 	
-	private void debugExecutedSubtask(FixedAgent agent) {
+	private void debugExecutedSubtask(Agent agent) {
 		System.out.println("以下のサブタスクを処理中です");
-		for(FixedSubtask subtask : agent.getParameter().getExecutedSubtasks()){
+		for(Subtask subtask : agent.getParameter().getExecutedSubtasks()){
 			System.out.println(subtask);
 		}
 	}
 	
-	private void debugExecuteTime(FixedAgent agent) {
+	private void debugExecuteTime(Agent agent) {
 		System.out.println("タスク処理時間 = " + agent.getParameter().getExecuteTime());
 		System.out.println("チーム処理時間 = " + agent.getParameter().getParticipatingTeam().getTeamExecuteTime());
 		System.out.println("実行状態タイマー = " + agent.getParameter().getTimerField().getTaskExecuteStateTimer());
 	}
 
-	public static FixedState getState() {
+	public static State getState() {
 		return state;
 	}
 	

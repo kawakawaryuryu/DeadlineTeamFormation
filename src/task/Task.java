@@ -6,9 +6,9 @@ import java.util.Comparator;
 
 import main.RandomKey;
 import main.RandomManager;
-import constant.FixedConstant;
+import constant.Constant;
 
-public class FixedTask {
+public class Task {
 	private int id;
 	private int numberOfSubtask;	//1タスク中のサブタスクの数
 	private int taskRequireSum = 0;	//1タスク中のリソースの合計（サブタスクを全て処理したときの報酬の合計）
@@ -16,8 +16,8 @@ public class FixedTask {
 	private boolean mark = false;	//タスクがマークされているかどうか
 	private int removedMarkNumByEstimationFailure = 0;	//見積もり失敗によってマークを外された回数
 	private int removedMarkNumByTeamFormationFailure = 0;	//チーム編成失敗によってマークを外された回数
-	private ArrayList<FixedSubtask> subtasks = new ArrayList<FixedSubtask>();	//タスクが持つサブタスクを保持するリスト
-	public ArrayList<FixedSubtask> subtasksByMembers = new ArrayList<FixedSubtask>();	//リーダ以外が処理するサブタスクリスト
+	private ArrayList<Subtask> subtasks = new ArrayList<Subtask>();	//タスクが持つサブタスクを保持するリスト
+	public ArrayList<Subtask> subtasksByMembers = new ArrayList<Subtask>();	//リーダ以外が処理するサブタスクリスト
 	
 //	private static Random require_random = new Random(1009);	//1009リソースのランダムインスタンス
 	
@@ -27,21 +27,21 @@ public class FixedTask {
 	 * @param numberOfSubtask
 	 * @param deadline
 	 */
-	public FixedTask(int id, int numberOfSubtask, int deadline){
+	public Task(int id, int numberOfSubtask, int deadline){
 		this.id = id;
 		this.numberOfSubtask = numberOfSubtask;	//1タスク中のサブタスクの数
 		this.deadlineInTask = deadline;
 		for(int i = 0; i < numberOfSubtask; i++){
-			int[] require = new int[FixedConstant.RESOURCE_NUM];
+			int[] require = new int[Constant.RESOURCE_NUM];
 			for(int j = 0; j < require.length; j++){
-				require[j] = FixedConstant.TASK_REQUIRE_MALTIPLE * 
-						FixedConstant.TASK_DEADLINE_MULTIPLE *
-						(RandomManager.getRandom(RandomKey.REQUIRE_RANDOM).nextInt(FixedConstant.TASK_REQUIRE_MAX) 
-								+ FixedConstant.TASK_REQUIRE_INIT);
+				require[j] = Constant.TASK_REQUIRE_MALTIPLE * 
+						Constant.TASK_DEADLINE_MULTIPLE *
+						(RandomManager.getRandom(RandomKey.REQUIRE_RANDOM).nextInt(Constant.TASK_REQUIRE_MAX) 
+								+ Constant.TASK_REQUIRE_INIT);
 //				require[j] = 3;
 				taskRequireSum += require[j];	//タスク中の合計リソースを計算
 			}
-			subtasks.add(new FixedSubtask(require, deadlineInTask));	//サブタスクの生成
+			subtasks.add(new Subtask(require, deadlineInTask));	//サブタスクの生成
 		}
 		
 	}
@@ -82,7 +82,7 @@ public class FixedTask {
 	 * タスク、サブタスクのデッドラインを1減らす
 	 */
 	public void subtractDeadlineInTask(){
-		for(FixedSubtask subtask : subtasks){
+		for(Subtask subtask : subtasks){
 			subtask.subtractDeadlinePerTurn();
 		}
 		deadlineInTask -= 1;
@@ -115,8 +115,8 @@ public class FixedTask {
 	 * サブタスクリストをリソースの降順にソート
 	 */
 	public void sortSubTaskListByRequire(){
-		Collections.sort(subtasks, new Comparator<FixedSubtask>(){
-			public int compare(FixedSubtask st1, FixedSubtask st2){
+		Collections.sort(subtasks, new Comparator<Subtask>(){
+			public int compare(Subtask st1, Subtask st2){
 				return st2.getRequireSum() - st1.getRequireSum();
 			}
 		});
@@ -126,8 +126,8 @@ public class FixedTask {
 	 * サブタスクリストをデッドラインの昇順にソート
 	 */
 	public void sortSubTaskByDeadline(){
-		Collections.sort(subtasks, new Comparator<FixedSubtask>(){
-			public int compare(FixedSubtask st1, FixedSubtask st2){
+		Collections.sort(subtasks, new Comparator<Subtask>(){
+			public int compare(Subtask st1, Subtask st2){
 				return st1.getDeadline() - st2.getDeadline();
 			}
 		});
@@ -137,7 +137,7 @@ public class FixedTask {
 	 * サブタスクから要素を削除する
 	 * @param index
 	 */
-	public FixedSubtask removeSubTaskList(int index){
+	public Subtask removeSubTaskList(int index){
 		return subtasks.remove(index);
 	}
 	
@@ -146,7 +146,7 @@ public class FixedTask {
 	 * @param i
 	 * @return
 	 */
-	public FixedSubtask getSubTaskList(int i){
+	public Subtask getSubTaskList(int i){
 		return subtasks.get(i);
 	}
 	
@@ -154,7 +154,7 @@ public class FixedTask {
 	 * サブタスクリストを返す
 	 * @return
 	 */
-	public ArrayList<FixedSubtask> getSubTaskList(){
+	public ArrayList<Subtask> getSubTaskList(){
 		return subtasks;
 	}
 	
@@ -169,8 +169,8 @@ public class FixedTask {
 				+ "(" + removedMarkNumByEstimationFailure + " " + removedMarkNumByTeamFormationFailure + ")"
 				+ " / taskRequireSum = " + taskRequireSum);
 		string.append(" / subtaskList(require) = ");
-		for(FixedSubtask subtask : subtasks){
-			for(int i = 0; i< FixedConstant.RESOURCE_NUM; i++){
+		for(Subtask subtask : subtasks){
+			for(int i = 0; i< Constant.RESOURCE_NUM; i++){
 				string.append(subtask.getRequire()[i] + " ");
 			}
 			string.append("  ");
@@ -184,7 +184,7 @@ public class FixedTask {
 	}
 	
 	private void clearAgentInfo() {
-		for(FixedSubtask subtask : subtasks){
+		for(Subtask subtask : subtasks){
 			subtask.getAgentInfo().clear();
 		}
 	}

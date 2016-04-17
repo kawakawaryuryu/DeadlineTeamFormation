@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import task.FixedSubtask;
+import task.Subtask;
 import main.RandomKey;
 import main.RandomManager;
-import message.FixedOfferMessage;
-import constant.FixedConstant;
-import agent.FixedAgent;
+import message.OfferMessage;
+import constant.Constant;
+import agent.Agent;
 
 public class AgentTaskLibrary {
 	
-	public static int calculateExecuteTime(FixedAgent agent, FixedSubtask subtask){
-		int[] time = new int[FixedConstant.RESOURCE_NUM];
+	public static int calculateExecuteTime(Agent agent, Subtask subtask){
+		int[] time = new int[Constant.RESOURCE_NUM];
 		int executeTime = 0;
 		for(int i = 0; i < time.length; i++){
 			/* タスク処理にかかる時間の計算 */
@@ -27,30 +27,30 @@ public class AgentTaskLibrary {
 		return executeTime;
 	}
 	
-	public static int calculateExecuteTimeSum(FixedAgent agent, ArrayList<FixedSubtask> subtasks){
+	public static int calculateExecuteTimeSum(Agent agent, ArrayList<Subtask> subtasks){
 		int executeTimeSum = 0;
-		for(FixedSubtask subtask : subtasks){
+		for(Subtask subtask : subtasks){
 			executeTimeSum += calculateExecuteTime(agent, subtask);
 		}
 		return executeTimeSum;
 	}
 	
-	public static FixedAgent[] getSortedAgentsFromArray(double[] array, ArrayList<FixedAgent> agents){
+	public static Agent[] getSortedAgentsFromArray(double[] array, ArrayList<Agent> agents){
 		// エージェントと信頼度を対応させたクラス
 		class AgentToArray {
-			FixedAgent agent;
+			Agent agent;
 			double trust;
-			AgentToArray(FixedAgent agent, double trust) {
+			AgentToArray(Agent agent, double trust) {
 				this.agent = agent;
 				this.trust = trust;
 			}
 		}
 		
-		FixedAgent[] sortedAgents = new FixedAgent[agents.size()];
+		Agent[] sortedAgents = new Agent[agents.size()];
 		ArrayList<AgentToArray> sorted = new ArrayList<AgentToArray>();
 		
 		// リストを生成
-		for(FixedAgent you : agents){
+		for(Agent you : agents){
 			sorted.add(new AgentToArray(you, array[you.getId()]));
 		}
 		
@@ -74,7 +74,7 @@ public class AgentTaskLibrary {
 		return sortedAgents;
 	}
 	
-	public static boolean isExecuteSubTask(FixedAgent agent, FixedSubtask subtask, int taskDeadline){
+	public static boolean isExecuteSubTask(Agent agent, Subtask subtask, int taskDeadline){
 		if(calculateExecuteTime(agent, subtask) <= taskDeadline){
 			return true;
 		}
@@ -83,10 +83,10 @@ public class AgentTaskLibrary {
 		}
 	}
 	
-	public static ArrayList<FixedAgent> getAgentsCanExecuteSubtask(FixedSubtask subtask, FixedAgent[] agents) {
-		ArrayList<FixedAgent> agentsCanExecuteSubtask = new ArrayList<FixedAgent>();
-		int taskDeadline = subtask.getDeadline() - FixedConstant.DEADLINE_MIN_2;
-		for(FixedAgent agent : agents){
+	public static ArrayList<Agent> getAgentsCanExecuteSubtask(Subtask subtask, Agent[] agents) {
+		ArrayList<Agent> agentsCanExecuteSubtask = new ArrayList<Agent>();
+		int taskDeadline = subtask.getDeadline() - Constant.DEADLINE_MIN_2;
+		for(Agent agent : agents){
 			if(isExecuteSubTask(agent, subtask, taskDeadline)){
 				agentsCanExecuteSubtask.add(agent);
 			}
@@ -94,11 +94,11 @@ public class AgentTaskLibrary {
 		return agentsCanExecuteSubtask;
 	}
 	
-	public static ArrayList<FixedOfferMessage> getCanExecuteOfferMessages(ArrayList<FixedOfferMessage> messages, FixedAgent agent) {
-		ArrayList<FixedOfferMessage> canExecuteMessages = new ArrayList<FixedOfferMessage>();
+	public static ArrayList<OfferMessage> getCanExecuteOfferMessages(ArrayList<OfferMessage> messages, Agent agent) {
+		ArrayList<OfferMessage> canExecuteMessages = new ArrayList<OfferMessage>();
 		/* 処理できる提案メッセージを抽出 */
-		for(FixedOfferMessage message : messages){
-			if(isExecuteSubTask(agent, message.getSubtask(), message.getSubtask().getDeadline() - FixedConstant.DEADLINE_MIN_2)){
+		for(OfferMessage message : messages){
+			if(isExecuteSubTask(agent, message.getSubtask(), message.getSubtask().getDeadline() - Constant.DEADLINE_MIN_2)){
 				canExecuteMessages.add(message);
 			}
 		}

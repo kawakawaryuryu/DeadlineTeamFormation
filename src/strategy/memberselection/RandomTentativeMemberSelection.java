@@ -2,22 +2,22 @@ package strategy.memberselection;
 
 import java.util.ArrayList;
 
-import task.FixedSubtask;
-import task.FixedTask;
+import task.Subtask;
+import task.Task;
 import library.AgentTaskLibrary;
 import main.RandomKey;
 import main.RandomManager;
 import main.TeamFormationMain;
-import message.FixedOfferMessage;
-import constant.FixedConstant;
-import agent.FixedAgent;
+import message.OfferMessage;
+import constant.Constant;
+import agent.Agent;
 
 public class RandomTentativeMemberSelection implements
 		TentativeMemberSelectionStrategy {
 
 	@Override
-	public boolean searchTentativeMembers(FixedAgent leader, FixedTask task) {
-		ArrayList<FixedAgent> selectedAgents = new ArrayList<FixedAgent>();
+	public boolean searchTentativeMembers(Agent leader, Task task) {
+		ArrayList<Agent> selectedAgents = new ArrayList<Agent>();
 		
 		// タスク中の各サブタスクをリソースの降順にソート
 		task.sortSubTaskListByRequire();
@@ -33,11 +33,11 @@ public class RandomTentativeMemberSelection implements
 	}
 
 	@Override
-	public void pullExecutedSubtaskByLeader(FixedAgent leader, FixedTask task) {
-		int leftDeadline = task.getDeadlineInTask() - FixedConstant.DEADLINE_MIN_2;
+	public void pullExecutedSubtaskByLeader(Agent leader, Task task) {
+		int leftDeadline = task.getDeadlineInTask() - Constant.DEADLINE_MIN_2;
 		boolean isAssigned = false;
 		
-		for(FixedSubtask subtask : task.getSubTaskList()){
+		for(Subtask subtask : task.getSubTaskList()){
 			if(AgentTaskLibrary.isExecuteSubTask(leader, subtask, leftDeadline) && !isAssigned){
 				int executeTime = AgentTaskLibrary.calculateExecuteTime(leader, subtask);
 				leftDeadline -= executeTime;
@@ -52,21 +52,21 @@ public class RandomTentativeMemberSelection implements
 	}
 
 	@Override
-	public boolean selectTentativeMemberEverySubtask(FixedAgent leader,
-			FixedTask task, ArrayList<FixedAgent> selectedAgents,
-			FixedAgent[] sortedAgents) {
+	public boolean selectTentativeMemberEverySubtask(Agent leader,
+			Task task, ArrayList<Agent> selectedAgents,
+			Agent[] sortedAgents) {
 		if(sortedAgents != null){
 			System.err.println("sotedAgentsはnullではありません");
 			System.exit(-1);
 		}
 		
-		for(FixedSubtask subtask : task.subtasksByMembers){
+		for(Subtask subtask : task.subtasksByMembers){
 			int selected = 0;
-			FixedAgent selectedMember;	//メンバ候補
-			ArrayList<FixedAgent> canExecuteSubTaskAgents = new ArrayList<FixedAgent>(TeamFormationMain.getParameter().getAgent());
+			Agent selectedMember;	//メンバ候補
+			ArrayList<Agent> canExecuteSubTaskAgents = new ArrayList<Agent>(TeamFormationMain.getParameter().getAgent());
 			
 //			System.out.println("probability = " + probability);
-			while(selected < FixedConstant.SELECT_MEMBER_NUM){
+			while(selected < Constant.SELECT_MEMBER_NUM){
 //				System.out.println(subtask + " のサブタスク　" + (selected + 1) + "回目:メンバ候補を選択します");
 				
 				// デッドラインまでに処理できるエージェントがいなければ
@@ -99,11 +99,11 @@ public class RandomTentativeMemberSelection implements
 	}
 
 	@Override
-	public void sendOfferMessageToTentativeMembers(FixedTask task,
-			FixedAgent leader) {
-		for(FixedSubtask subtask : task.subtasksByMembers){
-			for(FixedAgent agent : subtask.getAgentInfo().getSelectedAgents()){
-				TeamFormationMain.getPost().postOfferMessage(agent, new FixedOfferMessage(leader, agent, subtask));
+	public void sendOfferMessageToTentativeMembers(Task task,
+			Agent leader) {
+		for(Subtask subtask : task.subtasksByMembers){
+			for(Agent agent : subtask.getAgentInfo().getSelectedAgents()){
+				TeamFormationMain.getPost().postOfferMessage(agent, new OfferMessage(leader, agent, subtask));
 				leader.getParameter().addSendAgents(agent);
 			}
 		}

@@ -16,13 +16,13 @@ import java.util.TreeMap;
 import role.Role;
 import strategy.StrategyManager;
 import strategy.memberselection.TentativeMemberSelectionStrategy;
-import strategy.roleselection.FixedRoleSelectionStrategy;
+import strategy.roleselection.RoleSelectionStrategy;
 import strategy.subtaskallocation.SubtaskAllocationStrategy;
-import strategy.taskselection.FixedTaskSelectionStrategy;
-import task.FixedTask;
-import team.FixedTeam;
-import constant.FixedConstant;
-import agent.FixedAgent;
+import strategy.taskselection.TaskSelectionStrategy;
+import task.Task;
+import team.Team;
+import constant.Constant;
+import agent.Agent;
 
 public class FileWriteManager {
 	static int fileNumber;	//ファイルのnumber
@@ -53,49 +53,49 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	public static void fileExplain(String learning, String estimation) throws IOException{
-		FixedTaskSelectionStrategy taskSelectionStrategy = StrategyManager.getTaskSelectionStrategy();
-		FixedRoleSelectionStrategy roleSelectionStrategy = StrategyManager.getRoleSelectionStrategy();
+		TaskSelectionStrategy taskSelectionStrategy = StrategyManager.getTaskSelectionStrategy();
+		RoleSelectionStrategy roleSelectionStrategy = StrategyManager.getRoleSelectionStrategy();
 		SubtaskAllocationStrategy allocationStrategy = StrategyManager.getAllocationStrategy();
 		TentativeMemberSelectionStrategy memberSelectionStrategy = StrategyManager.getMemberSelectionStrategy();
 		
-		File directory = new File(path + "data/file/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/");
+		File directory = new File(path + "data/file/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/");
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path + "data/file/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/file_" + fileName + ".csv", false), "Shift_JIS")));
-		pw.println("ファイル名" + "," + FixedConstant.TURN_NUM + "turn_" + FixedConstant.AGENT_NUM + "agents_" + fileName + ".csv");
+		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path + "data/file/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/file_" + fileName + ".csv", false), "Shift_JIS")));
+		pw.println("ファイル名" + "," + Constant.TURN_NUM + "turn_" + Constant.AGENT_NUM + "agents_" + fileName + ".csv");
 		pw.println("FIFO、マークあり、チームの履歴を保持、1tickごとの獲得報酬で報酬期待度を学習、リーダにはまず1個だけ割り当てる、タスクコピーに時間がかかる（失敗時は拘束されない）");
 		pw.println("学習" + "," + learning);
 		pw.println("見積もり" + "," + estimation);
-		pw.println("ターン" + "," + FixedConstant.TURN_NUM);
+		pw.println("ターン" + "," + Constant.TURN_NUM);
 		pw.println("試行回数" + "," + MainMain.EXPERIMENT_NUM);
-		pw.println("エージェント数" + "," + FixedConstant.AGENT_NUM);
-		pw.println("リソースの種類数" + "," + FixedConstant.RESOURCE_NUM);
-		pw.println("欲張り度の初期値" + "," + FixedConstant.INITIAL_GREEDY);
-		pw.println("提案受託期待度の初期値" + "," + FixedConstant.INITIAL_TRUST);
-		pw.println("報酬期待度の初期値" + "," + FixedConstant.INITIAL_EXPECTED_REWARD);
-		pw.println("欲張り度の学習率" + "," + FixedConstant.LEARN_RATE_GREEDY);
-		pw.println("提案受託期待度の学習率" + "," + FixedConstant.LEARN_RATE_TRUST);
-		pw.println("報酬期待度の学習率" + "," + FixedConstant.LEARN_RATE_REWARD);
-		pw.println("チーム履歴を保持する数" + "," + FixedConstant.PAST_TEAM_NUM);
-		pw.println("タスクの中のサブタスク数" + "," + FixedConstant.SUBTASK_IN_TASK_INIT + "　~　" + (FixedConstant.SUBTASK_IN_TASK_INIT + FixedConstant.SUBTASK_IN_TASK_NUM - 1));
-		pw.println("エージェントのリソース" + "," + FixedConstant.AGENT_ABILITY_INIT + "　~　" + (FixedConstant.AGENT_ABILITY_INIT + FixedConstant.AGENT_ABILITY_MAX - 1));
-		pw.println("タスクのリソース" + "," + (FixedConstant.TASK_REQUIRE_INIT * FixedConstant.TASK_REQUIRE_MALTIPLE) + " ~　" + ((FixedConstant.TASK_REQUIRE_INIT + FixedConstant.TASK_REQUIRE_MAX - 1) * FixedConstant.TASK_REQUIRE_MALTIPLE));
-		pw.println("タスクのデッドライン" + "," + FixedConstant.DEADLINE_INIT + " ~ " + (FixedConstant.DEADLINE_INIT + FixedConstant.DEADLINE_MAX - 1));
-		pw.println("1tickに追加する平均タスク数" + "," + FixedConstant.ADD_TASK_PER_TURN);
-		pw.println("タスク追加間隔" + "," + FixedConstant.ADD_TASK_INTERVAL);
-		pw.println("タスクコピーにかかる時間" + "," + FixedConstant.WAIT_TURN);
-		pw.println("ε-greedyのε" + "," + FixedConstant.EPSILON);
-		pw.println("ε-greedyのε（メンバ候補の決定時）" + "," + FixedConstant.EPSILON2);
-		pw.println("1サブタスクごとに送るメッセージ数" + "," + FixedConstant.SELECT_MEMBER_NUM);
+		pw.println("エージェント数" + "," + Constant.AGENT_NUM);
+		pw.println("リソースの種類数" + "," + Constant.RESOURCE_NUM);
+		pw.println("欲張り度の初期値" + "," + Constant.INITIAL_GREEDY);
+		pw.println("提案受託期待度の初期値" + "," + Constant.INITIAL_TRUST);
+		pw.println("報酬期待度の初期値" + "," + Constant.INITIAL_EXPECTED_REWARD);
+		pw.println("欲張り度の学習率" + "," + Constant.LEARN_RATE_GREEDY);
+		pw.println("提案受託期待度の学習率" + "," + Constant.LEARN_RATE_TRUST);
+		pw.println("報酬期待度の学習率" + "," + Constant.LEARN_RATE_REWARD);
+		pw.println("チーム履歴を保持する数" + "," + Constant.PAST_TEAM_NUM);
+		pw.println("タスクの中のサブタスク数" + "," + Constant.SUBTASK_IN_TASK_INIT + "　~　" + (Constant.SUBTASK_IN_TASK_INIT + Constant.SUBTASK_IN_TASK_NUM - 1));
+		pw.println("エージェントのリソース" + "," + Constant.AGENT_ABILITY_INIT + "　~　" + (Constant.AGENT_ABILITY_INIT + Constant.AGENT_ABILITY_MAX - 1));
+		pw.println("タスクのリソース" + "," + (Constant.TASK_REQUIRE_INIT * Constant.TASK_REQUIRE_MALTIPLE) + " ~　" + ((Constant.TASK_REQUIRE_INIT + Constant.TASK_REQUIRE_MAX - 1) * Constant.TASK_REQUIRE_MALTIPLE));
+		pw.println("タスクのデッドライン" + "," + Constant.DEADLINE_INIT + " ~ " + (Constant.DEADLINE_INIT + Constant.DEADLINE_MAX - 1));
+		pw.println("1tickに追加する平均タスク数" + "," + Constant.ADD_TASK_PER_TURN);
+		pw.println("タスク追加間隔" + "," + Constant.ADD_TASK_INTERVAL);
+		pw.println("タスクコピーにかかる時間" + "," + Constant.WAIT_TURN);
+		pw.println("ε-greedyのε" + "," + Constant.EPSILON);
+		pw.println("ε-greedyのε（メンバ候補の決定時）" + "," + Constant.EPSILON2);
+		pw.println("1サブタスクごとに送るメッセージ数" + "," + Constant.SELECT_MEMBER_NUM);
 		pw.println("タスク選択の戦略" + "," + taskSelectionStrategy.toString());
 		pw.println("役割選択の戦略" + "," + roleSelectionStrategy.toString());
 		pw.println("サブタスク割り当ての戦略" + "," + allocationStrategy.toString());
 		pw.println("仮メンバ選択の戦略" + "," + memberSelectionStrategy.toString());
-		pw.println("可視化のための閾値を格納する配列要素数" + "," + FixedConstant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM);
-		for(int i = 0; i < FixedConstant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM; i++){
-			pw.println(i + " 番目" + "," + FixedConstant.TEAM_FORMATION_PERCENTAGE_BORDER[i]);
+		pw.println("可視化のための閾値を格納する配列要素数" + "," + Constant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM);
+		for(int i = 0; i < Constant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM; i++){
+			pw.println(i + " 番目" + "," + Constant.TEAM_FORMATION_PERCENTAGE_BORDER[i]);
 		}
 		
 //		pw.print("");
@@ -109,21 +109,21 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	private static PrintWriter writeHeaderOfMeasuredDataPerTurn(int allExperimentNum) throws IOException{
-		File directory = new File(path + "data/TaskRequireResult/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/average");
+		File directory = new File(path + "data/TaskRequireResult/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/average");
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/TaskRequireResult/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/average/require_average_" + fileName + ".csv", isWrite), "Shift_JIS")));
+				(path + "data/TaskRequireResult/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/average/require_average_" + fileName + ".csv", isWrite), "Shift_JIS")));
 		pw.println("平均" + allExperimentNum + "回");
 		pw.print("経過ターン");
 		pw.print(",");
-		pw.print(FixedConstant.MEASURE_TURN_NUM + "ターン毎のタスク処理リソース量");
+		pw.print(Constant.MEASURE_TURN_NUM + "ターン毎のタスク処理リソース量");
 		pw.print(",");
-		pw.print(FixedConstant.MEASURE_TURN_NUM + "ターン毎の廃棄タスクリソース量");
+		pw.print(Constant.MEASURE_TURN_NUM + "ターン毎の廃棄タスクリソース量");
 		pw.print(",");
-		pw.print(FixedConstant.MEASURE_TURN_NUM + "ターン毎のタスク廃棄数");
+		pw.print(Constant.MEASURE_TURN_NUM + "ターン毎のタスク廃棄数");
 		pw.print(",");
 		pw.print("チーム編成成功回数");
 		pw.print(",");
@@ -153,8 +153,8 @@ public class FileWriteManager {
 	public static void writeBodyOfMeasuredDataPerTurn() throws IOException{	
 		PrintWriter pw = writeHeaderOfMeasuredDataPerTurn(MainMain.EXPERIMENT_NUM);
 		
-		for(int i = 0; i < FixedConstant.ARRAY_SIZE_FOR_MEASURE; i++){
-			int turn = FixedConstant.MEASURE_TURN_NUM * (i + 1);
+		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
+			int turn = Constant.MEASURE_TURN_NUM * (i + 1);
 			pw.print(turn);
 			pw.print(",");
 			pw.print(MainMain.measure.successTaskRequire[i] / (double)MainMain.EXPERIMENT_NUM);
@@ -191,17 +191,17 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	private static PrintWriter writeHeaderOfTeamMeasuredData(int allExperimentNum) throws IOException {
-		File directory = new File(path + "data/TaskRequireResult/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/teamingSuccess");
+		File directory = new File(path + "data/TaskRequireResult/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/teamingSuccess");
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/TaskRequireResult/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/teamingSuccess/teaming_success_" + fileName + ".csv", isWrite), "Shift_JIS")));
+				(path + "data/TaskRequireResult/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/teamingSuccess/teaming_success_" + fileName + ".csv", isWrite), "Shift_JIS")));
 		pw.println("平均" + allExperimentNum + "回 チーム人数ごとのチーム編成成功回数");
 		pw.print("経過ターン");
 		pw.print(",");
-		for(int i = 1; i < FixedConstant.ARRAY_SIZE_FOR_TEAM; i++){
+		for(int i = 1; i < Constant.ARRAY_SIZE_FOR_TEAM; i++){
 			pw.print(i);
 			pw.print(",");
 		}
@@ -217,11 +217,11 @@ public class FileWriteManager {
 	public static void writeBodyOfTeamMeasuredData() throws IOException {
 		PrintWriter pw = writeHeaderOfTeamMeasuredData(MainMain.EXPERIMENT_NUM);
 		
-		for(int i = 0; i < FixedConstant.ARRAY_SIZE_FOR_MEASURE; i++){
-			int turn = FixedConstant.ARRAY_SIZE_FOR_MEASURE * (i + 1);
+		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
+			int turn = Constant.ARRAY_SIZE_FOR_MEASURE * (i + 1);
 			pw.print(turn);
 			pw.print(",");
-			for(int j = 0; j < FixedConstant.ARRAY_SIZE_FOR_TEAM; j++){
+			for(int j = 0; j < Constant.ARRAY_SIZE_FOR_TEAM; j++){
 				pw.print(MainMain.measure.successTeamFormationNumEveryTeamSize[i][j] / (double)MainMain.EXPERIMENT_NUM);
 				pw.print(",");
 			}
@@ -236,17 +236,17 @@ public class FileWriteManager {
 	 * @return
 	 * @throws IOException
 	 */
-	public static PrintWriter writeHeaderOfGreedy(ArrayList<FixedAgent> agents) throws IOException{
-		File directory = new File(path + "data/greedy/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/");
+	public static PrintWriter writeHeaderOfGreedy(ArrayList<Agent> agents) throws IOException{
+		File directory = new File(path + "data/greedy/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/");
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/greedy/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/greedy_" + fileName + ".csv", isWrite), "Shift_JIS")));
+				(path + "data/greedy/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/greedy_" + fileName + ".csv", isWrite), "Shift_JIS")));
 		pw.print("経過ターン");
 		pw.print(",");
-		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
 			pw.print(agents.get(i));
 			pw.print(",");
 		}
@@ -263,10 +263,10 @@ public class FileWriteManager {
 	 * @param agents
 	 * @throws IOException
 	 */
-	public static void writeBodyOfGreedy(PrintWriter pw, int turn, ArrayList<FixedAgent> agents) throws IOException{
+	public static void writeBodyOfGreedy(PrintWriter pw, int turn, ArrayList<Agent> agents) throws IOException{
 		pw.print(turn);
 		pw.print(",");
-		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
 			pw.print(agents.get(i).getGreedy());
 			pw.print(",");
 		}
@@ -281,25 +281,25 @@ public class FileWriteManager {
 	 * @param turn
 	 * @throws IOException
 	 */
-	public static void writeTrust(ArrayList<FixedAgent> agents, int turn) throws IOException{
-		File directory = new File(path + "data/trust/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + fileName + "/result/");
+	public static void writeTrust(ArrayList<Agent> agents, int turn) throws IOException{
+		File directory = new File(path + "data/trust/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + fileName + "/result/");
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/trust/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + fileName + "/result/trust_" + turn + ".csv", isWrite), "Shift_JIS")));
+				(path + "data/trust/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + fileName + "/result/trust_" + turn + ".csv", isWrite), "Shift_JIS")));
 
 		pw.print(",");
-		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
 			pw.print(agents.get(i));
 			pw.print(",");
 		}
 		pw.println();
-		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
 			pw.print(agents.get(i));
 			pw.print(",");
-			for(int j = 0; j < FixedConstant.AGENT_NUM; j++){
+			for(int j = 0; j < Constant.AGENT_NUM; j++){
 				pw.print(agents.get(i).getTrust(agents.get(j)));
 				pw.print(",");
 			}
@@ -317,25 +317,25 @@ public class FileWriteManager {
 	 * @param turn
 	 * @throws IOException
 	 */
-	public static void writeRewardExpectation(ArrayList<FixedAgent> agents, int turn) throws IOException{
-		File directory = new File(path + "data/expectedReward/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + fileName + "/result/");
+	public static void writeRewardExpectation(ArrayList<Agent> agents, int turn) throws IOException{
+		File directory = new File(path + "data/expectedReward/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + fileName + "/result/");
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/expectedReward/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + fileName + "/result/expectedReward_" + turn + ".csv", isWrite), "Shift_JIS")));
+				(path + "data/expectedReward/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + fileName + "/result/expectedReward_" + turn + ".csv", isWrite), "Shift_JIS")));
 //		pw.println(experimentNumber + "回目");
 		pw.print(",");
-		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
 			pw.print(agents.get(i));
 			pw.print(",");
 		}
 		pw.println();
-		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
 			pw.print(agents.get(i));
 			pw.print(",");
-			for(int j = 0; j < FixedConstant.AGENT_NUM; j++){
+			for(int j = 0; j < Constant.AGENT_NUM; j++){
 				pw.print(agents.get(i).getRewardExpectation(agents.get(j)));
 				pw.print(",");
 			}
@@ -353,16 +353,16 @@ public class FileWriteManager {
 	 * @return
 	 * @throws IOException
 	 */
-	private static PrintWriter writeHeaderOfRoleNumber(ArrayList<FixedAgent> agents) throws IOException{
-		File directory = new File(path + "data/role/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/role/");
+	private static PrintWriter writeHeaderOfRoleNumber(ArrayList<Agent> agents) throws IOException{
+		File directory = new File(path + "data/role/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/role/");
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/role/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/role/roleNumber_" + fileName + ".csv", isWrite), "Shift_JIS")));
+				(path + "data/role/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/role/roleNumber_" + fileName + ".csv", isWrite), "Shift_JIS")));
 		pw.print(",");
-		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
 			pw.print(agents.get(i));
 			pw.print(",");
 		}
@@ -378,18 +378,18 @@ public class FileWriteManager {
 	 * @param exprimentNumber TODO
 	 * @throws Exception 
 	 */
-	public static void writeBodyOfRoleNumber(ArrayList<FixedAgent> agents) throws IOException{
+	public static void writeBodyOfRoleNumber(ArrayList<Agent> agents) throws IOException{
 		PrintWriter pw = writeHeaderOfRoleNumber(agents);
 		pw.print("Leader");
 		pw.print(",");
-		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
 			pw.print(agents.get(i).getParameter().getElement(Role.LEADER).getRoleNum());
 			pw.print(",");
 		}
 		pw.println();
 		pw.print("Member");
 		pw.print(",");
-		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
 			pw.print(agents.get(i).getParameter().getElement(Role.MEMBER).getRoleNum());
 			pw.print(",");
 		}
@@ -398,38 +398,38 @@ public class FileWriteManager {
 		/*pw.println();
 		pw.print("初期状態にかけた時間割合");
 		pw.print(",");
-		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
-			pw.print((double)agents.get(i).getParameter().getElement(Role.INITIAL).getStateTime() / (double)FixedConstant.TURN_NUM * 100);
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print((double)agents.get(i).getParameter().getElement(Role.INITIAL).getStateTime() / (double)Constant.TURN_NUM * 100);
 			pw.print(",");
 		}
 		pw.println();
 		pw.print("リーダ状態にかけた時間割合");
 		pw.print(",");
-		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
-			pw.print((double)agents.get(i).getParameter().getElement(Role.LEADER).getStateTime() / (double)FixedConstant.TURN_NUM * 100);
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print((double)agents.get(i).getParameter().getElement(Role.LEADER).getStateTime() / (double)Constant.TURN_NUM * 100);
 			pw.print(",");
 		}
 		pw.println();
 		pw.print("メンバ状態にかけた時間割合");
 		pw.print(",");
-		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
-			pw.print((double)agents.get(i).getParameter().getElement(Role.MEMBER).getStateTime() / (double)FixedConstant.TURN_NUM * 100);
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print((double)agents.get(i).getParameter().getElement(Role.MEMBER).getStateTime() / (double)Constant.TURN_NUM * 100);
 			pw.print(",");
 		}
 		pw.println();
 		pw.print("実行状態にかけた時間割合");
 		pw.print(",");
-		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
-			pw.print((double)agents.get(i).getParameter().getElement(Role.EXECUTE).getStateTime() / (double)FixedConstant.TURN_NUM * 100);
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print((double)agents.get(i).getParameter().getElement(Role.EXECUTE).getStateTime() / (double)Constant.TURN_NUM * 100);
 			pw.print(",");
 		}*/
 		
 //		pw.print("");
 	}
 	
-	private static ArrayList<Integer> makeAgentAbilitySumList(ArrayList<FixedAgent> agents) {
+	private static ArrayList<Integer> makeAgentAbilitySumList(ArrayList<Agent> agents) {
 		ArrayList<Integer> abilitySumList = new ArrayList<Integer>();
-		for(FixedAgent agent : agents){
+		for(Agent agent : agents){
 			if(!abilitySumList.contains(agent.getAbilitySum())){
 				abilitySumList.add(agent.getAbilitySum());
 			}
@@ -447,7 +447,7 @@ public class FileWriteManager {
 	 * @param abilitySumList
 	 * @return
 	 */
-	private static TreeMap<Integer, Integer> cloneTeamFormationNumMap(ArrayList<FixedAgent> agents, ArrayList<Integer> abilitySumList){
+	private static TreeMap<Integer, Integer> cloneTeamFormationNumMap(ArrayList<Agent> agents, ArrayList<Integer> abilitySumList){
 		TreeMap<Integer, Integer> teamFormationNumMap = new TreeMap<Integer, Integer>();
 		for(int abilitySum : abilitySumList){
 			teamFormationNumMap.put(abilitySum, 0);
@@ -460,27 +460,27 @@ public class FileWriteManager {
 	 * @param agents
 	 * @throws Exception 
 	 */
-	public static void writeTeamFormationWithAgent(ArrayList<FixedAgent> agents) throws IOException{
-		File directory = new File(path + "data/role/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/teaming/");
+	public static void writeTeamFormationWithAgent(ArrayList<Agent> agents) throws IOException{
+		File directory = new File(path + "data/role/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/teaming/");
 		// ディレクトリが存在しない場合はディレクトリを作成
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/role/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/teaming/teamingNumber_" + fileName + ".csv", isWrite), "Shift_JIS")));
+				(path + "data/role/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/teaming/teamingNumber_" + fileName + ".csv", isWrite), "Shift_JIS")));
 		
 		// メンバとのチーム編成回数を書き込む
 		pw.print("," + "Leader" + ",");
-		for(FixedAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent);
 		}
 		pw.println();
-		for(FixedAgent me : agents){
+		for(Agent me : agents){
 			pw.print(me);
 			pw.print("," + me.getParameter().getElement(Role.LEADER).getRoleNum() + ",");
 			
-			for(FixedAgent you : agents){
+			for(Agent you : agents){
 				pw.print(",");
 				pw.print(me.getMeasure().getTeamFormationNumWithMember(you));
 			}
@@ -490,16 +490,16 @@ public class FileWriteManager {
 		
 		// リーダとのチーム編成回数を書き込む
 		pw.print("," + "Member" + ",");
-		for(FixedAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent);
 		}
 		pw.println();
-		for(FixedAgent me : agents){
+		for(Agent me : agents){
 			pw.print(me);
 			pw.print("," + me.getParameter().getElement(Role.LEADER).getRoleNum() + ",");
 			
-			for(FixedAgent you : agents){
+			for(Agent you : agents){
 				pw.print(",");
 				pw.print(me.getMeasure().getTeamFormationNumWithLeader(you));
 			}
@@ -509,7 +509,7 @@ public class FileWriteManager {
 		
 		// チーム編成合計回数を書き込む
 		pw.print("," + "TeamFormationSum" + ",");
-		for(FixedAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent);
 		}
@@ -522,11 +522,11 @@ public class FileWriteManager {
 		}
 		pw.println();
 		
-		for(FixedAgent me : agents){
+		for(Agent me : agents){
 			pw.print(me);
 			pw.print("," + ",");
 			TreeMap<Integer, Integer> teamFormationNumMap = cloneTeamFormationNumMap(agents, abilitySumList);
-			for(FixedAgent you : agents){
+			for(Agent you : agents){
 				pw.print(",");
 				pw.print(me.getMeasure().getTeamFormationNumWithLeader(you) + me.getMeasure().getTeamFormationNumWithMember(you));
 				teamFormationNumMap.put(you.getAbilitySum(), 
@@ -550,13 +550,13 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	private static PrintWriter writeHeaderOfTeamFormationHistogramData() throws IOException{
-		File directory = new File(path + "data/histogram/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/");
+		File directory = new File(path + "data/histogram/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/");
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/histogram/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/teamNumHistogram_" + fileName + ".csv", isWrite), "Shift_JIS")));
+				(path + "data/histogram/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/teamNumHistogram_" + fileName + ".csv", isWrite), "Shift_JIS")));
 		pw.print("人数" + "," + "タスク処理時間" + "," + "1タスクのリソース量" + "," + "1タスク中のサブタスク数");
 		pw.print(",");
 		pw.println("リソース合計" + "," + "1人あたりのリソース" + "," + "リーダのリソース" + "," + "メンバ1人あたりのリソース");
@@ -570,7 +570,7 @@ public class FileWriteManager {
 	 * @param task
 	 * @throws IOException
 	 */
-	public static void writeBodyOfTeamFormationHistogramData(FixedTeam team, FixedTask task) throws IOException{
+	public static void writeBodyOfTeamFormationHistogramData(Team team, Task task) throws IOException{
 		PrintWriter pw = writeHeaderOfTeamFormationHistogramData();
 		pw.print(team.getTeamMate().size() + "," + team.getTeamExecuteTime() + "," + task.getTaskRequireSum() + "," + task.getSubTaskNum());
 		pw.print(",");
@@ -583,13 +583,13 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	public static PrintWriter writeHeaderOfTaskQueue() throws IOException {
-		File directory = new File(path + "data/queue/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/");
+		File directory = new File(path + "data/queue/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/");
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/queue/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/taskQueue_" + fileName + ".csv", isWrite), "Shift_JIS")));
+				(path + "data/queue/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/taskQueue_" + fileName + ".csv", isWrite), "Shift_JIS")));
 		pw.println("経過ターン" + "," + "タスクキューサイズ" + "," + "マークあり数" + "," + "マークなし数" + "," + "タスクキューの中身");
 		
 		return pw;
@@ -603,12 +603,12 @@ public class FileWriteManager {
 	 * @param noMarkTaskNum
 	 * @throws IOException
 	 */
-	public static void writeBodyOfTaskQueue(PrintWriter pw, int turn, ArrayList<FixedTask> taskQueue, int noMarkTaskNum)
+	public static void writeBodyOfTaskQueue(PrintWriter pw, int turn, ArrayList<Task> taskQueue, int noMarkTaskNum)
 			throws IOException {
 		// マークありのタスク数
 		int markTaskNum = taskQueue.size() - noMarkTaskNum;
 		pw.print(turn + "," + taskQueue.size() + "," + markTaskNum + "," + noMarkTaskNum);
-		for(FixedTask task : taskQueue){
+		for(Task task : taskQueue){
 			pw.print(",");
 			pw.print(task);
 		}
@@ -620,13 +620,13 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	public static void writeOtherData() throws IOException {
-		File directory = new File(path + "data/other/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/");
+		File directory = new File(path + "data/other/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/");
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/other/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/otherInfo_" + fileName + ".csv", isWrite), "Shift_JIS")));
+				(path + "data/other/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/otherInfo_" + fileName + ".csv", isWrite), "Shift_JIS")));
 		
 		pw.println("仮チームの平均サイズ" + "," + MainMain.measure.tentativeTeamSize / (double)MainMain.EXPERIMENT_NUM);
 		pw.println("チームの平均サイズ" + "," + MainMain.measure.teamSize / (double)MainMain.EXPERIMENT_NUM);

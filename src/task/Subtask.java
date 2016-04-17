@@ -1,10 +1,10 @@
 package task;
 
-import constant.FixedConstant;
+import constant.Constant;
 
-public class FixedSubtask {
-	private int[] require = new int[FixedConstant.RESOURCE_NUM];	//タスクリソース配列
-	private int[] leftRequire = new int[FixedConstant.RESOURCE_NUM];	//残りリソースの配列
+public class Subtask {
+	private int[] require = new int[Constant.RESOURCE_NUM];	//タスクリソース配列
+	private int[] leftRequire = new int[Constant.RESOURCE_NUM];	//残りリソースの配列
 	private int requireSum = 0;	//リソースの合計
 	private int deadline;	//タスクのデッドライン
 	
@@ -15,7 +15,7 @@ public class FixedSubtask {
 	 * @param require
 	 * @param deadline
 	 */
-	public FixedSubtask(int[] resource, int deadline){
+	public Subtask(int[] resource, int deadline){
 		for(int i = 0; i < resource.length; i++){
 			this.require[i] = resource[i];
 			this.leftRequire[i] = resource[i];

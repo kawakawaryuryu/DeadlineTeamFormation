@@ -4,38 +4,38 @@ import strategy.memberselection.ConcreteTentativeMemberSelection;
 import strategy.memberselection.ConcreteTentativeMemberSelection2;
 import strategy.memberselection.RandomTentativeMemberSelection;
 import strategy.memberselection.TentativeMemberSelectionStrategy;
-import strategy.roleselection.FixedRoleSelectionStrategy;
-import strategy.roleselection.RandomRoleSelectionStrategy;
 import strategy.roleselection.RoleSelectionStrategy;
+import strategy.roleselection.RandomRoleSelectionStrategy;
+import strategy.roleselection.RationalRoleSelectionStrategy;
 import strategy.subtaskallocation.ConcreteSubtaskAllocationStrategy;
 import strategy.subtaskallocation.RandomSubtaskAllocationStrategy;
 import strategy.subtaskallocation.SubtaskAllocationStrategy;
-import strategy.taskselection.FixedFirstInFirstOutStrategy;
-import strategy.taskselection.FixedNoEstimationFirstInFirstOutStrategy;
-import strategy.taskselection.FixedTaskSelectionStrategy;
+import strategy.taskselection.FirstInFirstOutStrategy;
+import strategy.taskselection.NoEstimationFirstInFirstOutStrategy;
+import strategy.taskselection.TaskSelectionStrategy;
 
 public class StrategyManager {
 	
-	private static FixedTaskSelectionStrategy taskSelectionStrategy;
-	private static FixedRoleSelectionStrategy roleSelectionStrategy;
+	private static TaskSelectionStrategy taskSelectionStrategy;
+	private static RoleSelectionStrategy roleSelectionStrategy;
 	private static SubtaskAllocationStrategy allocationStrategy;
 	private static TentativeMemberSelectionStrategy memberSelectionStrategy;
 	
 	// 学習あり＋見積もりあり、学習なし＋見積もりあり
-//	private static FixedTaskSelectionStrategy taskSelectionStrategy = new FixedFirstInFirstOutStrategy();
-//	private static FixedRoleSelectionStrategy roleSelectionStrategy = new RoleSelectionStrategy();
+//	private static TaskSelectionStrategy taskSelectionStrategy = new FirstInFirstOutStrategy();
+//	private static RoleSelectionStrategy roleSelectionStrategy = new RoleSelectionStrategy();
 //	private static SubtaskAllocationStrategy allocationStrategy = new ConcreteSubtaskAllocationStrategy();
 //	private static TentativeMemberSelectionStrategy memberSelectionStrategy = new ConcreteTentativeMemberSelection();
 	
 	// 学習あり＋見積もりなし
-//	private static FixedTaskSelectionStrategy taskSelectionStrategy = new FixedNoEstimationFirstInFirstOutStrategy();
-//	private static FixedRoleSelectionStrategy roleSelectionStrategy = new RoleSelectionStrategy();
+//	private static TaskSelectionStrategy taskSelectionStrategy = new NoEstimationFirstInFirstOutStrategy();
+//	private static RoleSelectionStrategy roleSelectionStrategy = new RoleSelectionStrategy();
 //	private static SubtaskAllocationStrategy allocationStrategy = new ConcreteSubtaskAllocationStrategy();
 //	private static TentativeMemberSelectionStrategy memberSelectionStrategy = new ConcreteTentativeMemberSelection();
 	
 	// ランダム＋見積もりなし
-//	private static FixedTaskSelectionStrategy taskSelectionStrategy = new FixedNoEstimationFirstInFirstOutStrategy();
-//	private static FixedRoleSelectionStrategy roleSelectionStrategy = new RandomRoleSelectionStrategy();
+//	private static TaskSelectionStrategy taskSelectionStrategy = new NoEstimationFirstInFirstOutStrategy();
+//	private static RoleSelectionStrategy roleSelectionStrategy = new RandomRoleSelectionStrategy();
 //	private static SubtaskAllocationStrategy allocationStrategy = new RandomSubtaskAllocationStrategy();
 //	private static TentativeMemberSelectionStrategy memberSelectionStrategy = new RandomTentativeMemberSelection();
 	
@@ -43,21 +43,21 @@ public class StrategyManager {
 	 * 見積もりあり戦略の設定
 	 */
 	public static void setEstimationStrategy() {
-		taskSelectionStrategy = new FixedFirstInFirstOutStrategy();
+		taskSelectionStrategy = new FirstInFirstOutStrategy();
 	}
 	
 	/**
 	 * 見積もりなし戦略の設定
 	 */
 	public static void setNoEstimationStrategy() {
-		taskSelectionStrategy = new FixedNoEstimationFirstInFirstOutStrategy();
+		taskSelectionStrategy = new NoEstimationFirstInFirstOutStrategy();
 	}
 	
 	/**
 	 * 学習あり、学習なし戦略の設定
 	 */
 	public static void setLearningAndNoLearningStrategy() {
-		roleSelectionStrategy = new RoleSelectionStrategy();
+		roleSelectionStrategy = new RationalRoleSelectionStrategy();
 		allocationStrategy = new ConcreteSubtaskAllocationStrategy();
 		memberSelectionStrategy = new ConcreteTentativeMemberSelection();
 	}
@@ -67,7 +67,7 @@ public class StrategyManager {
 	 * 仮メンバの選択方法を変える
 	 */
 	public static void setLearningAndNoLearningStrategyForMemberSelection() {
-		roleSelectionStrategy = new RoleSelectionStrategy();
+		roleSelectionStrategy = new RationalRoleSelectionStrategy();
 		allocationStrategy = new ConcreteSubtaskAllocationStrategy();
 		memberSelectionStrategy = new ConcreteTentativeMemberSelection2();
 	}
@@ -82,11 +82,11 @@ public class StrategyManager {
 	}
 	
 	
-	public static FixedTaskSelectionStrategy getTaskSelectionStrategy() {
+	public static TaskSelectionStrategy getTaskSelectionStrategy() {
 		return taskSelectionStrategy;
 	}
 	
-	public static FixedRoleSelectionStrategy getRoleSelectionStrategy() {
+	public static RoleSelectionStrategy getRoleSelectionStrategy() {
 		return roleSelectionStrategy;
 	}
 	

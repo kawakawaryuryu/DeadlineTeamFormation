@@ -2,7 +2,7 @@ package main;
 
 import java.io.IOException;
 
-import constant.FixedConstant;
+import constant.Constant;
 import experiment.Experiment;
 
 public class MainMain {
@@ -30,7 +30,7 @@ public class MainMain {
 		
 		
 		// チーム編成可視化の閾値のセット
-		FixedConstant.setTeamFormationPercentageBorder();
+		Constant.setTeamFormationPercentageBorder();
 		
 		// 実験を行う
 		for(int experimentNumber = 1; experimentNumber <= EXPERIMENT_NUM; experimentNumber++){

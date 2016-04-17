@@ -9,8 +9,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import role.Role;
-import constant.FixedConstant;
-import agent.FixedAgent;
+import constant.Constant;
+import agent.Agent;
 
 public class VisualFileWriter {
 	/**
@@ -19,7 +19,7 @@ public class VisualFileWriter {
 	 * @return
 	 * @throws Exception 
 	 */
-	private static String getStringMainRole(FixedAgent agent) throws IOException{
+	private static String getStringMainRole(Agent agent) throws IOException{
 		if(agent.getParameter().getElement(Role.LEADER).getRoleNum() > agent.getParameter().getElement(Role.MEMBER).getRoleNum() * 2){
 			return "leader";
 		}
@@ -37,7 +37,7 @@ public class VisualFileWriter {
 	 * @param you
 	 * @return
 	 */
-	private static String getStringMainRoleWithYou(FixedAgent me, FixedAgent you){
+	private static String getStringMainRoleWithYou(Agent me, Agent you){
 		if(me.getMeasure().getTeamFormationNumWithMember(you) > me.getMeasure().getTeamFormationNumWithLeader(you) * 2){
 			return "asLeader";
 		}
@@ -63,15 +63,15 @@ public class VisualFileWriter {
 	 * @param successTeamingEdgeNum ターンごとのチーム編成成功回数
 	 * @throws IOException
 	 */
-	public static void writeVisualizedData(ArrayList<FixedAgent> agents, int turn, int experimentNumber, int successTeamingEdgeNum) throws IOException{
-		File directory = new File(FileWriteManager.path + "data/visualization/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + FileWriteManager.fileName + "/visual/");
+	public static void writeVisualizedData(ArrayList<Agent> agents, int turn, int experimentNumber, int successTeamingEdgeNum) throws IOException{
+		File directory = new File(FileWriteManager.path + "data/visualization/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + FileWriteManager.fileName + "/visual/");
 		// ディレクトリが存在しない場合はディレクトリを作成 
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
 		//無向グラフ
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(FileWriteManager.path + "data/visualization/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + FileWriteManager.fileName + "/visual/non_directed_" + turn + ".csv", FileWriteManager.isWrite), "Shift_JIS")));
+				(FileWriteManager.path + "data/visualization/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + FileWriteManager.fileName + "/visual/non_directed_" + turn + ".csv", FileWriteManager.isWrite), "Shift_JIS")));
 		pw.print("my_id" + "," + "your_id");
 		pw.print(",");
 		pw.print("my_ability");
@@ -93,14 +93,14 @@ public class VisualFileWriter {
 		pw.print("team_formation_sum_percentage_over_border");
 		pw.println();
 		
-		for(int i = 0; i < FixedConstant.AGENT_NUM; i++){
-			FixedAgent me = agents.get(i);
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			Agent me = agents.get(i);
 			
 			//無向グラフ用
-			for(int j = i; j < FixedConstant.AGENT_NUM; j++){
+			for(int j = i; j < Constant.AGENT_NUM; j++){
 				boolean isWrite = false;	//書き込むかどうか
 				double threshold = 0.00;	//可視化の閾値
-				FixedAgent you = agents.get(j);
+				Agent you = agents.get(j);
 				
 				//相手とのチーム編成回数の割合
 				double teamingRateWithYou = 
@@ -109,10 +109,10 @@ public class VisualFileWriter {
 						/ (double)successTeamingEdgeNum * 100;
 				
 				//チーム編成割合がどの閾値よりも下回る場合は書き込まない
-				for(int k = 0; k < FixedConstant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM; k++){
-					if(teamingRateWithYou > FixedConstant.TEAM_FORMATION_PERCENTAGE_BORDER[k]){
+				for(int k = 0; k < Constant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM; k++){
+					if(teamingRateWithYou > Constant.TEAM_FORMATION_PERCENTAGE_BORDER[k]){
 						isWrite = true;
-						threshold = FixedConstant.TEAM_FORMATION_PERCENTAGE_BORDER[k];
+						threshold = Constant.TEAM_FORMATION_PERCENTAGE_BORDER[k];
 						break;
 					}
 				}
@@ -175,41 +175,41 @@ public class VisualFileWriter {
 	 * @param successTeamingEdgeNum
 	 * @throws IOException
 	 */
-	public static void writeVisualizedMoreData(ArrayList<FixedAgent> agents, int turn) throws IOException{
-		File directory = new File(FileWriteManager.path + "data/visualization/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + FileWriteManager.fileName + "/data/");
+	public static void writeVisualizedMoreData(ArrayList<Agent> agents, int turn) throws IOException{
+		File directory = new File(FileWriteManager.path + "data/visualization/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + FileWriteManager.fileName + "/data/");
 		// ディレクトリが存在しない場合はディレクトリを作成 
 		if(!directory.exists()){
 			directory.mkdirs();
 		}
 		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(FileWriteManager.path + "data/visualization/" + FixedConstant.AGENT_NUM + "agents/" + FixedConstant.TURN_NUM + "t/" + FileWriteManager.fileName + "/data/teaming_" + turn + ".csv", FileWriteManager.isWrite), "Shift_JIS")));
+				(FileWriteManager.path + "data/visualization/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + FileWriteManager.fileName + "/data/teaming_" + turn + ".csv", FileWriteManager.isWrite), "Shift_JIS")));
 		pw.println(turn + "ターン目");
 		pw.print("エージェントID");
-		for(FixedAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent.getId());
 		}
 		pw.println();
 		pw.print("リソース");
-		for(FixedAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent.getAbility(0) + " " + agent.getAbility(1));
 		}
 		pw.println();
 		pw.print("リーダ回数");
-		for(FixedAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent.getParameter().getElement(Role.LEADER).getRoleNum());
 		}
 		pw.println();
 		pw.print("メンバ回数");
-		for(FixedAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent.getParameter().getElement(Role.MEMBER).getRoleNum());
 		}
 		pw.println();
 		pw.print("合計回数");
-		for(FixedAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent.getParameter().getElement(Role.LEADER).getRoleNum() 
 					+ agent.getParameter().getElement(Role.MEMBER).getRoleNum());
@@ -220,7 +220,7 @@ public class VisualFileWriter {
 		int members = 0;
 		int neithers = 0;
 		pw.print("主な役割");
-		for(FixedAgent agent : agents){
+		for(Agent agent : agents){
 			String role = getStringMainRole(agent);
 			pw.print(",");
 			pw.print(role);

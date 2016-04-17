@@ -9,41 +9,41 @@ import role.LeaderMeasuredData;
 import role.MeasuredDataForEachRole;
 import role.MemberMeasuredData;
 import role.Role;
-import state.FixedState;
+import state.State;
 import state.TaskSelectionState;
-import task.FixedSubtask;
-import task.FixedTask;
-import team.FixedTeam;
+import task.Subtask;
+import task.Task;
+import team.Team;
 import team.PastTeam;
-import message.FixedAnswerMessage;
-import message.FixedOfferMessage;
-import message.FixedTeamFormationMessage;
-import agent.leader.FixedLeaderField;
-import agent.member.FixedMemberField;
+import message.AnswerMessage;
+import message.OfferMessage;
+import message.TeamFormationMessage;
+import agent.leader.LeaderField;
+import agent.member.MemberField;
 
 public class AgentParameter {
-	FixedState state;
+	State state;
 	Role role;
 	final HashMap<Role, MeasuredDataForEachRole> elements = new HashMap<Role, MeasuredDataForEachRole>();
-	final ArrayList<FixedAgent> sendAgents = new ArrayList<FixedAgent>();
-	FixedTask markedTask;
+	final ArrayList<Agent> sendAgents = new ArrayList<Agent>();
+	Task markedTask;
 	int executeTime;
-	final ArrayList<FixedSubtask> executedSubtasks = new ArrayList<FixedSubtask>();;
-	FixedTeam participatingTeam;
+	final ArrayList<Subtask> executedSubtasks = new ArrayList<Subtask>();;
+	Team participatingTeam;
 	
-	final ArrayList<FixedOfferMessage> offerMessages = new ArrayList<FixedOfferMessage>();
-	final ArrayList<FixedAnswerMessage> answerMessages = new ArrayList<FixedAnswerMessage>();
-	FixedTeamFormationMessage teamFormationMessage;
-	FixedOfferMessage selectedOfferMessage;
+	final ArrayList<OfferMessage> offerMessages = new ArrayList<OfferMessage>();
+	final ArrayList<AnswerMessage> answerMessages = new ArrayList<AnswerMessage>();
+	TeamFormationMessage teamFormationMessage;
+	OfferMessage selectedOfferMessage;
 	
-	final FixedLeaderField leaderField = new FixedLeaderField();
-	final FixedMemberField memberField = new FixedMemberField();
+	final LeaderField leaderField = new LeaderField();
+	final MemberField memberField = new MemberField();
 	
 	final PastTeam pastTeam = new PastTeam();
 	
 	final TimerField timerField = new TimerField();
 	
-	FixedState nextState;
+	State nextState;
 	
 	AgentParameter() {
 		elements.put(Role.INITIAL, new InitialMeasuredData());
@@ -72,7 +72,7 @@ public class AgentParameter {
 		timerField.initialize();
 	}
 	
-	public void changeState(FixedState state) {
+	public void changeState(State state) {
 		this.state = state;
 	}
 	
@@ -80,20 +80,20 @@ public class AgentParameter {
 		this.role = role;
 	}
 	
-	public void addSendAgents(FixedAgent agent) {
+	public void addSendAgents(Agent agent) {
 		sendAgents.add(agent);
 	}
 	
-	public void setMarkedTask(FixedTask task) {
+	public void setMarkedTask(Task task) {
 		markedTask = task;
 	}
 
-	public void setExecutedSubtasks(FixedSubtask subtask, int time) {
+	public void setExecutedSubtasks(Subtask subtask, int time) {
 		executedSubtasks.add(subtask);
 		executeTime += time;
 	}
 	
-	public void setParticipatingTeam(FixedTeam team) {
+	public void setParticipatingTeam(Team team) {
 		participatingTeam = team;
 	}
 	
@@ -101,27 +101,27 @@ public class AgentParameter {
 		pastTeam.addTeam(participatingTeam);
 	}
 	
-	public void addOfferMessage(FixedOfferMessage message) {
+	public void addOfferMessage(OfferMessage message) {
 		offerMessages.add(message);
 	}
 	
-	public void addAnswerMessage(FixedAnswerMessage message) {
+	public void addAnswerMessage(AnswerMessage message) {
 		answerMessages.add(message);
 	}
 	
-	public void setTeamFormationMessage(FixedTeamFormationMessage message) {
+	public void setTeamFormationMessage(TeamFormationMessage message) {
 		teamFormationMessage = message;
 	}
 	
-	public void setSelectedOfferMessage(FixedOfferMessage message) {
+	public void setSelectedOfferMessage(OfferMessage message) {
 		selectedOfferMessage = message;
 	}
 	
-	public void setNextState(FixedState nextState) {
+	public void setNextState(State nextState) {
 		this.nextState = nextState;
 	}
 	
-	public FixedState getState() {
+	public State getState() {
 		return state;
 	}
 	
@@ -129,15 +129,15 @@ public class AgentParameter {
 		return elements.get(role);
 	}
 	
-	public ArrayList<FixedAgent> getSendAgents() {
+	public ArrayList<Agent> getSendAgents() {
 		return sendAgents;
 	}
 	
-	public FixedTask getMarkedTask() {
+	public Task getMarkedTask() {
 		return markedTask;
 	}
 	
-	public ArrayList<FixedSubtask> getExecutedSubtasks() {
+	public ArrayList<Subtask> getExecutedSubtasks() {
 		return executedSubtasks;
 	}
 	
@@ -145,7 +145,7 @@ public class AgentParameter {
 		return executeTime;
 	}
 	
-	public FixedTeam getParticipatingTeam() {
+	public Team getParticipatingTeam() {
 		return participatingTeam;
 	}
 	
@@ -153,27 +153,27 @@ public class AgentParameter {
 		return pastTeam;
 	}
 	
-	public ArrayList<FixedOfferMessage> getOfferMessages() {
+	public ArrayList<OfferMessage> getOfferMessages() {
 		return offerMessages;
 	}
 	
-	public FixedOfferMessage getSelectedOfferMessage() {
+	public OfferMessage getSelectedOfferMessage() {
 		return selectedOfferMessage;
 	}
 	
-	public ArrayList<FixedAnswerMessage> getAnswerMessages() {
+	public ArrayList<AnswerMessage> getAnswerMessages() {
 		return answerMessages;
 	}
 	
-	public FixedTeamFormationMessage getTeamFormationMessage() {
+	public TeamFormationMessage getTeamFormationMessage() {
 		return teamFormationMessage;
 	}
 	
-	public FixedLeaderField getLeaderField() {
+	public LeaderField getLeaderField() {
 		return leaderField;
 	}
 	
-	public FixedMemberField getMemberField() {
+	public MemberField getMemberField() {
 		return memberField;
 	}
 	
@@ -181,7 +181,7 @@ public class AgentParameter {
 		return timerField;
 	}
 	
-	public FixedState getNextState() {
+	public State getNextState() {
 		return nextState;
 	}
 }

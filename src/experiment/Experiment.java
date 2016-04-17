@@ -1,7 +1,7 @@
 package experiment;
 
 import strategy.StrategyManager;
-import constant.FixedConstant;
+import constant.Constant;
 
 public class Experiment {
 
@@ -45,10 +45,10 @@ public class Experiment {
 	
 	private static void setLearnRate(String isLearning) {
 		if(isLearning.equals("learning")) {
-			FixedConstant.setLearnRateWhenLearning();
+			Constant.setLearnRateWhenLearning();
 		}
 		else if(isLearning.equals("noLearning") || isLearning.equals("random")) {
-			FixedConstant.setLearnRateWhenNoLearning();
+			Constant.setLearnRateWhenNoLearning();
 		}
 		else {
 			System.err.println("そのような学習戦略は存在しません");

@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 import main.RandomKey;
 import main.RandomManager;
-import constant.FixedConstant;
+import constant.Constant;
 
-public class FixedAgent {
+public class Agent {
 	protected int id;
 	protected int[] ability;
 	protected int abilitySum = 0;
@@ -15,25 +15,25 @@ public class FixedAgent {
 	
 	double reward;
 	double greedy;
-	double[] trust = new double[FixedConstant.AGENT_NUM];
-	double[] rewardExpectation = new double[FixedConstant.AGENT_NUM];
+	double[] trust = new double[Constant.AGENT_NUM];
+	double[] rewardExpectation = new double[Constant.AGENT_NUM];
 	
-	public FixedAgent(int id) {
+	public Agent(int id) {
 		this.id = id;
-		ability = new int[FixedConstant.RESOURCE_NUM];
+		ability = new int[Constant.RESOURCE_NUM];
 		for(int i = 0; i < ability.length; i++){
-			ability[i] = RandomManager.getRandom(RandomKey.AGENT_RANDOM).nextInt(FixedConstant.AGENT_ABILITY_MAX) + FixedConstant.AGENT_ABILITY_INIT;
+			ability[i] = RandomManager.getRandom(RandomKey.AGENT_RANDOM).nextInt(Constant.AGENT_ABILITY_MAX) + Constant.AGENT_ABILITY_INIT;
 			abilitySum += ability[i];
 		}
 		
-		greedy = FixedConstant.INITIAL_GREEDY;
-		Arrays.fill(trust, FixedConstant.INITIAL_TRUST);
+		greedy = Constant.INITIAL_GREEDY;
+		Arrays.fill(trust, Constant.INITIAL_TRUST);
 		trust[id] = 0.0;
-		Arrays.fill(rewardExpectation, FixedConstant.INITIAL_EXPECTED_REWARD);
+		Arrays.fill(rewardExpectation, Constant.INITIAL_EXPECTED_REWARD);
 		rewardExpectation[id] = 0.0;
 	}
 	
-	public FixedAgent(int id, int[] ability) {
+	public Agent(int id, int[] ability) {
 		this(id);
 		abilitySum = 0;
 		for(int i = 0; i < this.ability.length; i++){
@@ -58,7 +58,7 @@ public class FixedAgent {
 	public String toString() {
 		StringBuffer str = new StringBuffer();
 		str.append("id = " + id + " / ability = ");
-		for(int i = 0; i < FixedConstant.RESOURCE_NUM; i++){
+		for(int i = 0; i < Constant.RESOURCE_NUM; i++){
 			str.append(ability[i] + " ");
 		}
 		return str.toString();
@@ -81,14 +81,14 @@ public class FixedAgent {
 	public void feedbackGreedy(boolean isok){
 		double value = isok ? 1.0 : 0.0;
 		calculateLeaderReward(isok);	//獲得報酬の計算
-		greedy = FixedConstant.LEARN_RATE_GREEDY * value + (1.0 - FixedConstant.LEARN_RATE_GREEDY) * greedy;	//欲張り度の更新
+		greedy = Constant.LEARN_RATE_GREEDY * value + (1.0 - Constant.LEARN_RATE_GREEDY) * greedy;	//欲張り度の更新
 	}
 	
 	public void calculateLeaderReward(boolean isok){
 		reward = isok ? parameter.getMarkedTask().getTaskRequireSum() * greedy : 0.0;
 	}
 	
-	public void feedbackTrust(FixedAgent you, boolean isok){
+	public void feedbackTrust(Agent you, boolean isok){
 		double value;
 		if(isok){
 			/* 自分の実行時間より長い時間かかる場合 */
@@ -103,10 +103,10 @@ public class FixedAgent {
 			value = 0.0;
 		}
 		
-		trust[you.id] = FixedConstant.LEARN_RATE_TRUST * value + (1.0 - FixedConstant.LEARN_RATE_TRUST) * trust[you.id];	//提案受託期待度の更新
+		trust[you.id] = Constant.LEARN_RATE_TRUST * value + (1.0 - Constant.LEARN_RATE_TRUST) * trust[you.id];	//提案受託期待度の更新
 	}
 	
-	public void feedbackExpectedReward(FixedAgent you, boolean isok, int subtaskRequire, double leftReward, int leftRequireSum){
+	public void feedbackExpectedReward(Agent you, boolean isok, int subtaskRequire, double leftReward, int leftRequireSum){
 		calculateMemberReward(isok, subtaskRequire, leftReward, leftRequireSum);	//獲得報酬の計算
 		int executeTime;	//実際にかかる処理時間
 		if(isok){
@@ -116,7 +116,7 @@ public class FixedAgent {
 		else{
 			executeTime = 1;
 		}
-		rewardExpectation[you.id] = FixedConstant.LEARN_RATE_REWARD * (reward / (double)executeTime) + (1.0 - FixedConstant.LEARN_RATE_REWARD) * rewardExpectation[you.id];	//報酬期待度の更新
+		rewardExpectation[you.id] = Constant.LEARN_RATE_REWARD * (reward / (double)executeTime) + (1.0 - Constant.LEARN_RATE_REWARD) * rewardExpectation[you.id];	//報酬期待度の更新
 	}
 	
 	public void calculateMemberReward(boolean isok, int subtaskRequire, double leftReward, int leftRequireSum){
@@ -127,7 +127,7 @@ public class FixedAgent {
 		return greedy;
 	}
 	
-	public double getTrust(FixedAgent you) {
+	public double getTrust(Agent you) {
 		return trust[you.id];
 	}
 	
@@ -135,7 +135,7 @@ public class FixedAgent {
 		return trust;
 	}
 	
-	public double getRewardExpectation(FixedAgent you) {
+	public double getRewardExpectation(Agent you) {
 		return rewardExpectation[you.id];
 	}
 }

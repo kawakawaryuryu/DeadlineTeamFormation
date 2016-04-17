@@ -1,6 +1,6 @@
 package constant;
 
-public class FixedConstant {
+public class Constant {
 	
 	public static final int WAIT_TURN = 3;
 	
