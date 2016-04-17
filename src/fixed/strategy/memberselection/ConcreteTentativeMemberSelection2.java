@@ -2,7 +2,6 @@ package fixed.strategy.memberselection;
 
 import java.util.ArrayList;
 
-import main.Constant;
 import fixed.agent.FixedAgent;
 import fixed.constant.FixedConstant;
 import fixed.library.AgentTaskLibrary;
@@ -74,7 +73,7 @@ TentativeMemberSelectionStrategy {
 
 	@Override
 	public boolean selectTentativeMemberEverySubtask(FixedAgent leader, FixedTask task, ArrayList<FixedAgent> selectedAgents, FixedAgent[] sortedAgents) {
-		for(int selected = 0; selected < Constant.SELECT_MEMBER_NUM; selected++){
+		for(int selected = 0; selected < FixedConstant.SELECT_MEMBER_NUM; selected++){
 
 			int i = 0;
 			while(i < task.subtasksByMembers.size()){
@@ -138,6 +137,6 @@ TentativeMemberSelectionStrategy {
 	}
 
 	public String toString() {
-		return "各サブタスクごとに仮メンバを信頼度の高い順に1体ずつ選び、それを" + Constant.SELECT_MEMBER_NUM + "回行う";
+		return "各サブタスクごとに仮メンバを信頼度の高い順に1体ずつ選び、それを" + FixedConstant.SELECT_MEMBER_NUM + "回行う";
 	}
 }

@@ -2,7 +2,6 @@ package fixed.strategy.memberselection;
 
 import java.util.ArrayList;
 
-import main.Constant;
 import fixed.agent.FixedAgent;
 import fixed.constant.FixedConstant;
 import fixed.library.AgentTaskLibrary;
@@ -124,6 +123,6 @@ public class ConcreteTentativeMemberSelection implements
 	}
 	
 	public String toString() {
-		return "各サブタスクごとに仮メンバを信頼度の高い順に" + Constant.SELECT_MEMBER_NUM + "体ずつ選ぶ";
+		return "各サブタスクごとに仮メンバを信頼度の高い順に" + FixedConstant.SELECT_MEMBER_NUM + "体ずつ選ぶ";
 	}
 }
