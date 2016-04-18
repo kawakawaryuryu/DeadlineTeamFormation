@@ -36,7 +36,7 @@ public class SubtaskAllocationState implements State {
 		sendTeamFormationMessage(leader, leftReward, leftRequireSum);
 		
 		// Q値のフィードバック
-		feedbackGreedyAndTrust(leader);
+		feedbackGreedyAndTrustToMember(leader);
 		
 		// チーム編成に成功した場合
 		if(leader.getParameter().getLeaderField().isTeaming){
@@ -154,16 +154,16 @@ public class SubtaskAllocationState implements State {
 		}
 	}
 	
-	private void feedbackGreedyAndTrust(Agent leader) {
+	private void feedbackGreedyAndTrustToMember(Agent leader) {
 		// 欲張り度
 		leader.feedbackGreedy(leader.getParameter().getLeaderField().isTeaming);
 		
 		// 信頼度
 		for(Agent agent : leader.getParameter().getLeaderField().trueAgents){
-			leader.feedbackTrust(agent, true);
+			leader.feedbackTrustToMember(agent, true);
 		}
 		for(Agent agent : leader.getParameter().getLeaderField().falseAgents){
-			leader.feedbackTrust(agent, false);
+			leader.feedbackTrustToMember(agent, false);
 		}
 	}
 	

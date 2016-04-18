@@ -20,7 +20,7 @@ public class ConcreteTentativeMemberSelection implements
 		ArrayList<Agent> selectedAgents = new ArrayList<Agent>();
 		
 		// エージェントを信頼度にソート
-		Agent[] sortedAgents = AgentTaskLibrary.getSortedAgentsFromArray(leader.getTrust(), 
+		Agent[] sortedAgents = AgentTaskLibrary.getSortedAgentsFromArray(leader.getTrustToMember(), 
 				TeamFormationMain.getParameter().getAgent());
 //		debugSortedAgents(sortedAgents, leader);
 		
@@ -40,7 +40,7 @@ public class ConcreteTentativeMemberSelection implements
 	private void debugSortedAgents(Agent[] agents, Agent leader) {
 		System.out.println("信頼度順で並んだエージェント");
 		for(Agent agent : agents){
-			System.out.println(agent + " / 信頼度 = " + leader.getTrust(agent));
+			System.out.println(agent + " / 信頼度 = " + leader.getTrustToMember(agent));
 		}
 	}
 

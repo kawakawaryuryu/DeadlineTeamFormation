@@ -15,7 +15,7 @@ public class Agent {
 	
 	double reward;
 	double greedy;
-	double[] trust = new double[Constant.AGENT_NUM];
+	double[] trustToMember = new double[Constant.AGENT_NUM];
 	double[] rewardExpectation = new double[Constant.AGENT_NUM];
 	
 	public Agent(int id) {
@@ -27,8 +27,8 @@ public class Agent {
 		}
 		
 		greedy = Constant.INITIAL_GREEDY;
-		Arrays.fill(trust, Constant.INITIAL_TRUST);
-		trust[id] = 0.0;
+		Arrays.fill(trustToMember, Constant.INITIAL_TRUST_TO_MEMBER);
+		trustToMember[id] = 0.0;
 		Arrays.fill(rewardExpectation, Constant.INITIAL_EXPECTED_REWARD);
 		rewardExpectation[id] = 0.0;
 	}
@@ -88,7 +88,7 @@ public class Agent {
 		reward = isok ? parameter.getMarkedTask().getTaskRequireSum() * greedy : 0.0;
 	}
 	
-	public void feedbackTrust(Agent you, boolean isok){
+	public void feedbackTrustToMember(Agent you, boolean isok){
 		double value;
 		if(isok){
 			/* 自分の実行時間より長い時間かかる場合 */
@@ -103,7 +103,7 @@ public class Agent {
 			value = 0.0;
 		}
 		
-		trust[you.id] = Constant.LEARN_RATE_TRUST * value + (1.0 - Constant.LEARN_RATE_TRUST) * trust[you.id];	//提案受託期待度の更新
+		trustToMember[you.id] = Constant.LEARN_RATE_TRUST_TO_MEMBER * value + (1.0 - Constant.LEARN_RATE_TRUST_TO_MEMBER) * trustToMember[you.id];	//提案受託期待度の更新
 	}
 	
 	public void feedbackExpectedReward(Agent you, boolean isok, int subtaskRequire, double leftReward, int leftRequireSum){
@@ -127,12 +127,12 @@ public class Agent {
 		return greedy;
 	}
 	
-	public double getTrust(Agent you) {
-		return trust[you.id];
+	public double getTrustToMember(Agent you) {
+		return trustToMember[you.id];
 	}
 	
-	public double[] getTrust() {
-		return trust;
+	public double[] getTrustToMember() {
+		return trustToMember;
 	}
 	
 	public double getRewardExpectation(Agent you) {

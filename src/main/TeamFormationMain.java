@@ -213,7 +213,7 @@ public class TeamFormationMain {
 	private static void writeMeasuredDataPerTurn(PrintWriter greedy, int turn, ArrayList<Agent> agents, int experimentNumber) throws IOException {
 		if(experimentNumber == 1){
 			FileWriteManager.writeBodyOfGreedy(greedy, turn, agents);
-			FileWriteManager.writeTrust(agents, turn);
+			FileWriteManager.writeTrustToMember(agents, turn);
 			FileWriteManager.writeRewardExpectation(agents, turn);
 		}
 	}

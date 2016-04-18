@@ -73,10 +73,10 @@ public class FileWriteManager {
 		pw.println("エージェント数" + "," + Constant.AGENT_NUM);
 		pw.println("リソースの種類数" + "," + Constant.RESOURCE_NUM);
 		pw.println("欲張り度の初期値" + "," + Constant.INITIAL_GREEDY);
-		pw.println("提案受託期待度の初期値" + "," + Constant.INITIAL_TRUST);
+		pw.println("メンバに対する信頼度の初期値" + "," + Constant.INITIAL_TRUST_TO_MEMBER);
 		pw.println("報酬期待度の初期値" + "," + Constant.INITIAL_EXPECTED_REWARD);
 		pw.println("欲張り度の学習率" + "," + Constant.LEARN_RATE_GREEDY);
-		pw.println("提案受託期待度の学習率" + "," + Constant.LEARN_RATE_TRUST);
+		pw.println("メンバに対する信頼度の学習率" + "," + Constant.LEARN_RATE_TRUST_TO_MEMBER);
 		pw.println("報酬期待度の学習率" + "," + Constant.LEARN_RATE_REWARD);
 		pw.println("チーム履歴を保持する数" + "," + Constant.PAST_TEAM_NUM);
 		pw.println("タスクの中のサブタスク数" + "," + Constant.SUBTASK_IN_TASK_INIT + "　~　" + (Constant.SUBTASK_IN_TASK_INIT + Constant.SUBTASK_IN_TASK_NUM - 1));
@@ -281,7 +281,7 @@ public class FileWriteManager {
 	 * @param turn
 	 * @throws IOException
 	 */
-	public static void writeTrust(ArrayList<Agent> agents, int turn) throws IOException{
+	public static void writeTrustToMember(ArrayList<Agent> agents, int turn) throws IOException{
 		File directory = new File(path + "data/trust/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + fileName + "/result/");
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
 		if(!directory.exists()){
@@ -300,7 +300,7 @@ public class FileWriteManager {
 			pw.print(agents.get(i));
 			pw.print(",");
 			for(int j = 0; j < Constant.AGENT_NUM; j++){
-				pw.print(agents.get(i).getTrust(agents.get(j)));
+				pw.print(agents.get(i).getTrustToMember(agents.get(j)));
 				pw.print(",");
 			}
 			pw.println();

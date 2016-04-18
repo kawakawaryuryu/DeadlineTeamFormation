@@ -108,7 +108,7 @@ public class ConcreteSubtaskAllocationStrategy implements
 			maxTrustMember = subtask.getAgentInfo().getSelectedAgent(0);
 			for(int i = 1; i < subtask.getAgentInfo().getSelectedAgents().size(); i++){
 				Agent agent = subtask.getAgentInfo().getSelectedAgent(i);
-				if(leader.getTrust(maxTrustMember) < leader.getTrust(agent)){
+				if(leader.getTrustToMember(maxTrustMember) < leader.getTrustToMember(agent)){
 					maxTrustMember = agent;
 				}
 			}
@@ -120,7 +120,7 @@ public class ConcreteSubtaskAllocationStrategy implements
 	@Override
 	public boolean allocateNotAllocatedSubtask(Agent leader) {
 		// OKメッセージが返ってきたエージェントを信頼度でソート
-		Agent[] sortedAgents = AgentTaskLibrary.getSortedAgentsFromArray(leader.getTrust(), 
+		Agent[] sortedAgents = AgentTaskLibrary.getSortedAgentsFromArray(leader.getTrustToMember(), 
 				leader.getParameter().getLeaderField().trueAgents);
 
 		// まだ割り当てられていないサブタスクをリソースの降順にソート
