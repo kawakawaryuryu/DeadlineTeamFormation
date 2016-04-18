@@ -4,6 +4,7 @@ import strategy.memberselection.ConcreteTentativeMemberSelection;
 import strategy.memberselection.ConcreteTentativeMemberSelection2;
 import strategy.memberselection.RandomTentativeMemberSelection;
 import strategy.memberselection.TentativeMemberSelectionStrategy;
+import strategy.roleselection.ReciprocalRoleSelectionStrategy;
 import strategy.roleselection.RoleSelectionStrategy;
 import strategy.roleselection.RandomRoleSelectionStrategy;
 import strategy.roleselection.RationalRoleSelectionStrategy;
@@ -70,6 +71,16 @@ public class StrategyManager {
 		roleSelectionStrategy = new RationalRoleSelectionStrategy();
 		allocationStrategy = new ConcreteSubtaskAllocationStrategy();
 		memberSelectionStrategy = new ConcreteTentativeMemberSelection2();
+	}
+	
+	/**
+	 * 信頼エージェントを持たせる戦略の設定
+	 * リーダの選択方法が異なる
+	 */
+	public static void setReciprocalStrategy() {
+		roleSelectionStrategy = new ReciprocalRoleSelectionStrategy();
+		allocationStrategy = new ConcreteSubtaskAllocationStrategy();
+		memberSelectionStrategy = new ConcreteTentativeMemberSelection();
 	}
 	
 	/**

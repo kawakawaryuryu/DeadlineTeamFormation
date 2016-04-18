@@ -13,7 +13,6 @@ import state.TaskMarkedWaitingState;
 import state.TaskSelectionState;
 import constant.Constant;
 import agent.Agent;
-import agent.ReciprocalAgent;
 
 public class TeamFormationMain {
 	
@@ -101,7 +100,7 @@ public class TeamFormationMain {
 //			parameter.agents.add(new Agent(id));
 			
 			// リーダに対する信頼度を持つエージェントを生成
-			parameter.agents.add(new ReciprocalAgent(id));
+			parameter.agents.add(new Agent(id));
 			
 		}
 		// エージェントの能力を指定して生成

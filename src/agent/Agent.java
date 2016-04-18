@@ -18,6 +18,7 @@ public class Agent {
 	double greedy;
 	double[] trustToMember = new double[Constant.AGENT_NUM];
 	double[] rewardExpectation = new double[Constant.AGENT_NUM];
+	double[] trustToLeader = new double[Constant.AGENT_NUM];
 	
 	public Agent(int id) {
 		this.id = id;
@@ -32,6 +33,8 @@ public class Agent {
 		trustToMember[id] = 0.0;
 		Arrays.fill(rewardExpectation, Constant.INITIAL_EXPECTED_REWARD);
 		rewardExpectation[id] = 0.0;
+		Arrays.fill(trustToLeader, Constant.INITIAL_TRUST_TO_LEADER);
+		trustToLeader[id] = 0.0;
 	}
 	
 	public Agent(int id, int[] ability) {
@@ -120,7 +123,32 @@ public class Agent {
 		rewardExpectation[you.id] = Constant.LEARN_RATE_REWARD * (reward / (double)executeTime) + (1.0 - Constant.LEARN_RATE_REWARD) * rewardExpectation[you.id];	//報酬期待度の更新
 	}
 	
-	public void feedbackTrustToLeader(Agent you, Team team, boolean isok) {}
+	public void feedbackTrustToLeader(Agent you, Team team, boolean isok) {
+		double value;
+		if(isok){
+			/* 自分の実行時間より長い時間かかる場合 */
+			if(this.parameter.getExecuteTime() < team.getTeamExecuteTime()){
+				value = (double)this.parameter.getExecuteTime() / (double)team.getTeamExecuteTime();
+			}
+			else{
+				value = 1.0;
+			}
+		}
+		else{
+			value = 0.0;
+		}
+		
+		//リーダに対する信頼度の更新
+		trustToLeader[you.id] = Constant.LEARN_RATE_TRUST_TO_LEADER * value + (1.0 - Constant.LEARN_RATE_TRUST_TO_LEADER) * trustToLeader[you.id];
+	
+		// 信頼エージェントの更新
+		if (trustToLeader[you.id] > Constant.TRUST_LEADER_THREASHOLD && !this.parameter.trustLeaders.contains(you)) {
+			this.parameter.setTrustLeaders(you);
+		}
+		else if (trustToLeader[you.id] <= Constant.TRUST_LEADER_THREASHOLD && this.parameter.trustLeaders.contains(you)) {
+			this.parameter.removeTrustLeader(you);
+		}
+	}
 	
 	public void calculateMemberReward(boolean isok, int subtaskRequire, double leftReward, int leftRequireSum){
 		reward = isok ? leftReward * ((double)subtaskRequire / (double)leftRequireSum) : 0.0;	//獲得報酬
@@ -143,6 +171,10 @@ public class Agent {
 	}
 	
 	public double getTrustToLeader(Agent you) {
-		return -1;
+		return trustToLeader[you.id];
+	}
+	
+	public double[] getTrustToLeader() {
+		return trustToLeader;
 	}
 }

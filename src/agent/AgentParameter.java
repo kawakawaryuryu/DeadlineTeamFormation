@@ -3,6 +3,7 @@ package agent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import constant.Constant;
 import role.ExecuteMeasuredData;
 import role.InitialMeasuredData;
 import role.LeaderMeasuredData;
@@ -30,6 +31,7 @@ public class AgentParameter {
 	int executeTime;
 	final ArrayList<Subtask> executedSubtasks = new ArrayList<Subtask>();;
 	Team participatingTeam;
+	ArrayList<Agent> trustLeaders;
 	
 	final ArrayList<OfferMessage> offerMessages = new ArrayList<OfferMessage>();
 	final ArrayList<AnswerMessage> answerMessages = new ArrayList<AnswerMessage>();
@@ -184,4 +186,22 @@ public class AgentParameter {
 	public State getNextState() {
 		return nextState;
 	}
+	
+	public void setTrustLeaders(Agent leader) {
+		if (trustLeaders.size() < Constant.TRUST_LEADER_LIMIT)
+		trustLeaders.add(leader);
+	}
+	
+	public void removeTrustLeader(Agent leader) {
+		trustLeaders.remove(leader);
+	}
+	
+	public ArrayList<Agent> getTrustLeaders() {
+		return trustLeaders;
+	}
+	
+	public Agent getTrustLeaders(int index) {
+		return trustLeaders.get(index);
+	}
+	
 }

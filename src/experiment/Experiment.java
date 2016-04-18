@@ -18,8 +18,9 @@ public class Experiment {
 	
 	private static void setStrategy(String isLearning) {
 		if(isLearning.equals("learning") || isLearning.equals("noLearning")) {
-			StrategyManager.setLearningAndNoLearningStrategy();
+//			StrategyManager.setLearningAndNoLearningStrategy();
 //			StrategyManager.setLearningAndNoLearningStrategyForMemberSelection();
+			StrategyManager.setReciprocalStrategy();
 		}
 		else if(isLearning.equals("random")) {
 			StrategyManager.setRandomStrategy();

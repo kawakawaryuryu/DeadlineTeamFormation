@@ -40,6 +40,10 @@ public class Constant {
 	public static double LEARN_RATE_TRUST_TO_LEADER;
 	public static final int PAST_TEAM_NUM = 10;	//チーム履歴を保持する数
 	
+	 /* 信頼エージェントの閾値 */
+	public static final double TRUST_LEADER_THREASHOLD = 0.5;
+	public static final int TRUST_LEADER_LIMIT = 1;
+	
 	/* 可視化のための閾値等 */
 	public static final int TEAM_FORMATION_PERCENTAGE_BORDER_NUM = 20;	//TEAM_FORMATION_PERCENTAGE_BORDERの配列数
 	public static final double[] TEAM_FORMATION_PERCENTAGE_BORDER = new double[TEAM_FORMATION_PERCENTAGE_BORDER_NUM];
