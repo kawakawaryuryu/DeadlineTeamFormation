@@ -32,6 +32,9 @@ public class SubtaskReceptionState implements State {
 			member.feedbackExpectedReward(message.getFrom(), true, message.getSubtaskRequireSum(), 
 					message.getLeftReward(), message.getLeftRequireSum());
 			
+			// リーダに対する信頼度のフィードバック
+			member.feedbackTrustToLeader(message.getFrom(), message.getTeam(), true);
+			
 //			System.out.println("チーム編成成功メッセージを受信しました");
 //			debugExecutedSubtask(member);
 		}
@@ -43,6 +46,9 @@ public class SubtaskReceptionState implements State {
 			
 			// 報酬期待度のフィードバック
 			member.feedbackExpectedReward(message.getFrom(), false, 0, 0, 1);
+			
+			// リーダに対する信頼度のフィードバック
+			member.feedbackTrustToLeader(message.getFrom(), message.getTeam(), false);
 		}
 	}
 	

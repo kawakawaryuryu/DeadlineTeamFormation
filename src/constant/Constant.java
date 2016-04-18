@@ -33,9 +33,11 @@ public class Constant {
 //	public static final double initialGreedy = Administrator.greedy_random.nextDouble();	//欲張り度の初期値
 	public static final double INITIAL_TRUST_TO_MEMBER = 0.5;	//提案受託期待度の初期値
 	public static final double INITIAL_EXPECTED_REWARD = 1.0;	//報酬期待度の初期値
+	public static final double INITIAL_TRUST_TO_LEADER = 0.5;
 	public static double LEARN_RATE_GREEDY;	//欲張り度の学習率
 	public static double LEARN_RATE_TRUST_TO_MEMBER;	//提案受託期待度の学習率
 	public static double LEARN_RATE_REWARD;	//報酬期待度の学習率
+	public static double LEARN_RATE_TRUST_TO_LEADER;
 	public static final int PAST_TEAM_NUM = 10;	//チーム履歴を保持する数
 	
 	/* 可視化のための閾値等 */
@@ -70,6 +72,7 @@ public class Constant {
 		LEARN_RATE_GREEDY = 0.05;
 		LEARN_RATE_TRUST_TO_MEMBER = 0.05;
 		LEARN_RATE_REWARD = 0.05;
+		LEARN_RATE_TRUST_TO_LEADER = 0.05;
 	}
 	
 	/**
@@ -79,6 +82,7 @@ public class Constant {
 		LEARN_RATE_GREEDY = 0.00;
 		LEARN_RATE_TRUST_TO_MEMBER = 0.00;
 		LEARN_RATE_REWARD = 0.00;
+		LEARN_RATE_TRUST_TO_LEADER = 0.00;
 	}
 	
 	/**

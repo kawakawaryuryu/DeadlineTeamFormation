@@ -2,6 +2,7 @@ package agent;
 
 import java.util.Arrays;
 
+import team.Team;
 import main.RandomKey;
 import main.RandomManager;
 import constant.Constant;
@@ -119,6 +120,8 @@ public class Agent {
 		rewardExpectation[you.id] = Constant.LEARN_RATE_REWARD * (reward / (double)executeTime) + (1.0 - Constant.LEARN_RATE_REWARD) * rewardExpectation[you.id];	//報酬期待度の更新
 	}
 	
+	public void feedbackTrustToLeader(Agent you, Team team, boolean isok) {}
+	
 	public void calculateMemberReward(boolean isok, int subtaskRequire, double leftReward, int leftRequireSum){
 		reward = isok ? leftReward * ((double)subtaskRequire / (double)leftRequireSum) : 0.0;	//獲得報酬
 	}
@@ -137,5 +140,9 @@ public class Agent {
 	
 	public double getRewardExpectation(Agent you) {
 		return rewardExpectation[you.id];
+	}
+	
+	public double getTrustToLeader(Agent you) {
+		return -1;
 	}
 }

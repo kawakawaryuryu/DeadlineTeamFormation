@@ -13,6 +13,7 @@ import state.TaskMarkedWaitingState;
 import state.TaskSelectionState;
 import constant.Constant;
 import agent.Agent;
+import agent.ReciprocalAgent;
 
 public class TeamFormationMain {
 	
@@ -97,7 +98,10 @@ public class TeamFormationMain {
 		
 		// エージェントの生成
 		for(int id = 0; id < Constant.AGENT_NUM; id++){
-			parameter.agents.add(new Agent(id));
+//			parameter.agents.add(new Agent(id));
+			
+			// リーダに対する信頼度を持つエージェントを生成
+			parameter.agents.add(new ReciprocalAgent(id));
 			
 		}
 		// エージェントの能力を指定して生成
@@ -215,6 +219,7 @@ public class TeamFormationMain {
 			FileWriteManager.writeBodyOfGreedy(greedy, turn, agents);
 			FileWriteManager.writeTrustToMember(agents, turn);
 			FileWriteManager.writeRewardExpectation(agents, turn);
+			FileWriteManager.writeTrustToLeader(agents, turn);
 		}
 	}
 	
