@@ -1,0 +1,14 @@
+<?xml version="1.0" encodeing="UTF-8"?>
+<Configuration status="off">
+	<Appender>
+		<RollingFile name="file" fileName="log/debug.log">
+			<PatternLayout pattern="%-5p %C %msg%n" />
+		</RollingFile>
+	</Appender>
+
+	<Loggers>
+		<Root level="debug">
+			<AppenderRef ref="file"/>
+		</Root>
+	</Loggers>
+</Configuration>
