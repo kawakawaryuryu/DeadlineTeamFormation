@@ -31,7 +31,7 @@ public class AgentParameter {
 	int executeTime;
 	final ArrayList<Subtask> executedSubtasks = new ArrayList<Subtask>();;
 	Team participatingTeam;
-	ArrayList<Agent> trustLeaders;
+	ArrayList<Agent> trustLeaders = new ArrayList<Agent>();
 	
 	final ArrayList<OfferMessage> offerMessages = new ArrayList<OfferMessage>();
 	final ArrayList<AnswerMessage> answerMessages = new ArrayList<AnswerMessage>();
