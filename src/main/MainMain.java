@@ -2,6 +2,7 @@ package main;
 
 import java.io.IOException;
 
+import log.Log;
 import constant.Constant;
 import experiment.Experiment;
 
