@@ -3,6 +3,7 @@ package main;
 import java.io.IOException;
 
 import log.Log;
+import config.Configuration;
 import constant.Constant;
 import experiment.Experiment;
 
@@ -26,6 +27,7 @@ public class MainMain {
 		// args[3] : estimation or noEstimation
 		//
 		//--------------------------------------------
+		Configuration.setParameters(args);
 		FileWriteManager.set(args[0], Integer.parseInt(args[1]));
 		Experiment.set(args[2], args[3]);
 		
