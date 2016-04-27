@@ -52,6 +52,9 @@ public class MainMain {
 		// 実験データを書き込み
 		writeMeasuredData(args[2], args[3]);
 		
+		// ログファイルclose
+		Log.log.close();
+		
 		
 		long stop = System.currentTimeMillis();
 		int time = (int)(stop - start)/1000;
