@@ -8,18 +8,31 @@ import log.logger.Type;
 
 public class Log {
 
-	public static Logger getLogger(Type type, String path) throws Exception {
+	private Logger logger;
+
+	public Log(Type type, String path) {
 		if (type == Type.FILE_DEBUG) {
-			return new FileLogger(path);
+			logger = new FileLogger(path);
 		}
 		else if (type == Type.STD_DEBUG) {
-			return new StdLogger();
+			logger = new StdLogger();
 		}
 		else if (type == Type.NOLOG) {
-			return new NoLogger();
+			logger = new NoLogger();
 		}
-		else {
-			throw new Exception("そのようなログタイプは存在しません");
-		}
+	}
+
+
+
+	public void debug(String msg) {
+		logger.debug(msg);
+	}
+
+	public void debugln(String msg) {
+		logger.debugln(msg);
+	}
+
+	public void close() {
+		logger.close();
 	}
 }
