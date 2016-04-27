@@ -2,6 +2,7 @@ package strategy.subtaskallocation;
 
 import task.Subtask;
 import library.AgentTaskLibrary;
+import log.Log;
 import main.RandomKey;
 import main.RandomManager;
 import agent.Agent;
@@ -15,13 +16,13 @@ public class RandomSubtaskAllocationStrategy implements
 		
 		// サブタスクごとにメンバを絞る
 		isTeaming = decideMemberEverySubtask(leader);
-//		System.out.println();
+		Log.log.debugln();
 		
 		leader.getParameter().getLeaderField().isTeaming = isTeaming;
 		
 		// チーム編成成功の場合は、メンバをチームに加える
 		if(leader.getParameter().getLeaderField().isTeaming){
-//			System.out.println("チーム編成成功！");
+			Log.log.debugln("チーム編成成功！");
 			leader.getParameter().getParticipatingTeam().addTeamMate(leader);
 			for(Agent member : leader.getParameter().getLeaderField().memberSubtaskMap.keySet()){
 				for(Subtask subtask : leader.getParameter().getLeaderField().memberSubtaskMap.get(member)){
@@ -53,14 +54,14 @@ public class RandomSubtaskAllocationStrategy implements
 			else if(selectedAgentsNum == 1){
 				Agent member = subtask.getAgentInfo().getSelectedAgent(0);
 				setToLeaderField(leader, member, subtask);
-//				System.out.println(subtask + " を処理するメンバは " + member + " に決まりました");
+				Log.log.debugln(subtask + " を処理するメンバは " + member + " に決まりました");
 			}
 			
 			// メンバを一人に絞る
 			else if(selectedAgentsNum > 1){
 				Agent member = selectMember(leader, subtask);
 				setToLeaderField(leader, member, subtask);
-//				System.out.println(subtask + " を処理するメンバは " + member + " に決まりました");
+				Log.log.debugln(subtask + " を処理するメンバは " + member + " に決まりました");
 			}
 			
 			else{

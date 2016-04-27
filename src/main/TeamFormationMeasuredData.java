@@ -240,7 +240,7 @@ public class TeamFormationMeasuredData {
 	}
 	
 	double getAverageExecutingTimePerAgentInTeam(int index) {
-//		System.out.println("executingTimePerAgentInTeam = " + executingTimePerAgentInTeam[index] + " / successTeamFormationNum = " + successTeamFormationNum[index]);
+//		Log.log.debugln("executingTimePerAgentInTeam = " + executingTimePerAgentInTeam[index] + " / successTeamFormationNum = " + successTeamFormationNum[index]);
 		return executingTimePerAgentInTeam[index] / getDivideNum(successTeamFormationNum[index]);
 	}
 	
@@ -253,12 +253,12 @@ public class TeamFormationMeasuredData {
 	}
 	
 	double getAverageBindingTimeInTeam(int index) {
-//		System.out.println("bindingTimeInTeam = " + bindingTimeInTeam[index] + " / successTeamFormationNum = " + successTeamFormationNum[index]);
+//		Log.log.debugln("bindingTimeInTeam = " + bindingTimeInTeam[index] + " / successTeamFormationNum = " + successTeamFormationNum[index]);
 		return (double)bindingTimeInTeam[index] / getDivideNum(successTeamFormationNum[index]);
 	}
 	
 	double getAverageBindingTimePerAgentInTeam(int index) {
-//		System.out.println("bindingTimePerAgentInTeam = " + bindingTimePerAgentInTeam[index] + " / successTeamFormationNum = " + successTeamFormationNum[index]);
+//		Log.log.debugln("bindingTimePerAgentInTeam = " + bindingTimePerAgentInTeam[index] + " / successTeamFormationNum = " + successTeamFormationNum[index]);
 		return bindingTimePerAgentInTeam[index] / getDivideNum(successTeamFormationNum[index]);
 	}
 	

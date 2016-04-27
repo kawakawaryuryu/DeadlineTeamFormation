@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import task.Task;
 import library.AgentTaskLibrary;
+import log.Log;
 import main.RandomKey;
 import main.RandomManager;
 import message.OfferMessage;
@@ -18,7 +19,7 @@ public class RandomRoleSelectionStrategy implements RoleSelectionStrategy {
 		OfferMessage maxExpectedRewardMessage;
 		// ランダムに選ぶ
 		maxExpectedRewardMessage = messages.get(RandomManager.getRandom(RandomKey.SELECT_RANDOM_1).nextInt(messages.size()));
-//		System.out.println(maxExpectedRewardMessage + " をランダムで選びました");
+		Log.log.debugln(maxExpectedRewardMessage + " をランダムで選びました");
 
 		return maxExpectedRewardMessage;
 	}
@@ -43,13 +44,13 @@ public class RandomRoleSelectionStrategy implements RoleSelectionStrategy {
 			ArrayList<OfferMessage> messages) {
 		// 来ている提案メッセージから処理できるメッセージを抽出
 		ArrayList<OfferMessage> canBeExecutedMessages = AgentTaskLibrary.getCanExecuteOfferMessages(messages, agent);
-//		System.out.println("来ている提案メッセージの中で処理できるメッセージ");
-//		debugOfferMessage(canBeExecutedMessages);
+		Log.log.debugln("来ている提案メッセージの中で処理できるメッセージ");
+		debugOfferMessage(canBeExecutedMessages);
 
 		double memberReward;
 
 		if(canBeExecutedMessages.isEmpty()){
-//			System.out.println("処理できるメッセージは来ませんでした");
+			Log.log.debugln("処理できるメッセージは来ませんでした");
 			memberReward = 0;
 		}
 		else{
@@ -65,6 +66,12 @@ public class RandomRoleSelectionStrategy implements RoleSelectionStrategy {
 		double memberReward = (double)expectedExecuteTime * agent.getRewardExpectation(message.getFrom());
 		
 		return memberReward;
+	}
+	
+	private void debugOfferMessage(ArrayList<OfferMessage> messages) {
+		for(OfferMessage message : messages){
+			Log.log.debugln(message);
+		}
 	}
 	
 	public String toString() {

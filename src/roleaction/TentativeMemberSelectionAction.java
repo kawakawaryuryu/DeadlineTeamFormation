@@ -7,6 +7,7 @@ import strategy.StrategyManager;
 import strategy.memberselection.TentativeMemberSelectionStrategy;
 import task.Failure;
 import team.Team;
+import log.Log;
 import main.TeamFormationMain;
 import message.AnswerMessage;
 import message.OfferMessage;
@@ -25,12 +26,12 @@ public class TentativeMemberSelectionAction implements RoleAction {
 		
 		// メンバ候補を探せた場合
 		if(isCandidates){
-//			System.out.println("メンバ候補探しに成功しました");
+			Log.log.debugln("メンバ候補探しに成功しました");
 			actionInSearchingSuccessCase(agent);
 		}
 		// メンバ候補を探せなかった場合
 		else{
-//			System.out.println("メンバ候補探しに失敗しました");
+			Log.log.debugln("メンバ候補探しに失敗しました");
 			actionInSearchingFailureCase(agent);
 		}
 
@@ -38,7 +39,7 @@ public class TentativeMemberSelectionAction implements RoleAction {
 	
 	private void refuseOfferMessages(Agent agent) {
 		for(OfferMessage offer : agent.getParameter().getOfferMessages()){
-//			System.out.println(offer.getFrom() + "からのメッセージを断ります");
+			Log.log.debugln(offer.getFrom() + "からのメッセージを断ります");
 			TeamFormationMain.getPost().postAnswerMessage(offer.getFrom(), 
 					new AnswerMessage(agent, offer.getFrom(), false, offer.getSubtask()));
 		}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import log.Log;
 import state.State;
 import state.RoleSelectionState;
 import state.SubtaskAllocationState;
@@ -56,11 +57,11 @@ public class TeamFormationParameter {
 	}
 	
 	public void debugAgents() {
-		System.out.println("エージェントリスト");
+		Log.log.debugln("エージェントリスト");
 		for(Agent agent : agents){
-			System.out.println(agent);
+			Log.log.debugln(agent);
 		}
-		System.out.println();
+		Log.log.debugln();
 	}
 	
 	void clearAgentsMap() {
@@ -117,15 +118,15 @@ public class TeamFormationParameter {
 					(RandomManager.getRandom(RandomKey.DEADLINE_RANDOM).nextInt(Constant.DEADLINE_MAX) 
 							+ Constant.DEADLINE_INIT)));
 		}
-//		debugTaskQueue();
+		debugTaskQueue();
 	}
 	
 	public void debugTaskQueue() {
-		System.out.println("タスクキュー");
+		Log.log.debugln("タスクキュー");
 		for(Task task : taskQueue){
-			System.out.println(task);
+			Log.log.debugln(task);
 		}
-		System.out.println();
+		Log.log.debugln();
 	}
 	
 	private int getPoissonTaskAdditionNum(double lambda){

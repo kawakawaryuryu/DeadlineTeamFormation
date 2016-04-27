@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import task.Subtask;
 import task.Task;
 import library.AgentTaskLibrary;
+import log.Log;
 import main.RandomKey;
 import main.RandomManager;
 import main.TeamFormationMain;
@@ -22,7 +23,7 @@ public class ConcreteTentativeMemberSelection implements
 		// エージェントを信頼度にソート
 		Agent[] sortedAgents = AgentTaskLibrary.getSortedAgentsFromArray(leader.getTrustToMember(), 
 				TeamFormationMain.getParameter().getAgent());
-//		debugSortedAgents(sortedAgents, leader);
+		debugSortedAgents(sortedAgents, leader);
 		
 		// タスク中の各サブタスクをリソースの降順にソート
 		task.sortSubTaskListByRequire();
@@ -38,9 +39,9 @@ public class ConcreteTentativeMemberSelection implements
 	}
 	
 	private void debugSortedAgents(Agent[] agents, Agent leader) {
-		System.out.println("信頼度順で並んだエージェント");
+		Log.log.debugln("信頼度順で並んだエージェント");
 		for(Agent agent : agents){
-			System.out.println(agent + " / 信頼度 = " + leader.getTrustToMember(agent));
+			Log.log.debugln(agent + " / 信頼度 = " + leader.getTrustToMember(agent));
 		}
 	}
 
@@ -55,7 +56,7 @@ public class ConcreteTentativeMemberSelection implements
 				leftDeadline -= executeTime;
 				leader.getParameter().setExecutedSubtasks(subtask, executeTime);
 				isAssigned = true;
-//				System.out.println("リーダの処理するサブタスク " + subtask);
+				Log.log.debugln("リーダの処理するサブタスク " + subtask);
 			}
 			else{
 				task.subtasksByMembers.add(subtask);
@@ -71,34 +72,34 @@ public class ConcreteTentativeMemberSelection implements
 			ArrayList<Agent> canExecuteSubTaskAgents = AgentTaskLibrary.getAgentsCanExecuteSubtask(subtask, sortedAgents);	//subtaskを処理できるエージェントのリスト
 			
 			double probability = RandomManager.getRandom(RandomKey.EPSILON_GREEDY_RANDOM_2).nextDouble();	//ε-greedyの確率
-//			System.out.println("probability = " + probability);
+			Log.log.debugln("probability = " + probability);
 			while(selected < Constant.SELECT_MEMBER_NUM){
-//				System.out.println(subtask + " のサブタスク　" + (selected + 1) + "回目:メンバ候補を選択します");
+				Log.log.debugln(subtask + " のサブタスク　" + (selected + 1) + "回目:メンバ候補を選択します");
 				
 				// デッドラインまでに処理できるエージェントがいなければ
 				if(canExecuteSubTaskAgents.isEmpty()){
-//					System.out.println(subtask + " を処理できるメンバがいないので、メンバ候補探しに失敗しました");
+					Log.log.debugln(subtask + " を処理できるメンバがいないので、メンバ候補探しに失敗しました");
 					return false;
 				}
 				
 				// εの確率でランダムにエージェントを選ぶ
 				if(probability <= Constant.EPSILON2){
 					selectedMember = canExecuteSubTaskAgents.remove(RandomManager.getRandom(RandomKey.SELECT_RANDOM_2).nextInt(canExecuteSubTaskAgents.size()));
-//					System.out.println(selectedMember + " をランダムで選びました");
+					Log.log.debugln(selectedMember + " をランダムで選びました");
 				}
 				// 1-εの確率で提案受託期待度の高いエージェントを選ぶ
 				else{
 					selectedMember = canExecuteSubTaskAgents.remove(0);
-//					System.out.println(selectedMember + " を信頼度順で選びました");
+					Log.log.debugln(selectedMember + " を信頼度順で選びました");
 				}
 				
 				// すでに選ばれているエージェントの場合は、最初から
 				if(selectedAgents.contains(selectedMember)){
-//					System.out.println(selectedMember + " はすでに選ばれているのでやり直し");
+					Log.log.debugln(selectedMember + " はすでに選ばれているのでやり直し");
 					continue;
 				}
 				else{
-//					System.out.println(selectedMember + " を" + subtask + " のサブタスク処理のメンバ候補として選びました");
+					Log.log.debugln(selectedMember + " を" + subtask + " のサブタスク処理のメンバ候補として選びました");
 					selectedAgents.add(selectedMember);
 					subtask.getAgentInfo().addSelectedAgent(selectedMember);
 					selected++;

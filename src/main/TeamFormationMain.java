@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import log.Log;
 import post.Post;
 import state.RoleSelectionState;
 import state.SubtaskAllocationState;
@@ -44,51 +45,51 @@ public class TeamFormationMain {
 		for(Agent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
 			agent.getParameter().getOfferMessages().clear();
 		}
-//		System.out.println("------- タスクマーク待機状態のエージェントの行動 -------");
+		Log.log.debugln("------- タスクマーク待機状態のエージェントの行動 -------");
 		for(Agent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
 			agent.action();
 		}
-//		System.out.println();
+		Log.log.debugln();
 	}
 	
 	private static void actionByInitialAgent() {
 		for(Agent agent : parameter.agentsMap.get(TaskSelectionState.getState())){
 			agent.getParameter().initialize();
 		}
-//		System.out.println("------- タスク選択状態のエージェントの行動 -------");
+		Log.log.debugln("------- タスク選択状態のエージェントの行動 -------");
 		for(Agent agent : parameter.agentsMap.get(TaskSelectionState.getState())){
 			agent.action();
 		}
-//		System.out.println();
+		Log.log.debugln();
 	}
 	
 	private static void actionByRoleSelectionAgent() {
-//		System.out.println("------- 役割選択状態のエージェントの行動 / タスクをマークしていないエージェント -------");
+		Log.log.debugln("------- 役割選択状態のエージェントの行動 / タスクをマークしていないエージェント -------");
 		for(Agent agent : parameter.agentsMap.get(RoleSelectionState.getState())){
 			agent.action();
 		}
-//		System.out.println();
+		Log.log.debugln();
 	}
 	
 	private static void actionByLeaderOrMemberAgent() {
-//		System.out.println("------- リーダ状態のエージェントの行動 -------");
+		Log.log.debugln("------- リーダ状態のエージェントの行動 -------");
 		for(Agent agent : parameter.agentsMap.get(SubtaskAllocationState.getState())){
 			agent.action();
 		}
-//		System.out.println();
-//		System.out.println("------- メンバ状態のエージェントの行動 -------");
+		Log.log.debugln();
+		Log.log.debugln("------- メンバ状態のエージェントの行動 -------");
 		for(Agent agent : parameter.agentsMap.get(SubtaskReceptionState.getState())){
 			agent.action();
 		}
-//		System.out.println();
+		Log.log.debugln();
 	}
 	
 	private static void actionByExecuteAgent() {
-//		System.out.println("------- タスク実行状態のエージェントの行動 -------");
+		Log.log.debugln("------- タスク実行状態のエージェントの行動 -------");
 		for(Agent agent : parameter.agentsMap.get(TaskExecuteState.getState())){
 			agent.action();
 		}
-//		System.out.println();
+		Log.log.debugln();
 	}
 
 	public static void teamFormation(int experimentNumber) throws IOException {
@@ -103,7 +104,7 @@ public class TeamFormationMain {
 		// エージェントの能力を指定して生成
 //		makeAgents();
 		
-//		parameter.debugAgents();
+		parameter.debugAgents();
 		
 		// ファイル書き込み用のPrintWriterインスタンスを取得
 		PrintWriter greedyWriter = getGreedyWriter(experimentNumber);
@@ -113,7 +114,7 @@ public class TeamFormationMain {
 		
 		// チーム編成の開始
 		for(turn = 1; turn <= Constant.TURN_NUM; turn++){
-//			System.out.println("======= " + turn + " ターン目 =======");
+			Log.log.debugln("======= " + turn + " ターン目 =======");
 			
 			// キューにタスクを追加
 			// TODO ADD_TASK_INTERVAL=1のときはturn % Constant.ADD_TASK_INTERVAL == 0に変える必要性
@@ -180,12 +181,12 @@ public class TeamFormationMain {
 		// taskQueueWriterをclose
 		closeTaskQueueWrite(experimentNumber, taskQueueWriter);
 		
-//		debugExecutedTaskRequire();
+		debugExecutedTaskRequire();
 	}
 	
 	private static void debugExecutedTaskRequire() {
-		System.out.println("処理したタスクリソース量 = " + measure.allSuccessTaskRequire);
-		System.out.println("処理したタスク数 = " + measure.allSuccessTeamFormationNum);
+		Log.log.debugln("処理したタスクリソース量 = " + measure.allSuccessTaskRequire);
+		Log.log.debugln("処理したタスク数 = " + measure.allSuccessTeamFormationNum);
 	}
 	
 	private static PrintWriter getGreedyWriter(int experimentNumber) throws IOException {

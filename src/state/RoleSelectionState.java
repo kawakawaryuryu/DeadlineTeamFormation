@@ -9,6 +9,7 @@ import roleaction.ParticipatingTeamDecisionAction;
 import roleaction.RoleAction;
 import strategy.StrategyManager;
 import strategy.roleselection.RoleSelectionStrategy;
+import log.Log;
 import main.RandomKey;
 import main.RandomManager;
 import constant.Constant;
@@ -30,15 +31,15 @@ public class RoleSelectionState implements State {
 	public void agentAction(Agent agent) {
 		// リーダ時の期待報酬を計算
 		double expectedLeaderReward = roleSelectionStrategy.calculateExpectedLeaderReward(agent, agent.getParameter().getMarkedTask());
-//		System.out.println("リーダ時の期待報酬 = " + expectedLeaderReward);
+		Log.log.debugln("リーダ時の期待報酬 = " + expectedLeaderReward);
 		
 		// メンバ時の期待報酬を計算
 		double expectedMemberReward = roleSelectionStrategy.calculateExpectedMemberReward(agent, agent.getParameter().getOfferMessages());
-//		System.out.println("メンバ時の期待報酬 = " + expectedMemberReward);
+		Log.log.debugln("メンバ時の期待報酬 = " + expectedMemberReward);
 		
 		// 役割を決定する
 		FutureRole role = decideRole(expectedLeaderReward, expectedMemberReward);
-//		System.out.println("役割は " + role + " に決まりました");
+		Log.log.debugln("役割は " + role + " に決まりました");
 		
 		// 役割ごとに行動する
 		strategyMap.get(role).action(agent);

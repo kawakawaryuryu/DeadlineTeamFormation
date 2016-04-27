@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import task.Subtask;
 import task.Task;
 import library.AgentTaskLibrary;
+import log.Log;
 import main.RandomKey;
 import main.RandomManager;
 import main.TeamFormationMain;
@@ -43,7 +44,7 @@ public class RandomTentativeMemberSelection implements
 				leftDeadline -= executeTime;
 				leader.getParameter().setExecutedSubtasks(subtask, executeTime);
 				isAssigned = true;
-//				System.out.println("リーダの処理するサブタスク " + subtask);
+				Log.log.debugln("リーダの処理するサブタスク " + subtask);
 			}
 			else{
 				task.subtasksByMembers.add(subtask);
@@ -65,9 +66,8 @@ public class RandomTentativeMemberSelection implements
 			Agent selectedMember;	//メンバ候補
 			ArrayList<Agent> canExecuteSubTaskAgents = new ArrayList<Agent>(TeamFormationMain.getParameter().getAgent());
 			
-//			System.out.println("probability = " + probability);
 			while(selected < Constant.SELECT_MEMBER_NUM){
-//				System.out.println(subtask + " のサブタスク　" + (selected + 1) + "回目:メンバ候補を選択します");
+				Log.log.debugln(subtask + " のサブタスク　" + (selected + 1) + "回目:メンバ候補を選択します");
 				
 				// デッドラインまでに処理できるエージェントがいなければ
 				if(canExecuteSubTaskAgents.isEmpty()){
@@ -77,15 +77,15 @@ public class RandomTentativeMemberSelection implements
 
 				// εの確率でランダムにエージェントを選ぶ
 				selectedMember = canExecuteSubTaskAgents.remove(RandomManager.getRandom(RandomKey.SELECT_RANDOM_2).nextInt(canExecuteSubTaskAgents.size()));
-//				System.out.println(selectedMember + " をランダムで選びました");
+				Log.log.debugln(selectedMember + " をランダムで選びました");
 
 				// すでに選ばれているエージェントの場合は、最初から
 				if(selectedAgents.contains(selectedMember)){
-//					System.out.println(selectedMember + " はすでに選ばれているのでやり直し");
+					Log.log.debugln(selectedMember + " はすでに選ばれているのでやり直し");
 					continue;
 				}
 				else{
-//					System.out.println(selectedMember + " を" + subtask + " のサブタスク処理のメンバ候補として選びました");
+					Log.log.debugln(selectedMember + " を" + subtask + " のサブタスク処理のメンバ候補として選びました");
 					selectedAgents.add(selectedMember);
 					subtask.getAgentInfo().addSelectedAgent(selectedMember);
 					selected++;

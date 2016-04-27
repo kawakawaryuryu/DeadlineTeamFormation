@@ -110,11 +110,11 @@ public class MeasuredDataManager {
 				successTeamFormationNumEveryTeamSize[i][j] += TeamFormationMain.getMeasure().successTeamFormationNumEveryTeamSize[i][j];
 			}
 			bindingTimeInTeam[i] += TeamFormationMain.getMeasure().getAverageBindingTimeInTeam(i);
-//			System.out.println(TeamFormationMain.getMeasure().getAverageBindingTimeInTeam(i));
+//			Log.log.debugln(TeamFormationMain.getMeasure().getAverageBindingTimeInTeam(i));
 			executingTimePerAgentInTeam[i] += TeamFormationMain.getMeasure().getAverageExecutingTimePerAgentInTeam(i);
-//			System.out.println(TeamFormationMain.getMeasure().getAverageExecutingTimePerAgentInTeam(i));
+//			Log.log.debugln(TeamFormationMain.getMeasure().getAverageExecutingTimePerAgentInTeam(i));
 			bindingTimePerAgentInTeam[i] += TeamFormationMain.getMeasure().getAverageBindingTimePerAgentInTeam(i);
-//			System.out.println(TeamFormationMain.getMeasure().getAverageBindingTimePerAgentInTeam(i));
+//			Log.log.debugln(TeamFormationMain.getMeasure().getAverageBindingTimePerAgentInTeam(i));
 		}
 	}
 	

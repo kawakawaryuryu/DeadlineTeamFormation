@@ -2,6 +2,7 @@ package state;
 
 import role.Role;
 import task.Subtask;
+import log.Log;
 import message.TeamFormationMessage;
 import agent.Agent;
 
@@ -32,12 +33,12 @@ public class SubtaskReceptionState implements State {
 			member.feedbackExpectedReward(message.getFrom(), true, message.getSubtaskRequireSum(), 
 					message.getLeftReward(), message.getLeftRequireSum());
 			
-//			System.out.println("チーム編成成功メッセージを受信しました");
-//			debugExecutedSubtask(member);
+			Log.log.debugln("チーム編成成功メッセージを受信しました");
+			debugExecutedSubtask(member);
 		}
 		// チーム編成失敗の場合
 		else{
-//			System.out.println("チーム編成失敗メッセージを受信しました");
+			Log.log.debugln("チーム編成失敗メッセージを受信しました");
 			// 状態遷移;
 			member.getParameter().changeState(TaskSelectionState.getState());
 			
@@ -58,9 +59,9 @@ public class SubtaskReceptionState implements State {
 	}
 	
 	private void debugExecutedSubtask(Agent member) {
-		System.out.println("処理するサブタスク");
+		Log.log.debugln("処理するサブタスク");
 		for(Subtask subtask : member.getParameter().getExecutedSubtasks()){
-			System.out.println(subtask);
+			Log.log.debugln(subtask);
 		}
 	}
 

@@ -4,6 +4,7 @@ import strategy.StrategyManager;
 import strategy.taskselection.TaskSelectionStrategy;
 import task.Failure;
 import task.Task;
+import log.Log;
 import main.TeamFormationMain;
 import agent.Agent;
 
@@ -17,7 +18,7 @@ public class TaskSelectionState implements State {
 		
 		Task selectedTask = strategy.selectTask(agent);
 		if(selectedTask != null){
-//			System.out.println(selectedTask + "をマークしました");
+			Log.log.debugln(selectedTask + "をマークしました");
 			selectedTask.markingTask(true, Failure.MARK_TURE);
 			agent.getParameter().setMarkedTask(selectedTask);
 			
@@ -25,7 +26,7 @@ public class TaskSelectionState implements State {
 			TeamFormationMain.getMeasure().countMarkedTask(selectedTask);
 		}
 		else{
-//			System.out.println("タスクをマークしませんでした");
+			Log.log.debugln("タスクをマークしませんでした");
 		}
 		
 		agent.getParameter().changeState(RoleSelectionState.getState());

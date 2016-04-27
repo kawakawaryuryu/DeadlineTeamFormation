@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import task.Task;
 import library.AgentTaskLibrary;
+import log.Log;
 import main.RandomKey;
 import main.RandomManager;
 import message.OfferMessage;
@@ -23,12 +24,12 @@ public class RationalRoleSelectionStrategy implements RoleSelectionStrategy {
 		// εの確率でランダムに選ぶ
 		if(probability <= Constant.EPSILON){
 			maxExpectedRewardMessage = messages.get(RandomManager.getRandom(RandomKey.SELECT_RANDOM_1).nextInt(messages.size()));
-//			System.out.println(maxExpectedRewardMessage + " をランダムで選びました");
+			Log.log.debugln(maxExpectedRewardMessage + " をランダムで選びました");
 		}
 		// 1-εの確率で期待報酬の大きいエージェントを選ぶ
 		else{
 			maxExpectedRewardMessage = getOfferMessageOfMaxExpectedMemberReward(messages, agent);
-//			System.out.println(maxExpectedRewardMessage + " を報酬期待度順で選びました");
+			Log.log.debugln(maxExpectedRewardMessage + " を報酬期待度順で選びました");
 		}
 		return maxExpectedRewardMessage;
 	}
@@ -77,13 +78,13 @@ public class RationalRoleSelectionStrategy implements RoleSelectionStrategy {
 		
 		// 来ている提案メッセージから処理できるメッセージを抽出
 		ArrayList<OfferMessage> canBeExecutedMessages = AgentTaskLibrary.getCanExecuteOfferMessages(messages, agent);
-//		System.out.println("来ている提案メッセージの中で処理できるメッセージ");
-//		debugOfferMessage(canBeExecutedMessages);
+		Log.log.debugln("来ている提案メッセージの中で処理できるメッセージ");
+		debugOfferMessage(canBeExecutedMessages);
 		
 		double memberReward;
 		
 		if(canBeExecutedMessages.isEmpty()){
-//			System.out.println("処理できるメッセージは来ませんでした");
+			Log.log.debugln("処理できるメッセージは来ませんでした");
 			memberReward = 0;
 		}
 		else{
@@ -96,7 +97,7 @@ public class RationalRoleSelectionStrategy implements RoleSelectionStrategy {
 	
 	private void debugOfferMessage(ArrayList<OfferMessage> messages) {
 		for(OfferMessage message : messages){
-			System.out.println(message);
+			Log.log.debugln(message);
 		}
 	}
 	
