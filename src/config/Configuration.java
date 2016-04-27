@@ -32,4 +32,13 @@ public class Configuration {
 		LOG_PATH = "log/debug_" + EXPERIMENT_NUMBER + ".log";
 	}
 
+	public static void setLog(int experimentNumber) {
+		if (experimentNumber == 1) {
+			Log.setLogInstance(LOG_TYPE, LOG_PATH);
+		}
+		else {
+			Log.setLogInstance(Type.NOLOG, LOG_PATH);
+		}
+	}
+
 }
