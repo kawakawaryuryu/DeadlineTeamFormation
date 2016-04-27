@@ -1,6 +1,5 @@
 package log;
 
-import config.Configuration;
 import log.logger.FileLogger;
 import log.logger.Logger;
 import log.logger.NoLogger;
@@ -11,7 +10,7 @@ public class Log {
 
 	private static Logger logger;
 
-	public static Log log = new Log(Configuration.LOG_TYPE, Configuration.LOG_PATH);
+	public static Log log;
 
 	public Log(Type type, String path) {
 		if (type == Type.FILE_DEBUG) {
@@ -25,6 +24,10 @@ public class Log {
 		}
 	}
 
+	
+	public static void setLogInstance(Type type, String path) {
+		log = new Log(type, path);
+	}
 
 
 	public void debug(String msg) {

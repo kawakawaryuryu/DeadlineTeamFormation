@@ -40,6 +40,10 @@ public class MainMain {
 			System.out.print("Team formation at " + experimentNumber + " times starts!");
 			System.out.println("  Learning: " + args[2] + " / Estimation: " + args[3]);
 			
+			// ログ設定
+			Configuration.setLog(experimentNumber);
+
+
 			// 乱数の初期化
 			random.initialize(experimentNumber);
 			
@@ -49,14 +53,15 @@ public class MainMain {
 			// 1回の実験で計測したデータを保存
 			measure.saveAllMeasuredData();
 			
+			// ログファイルclose
+			Log.log.close();
+
 //			System.out.println("Team formation at " + experimentNumber + " times finish!");
 		}
 		
 		// 実験データを書き込み
 		writeMeasuredData(args[2], args[3]);
 		
-		// ログファイルclose
-		Log.log.close();
 		
 		
 		long stop = System.currentTimeMillis();
