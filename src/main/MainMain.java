@@ -39,7 +39,7 @@ public class MainMain {
 		// 実験を行う
 		for(int experimentNumber = 1; experimentNumber <= EXPERIMENT_NUM; experimentNumber++){
 			System.out.print("Team formation at " + experimentNumber + " times starts!");
-			System.out.println("  Learning: " + args[2] + " / Estimation: " + args[3]);
+			System.out.println("  Learning: " + Configuration.LEARNING + " / Estimation: " + Configuration.ESTIMATION);
 			
 			// ログ設定
 			Configuration.setLog(experimentNumber);
@@ -61,7 +61,7 @@ public class MainMain {
 		}
 		
 		// 実験データを書き込み
-		writeMeasuredData(args[2], args[3]);
+		writeMeasuredData(Configuration.LEARNING, Configuration.ESTIMATION);
 		
 		
 		
