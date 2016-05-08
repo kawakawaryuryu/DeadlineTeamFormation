@@ -17,7 +17,7 @@ public class Configuration {
 	// Java arguments
 	// Experiment Setting
 	public static String EXPERIMET_TYPE;
-	public static int EXPERIMENT_NUMBER;
+	public static int FILE_NUMBER;
 	public static String LEARNING;
 	public static String ESTIMATION;
 
@@ -25,11 +25,11 @@ public class Configuration {
 
 	public static void setParameters(String args[]) {
 		EXPERIMET_TYPE = args[0];
-		EXPERIMENT_NUMBER = Integer.parseInt(args[1]);
+		FILE_NUMBER = Integer.parseInt(args[1]);
 		LEARNING = args[2];
 		ESTIMATION = args[3];
 
-		LOG_PATH = "log/debug_" + EXPERIMENT_NUMBER + ".log";
+		LOG_PATH = "log/debug_" + FILE_NUMBER + ".log";
 	}
 
 	public static void setLog(int experimentNumber) {

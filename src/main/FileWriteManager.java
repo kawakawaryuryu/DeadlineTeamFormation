@@ -21,13 +21,14 @@ import strategy.subtaskallocation.SubtaskAllocationStrategy;
 import strategy.taskselection.TaskSelectionStrategy;
 import task.Task;
 import team.Team;
+import config.Configuration;
 import constant.Constant;
 import agent.Agent;
 
 public class FileWriteManager {
 	static int fileNumber;	//ファイルのnumber
-	static boolean isWrite = false;	//追加か上書きか
-	static String path = "../../Dropbox/research/";
+	static boolean isWrite;	//追加か上書きか
+	static String path;
 	static String fileName;
 	
 	/**
@@ -35,13 +36,15 @@ public class FileWriteManager {
 	 * @param isExperiment TODO
 	 * @param number
 	 */
-	public static void set(String isExperiment, int number) {
-		fileNumber = number;
+	public static void set() {
+		isWrite = Configuration.ADD_WRITE;
+		path = Configuration.FILE_PATH;
+		fileNumber = Configuration.FILE_NUMBER;
 		
 		Date date = new Date();
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat sdf2 = new SimpleDateFormat("HH-mm");
-		path += isExperiment + "/" + sdf1.format(date) + "/";
+		path += Configuration.EXPERIMET_TYPE + "/" + sdf1.format(date) + "/";
 		fileName = sdf2.format(date) + "_" + fileNumber;
 	}
 	

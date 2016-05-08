@@ -29,7 +29,7 @@ public class MainMain {
 		//
 		//--------------------------------------------
 		Configuration.setParameters(args);
-		FileWriteManager.set(args[0], Integer.parseInt(args[1]));
+		FileWriteManager.set();
 		Experiment.set(args[2], args[3]);
 		
 		
