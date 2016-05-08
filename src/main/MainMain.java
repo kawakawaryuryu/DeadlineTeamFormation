@@ -30,7 +30,7 @@ public class MainMain {
 		//--------------------------------------------
 		Configuration.setParameters(args);
 		FileWriteManager.set();
-		Experiment.set(args[2], args[3]);
+		Experiment.set();
 		
 		
 		// チーム編成可視化の閾値のセット
