@@ -2,6 +2,7 @@ package main;
 
 import java.io.IOException;
 
+import random.RandomManager;
 import log.Log;
 import config.Configuration;
 import constant.Constant;

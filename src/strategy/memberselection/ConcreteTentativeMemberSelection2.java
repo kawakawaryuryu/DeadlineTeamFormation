@@ -2,12 +2,12 @@ package strategy.memberselection;
 
 import java.util.ArrayList;
 
+import random.RandomKey;
+import random.RandomManager;
 import task.Subtask;
 import task.Task;
 import library.AgentTaskLibrary;
 import log.Log;
-import main.RandomKey;
-import main.RandomManager;
 import main.TeamFormationMain;
 import message.OfferMessage;
 import constant.Constant;

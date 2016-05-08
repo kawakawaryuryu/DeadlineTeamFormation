@@ -1,10 +1,10 @@
 package strategy.subtaskallocation;
 
+import random.RandomKey;
+import random.RandomManager;
 import task.Subtask;
 import library.AgentTaskLibrary;
 import log.Log;
-import main.RandomKey;
-import main.RandomManager;
 import agent.Agent;
 
 public class RandomSubtaskAllocationStrategy implements

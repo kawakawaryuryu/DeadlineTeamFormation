@@ -3,11 +3,11 @@ package strategy.roleselection;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import random.RandomKey;
+import random.RandomManager;
 import task.Task;
 import library.AgentTaskLibrary;
 import log.Log;
-import main.RandomKey;
-import main.RandomManager;
 import message.OfferMessage;
 import constant.Constant;
 import agent.Agent;

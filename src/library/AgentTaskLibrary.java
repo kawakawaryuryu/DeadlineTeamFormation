@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import random.RandomKey;
+import random.RandomManager;
 import task.Subtask;
-import main.RandomKey;
-import main.RandomManager;
 import message.OfferMessage;
 import constant.Constant;
 import agent.Agent;

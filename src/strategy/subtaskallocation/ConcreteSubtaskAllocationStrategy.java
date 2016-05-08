@@ -3,11 +3,11 @@ package strategy.subtaskallocation;
 import java.util.Collections;
 import java.util.Comparator;
 
+import random.RandomKey;
+import random.RandomManager;
 import task.Subtask;
 import library.AgentTaskLibrary;
 import log.Log;
-import main.RandomKey;
-import main.RandomManager;
 import constant.Constant;
 import agent.Agent;
 

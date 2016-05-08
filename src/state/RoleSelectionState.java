@@ -2,6 +2,8 @@ package state;
 
 import java.util.HashMap;
 
+import random.RandomKey;
+import random.RandomManager;
 import role.FutureRole;
 import roleaction.BackToInitialStateAction;
 import roleaction.MoveToWaitingAction;
@@ -10,8 +12,6 @@ import roleaction.RoleAction;
 import strategy.StrategyManager;
 import strategy.roleselection.RoleSelectionStrategy;
 import log.Log;
-import main.RandomKey;
-import main.RandomManager;
 import constant.Constant;
 import agent.Agent;
 

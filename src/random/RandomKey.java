@@ -1,4 +1,4 @@
-package main;
+package random;
 
 public enum RandomKey {
 	AGENT_RANDOM,

@@ -2,9 +2,9 @@ package agent;
 
 import java.util.Arrays;
 
+import random.RandomKey;
+import random.RandomManager;
 import log.Log;
-import main.RandomKey;
-import main.RandomManager;
 import constant.Constant;
 
 public class Agent {
