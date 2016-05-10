@@ -118,7 +118,7 @@ public class TeamFormationMain {
 			
 			// キューにタスクを追加
 			// TODO ADD_TASK_INTERVAL=1のときはturn % Constant.ADD_TASK_INTERVAL == 0に変える必要性
-			if(turn % Constant.ADD_TASK_INTERVAL == 0){
+			if(isTaskTurn(turn, Constant.ADD_TASK_INTERVAL)){
 				parameter.addTaskToQueue();	
 			}
 			
@@ -182,6 +182,18 @@ public class TeamFormationMain {
 		closeTaskQueueWrite(experimentNumber, taskQueueWriter);
 		
 		debugExecutedTaskRequire();
+	}
+	
+	private static boolean isTaskTurn(int turn, int interval) {
+		if (interval == 1) {
+			return true;
+		} else if (interval > 1) {
+			return turn % interval == 1;
+		} else {
+			System.err.println("intervalの値がありえません");
+			System.exit(-1);
+			return false;
+		}
 	}
 	
 	private static void debugExecutedTaskRequire() {
