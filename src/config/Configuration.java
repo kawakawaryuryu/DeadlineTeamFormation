@@ -2,6 +2,9 @@ package config;
 
 import log.Log;
 import log.logger.Type;
+import main.AgentActionManager;
+import main.model.Model;
+import main.model.TaskCopy;
 
 
 public class Configuration {
@@ -21,6 +24,12 @@ public class Configuration {
 	public static String LEARNING;
 	public static String ESTIMATION;
 
+
+	// Model
+	public static Model model = new TaskCopy();
+
+	// AgetnactionManager
+	public static AgentActionManager action = new AgentActionManager();
 
 
 	public static void setParameters(String args[]) {

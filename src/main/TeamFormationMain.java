@@ -12,6 +12,7 @@ import state.SubtaskReceptionState;
 import state.TaskExecuteState;
 import state.TaskMarkedWaitingState;
 import state.TaskSelectionState;
+import config.Configuration;
 import constant.Constant;
 import agent.Agent;
 
@@ -133,11 +134,7 @@ public class TeamFormationMain {
 			parameter.shuffleAgentsMap();
 			
 			// 行動する
-			actionByInitialAgent();
-			actionByMarkedWatingAgent();
-			actionByRoleSelectionAgent();
-			actionByLeaderOrMemberAgent();
-			actionByExecuteAgent();
+			Configuration.model.run(Configuration.action);
 			
 			// タスクキューのサイズを計算
 			int noMarkTaskNum = parameter.getNoMarkingTaskNum();
