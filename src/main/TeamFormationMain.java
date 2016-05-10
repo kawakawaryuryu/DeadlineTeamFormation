@@ -41,57 +41,6 @@ public class TeamFormationMain {
 		return post;
 	}
 	
-	private static void actionByMarkedWatingAgent() {
-		// 自分に来ているメッセージを破棄
-		for(Agent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
-			agent.getParameter().getOfferMessages().clear();
-		}
-		Log.log.debugln("------- タスクマーク待機状態のエージェントの行動 -------");
-		for(Agent agent : parameter.agentsMap.get(TaskMarkedWaitingState.getState())){
-			agent.action();
-		}
-		Log.log.debugln();
-	}
-	
-	private static void actionByInitialAgent() {
-		for(Agent agent : parameter.agentsMap.get(TaskSelectionState.getState())){
-			agent.getParameter().initialize();
-		}
-		Log.log.debugln("------- タスク選択状態のエージェントの行動 -------");
-		for(Agent agent : parameter.agentsMap.get(TaskSelectionState.getState())){
-			agent.action();
-		}
-		Log.log.debugln();
-	}
-	
-	private static void actionByRoleSelectionAgent() {
-		Log.log.debugln("------- 役割選択状態のエージェントの行動 / タスクをマークしていないエージェント -------");
-		for(Agent agent : parameter.agentsMap.get(RoleSelectionState.getState())){
-			agent.action();
-		}
-		Log.log.debugln();
-	}
-	
-	private static void actionByLeaderOrMemberAgent() {
-		Log.log.debugln("------- リーダ状態のエージェントの行動 -------");
-		for(Agent agent : parameter.agentsMap.get(SubtaskAllocationState.getState())){
-			agent.action();
-		}
-		Log.log.debugln();
-		Log.log.debugln("------- メンバ状態のエージェントの行動 -------");
-		for(Agent agent : parameter.agentsMap.get(SubtaskReceptionState.getState())){
-			agent.action();
-		}
-		Log.log.debugln();
-	}
-	
-	private static void actionByExecuteAgent() {
-		Log.log.debugln("------- タスク実行状態のエージェントの行動 -------");
-		for(Agent agent : parameter.agentsMap.get(TaskExecuteState.getState())){
-			agent.action();
-		}
-		Log.log.debugln();
-	}
 
 	public static void teamFormation(int experimentNumber) throws IOException {
 		parameter.initialize();
