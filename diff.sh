@@ -21,6 +21,8 @@ time2=$6
 path1="${HOME}/Dropbox/research/${type1}/${date1}/data"
 path2="${HOME}/Dropbox/research/${type2}/${date2}/data"
 
+tmp="${PWD}/tmp"
+
 get_dir() {
 	local dir=$1
 	local time=$2
@@ -113,10 +115,27 @@ check() {
 diff_files() {
 	local path1=$1
 	local path2=$2
+	local first="/Users/kawaguchiryuutarou/Dropbox/research"
+
+	local tmp_f1="$tmp${path1#${first}}"
+	local tmp_f2="$tmp${path2#${first}}"
+
+	# tmpディレクトリ、ファイル作成
+	local f1=`basename $path1`
+	local f2=`basename $path2`
+	mkdir -p ${tmp_f1%${f1}}
+	mkdir -p ${tmp_f2%${f2}}
+	touch $tmp_f1
+	touch $tmp_f2
 	
-	git diff --no-index $path1 $path2
+	# 文字コードをUTF-8にして別ファイルに書き出し
+	nkf -w $path1 > $tmp_f1
+	nkf -w $path2 > $tmp_f2
+
+	# diffをとる
+	git diff --no-index $tmp_f1 $tmp_f2
 }
 
-
+mkdir $tmp
 search
-
+rm -rf $tmp
