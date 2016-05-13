@@ -6,12 +6,6 @@ import java.util.ArrayList;
 
 import log.Log;
 import post.Post;
-import state.RoleSelectionState;
-import state.SubtaskAllocationState;
-import state.SubtaskReceptionState;
-import state.TaskExecuteState;
-import state.TaskMarkedWaitingState;
-import state.TaskSelectionState;
 import config.Configuration;
 import constant.Constant;
 import agent.Agent;
