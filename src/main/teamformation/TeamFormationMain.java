@@ -1,7 +1,5 @@
 package main.teamformation;
 
-import java.io.IOException;
-
 import log.Log;
 import config.Configuration;
 import constant.Constant;
@@ -15,12 +13,14 @@ public class TeamFormationMain {
 		return turn;
 	}
 	
+	// TODO どこかのクラスで一元管理でなくてよいか
 	private static TeamFormationInstances instance = TeamFormationInstances.getInstance();
 
-	public static void teamFormation(int experimentNumber) throws IOException {
+	public static void teamFormation(int experimentNumber) {
 		instance.initialize();
 		
 		// エージェントの生成
+		// TODO 全てをTeamFormationParameterに任してよいか（完全にブラックボックスでよいか）
 		instance.getParameter().makeAgents();
 
 		// エージェントの能力を指定して生成
@@ -50,9 +50,11 @@ public class TeamFormationMain {
 			instance.getParameter().shuffleAgentsMap();
 			
 			// 行動する
+			// TODO modelはConfigurationから引っ張ってくるでいいか コンストラクタ引数で与える必要はないか
 			Configuration.model.run(Configuration.action);
 			
 			// タスクキューのサイズを計算
+			// TODO ここだけ系統の違う処理 別クラスに移す必要あるか
 			int noMarkTaskNum = instance.getParameter().getNoMarkingTaskNum();
 			instance.getMeasure().countTaskQueueNum(noMarkTaskNum, instance.getParameter().taskQueue.size());
 			

@@ -3,7 +3,6 @@ package main;
 import java.util.Arrays;
 
 import main.teamformation.TeamFormationInstances;
-import main.teamformation.TeamFormationMain;
 import constant.Constant;
 
 public class MeasuredDataManager {

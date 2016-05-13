@@ -67,8 +67,8 @@ public class TeamFormationParameter {
 		return agents;
 	}
 	
-	public HashMap<State, ArrayList<Agent>> getAgentsMap() {
-		return agentsMap;
+	public ArrayList<Agent> getAgentsFromMap(State state) {
+		return agentsMap.get(state);
 	}
 	
 	public void debugAgents() {
