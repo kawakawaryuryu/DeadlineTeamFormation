@@ -1,4 +1,4 @@
-package main;
+package main.teamformation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -220,6 +220,12 @@ public class TeamFormationMeasuredData {
 		markedTaskRequire[arrayIndex] += markedTask.getTaskRequireSum();
 		markedTaskDeadline[arrayIndex] += markedTask.getDeadlineInTask();
 	}
+	
+	public int getAllSuccessTeamFormationEdge() {
+		return allSuccessTeamFormationEdge;
+	}
+	
+	
 	
 	/**
 	 * 割る数が0にならないようにする

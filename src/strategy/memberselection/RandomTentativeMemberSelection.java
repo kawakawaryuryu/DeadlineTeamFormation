@@ -8,7 +8,7 @@ import task.Subtask;
 import task.Task;
 import library.AgentTaskLibrary;
 import log.Log;
-import main.TeamFormationMain;
+import main.teamformation.TeamFormationInstances;
 import message.OfferMessage;
 import constant.Constant;
 import agent.Agent;
@@ -64,7 +64,7 @@ public class RandomTentativeMemberSelection implements
 		for(Subtask subtask : task.subtasksByMembers){
 			int selected = 0;
 			Agent selectedMember;	//メンバ候補
-			ArrayList<Agent> canExecuteSubTaskAgents = new ArrayList<Agent>(TeamFormationMain.getParameter().getAgent());
+			ArrayList<Agent> canExecuteSubTaskAgents = new ArrayList<Agent>(TeamFormationInstances.getInstance().getParameter().getAgents());
 			
 			while(selected < Constant.SELECT_MEMBER_NUM){
 				Log.log.debugln(subtask + " のサブタスク　" + (selected + 1) + "回目:メンバ候補を選択します");
@@ -103,7 +103,7 @@ public class RandomTentativeMemberSelection implements
 			Agent leader) {
 		for(Subtask subtask : task.subtasksByMembers){
 			for(Agent agent : subtask.getAgentInfo().getSelectedAgents()){
-				TeamFormationMain.getPost().postOfferMessage(agent, new OfferMessage(leader, agent, subtask));
+				TeamFormationInstances.getInstance().getPost().postOfferMessage(agent, new OfferMessage(leader, agent, subtask));
 				leader.getParameter().addSendAgents(agent);
 			}
 		}

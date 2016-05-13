@@ -8,7 +8,7 @@ import task.Subtask;
 import task.Task;
 import library.AgentTaskLibrary;
 import log.Log;
-import main.TeamFormationMain;
+import main.teamformation.TeamFormationInstances;
 import message.OfferMessage;
 import constant.Constant;
 import agent.Agent;
@@ -30,7 +30,7 @@ TentativeMemberSelectionStrategy {
 
 		// エージェントを信頼度にソート
 		Agent[] sortedAgents = AgentTaskLibrary.getSortedAgentsFromArray(leader.getTrustToMember(), 
-				TeamFormationMain.getParameter().getAgent());
+				TeamFormationInstances.getInstance().getParameter().getAgents());
 		debugSortedAgents(sortedAgents, leader);
 
 		// タスク中の各サブタスクをリソースの降順にソート
@@ -131,7 +131,7 @@ TentativeMemberSelectionStrategy {
 			Agent leader) {
 		for(Subtask subtask : task.subtasksByMembers){
 			for(Agent agent : subtask.getAgentInfo().getSelectedAgents()){
-				TeamFormationMain.getPost().postOfferMessage(agent, new OfferMessage(leader, agent, subtask));
+				TeamFormationInstances.getInstance().getPost().postOfferMessage(agent, new OfferMessage(leader, agent, subtask));
 				leader.getParameter().addSendAgents(agent);
 			}
 		}	

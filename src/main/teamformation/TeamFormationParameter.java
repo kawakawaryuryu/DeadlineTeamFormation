@@ -1,10 +1,11 @@
-package main;
+package main.teamformation;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
 import log.Log;
+import main.TaskMarking;
 import random.RandomKey;
 import random.RandomManager;
 import state.State;
@@ -50,12 +51,24 @@ public class TeamFormationParameter {
 //		taskMarkingAgentMap.put(TaskMarking.NO_TASK_MARKING, new ArrayList<Agent>());
 	}
 	
+	public void makeAgents() {
+		// エージェントの生成
+		for(int id = 0; id < Constant.AGENT_NUM; id++){
+			agents.add(new Agent(id));
+			
+		}
+	}
+	
 	public Agent getAgent(int i){
 		return agents.get(i);
 	}
 	
-	public ArrayList<Agent> getAgent(){
+	public ArrayList<Agent> getAgents(){
 		return agents;
+	}
+	
+	public HashMap<State, ArrayList<Agent>> getAgentsMap() {
+		return agentsMap;
 	}
 	
 	public void debugAgents() {

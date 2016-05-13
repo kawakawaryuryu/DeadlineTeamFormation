@@ -1,7 +1,8 @@
 package test;
 
 import static org.junit.Assert.*;
-import main.TeamFormationMain;
+import main.teamformation.TeamFormationInstances;
+import main.teamformation.TeamFormationMain;
 
 import org.junit.Test;
 
@@ -55,9 +56,9 @@ public class FirstInFirstOutTest {
 	public void testSelectTask1() {
 		Task task1 = new Task(0, 3, 3);
 		Task task2 = new Task(1, 3, 5);
-		TeamFormationMain.getParameter().taskQueue.clear();
-		TeamFormationMain.getParameter().taskQueue.add(task1);
-		TeamFormationMain.getParameter().taskQueue.add(task2);
+		TeamFormationInstances.getInstance().getParameter().taskQueue.clear();
+		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task1);
+		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task2);
 		
 		Agent agent = new Agent(0);
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
@@ -68,9 +69,9 @@ public class FirstInFirstOutTest {
 	public void testSelectTask2() {
 		Task task1 = new Task(0, 3, 3);
 		Task task2 = new Task(1, 3, 5);
-		TeamFormationMain.getParameter().taskQueue.clear();
-		TeamFormationMain.getParameter().taskQueue.add(task1);
-		TeamFormationMain.getParameter().taskQueue.add(task2);
+		TeamFormationInstances.getInstance().getParameter().taskQueue.clear();
+		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task1);
+		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task2);
 		
 		Agent agent = new Agent(0);
 		Team team = new Team(agent);
@@ -86,9 +87,9 @@ public class FirstInFirstOutTest {
 		Task task1 = new Task(0, 3, 5);
 		task1.markingTask(true, Failure.MARK_TURE);
 		Task task2 = new Task(1, 3, 5);
-		TeamFormationMain.getParameter().taskQueue.clear();
-		TeamFormationMain.getParameter().taskQueue.add(task1);
-		TeamFormationMain.getParameter().taskQueue.add(task2);
+		TeamFormationInstances.getInstance().getParameter().taskQueue.clear();
+		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task1);
+		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task2);
 		
 		Agent agent = new Agent(0);
 		Team team = new Team(agent);

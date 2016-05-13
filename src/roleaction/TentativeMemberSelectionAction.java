@@ -8,7 +8,7 @@ import strategy.memberselection.TentativeMemberSelectionStrategy;
 import task.Failure;
 import team.Team;
 import log.Log;
-import main.TeamFormationMain;
+import main.teamformation.TeamFormationInstances;
 import message.AnswerMessage;
 import message.OfferMessage;
 import agent.Agent;
@@ -40,7 +40,7 @@ public class TentativeMemberSelectionAction implements RoleAction {
 	private void refuseOfferMessages(Agent agent) {
 		for(OfferMessage offer : agent.getParameter().getOfferMessages()){
 			Log.log.debugln(offer.getFrom() + "からのメッセージを断ります");
-			TeamFormationMain.getPost().postAnswerMessage(offer.getFrom(), 
+			TeamFormationInstances.getInstance().getPost().postAnswerMessage(offer.getFrom(), 
 					new AnswerMessage(agent, offer.getFrom(), false, offer.getSubtask()));
 		}
 	}
@@ -54,7 +54,7 @@ public class TentativeMemberSelectionAction implements RoleAction {
 	private void actionInSearchingFailureCase(Agent agent) {
 		agent.getParameter().getMarkedTask().markingTask(false, Failure.ESTIMATION_FAILURE);
 		agent.getParameter().getMarkedTask().clear();
-		TeamFormationMain.getMeasure().countGiveUpTeamFormationNum();
+		TeamFormationInstances.getInstance().getMeasure().countGiveUpTeamFormationNum();
 		agent.getParameter().changeState(TaskSelectionState.getState());
 	}
 	

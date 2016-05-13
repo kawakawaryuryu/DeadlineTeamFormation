@@ -2,9 +2,16 @@ package main;
 
 import java.util.Arrays;
 
+import main.teamformation.TeamFormationInstances;
+import main.teamformation.TeamFormationMain;
 import constant.Constant;
 
 public class MeasuredDataManager {
+	
+	private TeamFormationInstances instance = TeamFormationInstances.getInstance();
+	
+	
+	
 	double[] successTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	int allSuccessTaskRequire;
 	double[] failureTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
@@ -99,65 +106,65 @@ public class MeasuredDataManager {
 	
 	private void saveMeasuredDataPerTurn() {
 		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
-			successTaskRequire[i] += TeamFormationMain.getMeasure().successTaskRequire[i]; 
-			failureTaskRequire[i] += TeamFormationMain.getMeasure().failureTaskRequire[i];
-			failureTaskNum[i] += TeamFormationMain.getMeasure().failureTaskNum[i];
-			successTeamFormationNum[i] += TeamFormationMain.getMeasure().successTeamFormationNum[i];
-			failureTeamFormationNum[i] += TeamFormationMain.getMeasure().failureTeamFormationNum[i];
-			giveUpTeamFormationNum[i] += TeamFormationMain.getMeasure().giveUpTeamFormationNum[i];
-			tryingTeamFormationNum[i] += TeamFormationMain.getMeasure().tryingTeamFormationNum[i];
+			successTaskRequire[i] += instance.getMeasure().successTaskRequire[i]; 
+			failureTaskRequire[i] += instance.getMeasure().failureTaskRequire[i];
+			failureTaskNum[i] += instance.getMeasure().failureTaskNum[i];
+			successTeamFormationNum[i] += instance.getMeasure().successTeamFormationNum[i];
+			failureTeamFormationNum[i] += instance.getMeasure().failureTeamFormationNum[i];
+			giveUpTeamFormationNum[i] += instance.getMeasure().giveUpTeamFormationNum[i];
+			tryingTeamFormationNum[i] += instance.getMeasure().tryingTeamFormationNum[i];
 			for(int j = 0; j < Constant.ARRAY_SIZE_FOR_TEAM; j++){
-				successTeamFormationNumEveryTeamSize[i][j] += TeamFormationMain.getMeasure().successTeamFormationNumEveryTeamSize[i][j];
+				successTeamFormationNumEveryTeamSize[i][j] += instance.getMeasure().successTeamFormationNumEveryTeamSize[i][j];
 			}
-			bindingTimeInTeam[i] += TeamFormationMain.getMeasure().getAverageBindingTimeInTeam(i);
-//			Log.log.debugln(TeamFormationMain.getMeasure().getAverageBindingTimeInTeam(i));
-			executingTimePerAgentInTeam[i] += TeamFormationMain.getMeasure().getAverageExecutingTimePerAgentInTeam(i);
-//			Log.log.debugln(TeamFormationMain.getMeasure().getAverageExecutingTimePerAgentInTeam(i));
-			bindingTimePerAgentInTeam[i] += TeamFormationMain.getMeasure().getAverageBindingTimePerAgentInTeam(i);
-//			Log.log.debugln(TeamFormationMain.getMeasure().getAverageBindingTimePerAgentInTeam(i));
+			bindingTimeInTeam[i] += instance.getMeasure().getAverageBindingTimeInTeam(i);
+//			Log.log.debugln(instance.getMeasure().getAverageBindingTimeInTeam(i));
+			executingTimePerAgentInTeam[i] += instance.getMeasure().getAverageExecutingTimePerAgentInTeam(i);
+//			Log.log.debugln(instance.getMeasure().getAverageExecutingTimePerAgentInTeam(i));
+			bindingTimePerAgentInTeam[i] += instance.getMeasure().getAverageBindingTimePerAgentInTeam(i);
+//			Log.log.debugln(instance.getMeasure().getAverageBindingTimePerAgentInTeam(i));
 		}
 	}
 	
 	private void saveMeasuredDataAtEnd() {
-		allSuccessTaskRequire += TeamFormationMain.getMeasure().allSuccessTaskRequire;
-		allFailureTaskRequire += TeamFormationMain.getMeasure().allFailureTaskRequire;
-		allSuccessTeamFormationNum += TeamFormationMain.getMeasure().allSuccessTeamFormationNum;
-		successTeamFormationNumAtEnd += TeamFormationMain.getMeasure().successTeamFormationNumAtEnd;
+		allSuccessTaskRequire += instance.getMeasure().allSuccessTaskRequire;
+		allFailureTaskRequire += instance.getMeasure().allFailureTaskRequire;
+		allSuccessTeamFormationNum += instance.getMeasure().allSuccessTeamFormationNum;
+		successTeamFormationNumAtEnd += instance.getMeasure().successTeamFormationNumAtEnd;
 	}
 	
 	private void saveMeasuredDataEveryTeamSize() {
 		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_TEAM; i++){
-			allSuccessTeamFormationNumEveryTeamSize[i] += TeamFormationMain.getMeasure().allSuccessTeamFormationNumEveryTeamSize[i];
-			bindingTimeInTeamEveryTeamSize[i] += TeamFormationMain.getMeasure().getAverageBindingTimeInTeamEveryTeamSize(i);
+			allSuccessTeamFormationNumEveryTeamSize[i] += instance.getMeasure().allSuccessTeamFormationNumEveryTeamSize[i];
+			bindingTimeInTeamEveryTeamSize[i] += instance.getMeasure().getAverageBindingTimeInTeamEveryTeamSize(i);
 		}
 	}
 	
 	private void saveTeamExecuteData() {
-		teamExecuteTime += TeamFormationMain.getMeasure().getAverageTeamExecuteTimeInTeam();
-		executingTimePerAgentInTeamAtEnd += TeamFormationMain.getMeasure().getAverageExecutingTimePerAgentInTeamAtEnd();
-		bindingTimePerAgentInTeamAtEnd += TeamFormationMain.getMeasure().getAverageBindingTimePerAgentInTeamAtEnd();
+		teamExecuteTime += instance.getMeasure().getAverageTeamExecuteTimeInTeam();
+		executingTimePerAgentInTeamAtEnd += instance.getMeasure().getAverageExecutingTimePerAgentInTeamAtEnd();
+		bindingTimePerAgentInTeamAtEnd += instance.getMeasure().getAverageBindingTimePerAgentInTeamAtEnd();
 	}
 	
 	private void saveTeamSizeData() {
-		tentativeTeamSize += TeamFormationMain.getMeasure().getAverageTentativeTeamSize();
-		teamSize += TeamFormationMain.getMeasure().getAverageTeamSize();
+		tentativeTeamSize += instance.getMeasure().getAverageTentativeTeamSize();
+		teamSize += instance.getMeasure().getAverageTeamSize();
 	}
 	
 	private void saveMainRoleData() {
-		leaderMain += TeamFormationMain.getMeasure().leaderMain;
-		memberMain += TeamFormationMain.getMeasure().memberMain;
-		neitherLeaderNorMember += TeamFormationMain.getMeasure().neitherLeaderNorMember;
+		leaderMain += instance.getMeasure().leaderMain;
+		memberMain += instance.getMeasure().memberMain;
+		neitherLeaderNorMember += instance.getMeasure().neitherLeaderNorMember;
 	}
 	
 	private void saveTaskQueueNum() {
-		unmarkedTaskQueueNum += TeamFormationMain.getMeasure().getAverageUnmarkedTaskQueueNum();
-		taskQueueNum += TeamFormationMain.getMeasure().getAverageTaskQueueNum();
+		unmarkedTaskQueueNum += instance.getMeasure().getAverageUnmarkedTaskQueueNum();
+		taskQueueNum += instance.getMeasure().getAverageTaskQueueNum();
 	}
 	
 	private void saveMarkedTask() {
 		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
-			markedTaskRequire[i] += TeamFormationMain.getMeasure().getAverageMarkedTaskRequire(i);
-			markedTaskDeadline[i] += TeamFormationMain.getMeasure().getAverageMarkedTaskDeadline(i);
+			markedTaskRequire[i] += instance.getMeasure().getAverageMarkedTaskRequire(i);
+			markedTaskDeadline[i] += instance.getMeasure().getAverageMarkedTaskDeadline(i);
 		}
 	}
 	

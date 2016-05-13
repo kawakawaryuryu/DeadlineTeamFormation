@@ -4,7 +4,7 @@ import role.Role;
 import state.SubtaskReceptionState;
 import task.Failure;
 import log.Log;
-import main.TeamFormationMain;
+import main.teamformation.TeamFormationInstances;
 import message.AnswerMessage;
 import message.OfferMessage;
 import agent.Agent;
@@ -29,12 +29,12 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 		for(OfferMessage offer : agent.getParameter().getOfferMessages()){
 			if(agent.getParameter().getSelectedOfferMessage() != offer){
 				Log.log.debugln(offer.getFrom() + " に参加NGメッセージを返信しました");
-				TeamFormationMain.getPost().postAnswerMessage(offer.getFrom(), 
+				TeamFormationInstances.getInstance().getPost().postAnswerMessage(offer.getFrom(), 
 						new AnswerMessage(agent, offer.getFrom(), false, offer.getSubtask()));
 			}
 			else{
 				Log.log.debugln(offer.getFrom() + " に参加OKメッセージを返信しました");
-				TeamFormationMain.getPost().postAnswerMessage(offer.getFrom(), 
+				TeamFormationInstances.getInstance().getPost().postAnswerMessage(offer.getFrom(), 
 						new AnswerMessage(agent, offer.getFrom(), true, offer.getSubtask()));
 			}
 		}
