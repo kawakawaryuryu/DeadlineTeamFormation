@@ -1,6 +1,7 @@
 package main.teamformation;
 
 import log.Log;
+import main.file.FileManager;
 import config.Configuration;
 import constant.Constant;
 import agent.Agent;
@@ -8,6 +9,8 @@ import agent.Agent;
 public class TeamFormationMain {
 	
 	private static int turn = 0;
+	
+	private static FileManager fileMng = new FileManager();
 	
 	public static int getTurn() {
 		return turn;
@@ -28,6 +31,8 @@ public class TeamFormationMain {
 		
 		instance.getParameter().debugAgents();
 		
+		// 書き込みファイルインスタンスの設定
+		fileMng.setFileInstances(experimentNumber);
 		
 		// チーム編成の開始
 		for(turn = 1; turn <= Constant.TURN_NUM; turn++){
@@ -61,8 +66,12 @@ public class TeamFormationMain {
 			// デッドラインを減らす
 			instance.getParameter().decreaseTaskDeadline(instance.getMeasure());
 			
+			// ファイルに計測データ書き込み
+			fileMng.write(turn, experimentNumber, noMarkTaskNum);
 			
 		}
+		// 1回のチーム編成に1回のみ書き込めばよいデータの書き込み
+		fileMng.writeOnce(experimentNumber);
 		
 		// 1回のチーム編成におけるエージェントごとのデータを計測
 		instance.getMeasure().measureAtEnd(instance.getParameter().agents);
