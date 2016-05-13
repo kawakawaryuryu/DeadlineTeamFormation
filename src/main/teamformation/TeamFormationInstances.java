@@ -7,7 +7,7 @@ import post.Post;
  */
 public class TeamFormationInstances {
 
-	public TeamFormationInstances() {
+	private TeamFormationInstances() {
 		
 	}
 	
