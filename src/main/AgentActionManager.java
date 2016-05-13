@@ -7,7 +7,7 @@ import agent.Agent;
 
 public class AgentActionManager {
 
-	private TeamFormationInstances instance = TeamFormationInstances.getInstance();
+	private static TeamFormationInstances instance = TeamFormationInstances.getInstance();
 
 	public void actionByMarkedWatingAgent() {
 		// 自分に来ているメッセージを破棄

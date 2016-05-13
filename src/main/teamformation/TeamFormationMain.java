@@ -76,6 +76,8 @@ public class TeamFormationMain {
 		// 1回のチーム編成におけるエージェントごとのデータを計測
 		instance.getMeasure().measureAtEnd(instance.getParameter().agents);
 		
+		// ファイルインスタンスをclose
+		fileMng.close(experimentNumber);
 		
 		debugExecutedTaskRequire();
 	}
