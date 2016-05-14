@@ -1,7 +1,6 @@
 package main.teamformation;
 
 import log.Log;
-import main.file.FileManager;
 import main.model.Model;
 import config.Configuration;
 import constant.Constant;
@@ -11,7 +10,7 @@ public class TeamFormationMain {
 	
 	private static int turn = 0;
 	
-	private static FileManager fileMng = new FileManager();
+	private static TeamFormationFileManager fileMng = new TeamFormationFileManager();
 	
 	public static int getTurn() {
 		return turn;

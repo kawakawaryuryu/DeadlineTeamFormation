@@ -1,4 +1,4 @@
-package main.file;
+package main.teamformation;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,11 +8,10 @@ import constant.Constant;
 import agent.Agent;
 import main.FileWriteManager;
 import main.VisualFileWriter;
-import main.teamformation.TeamFormationInstances;
 
-public class FileManager {
+public class TeamFormationFileManager {
 
-	public FileManager() {
+	public TeamFormationFileManager() {
 
 	}
 	
