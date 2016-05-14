@@ -45,9 +45,27 @@ public class FileWriteManager {
 		Date date = new Date();
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat sdf2 = new SimpleDateFormat("HH-mm");
-		path += Configuration.EXPERIMET_TYPE + "/" + sdf1.format(date) + "/";
+		path += Configuration.EXPERIMET_TYPE + "/" + sdf1.format(date) + "/data/";
 		fileName = sdf2.format(date) + "_" + fileNumber;
 	}
+	
+	private static String getPath(String dataType, String tailDir) {
+		return path + dataType + "/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + tailDir;
+	}
+	
+	private static void makeDirectory(String dataType, String tailDir) {
+		File directory = new File(getPath(dataType, tailDir));
+		/* ディレクトリが存在しない場合はディレクトリを作成 */
+		if(!directory.exists()){
+			directory.mkdirs();
+		}
+	}
+	
+	private static PrintWriter getPrintWriter(String dataType, String tailDir, String file) throws IOException {
+		return new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
+				(getPath(dataType, tailDir) + "/" + file + ".csv", isWrite), "Shift_JIS")));
+	}
+	
 	
 	/**
 	 * ファイルの内容説明の書き込み
@@ -62,12 +80,11 @@ public class FileWriteManager {
 		SubtaskAllocationStrategy allocationStrategy = StrategyManager.getAllocationStrategy();
 		TentativeMemberSelectionStrategy memberSelectionStrategy = StrategyManager.getMemberSelectionStrategy();
 		
-		File directory = new File(path + "data/file/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/");
-		/* ディレクトリが存在しない場合はディレクトリを作成 */
-		if(!directory.exists()){
-			directory.mkdirs();
-		}
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path + "data/file/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/file_" + fileName + ".csv", false), "Shift_JIS")));
+		makeDirectory("file", "");
+
+		String file = "file" + "_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("file", "", file);
+
 		pw.println("ファイル名" + "," + Constant.TURN_NUM + "turn_" + Constant.AGENT_NUM + "agents_" + fileName + ".csv");
 		pw.println("FIFO、マークあり、チームの履歴を保持、1tickごとの獲得報酬で報酬期待度を学習、リーダにはまず1個だけ割り当てる、タスクコピーに時間がかかる（失敗時は拘束されない）");
 		pw.println("学習" + "," + learning);
@@ -108,19 +125,16 @@ public class FileWriteManager {
 	
 	/**
 	 * 時間ごとの計測データのヘッダを書き込む
-	 * @param allExperimentNum
 	 * @return
 	 * @throws IOException
 	 */
-	private static PrintWriter writeHeaderOfMeasuredDataPerTurn(int allExperimentNum) throws IOException{
-		File directory = new File(path + "data/TaskRequireResult/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/average");
-		/* ディレクトリが存在しない場合はディレクトリを作成 */
-		if(!directory.exists()){
-			directory.mkdirs();
-		}
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/TaskRequireResult/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/average/require_average_" + fileName + ".csv", isWrite), "Shift_JIS")));
-		pw.println("平均" + allExperimentNum + "回");
+	private static PrintWriter writeHeaderOfMeasuredDataPerTurn() throws IOException{
+		makeDirectory("TaskRequireResult", "/average");
+
+		String file = "require_average" + "_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("TaskRequireResult", "/average", file);
+
+		pw.println("平均" + Constant.EXPERIMENT_NUM + "回");
 		pw.print("経過ターン");
 		pw.print(",");
 		pw.print(Constant.MEASURE_TURN_NUM + "ターン毎のタスク処理リソース量");
@@ -156,7 +170,7 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	public static void writeBodyOfMeasuredDataPerTurn(MeasuredDataManager measure) throws IOException{	
-		PrintWriter pw = writeHeaderOfMeasuredDataPerTurn(Constant.EXPERIMENT_NUM);
+		PrintWriter pw = writeHeaderOfMeasuredDataPerTurn();
 		
 		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
 			int turn = Constant.MEASURE_TURN_NUM * (i + 1);
@@ -192,18 +206,15 @@ public class FileWriteManager {
 	
 	/**
 	 * チーム人数ごとのチーム編成成功回数の時間推移を書き込む（最初）
-	 * @param allExperimentNum
 	 * @throws IOException
 	 */
-	private static PrintWriter writeHeaderOfTeamMeasuredData(int allExperimentNum) throws IOException {
-		File directory = new File(path + "data/TaskRequireResult/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/teamingSuccess");
-		/* ディレクトリが存在しない場合はディレクトリを作成 */
-		if(!directory.exists()){
-			directory.mkdirs();
-		}
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/TaskRequireResult/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/teamingSuccess/teaming_success_" + fileName + ".csv", isWrite), "Shift_JIS")));
-		pw.println("平均" + allExperimentNum + "回 チーム人数ごとのチーム編成成功回数");
+	private static PrintWriter writeHeaderOfTeamMeasuredData() throws IOException {
+		makeDirectory("TaskRequireResult", "/teamingSuccess");
+
+		String file = "teaming_success" + "_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("TaskRequireResult", "teamingSuccess", file);
+
+		pw.println("平均" + Constant.EXPERIMENT_NUM + "回 チーム人数ごとのチーム編成成功回数");
 		pw.print("経過ターン");
 		pw.print(",");
 		for(int i = 1; i < Constant.ARRAY_SIZE_FOR_TEAM; i++){
@@ -221,7 +232,7 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	public static void writeBodyOfTeamMeasuredData(MeasuredDataManager measure) throws IOException {
-		PrintWriter pw = writeHeaderOfTeamMeasuredData(Constant.EXPERIMENT_NUM);
+		PrintWriter pw = writeHeaderOfTeamMeasuredData();
 		
 		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
 			int turn = Constant.ARRAY_SIZE_FOR_MEASURE * (i + 1);
@@ -243,13 +254,11 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	public static PrintWriter writeHeaderOfGreedy(ArrayList<Agent> agents) throws IOException{
-		File directory = new File(path + "data/greedy/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/");
-		/* ディレクトリが存在しない場合はディレクトリを作成 */
-		if(!directory.exists()){
-			directory.mkdirs();
-		}
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/greedy/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/greedy_" + fileName + ".csv", isWrite), "Shift_JIS")));
+		makeDirectory("greedy", "");
+
+		String file = "greedy" + "_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("greedy", "", file);
+
 		pw.print("経過ターン");
 		pw.print(",");
 		for(int i = 0; i < Constant.AGENT_NUM; i++){
@@ -288,13 +297,10 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	public static void writeTrustToMember(ArrayList<Agent> agents, int turn) throws IOException{
-		File directory = new File(path + "data/trust/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + fileName + "/result/");
-		/* ディレクトリが存在しない場合はディレクトリを作成 */
-		if(!directory.exists()){
-			directory.mkdirs();
-		}
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/trust/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + fileName + "/result/trust_" + turn + ".csv", isWrite), "Shift_JIS")));
+		makeDirectory("trust", "/" + fileName + "/result");
+
+		String file = "trust_" + turn + ".csv";
+		PrintWriter pw = getPrintWriter("trust", "/" + fileName + "/result", file);
 
 		pw.print(",");
 		for(int i = 0; i < Constant.AGENT_NUM; i++){
@@ -324,13 +330,11 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	public static void writeRewardExpectation(ArrayList<Agent> agents, int turn) throws IOException{
-		File directory = new File(path + "data/expectedReward/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + fileName + "/result/");
-		/* ディレクトリが存在しない場合はディレクトリを作成 */
-		if(!directory.exists()){
-			directory.mkdirs();
-		}
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/expectedReward/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + fileName + "/result/expectedReward_" + turn + ".csv", isWrite), "Shift_JIS")));
+		makeDirectory("expectedReward", "/" + fileName + "/result/");
+
+		String file = "expectedReward_" + turn + ".csv";
+		PrintWriter pw = getPrintWriter("expectedReward", "/" + fileName + "/result/", file);
+		
 //		pw.println(experimentNumber + "回目");
 		pw.print(",");
 		for(int i = 0; i < Constant.AGENT_NUM; i++){
@@ -360,13 +364,11 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	private static PrintWriter writeHeaderOfRoleNumber(ArrayList<Agent> agents) throws IOException{
-		File directory = new File(path + "data/role/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/role/");
-		/* ディレクトリが存在しない場合はディレクトリを作成 */
-		if(!directory.exists()){
-			directory.mkdirs();
-		}
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/role/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/role/roleNumber_" + fileName + ".csv", isWrite), "Shift_JIS")));
+		makeDirectory("role", "/role");
+
+		String file = "roleNumber_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("role", "/role", file);
+		
 		pw.print(",");
 		for(int i = 0; i < Constant.AGENT_NUM; i++){
 			pw.print(agents.get(i));
@@ -467,13 +469,10 @@ public class FileWriteManager {
 	 * @throws Exception 
 	 */
 	public static void writeTeamFormationWithAgent(ArrayList<Agent> agents) throws IOException{
-		File directory = new File(path + "data/role/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/teaming/");
-		// ディレクトリが存在しない場合はディレクトリを作成
-		if(!directory.exists()){
-			directory.mkdirs();
-		}
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/role/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/teaming/teamingNumber_" + fileName + ".csv", isWrite), "Shift_JIS")));
+		makeDirectory("role", "/teaming");
+
+		String file = "teamingNumber_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("role", "/teaming", file);
 		
 		// メンバとのチーム編成回数を書き込む
 		pw.print("," + "Leader" + ",");
@@ -556,13 +555,11 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	private static PrintWriter writeHeaderOfTeamFormationHistogramData() throws IOException{
-		File directory = new File(path + "data/histogram/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/");
-		/* ディレクトリが存在しない場合はディレクトリを作成 */
-		if(!directory.exists()){
-			directory.mkdirs();
-		}
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/histogram/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/teamNumHistogram_" + fileName + ".csv", isWrite), "Shift_JIS")));
+		makeDirectory("histogram", "");
+
+		String file = "teamNumHistogram_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("histogram", "", file);
+		
 		pw.print("人数" + "," + "タスク処理時間" + "," + "1タスクのリソース量" + "," + "1タスク中のサブタスク数");
 		pw.print(",");
 		pw.println("リソース合計" + "," + "1人あたりのリソース" + "," + "リーダのリソース" + "," + "メンバ1人あたりのリソース");
@@ -589,13 +586,11 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	public static PrintWriter writeHeaderOfTaskQueue() throws IOException {
-		File directory = new File(path + "data/queue/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/");
-		/* ディレクトリが存在しない場合はディレクトリを作成 */
-		if(!directory.exists()){
-			directory.mkdirs();
-		}
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/queue/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/taskQueue_" + fileName + ".csv", isWrite), "Shift_JIS")));
+		makeDirectory("queue", "");
+
+		String file = "taskQueue_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("queue", "", file);
+		
 		pw.println("経過ターン" + "," + "タスクキューサイズ" + "," + "マークあり数" + "," + "マークなし数" + "," + "タスクキューの中身");
 		
 		return pw;
@@ -627,13 +622,10 @@ public class FileWriteManager {
 	 * @throws IOException
 	 */
 	public static void writeOtherData(MeasuredDataManager measure) throws IOException {
-		File directory = new File(path + "data/other/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/");
-		/* ディレクトリが存在しない場合はディレクトリを作成 */
-		if(!directory.exists()){
-			directory.mkdirs();
-		}
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(path + "data/other/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/otherInfo_" + fileName + ".csv", isWrite), "Shift_JIS")));
+		makeDirectory("other", "");
+
+		String file = "otherInfo_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("other", "", file);
 		
 		pw.println("仮チームの平均サイズ" + "," + measure.tentativeTeamSize / (double)Constant.EXPERIMENT_NUM);
 		pw.println("チームの平均サイズ" + "," + measure.teamSize / (double)Constant.EXPERIMENT_NUM);

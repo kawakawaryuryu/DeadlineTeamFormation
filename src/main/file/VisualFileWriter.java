@@ -9,10 +9,41 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import role.Role;
+import config.Configuration;
 import constant.Constant;
 import agent.Agent;
 
 public class VisualFileWriter {
+	
+	private static boolean isWrite;
+	private static String path;
+	private static String fileName;
+	
+	public void set() {
+		isWrite = Configuration.ADD_WRITE;
+		path = FileWriteManager.path;
+		fileName = FileWriteManager.fileName;
+	}
+	
+	private static String getPath(String dataType, String tailDir) {
+		return path + dataType + "/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + tailDir;
+	}
+	
+	private static void makeDirectory(String dataType, String tailDir) {
+		File directory = new File(getPath(dataType, tailDir));
+		/* ディレクトリが存在しない場合はディレクトリを作成 */
+		if(!directory.exists()){
+			directory.mkdirs();
+		}
+	}
+	
+	private static PrintWriter getPrintWriter(String dataType, String tailDir, String file) throws IOException {
+		return new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
+				(getPath(dataType, tailDir) + "/" + file + ".csv", isWrite), "Shift_JIS")));
+	}
+	
+	
+	
 	/**
 	 * 一定ターンまでのエージェントの主な役割を返す
 	 * @param agent
@@ -64,14 +95,12 @@ public class VisualFileWriter {
 	 * @throws IOException
 	 */
 	public static void writeVisualizedData(ArrayList<Agent> agents, int turn, int experimentNumber, int successTeamingEdgeNum) throws IOException{
-		File directory = new File(FileWriteManager.path + "data/visualization/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + FileWriteManager.fileName + "/visual/");
-		// ディレクトリが存在しない場合はディレクトリを作成 
-		if(!directory.exists()){
-			directory.mkdirs();
-		}
+		makeDirectory("visualization", "/" + fileName + "/visual/");
+
 		//無向グラフ
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(FileWriteManager.path + "data/visualization/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + FileWriteManager.fileName + "/visual/non_directed_" + turn + ".csv", FileWriteManager.isWrite), "Shift_JIS")));
+		String file = "non_directed_" + turn + ".csv";
+		PrintWriter pw = getPrintWriter("visualization", "/" + fileName + "/visual/", file);
+		
 		pw.print("my_id" + "," + "your_id");
 		pw.print(",");
 		pw.print("my_ability");
@@ -176,13 +205,11 @@ public class VisualFileWriter {
 	 * @throws IOException
 	 */
 	public static void writeVisualizedMoreData(ArrayList<Agent> agents, int turn) throws IOException{
-		File directory = new File(FileWriteManager.path + "data/visualization/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + FileWriteManager.fileName + "/data/");
-		// ディレクトリが存在しない場合はディレクトリを作成 
-		if(!directory.exists()){
-			directory.mkdirs();
-		}
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(FileWriteManager.path + "data/visualization/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + FileWriteManager.fileName + "/data/teaming_" + turn + ".csv", FileWriteManager.isWrite), "Shift_JIS")));
+		makeDirectory("visualization", "/" + fileName + "/data/");
+
+		String file = "teaming_" + turn + ".csv";
+		PrintWriter pw = getPrintWriter("visualization", "/" + fileName + "/data/", file);
+		
 		pw.println(turn + "ターン目");
 		pw.print("エージェントID");
 		for(Agent agent : agents){
