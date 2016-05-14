@@ -12,7 +12,7 @@ public class RandomManager {
 	private static HashMap<RandomKey, Random> randomMap = new HashMap<RandomKey, Random>();
 	private static int[] randomArray = new int[RANDOM_ARRAY_SIZE];
 
-	public void initialize(int experimentNumber) throws IOException {
+	public void initialize(int experimentNumber) {
 		makeRandom(experimentNumber);
 		
 		randomMap.put(RandomKey.AGENT_RANDOM, new Random(randomArray[0]));
@@ -41,14 +41,18 @@ public class RandomManager {
 		randomMap.put(RandomKey.GREEDY_RANDOM, new Random(randomArray[23]));
 	}
 	
-	private static void makeRandom(int experimentNumber) throws IOException{
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				new FileInputStream("prime/prime" + experimentNumber + ".txt")));
-		for(int i = 0; i < randomArray.length; i++){
-			String str = br.readLine();
-			randomArray[i] = Integer.parseInt(str);
+	private static void makeRandom(int experimentNumber) {
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					new FileInputStream("prime/prime" + experimentNumber + ".txt")));
+			for(int i = 0; i < randomArray.length; i++){
+				String str = br.readLine();
+				randomArray[i] = Integer.parseInt(str);
+			}
+			br.close();
+		} catch(IOException e) {
+			e.printStackTrace();
 		}
-		br.close();
 	}
 	
 	public static Random getRandom(RandomKey key) {

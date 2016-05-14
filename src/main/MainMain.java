@@ -18,7 +18,7 @@ public class MainMain {
 	private static RandomManager random = new RandomManager();
 	
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		
 		//-------------------------------------------
 		//
@@ -75,11 +75,15 @@ public class MainMain {
 		System.out.println("  Learning: " + args[2] + " / Estimation: " + args[3]);
 	}
 	
-	private static void writeMeasuredData(String learning, String estimation) throws IOException {
-		FileWriteManager.fileExplain(learning, estimation);
-		FileWriteManager.writeBodyOfMeasuredDataPerTurn();
-		FileWriteManager.writeBodyOfTeamMeasuredData();
-		FileWriteManager.writeOtherData();
+	private static void writeMeasuredData(String learning, String estimation) {
+		try {
+			FileWriteManager.fileExplain(learning, estimation);
+			FileWriteManager.writeBodyOfMeasuredDataPerTurn();
+			FileWriteManager.writeBodyOfTeamMeasuredData();
+			FileWriteManager.writeOtherData();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
