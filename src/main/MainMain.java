@@ -12,7 +12,6 @@ import experiment.Experiment;
 public class MainMain {
 	static long start = System.currentTimeMillis();	//実行スタート時間
 	
-	public static final int EXPERIMENT_NUM = 50;
 	
 	static MeasuredDataManager measure = new MeasuredDataManager();
 	private static RandomManager random = new RandomManager();
@@ -38,7 +37,7 @@ public class MainMain {
 		Constant.setTeamFormationPercentageBorder();
 		
 		// 実験を行う
-		for(int experimentNumber = 1; experimentNumber <= EXPERIMENT_NUM; experimentNumber++){
+		for(int experimentNumber = 1; experimentNumber <= Constant.EXPERIMENT_NUM; experimentNumber++){
 			System.out.print("Team formation at " + experimentNumber + " times starts!");
 			System.out.println("  Learning: " + Configuration.LEARNING + " / Estimation: " + Configuration.ESTIMATION);
 			

@@ -2,6 +2,8 @@ package constant;
 
 public class Constant {
 	
+	public static final int EXPERIMENT_NUM = 50;
+	
 	public static final int WAIT_TURN = 3;
 	
 	/* Main */
