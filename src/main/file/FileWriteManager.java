@@ -58,7 +58,7 @@ public class FileWriteManager {
 	
 	private static PrintWriter getPrintWriter(String dataType, String tailDir, String file) throws IOException {
 		return new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(getPath(dataType, tailDir) + "/" + file + ".csv", isWrite), "Shift_JIS")));
+				(getPath(dataType, tailDir) + "/" + file, isWrite), "Shift_JIS")));
 	}
 	
 	

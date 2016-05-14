@@ -6,6 +6,7 @@ import random.RandomManager;
 import log.Log;
 import mail.MailSend;
 import main.file.FileWriteManager;
+import main.file.VisualFileWriter;
 import main.manager.InstanceManager;
 import main.teamformation.TeamFormationMain;
 import config.Configuration;
@@ -33,6 +34,7 @@ public class Main {
 		Configuration.setParameters(args);
 		Configuration.setDateTime();
 		FileWriteManager.set();
+		VisualFileWriter.set();
 		Experiment.set();
 		
 		

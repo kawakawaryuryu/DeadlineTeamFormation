@@ -19,7 +19,7 @@ public class VisualFileWriter {
 	private static String path;
 	private static String fileName;
 	
-	public void set() {
+	public static void set() {
 		isWrite = Configuration.ADD_WRITE;
 		path = FileWriteManager.path;
 		fileName = FileWriteManager.fileName;
@@ -39,7 +39,7 @@ public class VisualFileWriter {
 	
 	private static PrintWriter getPrintWriter(String dataType, String tailDir, String file) throws IOException {
 		return new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
-				(getPath(dataType, tailDir) + "/" + file + ".csv", isWrite), "Shift_JIS")));
+				(getPath(dataType, tailDir) + "/" + file, isWrite), "Shift_JIS")));
 	}
 	
 	
