@@ -16,20 +16,18 @@ public class TeamFormationMain {
 		return turn;
 	}
 	
-	// TODO どこかのクラスで一元管理でなくてよいか
-	private static TeamFormationInstances instance = TeamFormationInstances.getInstance();
 
 	public static void teamFormation(int experimentNumber) {
-		instance.initialize();
+		TeamFormationInstances.getInstance().initialize();
 		
 		// エージェントの生成
 		// TODO 全てをTeamFormationParameterに任してよいか（完全にブラックボックスでよいか）
-		instance.getParameter().makeAgents();
+		TeamFormationInstances.getInstance().getParameter().makeAgents();
 
 		// エージェントの能力を指定して生成
 //		makeAgents();
 		
-		instance.getParameter().debugAgents();
+		TeamFormationInstances.getInstance().getParameter().debugAgents();
 		
 		// 書き込みファイルインスタンスの設定
 		fileMng.setFileInstances(experimentNumber);
@@ -41,18 +39,18 @@ public class TeamFormationMain {
 			// キューにタスクを追加
 			// TODO ADD_TASK_INTERVAL=1のときはturn % Constant.ADD_TASK_INTERVAL == 0に変える必要性
 			if(isTaskTurn(turn, Constant.ADD_TASK_INTERVAL)){
-				instance.getParameter().addTaskToQueue();	
+				TeamFormationInstances.getInstance().getParameter().addTaskToQueue();	
 			}
 			
 			// agentsMapを空にする & taskMarkingAgentsMapを空にする
-			instance.getParameter().clearAgentsMap();
-			instance.getParameter().clearTaskMarkingAgentsMap();
+			TeamFormationInstances.getInstance().getParameter().clearAgentsMap();
+			TeamFormationInstances.getInstance().getParameter().clearTaskMarkingAgentsMap();
 			
 			// 状態ごとにエージェントを分ける
-			instance.getParameter().classifyAgentIntoState();
+			TeamFormationInstances.getInstance().getParameter().classifyAgentIntoState();
 			
 			// 状態ごとのエージェントマップをシャッフル
-			instance.getParameter().shuffleAgentsMap();
+			TeamFormationInstances.getInstance().getParameter().shuffleAgentsMap();
 			
 			// 行動する
 			// TODO modelはConfigurationから引っ張ってくるでいいか コンストラクタ引数で与える必要はないか
@@ -60,11 +58,11 @@ public class TeamFormationMain {
 			
 			// タスクキューのサイズを計算
 			// TODO ここだけ系統の違う処理 別クラスに移す必要あるか
-			int noMarkTaskNum = instance.getParameter().getNoMarkingTaskNum();
-			instance.getMeasure().countTaskQueueNum(noMarkTaskNum, instance.getParameter().taskQueue.size());
+			int noMarkTaskNum = TeamFormationInstances.getInstance().getParameter().getNoMarkingTaskNum();
+			TeamFormationInstances.getInstance().getMeasure().countTaskQueueNum(noMarkTaskNum, TeamFormationInstances.getInstance().getParameter().taskQueue.size());
 			
 			// デッドラインを減らす
-			instance.getParameter().decreaseTaskDeadline(instance.getMeasure());
+			TeamFormationInstances.getInstance().getParameter().decreaseTaskDeadline(TeamFormationInstances.getInstance().getMeasure());
 			
 			// ファイルに計測データ書き込み
 			fileMng.write(turn, experimentNumber, noMarkTaskNum);
@@ -74,7 +72,7 @@ public class TeamFormationMain {
 		fileMng.writeOnce(experimentNumber);
 		
 		// 1回のチーム編成におけるエージェントごとのデータを計測
-		instance.getMeasure().measureAtEnd(instance.getParameter().agents);
+		TeamFormationInstances.getInstance().getMeasure().measureAtEnd(TeamFormationInstances.getInstance().getParameter().agents);
 		
 		// ファイルインスタンスをclose
 		fileMng.close(experimentNumber);
@@ -95,8 +93,8 @@ public class TeamFormationMain {
 	}
 	
 	private static void debugExecutedTaskRequire() {
-		Log.log.debugln("処理したタスクリソース量 = " + instance.getMeasure().allSuccessTaskRequire);
-		Log.log.debugln("処理したタスク数 = " + instance.getMeasure().allSuccessTeamFormationNum);
+		Log.log.debugln("処理したタスクリソース量 = " + TeamFormationInstances.getInstance().getMeasure().allSuccessTaskRequire);
+		Log.log.debugln("処理したタスク数 = " + TeamFormationInstances.getInstance().getMeasure().allSuccessTeamFormationNum);
 	}
 	
 	
@@ -106,7 +104,7 @@ public class TeamFormationMain {
 			for(int i = 0; i < ability.length; i++){
 				ability[i] = id % Constant.AGENT_ABILITY_MAX + Constant.AGENT_ABILITY_INIT;
 			}
-			instance.getParameter().agents.add(new Agent(id, ability));
+			TeamFormationInstances.getInstance().getParameter().agents.add(new Agent(id, ability));
 		}
 	}
 

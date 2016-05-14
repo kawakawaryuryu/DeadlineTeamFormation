@@ -11,12 +11,10 @@ import main.VisualFileWriter;
 import main.teamformation.TeamFormationInstances;
 
 public class FileManager {
-	
+
 	public FileManager() {
-		
+
 	}
-	
-	private TeamFormationInstances instance = TeamFormationInstances.getInstance();
 	
 	
 	// ファイル書き込み用のPrintWriterインスタンスを取得
@@ -43,17 +41,17 @@ public class FileManager {
 			// 一定時間ごとに、計測データを退避
 			if(turn % Constant.MEASURE_TURN_NUM == 0){
 				// 計測データの配列添え字をインクリメント
-				instance.getMeasure().addArrayIndex();
+				TeamFormationInstances.getInstance().getMeasure().addArrayIndex();
 			}
 
 			// Q値をファイルに書き込み
 			if(turn % Constant.MEASURE_Q_TURN_NUM == 0){
-				writeMeasuredDataPerTurn(greedyWriter, turn, instance.getParameter().getAgents(), experimentNumber);
+				writeMeasuredDataPerTurn(greedyWriter, turn, TeamFormationInstances.getInstance().getParameter().getAgents(), experimentNumber);
 			}
 
 			// 可視化用計測データをファイルに書き込み
 			if(turn % Constant.MEASURE_VISUALIZATION_TURN_NUM == 0){
-				writeVisualData(instance.getParameter().getAgents(), turn, experimentNumber, instance.getMeasure().getAllSuccessTeamFormationEdge());
+				writeVisualData(TeamFormationInstances.getInstance().getParameter().getAgents(), turn, experimentNumber, TeamFormationInstances.getInstance().getMeasure().getAllSuccessTeamFormationEdge());
 			}
 
 			// タスクキューの中身を書き込み
@@ -71,7 +69,7 @@ public class FileManager {
 	public void writeOnce(int experimentNumber) {
 		try {
 			// チーム編成1回のみに必要なデータを計測
-			writeMeasuredData(instance.getParameter().getAgents(), experimentNumber);
+			writeMeasuredData(TeamFormationInstances.getInstance().getParameter().getAgents(), experimentNumber);
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -92,7 +90,7 @@ public class FileManager {
 	
 	private PrintWriter getGreedyWriter(int experimentNumber) throws IOException {
 		if(experimentNumber == 1){
-			return FileWriteManager.writeHeaderOfGreedy(instance.getParameter().getAgents());
+			return FileWriteManager.writeHeaderOfGreedy(TeamFormationInstances.getInstance().getParameter().getAgents());
 		}
 		else{
 			return null;
@@ -138,7 +136,7 @@ public class FileManager {
 	
 	private void writeTaskQueue(int experimentNumber, int turn, PrintWriter taskQueueWriter, int noMarkTaskNum) throws IOException {
 		if(experimentNumber == 1){
-			FileWriteManager.writeBodyOfTaskQueue(taskQueueWriter, turn, instance.getParameter().taskQueue
+			FileWriteManager.writeBodyOfTaskQueue(taskQueueWriter, turn, TeamFormationInstances.getInstance().getParameter().taskQueue
 					, noMarkTaskNum);
 		}
 	}

@@ -7,16 +7,18 @@ import post.Post;
  */
 public class TeamFormationInstances {
 
+	private static TeamFormationParameter parameter;
+	private static TeamFormationMeasuredData measure;
+	private static Post post;
+
 	private TeamFormationInstances() {
-		
+		parameter = new TeamFormationParameter();
+		measure = new TeamFormationMeasuredData();
+		post = new Post();
 	}
 	
 	
 	private static TeamFormationInstances instance = new TeamFormationInstances();
-	
-	private static TeamFormationParameter parameter = new TeamFormationParameter();
-	private static TeamFormationMeasuredData measure = new TeamFormationMeasuredData();
-	private static Post post = new Post();
 	
 
 	public void initialize() {
