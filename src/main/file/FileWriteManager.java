@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
-import main.MainMain;
 import main.manager.MeasuredDataManager;
 import role.Role;
 import strategy.StrategyManager;
