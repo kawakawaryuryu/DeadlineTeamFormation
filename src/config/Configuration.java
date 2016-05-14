@@ -1,5 +1,8 @@
 package config;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import log.Log;
 import log.logger.Type;
 import main.model.AgentActionManager;
@@ -8,6 +11,10 @@ import main.model.TaskCopy;
 
 
 public class Configuration {
+	
+	// Date, Time
+	public static String DATE;
+	public static String TIME;
 	
 	// Log
 	public static String LOG_PATH;
@@ -30,7 +37,23 @@ public class Configuration {
 
 	// AgetnactionManager
 	public static AgentActionManager action = new AgentActionManager();
+	
+	
+	// Mail
+	public static final String MAIL_HOST = "smtp.gmail.com";
+	public static final String MAIL_FROM = "kawakawaryuryu@gmail.com";
+	public static final String MAIL_TO = "ryu-kawakawa.0216@ezweb.ne.jp";
+	public static final String MAIL_USER = "kawakawaryuryu";
+	public static final String MAIL_PASS = "ryu-5216";
 
+	
+	public static void setDateTime() {
+		Date date = new Date();
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf2 = new SimpleDateFormat("HH-mm");  
+		DATE = sdf1.format(date);
+		TIME = sdf2.format(date);
+	}
 
 	public static void setParameters(String args[]) {
 		EXPERIMET_TYPE = args[0];

@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import random.RandomManager;
 import log.Log;
+import mail.MailSend;
 import main.file.FileWriteManager;
 import main.manager.InstanceManager;
 import main.teamformation.TeamFormationMain;
@@ -30,6 +31,7 @@ public class Main {
 		//
 		//--------------------------------------------
 		Configuration.setParameters(args);
+		Configuration.setDateTime();
 		FileWriteManager.set();
 		Experiment.set();
 		
@@ -73,6 +75,21 @@ public class Main {
 		int second = (time%3600) % 60;
 		System.out.print("Executed time = " + time + "秒 = " + hour + "時間" + minute + "分" + second + "秒");
 		System.out.println("  Learning: " + args[2] + " / Estimation: " + args[3]);
+		
+		// 実験終了のメール送信
+		String subject = "実験終了";
+		String msg = "以下の実験が終了しました\n\n"
+				+ "ExperimentType: " + Configuration.EXPERIMET_TYPE + "\n"
+				+ "Date: " + Configuration.DATE + "\n"
+				+ "Time: " + Configuration.TIME + "\n"
+				+ "FileNumber: " + Configuration.FILE_NUMBER + "\n"
+				+ "Learning: " + Configuration.LEARNING + "\n"
+				+ "Estimation: " + Configuration.ESTIMATION + "\n"
+				+ "Executed Time: " + hour + "時間" + minute + "分" + second + "秒" + "\n";
+		
+		MailSend mail = new MailSend();
+		mail.send(subject, msg);
+		
 	}
 	
 	private static void writeMeasuredData(String learning, String estimation) {

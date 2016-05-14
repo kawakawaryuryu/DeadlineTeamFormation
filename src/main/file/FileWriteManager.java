@@ -6,10 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -42,11 +40,8 @@ public class FileWriteManager {
 		path = Configuration.FILE_PATH;
 		fileNumber = Configuration.FILE_NUMBER;
 		
-		Date date = new Date();
-		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat sdf2 = new SimpleDateFormat("HH-mm");
-		path += Configuration.EXPERIMET_TYPE + "/" + sdf1.format(date) + "/data/";
-		fileName = sdf2.format(date) + "_" + fileNumber;
+		path += Configuration.EXPERIMET_TYPE + "/" + Configuration.DATE + "/data/";
+		fileName = Configuration.TIME + "_" + fileNumber;
 	}
 	
 	private static String getPath(String dataType, String tailDir) {
