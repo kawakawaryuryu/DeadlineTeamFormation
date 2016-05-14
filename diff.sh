@@ -3,23 +3,27 @@
 #### 引数 ######
 #
 # $1 = type1 : debug or experiment
-# $2 = date1 : 日付(yyyy-MM-dd)
-# $3 = time1 : 時間(HH-mm)
-# $4 = type2 : debug or experiment
-# $5 = date2 : 日付(yyyy-MM-dd)
-# $6 = time2 : 時間(HH-mm)
+# $2 = directory1 : ディレクトリ名
+# $3 = date1 : 日付(yyyy-MM-dd)
+# $4 = time1 : 時間(HH-mm)
+# $5 = type2 : debug or experiment
+# $6 = directory2 : ディレクトリ名
+# $7 = date2 : 日付(yyyy-MM-dd)
+# $8 = time2 : 時間(HH-mm)
 #
 ################
 
 type1=$1
-date1=$2
-time1=$3
-type2=$4
-date2=$5
-time2=$6
+directory1=$2
+date1=$3
+time1=$4
+type2=$5
+directory2=$6
+date2=$7
+time2=$8
 
-path1="${HOME}/Dropbox/research/${type1}/${date1}/data"
-path2="${HOME}/Dropbox/research/${type2}/${date2}/data"
+path1="${HOME}/Dropbox/research/${type1}/${date1}/${directory1}"
+path2="${HOME}/Dropbox/research/${type2}/${date2}/${directory2}"
 
 tmp="${PWD}/tmp"
 
@@ -101,9 +105,9 @@ check() {
 	local file1=$1
 	local file2=$2
 
-	# ファイル名からターン数、日付、時間を取り除く
-	local f1=`echo $file1 | sed -e "s%$date1%%" -e "s%$time1%%" | sed -E "s%/[0-9]+t%%"`
-	local f2=`echo $file2 | sed -e "s%$date2%%" -e "s%$time2%%" | sed -E "s%/[0-9]+t%%"`
+	# ファイル名からターン数、日付、時間、ディレクトリ名を取り除く
+	local f1=`echo $file1 | sed -e "s%$date1%%" -e "s%$time1%%" -e "s%$directory1%%" | sed -E "s%/[0-9]+t%%"`
+	local f2=`echo $file2 | sed -e "s%$date2%%" -e "s%$time2%%" -e "s%$directory2%%" | sed -E "s%/[0-9]+t%%"`
 
 	if [ $f1 = $f2 ]; then
 		echo 0
