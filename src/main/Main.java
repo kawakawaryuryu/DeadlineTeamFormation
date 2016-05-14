@@ -11,7 +11,7 @@ import config.Configuration;
 import constant.Constant;
 import experiment.Experiment;
 
-public class MainMain {
+public class Main {
 	static long start = System.currentTimeMillis();	//実行スタート時間
 	
 	
