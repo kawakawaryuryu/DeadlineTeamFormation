@@ -2,6 +2,7 @@ package main.teamformation;
 
 import log.Log;
 import main.file.FileManager;
+import main.model.Model;
 import config.Configuration;
 import constant.Constant;
 import agent.Agent;
@@ -17,7 +18,7 @@ public class TeamFormationMain {
 	}
 	
 
-	public static void teamFormation(int experimentNumber) {
+	public static void teamFormation(int experimentNumber, Model model) {
 		TeamFormationInstances.getInstance().initialize();
 		
 		// エージェントの生成
@@ -53,8 +54,7 @@ public class TeamFormationMain {
 			TeamFormationInstances.getInstance().getParameter().shuffleAgentsMap();
 			
 			// 行動する
-			// TODO modelはConfigurationから引っ張ってくるでいいか コンストラクタ引数で与える必要はないか
-			Configuration.model.run(Configuration.action);
+			model.run(Configuration.action);
 			
 			// タスクキューのサイズを計算
 			// TODO ここだけ系統の違う処理 別クラスに移す必要あるか

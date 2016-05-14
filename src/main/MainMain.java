@@ -49,7 +49,7 @@ public class MainMain {
 			random.initialize(experimentNumber);
 			
 			// チーム編成を行う
-			TeamFormationMain.teamFormation(experimentNumber);
+			TeamFormationMain.teamFormation(experimentNumber, Configuration.model);
 			
 			// 1回の実験で計測したデータを保存
 			measure.saveAllMeasuredData();
