@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import random.RandomManager;
 import log.Log;
+import main.file.FileWriteManager;
+import main.manager.InstanceManager;
 import main.teamformation.TeamFormationMain;
 import config.Configuration;
 import constant.Constant;
@@ -13,7 +15,6 @@ public class MainMain {
 	static long start = System.currentTimeMillis();	//実行スタート時間
 	
 	
-	static MeasuredDataManager measure = new MeasuredDataManager();
 	private static RandomManager random = new RandomManager();
 	
 	
@@ -52,7 +53,7 @@ public class MainMain {
 			TeamFormationMain.teamFormation(experimentNumber, Configuration.model);
 			
 			// 1回の実験で計測したデータを保存
-			measure.saveAllMeasuredData();
+			InstanceManager.getInstance().getMeasure().saveAllMeasuredData();
 			
 			// ログファイルclose
 			Log.log.close();
@@ -77,9 +78,9 @@ public class MainMain {
 	private static void writeMeasuredData(String learning, String estimation) {
 		try {
 			FileWriteManager.fileExplain(learning, estimation);
-			FileWriteManager.writeBodyOfMeasuredDataPerTurn();
-			FileWriteManager.writeBodyOfTeamMeasuredData();
-			FileWriteManager.writeOtherData();
+			FileWriteManager.writeBodyOfMeasuredDataPerTurn(InstanceManager.getInstance().getMeasure());
+			FileWriteManager.writeBodyOfTeamMeasuredData(InstanceManager.getInstance().getMeasure());
+			FileWriteManager.writeOtherData(InstanceManager.getInstance().getMeasure());
 		} catch(IOException e) {
 			e.printStackTrace();
 		}

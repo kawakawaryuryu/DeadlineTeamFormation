@@ -2,7 +2,7 @@ package config;
 
 import log.Log;
 import log.logger.Type;
-import main.AgentActionManager;
+import main.model.AgentActionManager;
 import main.model.Model;
 import main.model.TaskCopy;
 

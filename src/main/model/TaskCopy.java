@@ -1,6 +1,5 @@
 package main.model;
 
-import main.AgentActionManager;
 
 public class TaskCopy implements Model {
 

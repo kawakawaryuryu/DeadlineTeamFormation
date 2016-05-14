@@ -1,6 +1,5 @@
 package main.model;
 
-import main.AgentActionManager;
 
 public interface Model {
 	
