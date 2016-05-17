@@ -113,6 +113,7 @@ public class TeamFormationFileManager {
 		if(experimentNumber == 1){
 			FileWriteManager.writeBodyOfGreedy(greedy, turn, agents);
 			FileWriteManager.writeTrustToMember(agents, turn);
+			FileWriteManager.writeTrustToLeader(agents, turn);
 			FileWriteManager.writeRewardExpectation(agents, turn);
 		}
 	}
