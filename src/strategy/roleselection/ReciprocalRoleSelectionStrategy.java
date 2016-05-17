@@ -46,24 +46,16 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 	
 	private OfferMessage getOfferMessage(ArrayList<OfferMessage> messages, Agent agent) {
 		OfferMessage maxExpectedRewardMessage = messages.get(0);
-		// 信頼エージェントがいれば
-		if (agent.getParameter().getTrustLeaders().contains(maxExpectedRewardMessage.getFrom())) {
-			return maxExpectedRewardMessage;
-		}
+		double maxExpectedReward = getExpectedMemberReward(agent, maxExpectedRewardMessage);
 
 		for(int i = 1; i < messages.size(); i++){
 			OfferMessage message = messages.get(i);
 
-			// 信頼エージェントがいれば
-			if (agent.getParameter().getTrustLeaders().contains(message.getFrom())) {
-				return message;
-			}
-
 			double expectedReward = getExpectedMemberReward(agent, message);
-			double maxExpectedReward = getExpectedMemberReward(agent, maxExpectedRewardMessage);
 
 			if(expectedReward > maxExpectedReward){
 				maxExpectedRewardMessage = message;
+				maxExpectedReward = expectedReward;
 			}
 		}
 
@@ -113,21 +105,18 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 		else if (!canBeExecutedMessages.isEmpty() && !agent.getParameter().getTrustLeaders().isEmpty()) {
 
 			// 信頼エージェントが処理できるメッセージの中にいるか判定
-			boolean isContains = false;
-			OfferMessage trustMessage = null;
+			ArrayList<OfferMessage> trustMessages = new ArrayList<OfferMessage>();
 			for (OfferMessage message : canBeExecutedMessages) {
 				Agent leader = message.getFrom(); 
 				if (agent.getParameter().getTrustLeaders().contains(leader)) {
-					trustMessage = message;
-					isContains = true;
-					break;
+					trustMessages.add(message);
 				}
 			}
 
 
-			// 信頼エージェントがいればそれを選択
-			if(isContains) {
-				OfferMessage selectedMessage = trustMessage;
+			// 信頼エージェントがいればその中から最も信頼度の高いエージェントを選択
+			if(!trustMessages.isEmpty()) {
+				OfferMessage selectedMessage = getMaxTrustLeaderOfferMessage(agent, trustMessages);
 				agent.getParameter().setSelectedOfferMessage(selectedMessage);
 				memberReward = getExpectedMemberReward(agent, selectedMessage);
 			}
@@ -161,6 +150,23 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 	
 	public String toString() {
 		return "リーダとメンバの期待報酬を比較して、多い方の役割を選ぶ（ただし信頼するリーダエージェントがいる場合はそのリーダを選ぶ）";
+	}
+
+	/**
+	 * リーダに対する信頼度が高いメッセージを抽出
+	 * @param agent
+	 * @param trustMessages
+	 * @return
+	 */
+	private OfferMessage getMaxTrustLeaderOfferMessage(Agent agent ,ArrayList<OfferMessage> trustMessages) {
+		OfferMessage message = trustMessages.get(0);
+		for (int i = 1; i < trustMessages.size(); i++) {
+			if (agent.getTrustToLeader(message.getFrom()) < agent.getTrustToLeader(trustMessages.get(i).getFrom())) {
+				message = trustMessages.get(i);
+			}
+		}
+
+		return message;
 	}
 
 }
