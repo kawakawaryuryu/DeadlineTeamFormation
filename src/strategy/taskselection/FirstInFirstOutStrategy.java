@@ -1,7 +1,8 @@
 package strategy.taskselection;
 
 import task.Task;
-import main.TeamFormationMain;
+import log.Log;
+import main.teamformation.TeamFormationInstances;
 import constant.Constant;
 import agent.Agent;
 
@@ -19,7 +20,7 @@ public class FirstInFirstOutStrategy implements TaskSelectionStrategy {
 	 */
 	@Override
 	public Task selectTask(Agent agent){
-		for(Task task : TeamFormationMain.getParameter().lookingTaskQueue()){
+		for(Task task : TeamFormationInstances.getInstance().getParameter().lookingTaskQueue()){
 			if(!task.getMark()){
 				if(canExecuteTaskInTeam(agent, task)){
 					return task;
@@ -46,7 +47,7 @@ public class FirstInFirstOutStrategy implements TaskSelectionStrategy {
 			
 		}
 		else{
-//			System.out.println("チーム履歴がありませんでした");
+			Log.log.debugln("チーム履歴がありませんでした");
 		}
 		
 		if(countTime <= task.getDeadlineInTask() - (Constant.WAIT_TURN + Constant.DEADLINE_MIN_2)){

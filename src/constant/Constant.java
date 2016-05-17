@@ -2,6 +2,8 @@ package constant;
 
 public class Constant {
 	
+	public static final int EXPERIMENT_NUM = 50;
+	
 	public static final int WAIT_TURN = 3;
 	
 	/* Main */
@@ -96,7 +98,7 @@ public class Constant {
 		double value = 0.005d;
 		for(int i = 0; i < TEAM_FORMATION_PERCENTAGE_BORDER_NUM; i++){
 			TEAM_FORMATION_PERCENTAGE_BORDER[TEAM_FORMATION_PERCENTAGE_BORDER_NUM - 1 - i] = value * (i + 1);
-//			System.out.println("TEAM_FORMATION_PECENTAGE_BORDER[" + (TEAM_FORMATION_PERCENTAGE_BORDER_NUM - 1 - i) + "] = " + TEAM_FORMATION_PERCENTAGE_BORDER[TEAM_FORMATION_PERCENTAGE_BORDER_NUM - 1 - i]);
+//			Log.log.debugln("TEAM_FORMATION_PECENTAGE_BORDER[" + (TEAM_FORMATION_PERCENTAGE_BORDER_NUM - 1 - i) + "] = " + TEAM_FORMATION_PERCENTAGE_BORDER[TEAM_FORMATION_PERCENTAGE_BORDER_NUM - 1 - i]);
 		}
 	}
 }

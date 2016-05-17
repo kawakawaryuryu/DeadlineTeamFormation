@@ -8,7 +8,8 @@ import strategy.subtaskallocation.SubtaskAllocationStrategy;
 import task.Failure;
 import task.Subtask;
 import team.Team;
-import main.TeamFormationMain;
+import log.Log;
+import main.teamformation.TeamFormationInstances;
 import message.AnswerMessage;
 import message.TeamFormationMessage;
 import agent.Agent;
@@ -23,7 +24,7 @@ public class SubtaskAllocationState implements State {
 	public void agentAction(Agent leader) {
 		// エージェントを参加OKかNGかで分類
 		classifyMessageIntoTrueOrFalse(leader);
-//		debugAnswerAgents(leader);
+		debugAnswerAgents(leader);
 		
 		// 仮メンバにサブタスクを割り当て、メンバを決定する
 		strategy.decideMembers(leader);
@@ -40,14 +41,14 @@ public class SubtaskAllocationState implements State {
 		
 		// チーム編成に成功した場合
 		if(leader.getParameter().getLeaderField().isTeaming){
-//			System.out.println("チーム編成に成功しました");
-//			debugExecutedSubtask(leader);
+			Log.log.debugln("チーム編成に成功しました");
+			debugExecutedSubtask(leader);
 			
 			// チームでの処理時間 & 拘束時間を算出
 			calculateExecutingTimeAndBindingTimeInTeam(leader.getParameter().getParticipatingTeam());
 			
 			// データを計測
-			TeamFormationMain.getMeasure().countInSuccessCase(leader.getParameter().getMarkedTask().getTaskRequireSum(), 
+			TeamFormationInstances.getInstance().getMeasure().countInSuccessCase(leader.getParameter().getMarkedTask().getTaskRequireSum(), 
 					leader.getParameter().getParticipatingTeam());
 			leader.getMeasure().countInLeaderSuccessCase(leader.getParameter().getElement(Role.LEADER), leader, 
 					leader.getParameter().getParticipatingTeam());
@@ -56,17 +57,17 @@ public class SubtaskAllocationState implements State {
 			leader.getParameter().getPastTeam().addTeam(leader.getParameter().getParticipatingTeam());
 			
 			// タスクをキューから取り出す
-			TeamFormationMain.getParameter().removeTask(leader.getParameter().getMarkedTask());
+			TeamFormationInstances.getInstance().getParameter().removeTask(leader.getParameter().getMarkedTask());
 			
 			// 状態遷移
 			leader.getParameter().changeState(TaskExecuteState.getState());
 		}
 		// チーム編成に失敗した場合
 		else{
-//			System.out.println("チーム編成に失敗しました");
+			Log.log.debugln("チーム編成に失敗しました");
 			
 			// チーム編成失敗回数をカウント
-			TeamFormationMain.getMeasure().countFailureTeamFormationNum();
+			TeamFormationInstances.getInstance().getMeasure().countFailureTeamFormationNum();
 			
 			// サブタスクが保持している情報をクリア
 			leader.getParameter().getMarkedTask().clear();
@@ -79,13 +80,13 @@ public class SubtaskAllocationState implements State {
 		}
 		
 		// チーム編成回数をカウント
-		TeamFormationMain.getMeasure().countTryingTeamFormationNum();
+		TeamFormationInstances.getInstance().getMeasure().countTryingTeamFormationNum();
 	}
 	
 	private void debugExecutedSubtask(Agent leader) {
-		System.out.println("処理するサブタスク");
+		Log.log.debugln("処理するサブタスク");
 		for(Subtask subtask : leader.getParameter().getExecutedSubtasks()){
-			System.out.println(subtask);
+			Log.log.debugln(subtask);
 		}
 	}
 	
@@ -110,13 +111,13 @@ public class SubtaskAllocationState implements State {
 	}
 	
 	private void debugAnswerAgents(Agent leader) {
-		System.out.println("OKメッセージを送ったエージェント");
+		Log.log.debugln("OKメッセージを送ったエージェント");
 		for(Agent agent : leader.getParameter().getLeaderField().trueAgents){
-			System.out.println(agent);
+			Log.log.debugln(agent);
 		}
-		System.out.println("NGメッセージを送ったエージェント");
+		Log.log.debugln("NGメッセージを送ったエージェント");
 		for(Agent agent : leader.getParameter().getLeaderField().falseAgents){
-			System.out.println(agent);
+			Log.log.debugln(agent);
 		}
 	}
 	
@@ -136,16 +137,16 @@ public class SubtaskAllocationState implements State {
 		for(Agent agent : leader.getParameter().getLeaderField().trueAgents){
 			if(!leader.getParameter().getLeaderField().memberSubtaskMap.containsKey(agent) 
 					|| !leader.getParameter().getLeaderField().isTeaming){
-				TeamFormationMain.getPost().postTeamFormationMessage(agent, new TeamFormationMessage(leader, agent, false));
-//				System.out.println(agent + " にチーム編成失敗メッセージを送信しました");
+				TeamFormationInstances.getInstance().getPost().postTeamFormationMessage(agent, new TeamFormationMessage(leader, agent, false));
+				Log.log.debugln(agent + " にチーム編成失敗メッセージを送信しました");
 			}
 			else if(leader.getParameter().getLeaderField().memberSubtaskMap.containsKey(agent) 
 					&& leader.getParameter().getLeaderField().isTeaming){
 				ArrayList<Subtask> subtasks = leader.getParameter().getLeaderField().memberSubtaskMap.get(agent);
 				Team team = leader.getParameter().getParticipatingTeam();
-				TeamFormationMain.getPost().postTeamFormationMessage(agent, 
+				TeamFormationInstances.getInstance().getPost().postTeamFormationMessage(agent, 
 						new TeamFormationMessage(leader, agent, true, subtasks, leftReward, leftRequireSum, team));
-//				System.out.println(agent + " にチーム編成成功メッセージを送信しました");
+				Log.log.debugln(agent + " にチーム編成成功メッセージを送信しました");
 			}
 			else{
 				System.err.println("sendTeamFormationMessage: このようなパターンはありません");

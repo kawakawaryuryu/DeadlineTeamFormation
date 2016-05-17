@@ -1,6 +1,7 @@
 package experiment;
 
 import strategy.StrategyManager;
+import config.Configuration;
 import constant.Constant;
 
 public class Experiment {
@@ -10,10 +11,10 @@ public class Experiment {
 	 * @param isLearning 学習あり、学習なし、ランダム のうちのどれか
 	 * @param isEstimating 見積もりあり。見積もりなし のうちのどれか
 	 */
-	public static void set(String isLearning, String isEstimating) {
-		setStrategy(isLearning);
-		setEstimation(isEstimating);
-		setLearnRate(isLearning);
+	public static void set() {
+		setStrategy(Configuration.LEARNING);
+		setEstimation(Configuration.ESTIMATION);
+		setLearnRate(Configuration.LEARNING);
 	}
 	
 	private static void setStrategy(String isLearning) {

@@ -3,10 +3,11 @@ package strategy.subtaskallocation;
 import java.util.Collections;
 import java.util.Comparator;
 
+import random.RandomKey;
+import random.RandomManager;
 import task.Subtask;
 import library.AgentTaskLibrary;
-import main.RandomKey;
-import main.RandomManager;
+import log.Log;
 import constant.Constant;
 import agent.Agent;
 
@@ -18,15 +19,15 @@ public class ConcreteSubtaskAllocationStrategy implements
 		boolean isTeaming;
 		
 		// サブタスクごとにメンバを絞る
-//		System.out.println("サブタスクごとにメンバを一人に絞り込みます");
+		Log.log.debugln("サブタスクごとにメンバを一人に絞り込みます");
 		isTeaming = decideMemberEverySubtask(leader);
-//		System.out.println();
+		Log.log.debugln();
 		
 		leader.getParameter().getLeaderField().isTeaming = isTeaming;
 		
 		// チーム編成成功の場合は、メンバをチームに加える
 		if(leader.getParameter().getLeaderField().isTeaming){
-//			System.out.println("チーム編成成功！");
+			Log.log.debugln("チーム編成成功！");
 			leader.getParameter().getParticipatingTeam().addTeamMate(leader);
 			for(Agent member : leader.getParameter().getLeaderField().memberSubtaskMap.keySet()){
 				for(Subtask subtask : leader.getParameter().getLeaderField().memberSubtaskMap.get(member)){
@@ -53,21 +54,21 @@ public class ConcreteSubtaskAllocationStrategy implements
 			// 割り当てエージェントがいない場合、あとで再割り当てを行うためにリストに退避
 			if(selectedAgentsNum == 0){
 				leader.getParameter().getLeaderField().notAssignedSubTask.add(subtask);
-//				System.out.println(subtask + " を処理するメンバはいません");
+				Log.log.debugln(subtask + " を処理するメンバはいません");
 			}
 			
 			// 今のエージェントをメンバとする
 			else if(selectedAgentsNum == 1){
 				Agent member = subtask.getAgentInfo().getSelectedAgent(0);
 				setToLeaderField(leader, member, subtask);
-//				System.out.println(subtask + " を処理するメンバは " + member + " に決まりました");
+				Log.log.debugln(subtask + " を処理するメンバは " + member + " に決まりました");
 			}
 			
 			// メンバを一人に絞る
 			else if(selectedAgentsNum > 1){
 				Agent member = selectMember(leader, subtask);
 				setToLeaderField(leader, member, subtask);
-//				System.out.println(subtask + " を処理するメンバは " + member + " に決まりました");
+				Log.log.debugln(subtask + " を処理するメンバは " + member + " に決まりました");
 			}
 			
 			else{
@@ -78,7 +79,7 @@ public class ConcreteSubtaskAllocationStrategy implements
 		
 		// 割り当てが決まっていないサブタスクがある場合は、再割り当てを行う
 		if(!leader.getParameter().getLeaderField().notAssignedSubTask.isEmpty()){
-//			System.out.println("割り当てが決まっていないサブタスクを割り当てます");
+			Log.log.debugln("割り当てが決まっていないサブタスクを割り当てます");
 			return allocateNotAllocatedSubtask(leader);
 		}
 		else{
@@ -153,7 +154,7 @@ public class ConcreteSubtaskAllocationStrategy implements
 						leader.getParameter().getLeaderField().setAgentToMemberSubtaskMap(member);
 					}
 					leader.getParameter().getLeaderField().addSubtaskToMemberSubtaskMap(member, subtask);
-//					System.out.println(subtask + " を処理するメンバは " + member + " に決まりました");
+					Log.log.debugln(subtask + " を処理するメンバは " + member + " に決まりました");
 					
 					isAllocated = true;
 					break;

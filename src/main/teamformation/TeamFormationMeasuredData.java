@@ -1,4 +1,4 @@
-package main;
+package main.teamformation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,49 +12,49 @@ import agent.Agent;
 public class TeamFormationMeasuredData {
 	int arrayIndex;
 	
-	int[] successTaskRequire = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
-	int allSuccessTaskRequire;
-	int[] failureTaskRequire = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
-	int allFailureTaskRequire;
-	int[] failureTaskNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
-	int[] successTeamFormationNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
-	int successTeamFormationNumAtEnd;
-	int allSuccessTeamFormationNum;
-	int[] failureTeamFormationNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
-	int[] giveUpTeamFormationNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
-	int[] tryingTeamFormationNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public int[] successTaskRequire = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public int allSuccessTaskRequire;
+	public int[] failureTaskRequire = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public int allFailureTaskRequire;
+	public int[] failureTaskNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public int[] successTeamFormationNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public int successTeamFormationNumAtEnd;
+	public int allSuccessTeamFormationNum;
+	public int[] failureTeamFormationNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public int[] giveUpTeamFormationNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public int[] tryingTeamFormationNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
 	
-	int[][] successTeamFormationNumEveryTeamSize = new int[Constant.ARRAY_SIZE_FOR_MEASURE][Constant.ARRAY_SIZE_FOR_TEAM];
-	int[] allSuccessTeamFormationNumEveryTeamSize = new int[Constant.ARRAY_SIZE_FOR_TEAM];
-	int[] bindingTimeInTeamEveryTeamSize = new int[Constant.ARRAY_SIZE_FOR_TEAM];
+	public int[][] successTeamFormationNumEveryTeamSize = new int[Constant.ARRAY_SIZE_FOR_MEASURE][Constant.ARRAY_SIZE_FOR_TEAM];
+	public int[] allSuccessTeamFormationNumEveryTeamSize = new int[Constant.ARRAY_SIZE_FOR_TEAM];
+	public int[] bindingTimeInTeamEveryTeamSize = new int[Constant.ARRAY_SIZE_FOR_TEAM];
 
-	int teamExecuteTime;
-	int[] bindingTimeInTeam = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
-	double[] executingTimePerAgentInTeam = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
-	double[] bindingTimePerAgentInTeam = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
-	double executingTimePerAgentInTeamAtEnd;
-	double bindingTimePerAgentInTeamAtEnd;
+	public int teamExecuteTime;
+	public int[] bindingTimeInTeam = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public double[] executingTimePerAgentInTeam = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public double[] bindingTimePerAgentInTeam = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public double executingTimePerAgentInTeamAtEnd;
+	public double bindingTimePerAgentInTeamAtEnd;
 	
-	int tentativeTeamSize;
-	int teamSize;
+	public int tentativeTeamSize;
+	public int teamSize;
 	
-	int leaderMain;
-	int memberMain;
-	int neitherLeaderNorMember;
+	public int leaderMain;
+	public int memberMain;
+	public int neitherLeaderNorMember;
 	
-	int initialTime;
-	int leaderTime;
-	int memberTime;
-	int executeTime;
+	public int initialTime;
+	public int leaderTime;
+	public int memberTime;
+	public int executeTime;
 	
-	int allSuccessTeamFormationEdge;
+	public int allSuccessTeamFormationEdge;
 	
-	int unmarkedTaskQueueNum;
-	int taskQueueNum;
+	public int unmarkedTaskQueueNum;
+	public int taskQueueNum;
 	
-	int[] markedTaskNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
-	double[] markedTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
-	double[] markedTaskDeadline = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public int[] markedTaskNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public double[] markedTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public double[] markedTaskDeadline = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	
 	public void initialize() {
 		arrayIndex = 0;
@@ -221,6 +221,12 @@ public class TeamFormationMeasuredData {
 		markedTaskDeadline[arrayIndex] += markedTask.getDeadlineInTask();
 	}
 	
+	public int getAllSuccessTeamFormationEdge() {
+		return allSuccessTeamFormationEdge;
+	}
+	
+	
+	
 	/**
 	 * 割る数が0にならないようにする
 	 * @param num
@@ -235,58 +241,58 @@ public class TeamFormationMeasuredData {
 		}
 	}
 	
-	double getAverageTeamExecuteTimeInTeam() {
+	public double getAverageTeamExecuteTimeInTeam() {
 		return (double)teamExecuteTime / getDivideNum(allSuccessTeamFormationNum);
 	}
 	
-	double getAverageExecutingTimePerAgentInTeam(int index) {
-//		System.out.println("executingTimePerAgentInTeam = " + executingTimePerAgentInTeam[index] + " / successTeamFormationNum = " + successTeamFormationNum[index]);
+	public double getAverageExecutingTimePerAgentInTeam(int index) {
+//		Log.log.debugln("executingTimePerAgentInTeam = " + executingTimePerAgentInTeam[index] + " / successTeamFormationNum = " + successTeamFormationNum[index]);
 		return executingTimePerAgentInTeam[index] / getDivideNum(successTeamFormationNum[index]);
 	}
 	
-	double getAverageExecutingTimePerAgentInTeamAtEnd() {
+	public double getAverageExecutingTimePerAgentInTeamAtEnd() {
 		return executingTimePerAgentInTeamAtEnd / getDivideNum(successTeamFormationNumAtEnd);
 	}
 	
-	double getAverageBindingTimeInTeamEveryTeamSize(int teamSizeIndex) {
+	public double getAverageBindingTimeInTeamEveryTeamSize(int teamSizeIndex) {
 		return (double)bindingTimeInTeamEveryTeamSize[teamSizeIndex] / getDivideNum(allSuccessTeamFormationNumEveryTeamSize[teamSizeIndex]); 
 	}
 	
-	double getAverageBindingTimeInTeam(int index) {
-//		System.out.println("bindingTimeInTeam = " + bindingTimeInTeam[index] + " / successTeamFormationNum = " + successTeamFormationNum[index]);
+	public double getAverageBindingTimeInTeam(int index) {
+//		Log.log.debugln("bindingTimeInTeam = " + bindingTimeInTeam[index] + " / successTeamFormationNum = " + successTeamFormationNum[index]);
 		return (double)bindingTimeInTeam[index] / getDivideNum(successTeamFormationNum[index]);
 	}
 	
-	double getAverageBindingTimePerAgentInTeam(int index) {
-//		System.out.println("bindingTimePerAgentInTeam = " + bindingTimePerAgentInTeam[index] + " / successTeamFormationNum = " + successTeamFormationNum[index]);
+	public double getAverageBindingTimePerAgentInTeam(int index) {
+//		Log.log.debugln("bindingTimePerAgentInTeam = " + bindingTimePerAgentInTeam[index] + " / successTeamFormationNum = " + successTeamFormationNum[index]);
 		return bindingTimePerAgentInTeam[index] / getDivideNum(successTeamFormationNum[index]);
 	}
 	
-	double getAverageBindingTimePerAgentInTeamAtEnd() {
+	public double getAverageBindingTimePerAgentInTeamAtEnd() {
 		return bindingTimePerAgentInTeamAtEnd / getDivideNum(successTeamFormationNumAtEnd);
 	}
 	
-	double getAverageTentativeTeamSize() {
+	public double getAverageTentativeTeamSize() {
 		return (double)tentativeTeamSize / getDivideNum(allSuccessTeamFormationNum);
 	}
 	
-	double getAverageTeamSize() {
+	public double getAverageTeamSize() {
 		return (double)teamSize / getDivideNum(allSuccessTeamFormationNum);
 	}
 	
-	double getAverageUnmarkedTaskQueueNum() {
+	public double getAverageUnmarkedTaskQueueNum() {
 		return (double)unmarkedTaskQueueNum / (double)Constant.TURN_NUM;
 	}
 	
-	double getAverageTaskQueueNum() {
+	public double getAverageTaskQueueNum() {
 		return (double)taskQueueNum / (double)Constant.TURN_NUM;
 	}
 	
-	double getAverageMarkedTaskRequire(int index) {
+	public double getAverageMarkedTaskRequire(int index) {
 		return markedTaskRequire[index] / getDivideNum(markedTaskNum[index]);
 	}
 	
-	double getAverageMarkedTaskDeadline(int index) {
+	public double getAverageMarkedTaskDeadline(int index) {
 		return markedTaskDeadline[index] / getDivideNum(markedTaskNum[index]);
 	}
 }

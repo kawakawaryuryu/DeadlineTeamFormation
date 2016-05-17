@@ -1,2 +1,3 @@
 /bin
-gc.log
+*.log
+*.swp

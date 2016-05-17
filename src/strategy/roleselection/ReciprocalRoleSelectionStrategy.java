@@ -5,8 +5,8 @@ import java.util.Collections;
 
 import constant.Constant;
 import library.AgentTaskLibrary;
-import main.RandomKey;
-import main.RandomManager;
+import random.RandomKey;
+import random.RandomManager;
 import message.OfferMessage;
 import task.Task;
 import agent.Agent;

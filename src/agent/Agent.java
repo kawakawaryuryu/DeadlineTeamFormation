@@ -3,8 +3,9 @@ package agent;
 import java.util.Arrays;
 
 import team.Team;
-import main.RandomKey;
-import main.RandomManager;
+import random.RandomKey;
+import random.RandomManager;
+import log.Log;
 import constant.Constant;
 
 public class Agent {
@@ -69,9 +70,9 @@ public class Agent {
 	}
 	
 	public void action() {
-//		System.out.println(this + " の行動 / " + this.parameter.state);
+		Log.log.debugln(this + " の行動 / " + this.parameter.state);
 		parameter.getState().agentAction(this);
-//		System.out.println();
+		Log.log.debugln();
 	}
 	
 	public AgentParameter getParameter() {

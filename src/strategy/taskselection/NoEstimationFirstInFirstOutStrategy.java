@@ -1,7 +1,7 @@
 package strategy.taskselection;
 
 import task.Task;
-import main.TeamFormationMain;
+import main.teamformation.TeamFormationInstances;
 import agent.Agent;
 
 public class NoEstimationFirstInFirstOutStrategy implements
@@ -9,7 +9,7 @@ public class NoEstimationFirstInFirstOutStrategy implements
 
 	@Override
 	public Task selectTask(Agent agent) {
-		for(Task task : TeamFormationMain.getParameter().lookingTaskQueue()){
+		for(Task task : TeamFormationInstances.getInstance().getParameter().lookingTaskQueue()){
 			if(!task.getMark()){
 				return task;
 			}

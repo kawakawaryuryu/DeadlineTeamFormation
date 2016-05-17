@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import main.RandomKey;
-import main.RandomManager;
+import random.RandomKey;
+import random.RandomManager;
 import constant.Constant;
 
 public class Task {
