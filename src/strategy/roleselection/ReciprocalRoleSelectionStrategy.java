@@ -17,29 +17,29 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 	public OfferMessage selectMessage(ArrayList<OfferMessage> messages,
 			Agent agent) {
 		Collections.shuffle(messages, RandomManager.getRandom(RandomKey.SHUFFLE_RANDOM_1));
-		
+
 		OfferMessage offerMessage;
-		
+
 		offerMessage = selectOfferMessage(messages, agent);
-		
+
 		return offerMessage;
 	}
-	
+
 	private OfferMessage selectOfferMessage(ArrayList<OfferMessage> messages, Agent agent) {
-		
+
 		OfferMessage offerMessage;
-		
+
 		double probability = RandomManager.getRandom(RandomKey.EPSILON_GREEDY_RANDOM_1).nextDouble();
-		
+
 		// εの確率でランダムに選ぶ
 		if(probability <= Constant.EPSILON){
 			offerMessage = messages.get(RandomManager.getRandom(RandomKey.SELECT_RANDOM_1).nextInt(messages.size()));
 			// System.out.println(maxExpectedRewardMessage + " をランダムで選びました");
 		}
-		// 1-εの確率で期待報酬の大きいエージェントを選ぶ
+		// 1-εの確率で信頼エージェントがいればその中からエージェントを選ぶ
 		else{
 			offerMessage = getOfferMessage(messages, agent);
-			//	System.out.println(maxExpectedRewardMessage + " を報酬期待度順で選びました");
+			// System.out.println(maxExpectedRewardMessage + " を報酬期待度順で選びました");
 		}
 		return offerMessage;
 	}
@@ -50,23 +50,23 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 		if (agent.getParameter().getTrustLeaders().contains(maxExpectedRewardMessage.getFrom())) {
 			return maxExpectedRewardMessage;
 		}
-					
+
 		for(int i = 1; i < messages.size(); i++){
 			OfferMessage message = messages.get(i);
-			
+
 			// 信頼エージェントがいれば
 			if (agent.getParameter().getTrustLeaders().contains(message.getFrom())) {
 				return message;
 			}
-			
+
 			double expectedReward = getExpectedMemberReward(agent, message);
 			double maxExpectedReward = getExpectedMemberReward(agent, maxExpectedRewardMessage);
-			
+
 			if(expectedReward > maxExpectedReward){
 				maxExpectedRewardMessage = message;
 			}
 		}
-		
+
 		return maxExpectedRewardMessage;
 	}
 
@@ -74,7 +74,7 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 	public double calculateExpectedLeaderReward(Agent agent, Task task) {
 		double leaderReward;	//リーダの期待報酬
 		int expectedExecuteTime;	//予想されるタスク実行時間
-		
+
 		if(task == null){
 			leaderReward = 0;
 		}
@@ -89,7 +89,7 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 				leaderReward = Constant.NO_PAST_TEAMS;	//履歴なし
 			}
 		}
-		
+
 		return leaderReward;
 	}
 
@@ -108,10 +108,10 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 			//	System.out.println("処理できるメッセージは来ませんでした");
 			memberReward = 0;
 		}
-		
+
 		// 処理できるメッセージがあり、信頼エージェントもいる場合
 		else if (!canBeExecutedMessages.isEmpty() && !agent.getParameter().getTrustLeaders().isEmpty()) {
-			
+
 			// 信頼エージェントが処理できるメッセージの中にいるか判定
 			boolean isContains = false;
 			OfferMessage trustMessage = null;
@@ -123,8 +123,8 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 					break;
 				}
 			}
-			
-			
+
+
 			// 信頼エージェントがいればそれを選択
 			if(isContains) {
 				OfferMessage selectedMessage = trustMessage;
@@ -135,9 +135,9 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 			else {
 				memberReward = 0;
 			}
-			
+
 		}
-		
+
 		// 処理できるメッセージがあるが、信頼エージェントがいない場合
 		else if (!canBeExecutedMessages.isEmpty() && agent.getParameter().getTrustLeaders().isEmpty()) {
 			OfferMessage selectedMessage = selectMessage(canBeExecutedMessages, agent);
@@ -155,7 +155,7 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 	private double getExpectedMemberReward(Agent agent, OfferMessage message) {
 		int expectedExecuteTime = AgentTaskLibrary.calculateExecuteTime(agent, message.getSubtask());
 		double memberReward = (double)expectedExecuteTime * agent.getRewardExpectation(message.getFrom());
-		
+
 		return memberReward;
 	}
 	
