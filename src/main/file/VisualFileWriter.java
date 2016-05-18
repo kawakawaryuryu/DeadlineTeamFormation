@@ -185,9 +185,9 @@ public class VisualFileWriter {
 					//チーム編成合計回数の割合が閾値以上か（パーセンテージ）
 					pw.print("more_than_" + threshold);
 				}
-//				else{
-//					pw.print("0" + "," + "0" + "," + "0" + "," + "0" + "," + "0");
-//				}
+				else{
+					pw.print("-1" + "," + "-1" + "," + "-1" + "," + "false" + "," + "-1" + "false");
+				}
 				
 				pw.println();
 			}
