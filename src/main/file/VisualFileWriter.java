@@ -186,7 +186,7 @@ public class VisualFileWriter {
 					pw.print("more_than_" + threshold);
 				}
 				else{
-					pw.print("-1" + "," + "-1" + "," + "-1" + "," + "false" + "," + "-1" + "false");
+					pw.print("-1" + "," + "-1" + "," + "-1" + "," + "false" + "," + "-1" + "," + "false");
 				}
 				
 				pw.println();
