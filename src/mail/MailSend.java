@@ -23,7 +23,6 @@ public class MailSend {
 		properties.setProperty("mail.smtp.auth", "true"); 
 		properties.setProperty("mail.smtp.starttls.enable", "true");
 		properties.setProperty("mail.smtp.port", "587");
-		properties.setProperty("mail.debug", "true");
 		session = Session.getInstance(properties, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(Configuration.MAIL_USER, Configuration.MAIL_PASS);
