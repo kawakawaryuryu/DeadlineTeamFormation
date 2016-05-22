@@ -21,7 +21,7 @@ public class Configuration {
 	public static final Type LOG_TYPE = Type.NOLOG;
 
 	// FileWrite
-	public static final String FILE_PATH = "../../Dropbox/research/";
+	public static final String FILE_PATH = "../../Box Sync/Personal/research/";
 	public static final boolean ADD_WRITE = false;
 
 	// Java arguments
