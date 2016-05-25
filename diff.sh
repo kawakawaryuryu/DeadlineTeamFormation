@@ -22,6 +22,8 @@ directory2=$6
 date2=$7
 time2=$8
 
+option=$9
+
 cmn_path="${HOME}/Box Sync/Personal/research"
 path1="${cmn_path}/${type1}/${date1}/${directory1}"
 path2="${cmn_path}/${type2}/${date2}/${directory2}"
@@ -172,7 +174,7 @@ diff_files() {
 	nkf -w "$path2" > "$tmp_f2"
 
 	# diffをとる
-	git diff --no-index "$tmp_f1" "$tmp_f2"
+	git diff --no-index $option "$tmp_f1" "$tmp_f2"
 }
 
 mkdir $tmp
