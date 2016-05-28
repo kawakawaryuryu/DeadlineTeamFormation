@@ -29,6 +29,7 @@ public class Main {
 		// args[1] : exprimentNumber (learning+estimation=1, noLearning+estimation=2, learning+noEstimation=3, random+noEstimation=4)
 		// args[2] : learning or noLearning or random
 		// args[3] : estimation or noEstimation
+		// args[4] : Name for graph
 		//
 		//--------------------------------------------
 		Configuration.setParameters(args);

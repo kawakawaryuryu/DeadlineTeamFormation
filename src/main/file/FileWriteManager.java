@@ -29,6 +29,7 @@ public class FileWriteManager {
 	static boolean isWrite;	//追加か上書きか
 	static String path;
 	static String fileName;
+	static String method;
 	
 	/**
 	 * ファイル番号とパスを設定する
@@ -42,6 +43,7 @@ public class FileWriteManager {
 		
 		path += Configuration.EXPERIMET_TYPE + "/" + Configuration.DATE + "/data/";
 		fileName = Configuration.TIME + "_" + fileNumber;
+		method = Configuration.METHOD_NAME;
 	}
 	
 	private static String getPath(String dataType, String tailDir) {
@@ -84,6 +86,7 @@ public class FileWriteManager {
 		pw.println("FIFO、マークあり、チームの履歴を保持、1tickごとの獲得報酬で報酬期待度を学習、リーダにはまず1個だけ割り当てる、タスクコピーに時間がかかる（失敗時は拘束されない）");
 		pw.println("学習" + "," + learning);
 		pw.println("見積もり" + "," + estimation);
+		pw.println("手法" + "," + method);
 		pw.println("ターン" + "," + Constant.TURN_NUM);
 		pw.println("試行回数" + "," + Constant.EXPERIMENT_NUM);
 		pw.println("エージェント数" + "," + Constant.AGENT_NUM);
@@ -129,7 +132,7 @@ public class FileWriteManager {
 		String file = "require_average" + "_" + fileName + ".csv";
 		PrintWriter pw = getPrintWriter("TaskRequireResult", "/average", file);
 
-		pw.println("平均" + Constant.EXPERIMENT_NUM + "回");
+		pw.println("平均" + Constant.EXPERIMENT_NUM + "回" + "," + method);
 		pw.print("経過ターン");
 		pw.print(",");
 		pw.print(Constant.MEASURE_TURN_NUM + "ターン毎のタスク処理リソース量");
