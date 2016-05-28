@@ -30,6 +30,7 @@ public class Configuration {
 	public static int FILE_NUMBER;
 	public static String LEARNING;
 	public static String ESTIMATION;
+	public static String METHOD_NAME;
 
 
 	// Model
@@ -60,6 +61,7 @@ public class Configuration {
 		FILE_NUMBER = Integer.parseInt(args[1]);
 		LEARNING = args[2];
 		ESTIMATION = args[3];
+		METHOD_NAME = args[4];
 
 		LOG_PATH = "log/debug_" + FILE_NUMBER + ".log";
 	}
