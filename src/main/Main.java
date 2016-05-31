@@ -91,7 +91,7 @@ public class Main {
 				+ "Executed Time: " + hour + "時間" + minute + "分" + second + "秒" + "\n";
 		
 		MailSend mail = new MailSend();
-		mail.send(subject, msg);
+		if(Configuration.MAIL_SENT) mail.send(subject, msg);
 		
 	}
 	
