@@ -500,7 +500,7 @@ public class FileWriteManager {
 		pw.println();
 		for(Agent me : agents){
 			pw.print(me);
-			pw.print("," + me.getParameter().getElement(Role.LEADER).getRoleNum() + ",");
+			pw.print("," + me.getParameter().getElement(Role.MEMBER).getRoleNum() + ",");
 			
 			for(Agent you : agents){
 				pw.print(",");
