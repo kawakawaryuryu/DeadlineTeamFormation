@@ -41,6 +41,7 @@ public class Configuration {
 	
 	
 	// Mail
+	public static final boolean MAIL_SENT = true;
 	public static final String MAIL_HOST = "smtp.gmail.com";
 	public static final String MAIL_FROM = "kawakawaryuryu@gmail.com";
 	public static final String MAIL_TO = "ryu-kawakawa.0216@ezweb.ne.jp";
