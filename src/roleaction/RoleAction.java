@@ -1,8 +1,8 @@
 package roleaction;
 
-import agent.Agent;
+import agent.ConcreteAgent;
 
 public interface RoleAction {
 
-	public abstract void action(Agent agent);
+	public abstract void action(ConcreteAgent agent);
 }

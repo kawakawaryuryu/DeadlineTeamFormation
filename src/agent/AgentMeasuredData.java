@@ -23,14 +23,14 @@ public class AgentMeasuredData {
 		Arrays.fill(teamFormationNumWithMember, 0);
 	}
 	
-	public void countInLeaderSuccessCase(MeasuredDataForEachRole element, Agent leader, Team team) {
+	public void countInLeaderSuccessCase(MeasuredDataForEachRole element, ConcreteAgent leader, Team team) {
 		countSuccessNum(element);
 		countTeamFormationWithMembers(team.getMembers());
 		countExecutingTimeAtEnd(leader.getParameter().getExecuteTime());
 		countBindingTimeAtEnd(team.getTeamExecuteTime() - leader.getParameter().getExecuteTime());
 	}
 	
-	public void countInMemberSuccessCase(MeasuredDataForEachRole element, Agent member, Team team) {
+	public void countInMemberSuccessCase(MeasuredDataForEachRole element, ConcreteAgent member, Team team) {
 		countSuccessNum(element);
 		countTeamFormationNumWithLeader(team.getLeader());
 		countExecutingTimeAtEnd(member.getParameter().getExecuteTime());
@@ -53,21 +53,21 @@ public class AgentMeasuredData {
 		return element.getRoleNum();
 	}
 	
-	private void countTeamFormationWithMembers(ArrayList<Agent> members) {
-		for(Agent member : members){
+	private void countTeamFormationWithMembers(ArrayList<ConcreteAgent> members) {
+		for(ConcreteAgent member : members){
 			teamFormationNumWithMember[member.getId()]++;
 		}
 	}
 	
-	private void countTeamFormationNumWithLeader(Agent leader) {
+	private void countTeamFormationNumWithLeader(ConcreteAgent leader) {
 		teamFormationNumWithLeader[leader.getId()]++;
 	}
 	
-	public int getTeamFormationNumWithLeader(Agent leader) {
+	public int getTeamFormationNumWithLeader(ConcreteAgent leader) {
 		return teamFormationNumWithLeader[leader.getId()];
 	}
 	
-	public int getTeamFormationNumWithMember(Agent member) {
+	public int getTeamFormationNumWithMember(ConcreteAgent member) {
 		return teamFormationNumWithMember[member.getId()];
 	}
 	

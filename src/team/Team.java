@@ -3,7 +3,7 @@ package team;
 import java.util.ArrayList;
 
 import constant.Constant;
-import agent.Agent;
+import agent.ConcreteAgent;
 
 public class Team {
 	private int teamExecuteTime = 0;
@@ -13,50 +13,50 @@ public class Team {
 	private double bindingTimePerAgent = 0;
 	private int[] teamResource = new int[Constant.RESOURCE_NUM];
 	private int teamResourceSum = 0;
-	private ArrayList<Agent> tentativeTeamMate = new ArrayList<Agent>();
-	private ArrayList<Agent> teamMate = new ArrayList<Agent>();
-	private Agent leader;
-	private ArrayList<Agent> members = new ArrayList<Agent>();
+	private ArrayList<ConcreteAgent> tentativeTeamMate = new ArrayList<ConcreteAgent>();
+	private ArrayList<ConcreteAgent> teamMate = new ArrayList<ConcreteAgent>();
+	private ConcreteAgent leader;
+	private ArrayList<ConcreteAgent> members = new ArrayList<ConcreteAgent>();
 	
-	public Team(Agent leader) {
+	public Team(ConcreteAgent leader) {
 		this.leader = leader;
 		addTentativeTeamMate(leader);
-		for(Agent member : leader.getParameter().getSendAgents()){
+		for(ConcreteAgent member : leader.getParameter().getSendAgents()){
 			addTentativeTeamMate(member);
 		}
 	}
 	
-	public void addTentativeTeamMate(Agent agent) {
+	public void addTentativeTeamMate(ConcreteAgent agent) {
 		tentativeTeamMate.add(agent);
 	}
 	
-	public void addTeamMate(Agent agent) {
+	public void addTeamMate(ConcreteAgent agent) {
 		teamMate.add(agent);
 		setTeamResource(agent);
 		setTeamExecuteTime(agent);
 	}
 	
-	private void setTeamResource(Agent agent) {
+	private void setTeamResource(ConcreteAgent agent) {
 		for(int i = 0; i < Constant.RESOURCE_NUM; i++){
 			teamResource[i] += agent.getAbility(i);
 		}
 		teamResourceSum += agent.getAbilitySum();
 	}
 	
-	private void setTeamExecuteTime(Agent agent) {
+	private void setTeamExecuteTime(ConcreteAgent agent) {
 		if(teamExecuteTime < agent.getParameter().getExecuteTime()){
 			teamExecuteTime = agent.getParameter().getExecuteTime();
 		}
 	}
 	
-	public void addMember(Agent agent) {
+	public void addMember(ConcreteAgent agent) {
 		members.add(agent);
 		addTeamMate(agent);
 	}
 	
 	public void calculateExecutingTime() {
 		int executingTimeSum = 0;
-		for(Agent agent : teamMate){
+		for(ConcreteAgent agent : teamMate){
 			executingTimeSum += agent.getParameter().getExecuteTime();
 		}
 		executingTime = executingTimeSum;
@@ -65,7 +65,7 @@ public class Team {
 	
 	public void calculateBindingTime() {
 		int bindingTimeSum = 0;
-		for(Agent agent : teamMate){
+		for(ConcreteAgent agent : teamMate){
 			bindingTimeSum += (teamExecuteTime - agent.getParameter().getExecuteTime());
 		}
 		bindingTime = bindingTimeSum;
@@ -100,19 +100,19 @@ public class Team {
 		return teamResourceSum;
 	}
 	
-	public Agent getLeader() {
+	public ConcreteAgent getLeader() {
 		return leader;
 	}
 	
-	public ArrayList<Agent> getTentativeTeamMate() {
+	public ArrayList<ConcreteAgent> getTentativeTeamMate() {
 		return tentativeTeamMate;
 	}
 	
-	public ArrayList<Agent> getTeamMate() {
+	public ArrayList<ConcreteAgent> getTeamMate() {
 		return teamMate;
 	}
 	
-	public ArrayList<Agent> getMembers() {
+	public ArrayList<ConcreteAgent> getMembers() {
 		return members;
 	}
 	
@@ -122,7 +122,7 @@ public class Team {
 	
 	public double getMemberResourcePerAgent() {
 		double memberResource = 0;
-		for(Agent member : members){
+		for(ConcreteAgent member : members){
 			memberResource += member.getAbilitySum();
 		}
 		

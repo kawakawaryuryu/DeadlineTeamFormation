@@ -4,14 +4,14 @@ import role.Role;
 import task.Subtask;
 import log.Log;
 import message.TeamFormationMessage;
-import agent.Agent;
+import agent.ConcreteAgent;
 
 public class SubtaskReceptionState implements State {
 	
 	private static State state = new SubtaskReceptionState();
 
 	@Override
-	public void agentAction(Agent member) {
+	public void agentAction(ConcreteAgent member) {
 		// チーム編成成否メッセージの取得
 		TeamFormationMessage message = member.getParameter().getTeamFormationMessage();
 
@@ -53,7 +53,7 @@ public class SubtaskReceptionState implements State {
 		}
 	}
 	
-	private void setInfoFromMessage(Agent member, TeamFormationMessage message) {
+	private void setInfoFromMessage(ConcreteAgent member, TeamFormationMessage message) {
 		// 処理するサブタスクをセット
 		/*for(Subtask subtask : message.getSubtasks()){
 			member.getParameter().setExecutedSubtasks(subtask, AgentTaskLibrary.calculateExecuteTime(member, subtask));
@@ -64,7 +64,7 @@ public class SubtaskReceptionState implements State {
 		
 	}
 	
-	private void debugExecutedSubtask(Agent member) {
+	private void debugExecutedSubtask(ConcreteAgent member) {
 		Log.log.debugln("処理するサブタスク");
 		for(Subtask subtask : member.getParameter().getExecutedSubtasks()){
 			Log.log.debugln(subtask);

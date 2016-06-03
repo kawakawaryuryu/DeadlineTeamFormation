@@ -6,7 +6,7 @@ import task.Failure;
 import task.Task;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
-import agent.Agent;
+import agent.ConcreteAgent;
 
 public class TaskSelectionState implements State {
 	
@@ -14,7 +14,7 @@ public class TaskSelectionState implements State {
 	private TaskSelectionStrategy strategy = StrategyManager.getTaskSelectionStrategy();
 
 	@Override
-	public void agentAction(Agent agent) {
+	public void agentAction(ConcreteAgent agent) {
 		
 		Task selectedTask = strategy.selectTask(agent);
 		if(selectedTask != null){

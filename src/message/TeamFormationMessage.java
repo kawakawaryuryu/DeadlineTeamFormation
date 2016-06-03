@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import task.Subtask;
 import team.Team;
-import agent.Agent;
+import agent.ConcreteAgent;
 
 public class TeamFormationMessage extends Message {
 	private boolean isok;
@@ -20,7 +20,7 @@ public class TeamFormationMessage extends Message {
 	 * @param to
 	 * @param isok
 	 */
-	public TeamFormationMessage(Agent from, Agent to, boolean isok) {
+	public TeamFormationMessage(ConcreteAgent from, ConcreteAgent to, boolean isok) {
 		super(from, to);
 		this.isok = isok;
 	}
@@ -35,7 +35,7 @@ public class TeamFormationMessage extends Message {
 	 * @param leftRequireSum
 	 * @param team
 	 */
-	public TeamFormationMessage(Agent from, Agent to, boolean isok, ArrayList<Subtask> subtasks, 
+	public TeamFormationMessage(ConcreteAgent from, ConcreteAgent to, boolean isok, ArrayList<Subtask> subtasks, 
 			double leftReward, int leftRequireSum, Team team) {
 		this(from, to, isok);
 		this.subtasks = subtasks;

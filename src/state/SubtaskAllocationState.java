@@ -12,7 +12,7 @@ import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.AnswerMessage;
 import message.TeamFormationMessage;
-import agent.Agent;
+import agent.ConcreteAgent;
 
 public class SubtaskAllocationState implements State {
 	
@@ -21,7 +21,7 @@ public class SubtaskAllocationState implements State {
 	
 
 	@Override
-	public void agentAction(Agent leader) {
+	public void agentAction(ConcreteAgent leader) {
 		// エージェントを参加OKかNGかで分類
 		classifyMessageIntoTrueOrFalse(leader);
 		debugAnswerAgents(leader);
@@ -83,14 +83,14 @@ public class SubtaskAllocationState implements State {
 		TeamFormationInstances.getInstance().getMeasure().countTryingTeamFormationNum();
 	}
 	
-	private void debugExecutedSubtask(Agent leader) {
+	private void debugExecutedSubtask(ConcreteAgent leader) {
 		Log.log.debugln("処理するサブタスク");
 		for(Subtask subtask : leader.getParameter().getExecutedSubtasks()){
 			Log.log.debugln(subtask);
 		}
 	}
 	
-	private void classifyMessageIntoTrueOrFalse(Agent leader) {
+	private void classifyMessageIntoTrueOrFalse(ConcreteAgent leader) {
 		// 返答メッセージによってエージェントを分類
 		for(AnswerMessage answer : leader.getParameter().getAnswerMessages()){
 			leader.getParameter().getLeaderField().answerAgents.add(answer.getFrom());
@@ -103,29 +103,29 @@ public class SubtaskAllocationState implements State {
 		}
 		
 		// 返答メッセージが返ってきていないエージェントをリストに追加
-		for(Agent agent : leader.getParameter().getSendAgents()){
+		for(ConcreteAgent agent : leader.getParameter().getSendAgents()){
 			if(!leader.getParameter().getLeaderField().answerAgents.contains(agent)){
 				leader.getParameter().getLeaderField().falseAgents.add(agent);
 			}
 		}
 	}
 	
-	private void debugAnswerAgents(Agent leader) {
+	private void debugAnswerAgents(ConcreteAgent leader) {
 		Log.log.debugln("OKメッセージを送ったエージェント");
-		for(Agent agent : leader.getParameter().getLeaderField().trueAgents){
+		for(ConcreteAgent agent : leader.getParameter().getLeaderField().trueAgents){
 			Log.log.debugln(agent);
 		}
 		Log.log.debugln("NGメッセージを送ったエージェント");
-		for(Agent agent : leader.getParameter().getLeaderField().falseAgents){
+		for(ConcreteAgent agent : leader.getParameter().getLeaderField().falseAgents){
 			Log.log.debugln(agent);
 		}
 	}
 	
-	private double calculateLeftReward(Agent leader) {
+	private double calculateLeftReward(ConcreteAgent leader) {
 		return (double)leader.getParameter().getMarkedTask().getTaskRequireSum() * (1.0 - leader.getGreedy());
 	}
 	
-	private int calculateLeftRequireSum(Agent leader) {
+	private int calculateLeftRequireSum(ConcreteAgent leader) {
 		int leftRequireSum = leader.getParameter().getMarkedTask().getTaskRequireSum();
 		for(Subtask subtask : leader.getParameter().getExecutedSubtasks()){
 			leftRequireSum -= subtask.getRequireSum();
@@ -133,8 +133,8 @@ public class SubtaskAllocationState implements State {
 		return leftRequireSum;
 	}
 	
-	private void sendTeamFormationMessage(Agent leader, double leftReward, int leftRequireSum) {
-		for(Agent agent : leader.getParameter().getLeaderField().trueAgents){
+	private void sendTeamFormationMessage(ConcreteAgent leader, double leftReward, int leftRequireSum) {
+		for(ConcreteAgent agent : leader.getParameter().getLeaderField().trueAgents){
 			if(!leader.getParameter().getLeaderField().memberSubtaskMap.containsKey(agent) 
 					|| !leader.getParameter().getLeaderField().isTeaming){
 				TeamFormationInstances.getInstance().getPost().postTeamFormationMessage(agent, new TeamFormationMessage(leader, agent, false));
@@ -155,15 +155,15 @@ public class SubtaskAllocationState implements State {
 		}
 	}
 	
-	private void feedbackGreedyAndTrustToMember(Agent leader) {
+	private void feedbackGreedyAndTrustToMember(ConcreteAgent leader) {
 		// 欲張り度
 		leader.feedbackGreedy(leader.getParameter().getLeaderField().isTeaming);
 		
 		// 信頼度
-		for(Agent agent : leader.getParameter().getLeaderField().trueAgents){
+		for(ConcreteAgent agent : leader.getParameter().getLeaderField().trueAgents){
 			leader.feedbackTrustToMember(agent, true);
 		}
-		for(Agent agent : leader.getParameter().getLeaderField().falseAgents){
+		for(ConcreteAgent agent : leader.getParameter().getLeaderField().falseAgents){
 			leader.feedbackTrustToMember(agent, false);
 		}
 	}

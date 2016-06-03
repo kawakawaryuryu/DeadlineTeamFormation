@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import constant.Constant;
-import agent.Agent;
+import agent.ConcreteAgent;
 import main.file.FileWriteManager;
 import main.file.VisualFileWriter;
 
@@ -102,14 +102,14 @@ public class TeamFormationFileManager {
 		}
 	}
 	
-	private void writeMeasuredData(ArrayList<Agent> agents, int experimentNumber) throws IOException {
+	private void writeMeasuredData(ArrayList<ConcreteAgent> agents, int experimentNumber) throws IOException {
 		if(experimentNumber == 1){
 			FileWriteManager.writeBodyOfRoleNumber(agents);
 			FileWriteManager.writeTeamFormationWithAgent(agents);
 		}
 	}
 	
-	private void writeMeasuredDataPerTurn(PrintWriter greedy, int turn, ArrayList<Agent> agents, int experimentNumber) throws IOException {
+	private void writeMeasuredDataPerTurn(PrintWriter greedy, int turn, ArrayList<ConcreteAgent> agents, int experimentNumber) throws IOException {
 		if(experimentNumber == 1){
 			FileWriteManager.writeBodyOfGreedy(greedy, turn, agents);
 			FileWriteManager.writeTrustToMember(agents, turn);
@@ -118,7 +118,7 @@ public class TeamFormationFileManager {
 		}
 	}
 	
-	private void writeVisualData(ArrayList<Agent> agents, int turn, int experimentNumber, int successTeamFormationEdge) throws IOException {
+	private void writeVisualData(ArrayList<ConcreteAgent> agents, int turn, int experimentNumber, int successTeamFormationEdge) throws IOException {
 		if(experimentNumber == 1){
 			VisualFileWriter.writeVisualizedData(agents, turn, experimentNumber, successTeamFormationEdge);
 			VisualFileWriter.writeVisualizedMoreData(agents, turn);

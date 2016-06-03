@@ -9,13 +9,13 @@ import task.Subtask;
 import library.AgentTaskLibrary;
 import log.Log;
 import constant.Constant;
-import agent.Agent;
+import agent.ConcreteAgent;
 
 public class ConcreteSubtaskAllocationStrategy implements
 		SubtaskAllocationStrategy {
 
 	@Override
-	public void decideMembers(Agent leader) {
+	public void decideMembers(ConcreteAgent leader) {
 		boolean isTeaming;
 		
 		// サブタスクごとにメンバを絞る
@@ -29,7 +29,7 @@ public class ConcreteSubtaskAllocationStrategy implements
 		if(leader.getParameter().getLeaderField().isTeaming){
 			Log.log.debugln("チーム編成成功！");
 			leader.getParameter().getParticipatingTeam().addTeamMate(leader);
-			for(Agent member : leader.getParameter().getLeaderField().memberSubtaskMap.keySet()){
+			for(ConcreteAgent member : leader.getParameter().getLeaderField().memberSubtaskMap.keySet()){
 				for(Subtask subtask : leader.getParameter().getLeaderField().memberSubtaskMap.get(member)){
 					member.getParameter().setExecutedSubtasks(subtask, AgentTaskLibrary.calculateExecuteTime(member, subtask));
 				}
@@ -39,7 +39,7 @@ public class ConcreteSubtaskAllocationStrategy implements
 
 	}
 	
-	private boolean decideMemberEverySubtask(Agent leader) {
+	private boolean decideMemberEverySubtask(ConcreteAgent leader) {
 		for(Subtask subtask : leader.getParameter().getMarkedTask().subtasksByMembers){
 			// OKメッセージが返ってきていないエージェントはメンバ候補から削除する
 			for(int i = 0; i < subtask.getAgentInfo().getSelectedAgents().size();){
@@ -59,14 +59,14 @@ public class ConcreteSubtaskAllocationStrategy implements
 			
 			// 今のエージェントをメンバとする
 			else if(selectedAgentsNum == 1){
-				Agent member = subtask.getAgentInfo().getSelectedAgent(0);
+				ConcreteAgent member = subtask.getAgentInfo().getSelectedAgent(0);
 				setToLeaderField(leader, member, subtask);
 				Log.log.debugln(subtask + " を処理するメンバは " + member + " に決まりました");
 			}
 			
 			// メンバを一人に絞る
 			else if(selectedAgentsNum > 1){
-				Agent member = selectMember(leader, subtask);
+				ConcreteAgent member = selectMember(leader, subtask);
 				setToLeaderField(leader, member, subtask);
 				Log.log.debugln(subtask + " を処理するメンバは " + member + " に決まりました");
 			}
@@ -88,17 +88,17 @@ public class ConcreteSubtaskAllocationStrategy implements
 		}
 	}
 	
-	private void setToLeaderField(Agent leader, Agent member, Subtask subtask) {
+	private void setToLeaderField(ConcreteAgent leader, ConcreteAgent member, Subtask subtask) {
 		leader.getParameter().getLeaderField().members.add(member);
 		leader.getParameter().getLeaderField().setAgentToMemberSubtaskMap(member);
 		leader.getParameter().getLeaderField().addSubtaskToMemberSubtaskMap(member, subtask);
 	}
 	
 	@Override
-	public Agent selectMember(Agent leader, Subtask subtask) {
+	public ConcreteAgent selectMember(ConcreteAgent leader, Subtask subtask) {
 		Collections.shuffle(subtask.getAgentInfo().getSelectedAgents(), RandomManager.getRandom(RandomKey.SORT_RANDOM_3));
 		double probability = RandomManager.getRandom(RandomKey.EPSILON_GREEDY_RANDOM_3).nextDouble();	//ε-greedyの確率
-		Agent maxTrustMember;
+		ConcreteAgent maxTrustMember;
 		// εの確率でランダムにメンバを決める
 		if(probability <= Constant.EPSILON){
 			int randomIndex = RandomManager.getRandom(RandomKey.SELECT_RANDOM_4).nextInt(subtask.getAgentInfo().getSelectedAgents().size());
@@ -108,7 +108,7 @@ public class ConcreteSubtaskAllocationStrategy implements
 		else{
 			maxTrustMember = subtask.getAgentInfo().getSelectedAgent(0);
 			for(int i = 1; i < subtask.getAgentInfo().getSelectedAgents().size(); i++){
-				Agent agent = subtask.getAgentInfo().getSelectedAgent(i);
+				ConcreteAgent agent = subtask.getAgentInfo().getSelectedAgent(i);
 				if(leader.getTrustToMember(maxTrustMember) < leader.getTrustToMember(agent)){
 					maxTrustMember = agent;
 				}
@@ -119,9 +119,9 @@ public class ConcreteSubtaskAllocationStrategy implements
 	}
 	
 	@Override
-	public boolean allocateNotAllocatedSubtask(Agent leader) {
+	public boolean allocateNotAllocatedSubtask(ConcreteAgent leader) {
 		// OKメッセージが返ってきたエージェントを信頼度でソート
-		Agent[] sortedAgents = AgentTaskLibrary.getSortedAgentsFromArray(leader.getTrustToMember(), 
+		ConcreteAgent[] sortedAgents = AgentTaskLibrary.getSortedAgentsFromArray(leader.getTrustToMember(), 
 				leader.getParameter().getLeaderField().trueAgents);
 
 		// まだ割り当てられていないサブタスクをリソースの降順にソート
@@ -131,7 +131,7 @@ public class ConcreteSubtaskAllocationStrategy implements
 		return decideMemberEveryNotAllocatedSubtask(leader, sortedAgents);
 	}
 	
-	private void sortNotAssignedSubTaskList(Agent leader){
+	private void sortNotAssignedSubTaskList(ConcreteAgent leader){
 		Collections.shuffle(leader.getParameter().getLeaderField().notAssignedSubTask, 
 				RandomManager.getRandom(RandomKey.SORT_RANDOM_4));
 		Collections.sort(leader.getParameter().getLeaderField().notAssignedSubTask, new Comparator<Subtask>(){
@@ -142,10 +142,10 @@ public class ConcreteSubtaskAllocationStrategy implements
 		});
 	}
 	
-	private boolean decideMemberEveryNotAllocatedSubtask(Agent leader, Agent[] sortedAgents) {
+	private boolean decideMemberEveryNotAllocatedSubtask(ConcreteAgent leader, ConcreteAgent[] sortedAgents) {
 		for(Subtask subtask : leader.getParameter().getLeaderField().notAssignedSubTask){
 			boolean isAllocated = false;
-			for(Agent member : sortedAgents){
+			for(ConcreteAgent member : sortedAgents){
 				int executeTime = getExecuteTime(leader, member);
 				int deadline = subtask.getDeadline() - executeTime - Constant.DEADLINE_MIN_1;
 				if(AgentTaskLibrary.isExecuteSubTask(member, subtask, deadline)){
@@ -171,7 +171,7 @@ public class ConcreteSubtaskAllocationStrategy implements
 		return true;
 	}
 	
-	private int getExecuteTime(Agent leader, Agent member) {
+	private int getExecuteTime(ConcreteAgent leader, ConcreteAgent member) {
 		if(leader.getParameter().getLeaderField().memberSubtaskMap.containsKey(member)){
 			return AgentTaskLibrary.calculateExecuteTimeSum(member, 
 					leader.getParameter().getLeaderField().memberSubtaskMap.get(member));

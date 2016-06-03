@@ -2,14 +2,14 @@ package state;
 
 import log.Log;
 import task.Subtask;
-import agent.Agent;
+import agent.ConcreteAgent;
 
 public class TaskExecuteState implements State {
 	
 	private static State state = new TaskExecuteState();
 
 	@Override
-	public void agentAction(Agent agent) {
+	public void agentAction(ConcreteAgent agent) {
 		agent.getParameter().getTimerField().countTaskExecuteStateTimer();
 		debugExecuteTime(agent);
 		
@@ -32,14 +32,14 @@ public class TaskExecuteState implements State {
 
 	}
 	
-	private void debugExecutedSubtask(Agent agent) {
+	private void debugExecutedSubtask(ConcreteAgent agent) {
 		Log.log.debugln("以下のサブタスクを処理中です");
 		for(Subtask subtask : agent.getParameter().getExecutedSubtasks()){
 			Log.log.debugln(subtask);
 		}
 	}
 	
-	private void debugExecuteTime(Agent agent) {
+	private void debugExecuteTime(ConcreteAgent agent) {
 		Log.log.debugln("タスク処理時間 = " + agent.getParameter().getExecuteTime());
 		Log.log.debugln("チーム処理時間 = " + agent.getParameter().getParticipatingTeam().getTeamExecuteTime());
 		Log.log.debugln("実行状態タイマー = " + agent.getParameter().getTimerField().getTaskExecuteStateTimer());

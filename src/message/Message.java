@@ -1,27 +1,27 @@
 package message;
 
-import agent.Agent;
+import agent.ConcreteAgent;
 
 public class Message {
 	/** 誰から */
-	protected Agent from;
+	protected ConcreteAgent from;
 	
 	/** 誰に */
-	protected Agent to;
+	protected ConcreteAgent to;
 	
 	/** 通信遅延時間 */
 	protected int delayTime;
 	
-	public Message(Agent from, Agent to){
+	public Message(ConcreteAgent from, ConcreteAgent to){
 		this.from = from;
 		this.to = to;
 	}
 	
-	public Agent getFrom() {
+	public ConcreteAgent getFrom() {
 		return from;
 	}
 	
-	public Agent getTo() {
+	public ConcreteAgent getTo() {
 		return to;
 	}
 	

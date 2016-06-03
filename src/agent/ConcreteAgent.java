@@ -8,7 +8,7 @@ import random.RandomManager;
 import log.Log;
 import constant.Constant;
 
-public class Agent {
+public class ConcreteAgent {
 	protected int id;
 	protected int[] ability;
 	protected int abilitySum = 0;
@@ -21,7 +21,7 @@ public class Agent {
 	double[] rewardExpectation = new double[Constant.AGENT_NUM];
 	double[] trustToLeader = new double[Constant.AGENT_NUM];
 	
-	public Agent(int id) {
+	public ConcreteAgent(int id) {
 		this.id = id;
 		ability = new int[Constant.RESOURCE_NUM];
 		for(int i = 0; i < ability.length; i++){
@@ -38,7 +38,7 @@ public class Agent {
 		trustToLeader[id] = 0.0;
 	}
 	
-	public Agent(int id, int[] ability) {
+	public ConcreteAgent(int id, int[] ability) {
 		this(id);
 		abilitySum = 0;
 		for(int i = 0; i < this.ability.length; i++){
@@ -93,7 +93,7 @@ public class Agent {
 		reward = isok ? parameter.getMarkedTask().getTaskRequireSum() * greedy : 0.0;
 	}
 	
-	public void feedbackTrustToMember(Agent you, boolean isok){
+	public void feedbackTrustToMember(ConcreteAgent you, boolean isok){
 		double value;
 		if(isok){
 			/* 自分の実行時間より長い時間かかる場合 */
@@ -111,7 +111,7 @@ public class Agent {
 		trustToMember[you.id] = Constant.LEARN_RATE_TRUST_TO_MEMBER * value + (1.0 - Constant.LEARN_RATE_TRUST_TO_MEMBER) * trustToMember[you.id];	//提案受託期待度の更新
 	}
 	
-	public void feedbackExpectedReward(Agent you, boolean isok, int subtaskRequire, double leftReward, int leftRequireSum){
+	public void feedbackExpectedReward(ConcreteAgent you, boolean isok, int subtaskRequire, double leftReward, int leftRequireSum){
 		calculateMemberReward(isok, subtaskRequire, leftReward, leftRequireSum);	//獲得報酬の計算
 		int executeTime;	//実際にかかる処理時間
 		if(isok){
@@ -124,7 +124,7 @@ public class Agent {
 		rewardExpectation[you.id] = Constant.LEARN_RATE_REWARD * (reward / (double)executeTime) + (1.0 - Constant.LEARN_RATE_REWARD) * rewardExpectation[you.id];	//報酬期待度の更新
 	}
 	
-	public void feedbackTrustToLeader(Agent you, Team team, boolean isok) {
+	public void feedbackTrustToLeader(ConcreteAgent you, Team team, boolean isok) {
 		double value;
 		if(isok){
 			/* 自分の実行時間より長い時間かかる場合 */
@@ -159,7 +159,7 @@ public class Agent {
 		return greedy;
 	}
 	
-	public double getTrustToMember(Agent you) {
+	public double getTrustToMember(ConcreteAgent you) {
 		return trustToMember[you.id];
 	}
 	
@@ -167,11 +167,11 @@ public class Agent {
 		return trustToMember;
 	}
 	
-	public double getRewardExpectation(Agent you) {
+	public double getRewardExpectation(ConcreteAgent you) {
 		return rewardExpectation[you.id];
 	}
 	
-	public double getTrustToLeader(Agent you) {
+	public double getTrustToLeader(ConcreteAgent you) {
 		return trustToLeader[you.id];
 	}
 	

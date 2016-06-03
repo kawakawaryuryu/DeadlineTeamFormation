@@ -7,7 +7,7 @@ import role.Role;
 import task.Task;
 import team.Team;
 import constant.Constant;
-import agent.Agent;
+import agent.ConcreteAgent;
 
 public class TeamFormationMeasuredData {
 	int arrayIndex;
@@ -178,14 +178,14 @@ public class TeamFormationMeasuredData {
 		teamSize += realSize;
 	}
 	
-	public void measureAtEnd(ArrayList<Agent> agents) {
-		for(Agent agent : agents){
+	public void measureAtEnd(ArrayList<ConcreteAgent> agents) {
+		for(ConcreteAgent agent : agents){
 			classifyMainRoleNum(agent);
 			countEachStateTime(agent);
 		}
 	}
 	
-	private void classifyMainRoleNum(Agent agent) {
+	private void classifyMainRoleNum(ConcreteAgent agent) {
 		int leaderNum = agent.getParameter().getElement(Role.LEADER).getRoleNum();
 		int memberNum = agent.getParameter().getElement(Role.MEMBER).getRoleNum();
 		if(leaderNum > memberNum * 2){
@@ -199,7 +199,7 @@ public class TeamFormationMeasuredData {
 		}
 	}
 	
-	private void countEachStateTime(Agent agent) {
+	private void countEachStateTime(ConcreteAgent agent) {
 		initialTime += agent.getParameter().getElement(Role.INITIAL).getStateTime();
 		leaderTime += agent.getParameter().getElement(Role.LEADER).getStateTime();
 		memberTime += agent.getParameter().getElement(Role.MEMBER).getStateTime();

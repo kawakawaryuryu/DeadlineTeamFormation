@@ -1,7 +1,7 @@
 package state;
 
-import agent.Agent;
+import agent.ConcreteAgent;
 
 public interface State {
-	public abstract void agentAction(Agent agent);
+	public abstract void agentAction(ConcreteAgent agent);
 }

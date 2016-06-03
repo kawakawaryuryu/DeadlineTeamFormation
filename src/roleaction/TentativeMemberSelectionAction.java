@@ -11,13 +11,13 @@ import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.AnswerMessage;
 import message.OfferMessage;
-import agent.Agent;
+import agent.ConcreteAgent;
 
 public class TentativeMemberSelectionAction implements RoleAction {
 	private TentativeMemberSelectionStrategy strategy = StrategyManager.getMemberSelectionStrategy();
 
 	@Override
-	public void action(Agent agent) {
+	public void action(ConcreteAgent agent) {
 		// 提案メッセージの全送信者に参加拒否メッセージを送る
 		refuseOfferMessages(agent);
 		
@@ -37,7 +37,7 @@ public class TentativeMemberSelectionAction implements RoleAction {
 
 	}
 	
-	private void refuseOfferMessages(Agent agent) {
+	private void refuseOfferMessages(ConcreteAgent agent) {
 		for(OfferMessage offer : agent.getParameter().getOfferMessages()){
 			Log.log.debugln(offer.getFrom() + "からのメッセージを断ります");
 			TeamFormationInstances.getInstance().getPost().postAnswerMessage(offer.getFrom(), 
@@ -45,13 +45,13 @@ public class TentativeMemberSelectionAction implements RoleAction {
 		}
 	}
 	
-	private void actionInSearchingSuccessCase(Agent agent) {
+	private void actionInSearchingSuccessCase(ConcreteAgent agent) {
 		agent.getParameter().setParticipatingTeam(new Team(agent));
 		agent.getParameter().changeState(SubtaskAllocationState.getState());
 		agent.getParameter().changeRole(Role.LEADER);
 	}
 	
-	private void actionInSearchingFailureCase(Agent agent) {
+	private void actionInSearchingFailureCase(ConcreteAgent agent) {
 		agent.getParameter().getMarkedTask().markingTask(false, Failure.ESTIMATION_FAILURE);
 		agent.getParameter().getMarkedTask().clear();
 		TeamFormationInstances.getInstance().getMeasure().countGiveUpTeamFormationNum();

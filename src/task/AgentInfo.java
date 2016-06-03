@@ -3,22 +3,22 @@ package task;
 import java.util.ArrayList;
 
 import constant.Constant;
-import agent.Agent;
+import agent.ConcreteAgent;
 
 public class AgentInfo {
 
-	private ArrayList<Agent> agents = new ArrayList<Agent>();
+	private ArrayList<ConcreteAgent> agents = new ArrayList<ConcreteAgent>();
 	
-	public void addSelectedAgent(Agent agent) {
+	public void addSelectedAgent(ConcreteAgent agent) {
 		agents.add(agent);
 		isOverSelectedNum();
 	}
 	
-	public ArrayList<Agent> getSelectedAgents() {
+	public ArrayList<ConcreteAgent> getSelectedAgents() {
 		return agents;
 	}
 	
-	public Agent getSelectedAgent(int index) {
+	public ConcreteAgent getSelectedAgent(int index) {
 		return agents.get(index);
 	}
 	
