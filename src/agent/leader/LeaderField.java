@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import task.Subtask;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 public class LeaderField {
 
-	public ArrayList<ConcreteAgent> answerAgents = new ArrayList<ConcreteAgent>();	//返答したエージェントのリスト
-	public ArrayList<ConcreteAgent> trueAgents = new ArrayList<ConcreteAgent>();	//チーム参加にOKしてくれたエージェントのリスト
-	public ArrayList<ConcreteAgent> falseAgents = new ArrayList<ConcreteAgent>();	//チーム参加にNGをしたエージェントのリスト
-	public ArrayList<ConcreteAgent> leaderAndTrueAgents = new ArrayList<ConcreteAgent>();	//チーム参加にOKしてくれたエージェント＋リーダのリスト
-	public ArrayList<ConcreteAgent> members = new ArrayList<ConcreteAgent>();	//メンバを保持するエージェントリスト
-	public ArrayList<ConcreteAgent> notAssignToMemberList = new ArrayList<ConcreteAgent>();	//まだサブタスクを割り当てられていないメンバ候補のリスト
+	public ArrayList<Agent> answerAgents = new ArrayList<Agent>();	//返答したエージェントのリスト
+	public ArrayList<Agent> trueAgents = new ArrayList<Agent>();	//チーム参加にOKしてくれたエージェントのリスト
+	public ArrayList<Agent> falseAgents = new ArrayList<Agent>();	//チーム参加にNGをしたエージェントのリスト
+	public ArrayList<Agent> leaderAndTrueAgents = new ArrayList<Agent>();	//チーム参加にOKしてくれたエージェント＋リーダのリスト
+	public ArrayList<Agent> members = new ArrayList<Agent>();	//メンバを保持するエージェントリスト
+	public ArrayList<Agent> notAssignToMemberList = new ArrayList<Agent>();	//まだサブタスクを割り当てられていないメンバ候補のリスト
 	public ArrayList<Subtask> notAssignedSubTask = new ArrayList<Subtask>();	//処理するメンバが決まっていないサブタスクリスト
-	public HashMap<ConcreteAgent, ArrayList<Subtask>> memberSubtaskMap = new HashMap<ConcreteAgent, ArrayList<Subtask>>();
+	public HashMap<Agent, ArrayList<Subtask>> memberSubtaskMap = new HashMap<Agent, ArrayList<Subtask>>();
 	public boolean isTeaming;	//チーム編成成功か失敗か
 	public boolean isTeamingAgainAllocation;	//再割り当てを行ってチーム編成が成功したか失敗したか
 	
@@ -35,7 +35,7 @@ public class LeaderField {
 		memberSubtaskMap.clear();
 	}
 	
-	public void setAgentToMemberSubtaskMap(ConcreteAgent member) {
+	public void setAgentToMemberSubtaskMap(Agent member) {
 		if(!memberSubtaskMap.containsKey(member)){
 			memberSubtaskMap.put(member, new ArrayList<Subtask>());
 		}
@@ -45,7 +45,7 @@ public class LeaderField {
 		}
 	}
 	
-	public void addSubtaskToMemberSubtaskMap(ConcreteAgent member, Subtask subtask) {
+	public void addSubtaskToMemberSubtaskMap(Agent member, Subtask subtask) {
 		if(!memberSubtaskMap.get(member).contains(subtask)){
 			memberSubtaskMap.get(member).add(subtask);
 		}

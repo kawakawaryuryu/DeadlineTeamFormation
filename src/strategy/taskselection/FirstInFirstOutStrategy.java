@@ -4,7 +4,7 @@ import task.Task;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
 import constant.Constant;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 /**
  * キューはそのまま並び替えない
@@ -19,7 +19,7 @@ public class FirstInFirstOutStrategy implements TaskSelectionStrategy {
 	 * @return
 	 */
 	@Override
-	public Task selectTask(ConcreteAgent agent){
+	public Task selectTask(Agent agent){
 		for(Task task : TeamFormationInstances.getInstance().getParameter().lookingTaskQueue()){
 			if(!task.getMark()){
 				if(canExecuteTaskInTeam(agent, task)){
@@ -36,7 +36,7 @@ public class FirstInFirstOutStrategy implements TaskSelectionStrategy {
 	 * @param task
 	 * @return
 	 */
-	public boolean canExecuteTaskInTeam(ConcreteAgent agent, Task task){
+	public boolean canExecuteTaskInTeam(Agent agent, Task task){
 		int countTime = 0;
 		int leftTaskResource = task.getTaskRequireSum();
 		

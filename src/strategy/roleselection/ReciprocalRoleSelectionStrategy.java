@@ -9,13 +9,14 @@ import random.RandomKey;
 import random.RandomManager;
 import message.OfferMessage;
 import task.Task;
-import agent.ConcreteAgent;
+import agent.Agent;
+import agent.StructuredAgent;
 
 public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 
 	@Override
 	public OfferMessage selectMessage(ArrayList<OfferMessage> messages,
-			ConcreteAgent agent) {
+			Agent agent) {
 		Collections.shuffle(messages, RandomManager.getRandom(RandomKey.SHUFFLE_RANDOM_1));
 
 		OfferMessage offerMessage;
@@ -25,7 +26,7 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 		return offerMessage;
 	}
 
-	private OfferMessage selectOfferMessage(ArrayList<OfferMessage> messages, ConcreteAgent agent) {
+	private OfferMessage selectOfferMessage(ArrayList<OfferMessage> messages, Agent agent) {
 
 		OfferMessage offerMessage;
 
@@ -44,7 +45,7 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 		return offerMessage;
 	}
 	
-	private OfferMessage getOfferMessage(ArrayList<OfferMessage> messages, ConcreteAgent agent) {
+	private OfferMessage getOfferMessage(ArrayList<OfferMessage> messages, Agent agent) {
 		OfferMessage maxExpectedRewardMessage = messages.get(0);
 		double maxExpectedReward = getExpectedMemberReward(agent, maxExpectedRewardMessage);
 
@@ -63,7 +64,7 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 	}
 
 	@Override
-	public double calculateExpectedLeaderReward(ConcreteAgent agent, Task task) {
+	public double calculateExpectedLeaderReward(Agent agent, Task task) {
 		double leaderReward;	//リーダの期待報酬
 		int expectedExecuteTime;	//予想されるタスク実行時間
 
@@ -86,7 +87,7 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 	}
 
 	@Override
-	public double calculateExpectedMemberReward(ConcreteAgent agent,
+	public double calculateExpectedMemberReward(Agent agent,
 			ArrayList<OfferMessage> messages) {
 		// 来ている提案メッセージから処理できるメッセージを抽出
 		ArrayList<OfferMessage> canBeExecutedMessages = AgentTaskLibrary.getCanExecuteOfferMessages(messages, agent);
@@ -107,7 +108,7 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 			// 信頼エージェントが処理できるメッセージの中にいるか判定
 			ArrayList<OfferMessage> trustMessages = new ArrayList<OfferMessage>();
 			for (OfferMessage message : canBeExecutedMessages) {
-				ConcreteAgent leader = message.getFrom(); 
+				Agent leader = message.getFrom(); 
 				if (agent.getParameter().getTrustLeaders().contains(leader)) {
 					trustMessages.add(message);
 				}
@@ -141,7 +142,7 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 		return memberReward;
 	}
 	
-	private double getExpectedMemberReward(ConcreteAgent agent, OfferMessage message) {
+	private double getExpectedMemberReward(Agent agent, OfferMessage message) {
 		int expectedExecuteTime = AgentTaskLibrary.calculateExecuteTime(agent, message.getSubtask());
 		double memberReward = (double)expectedExecuteTime * agent.getRewardExpectation(message.getFrom());
 
@@ -158,10 +159,10 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 	 * @param trustMessages
 	 * @return
 	 */
-	private OfferMessage getMaxTrustLeaderOfferMessage(ConcreteAgent agent ,ArrayList<OfferMessage> trustMessages) {
+	private OfferMessage getMaxTrustLeaderOfferMessage(Agent agent ,ArrayList<OfferMessage> trustMessages) {
 		OfferMessage message = trustMessages.get(0);
 		for (int i = 1; i < trustMessages.size(); i++) {
-			if (agent.getTrustToLeader(message.getFrom()) < agent.getTrustToLeader(trustMessages.get(i).getFrom())) {
+			if (((StructuredAgent)agent).getTrustToMember(message.getFrom()) < ((StructuredAgent)agent).getTrustToMember(trustMessages.get(i).getFrom())) {
 				message = trustMessages.get(i);
 			}
 		}

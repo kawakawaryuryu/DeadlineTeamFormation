@@ -10,13 +10,13 @@ import library.AgentTaskLibrary;
 import log.Log;
 import message.OfferMessage;
 import constant.Constant;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 public class RationalRoleSelectionStrategy implements RoleSelectionStrategy {
 
 	@Override
 	public OfferMessage selectMessage(ArrayList<OfferMessage> messages,
-			ConcreteAgent agent) {
+			Agent agent) {
 		OfferMessage maxExpectedRewardMessage;	//期待報酬が最大のメッセージ（選ばれたメッセージ）
 		double probability = RandomManager.getRandom(RandomKey.EPSILON_GREEDY_RANDOM_1).nextDouble();
 		Collections.shuffle(messages, RandomManager.getRandom(RandomKey.SHUFFLE_RANDOM_1));
@@ -34,7 +34,7 @@ public class RationalRoleSelectionStrategy implements RoleSelectionStrategy {
 		return maxExpectedRewardMessage;
 	}
 	
-	private OfferMessage getOfferMessageOfMaxExpectedMemberReward(ArrayList<OfferMessage> messages, ConcreteAgent agent) {
+	private OfferMessage getOfferMessageOfMaxExpectedMemberReward(ArrayList<OfferMessage> messages, Agent agent) {
 		OfferMessage maxExpectedRewardMessage = messages.get(0);
 		for(int i = 1; i < messages.size(); i++){
 			OfferMessage message = messages.get(i);
@@ -50,7 +50,7 @@ public class RationalRoleSelectionStrategy implements RoleSelectionStrategy {
 	}
 
 	@Override
-	public double calculateExpectedLeaderReward(ConcreteAgent agent, Task task) {
+	public double calculateExpectedLeaderReward(Agent agent, Task task) {
 		double leaderReward;	//リーダの期待報酬
 		int expectedExecuteTime;	//予想されるタスク実行時間
 		
@@ -73,7 +73,7 @@ public class RationalRoleSelectionStrategy implements RoleSelectionStrategy {
 	}
 
 	@Override
-	public double calculateExpectedMemberReward(ConcreteAgent agent,
+	public double calculateExpectedMemberReward(Agent agent,
 			ArrayList<OfferMessage> messages) {
 		
 		// 来ている提案メッセージから処理できるメッセージを抽出
@@ -101,7 +101,7 @@ public class RationalRoleSelectionStrategy implements RoleSelectionStrategy {
 		}
 	}
 	
-	private double getExpectedMemberReward(ConcreteAgent agent, OfferMessage message) {
+	private double getExpectedMemberReward(Agent agent, OfferMessage message) {
 		int expectedExecuteTime = AgentTaskLibrary.calculateExecuteTime(agent, message.getSubtask());
 		double memberReward = (double)expectedExecuteTime * agent.getRewardExpectation(message.getFrom());
 		

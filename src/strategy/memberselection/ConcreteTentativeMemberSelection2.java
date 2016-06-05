@@ -11,7 +11,7 @@ import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.OfferMessage;
 import constant.Constant;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 /**
  * 仮メンバの選び方を信頼度の高いエージェントごとにサブタスクを割り当てていく
@@ -25,11 +25,11 @@ public class ConcreteTentativeMemberSelection2 implements
 TentativeMemberSelectionStrategy {
 
 	@Override
-	public boolean searchTentativeMembers(ConcreteAgent leader, Task task) {
-		ArrayList<ConcreteAgent> selectedAgents = new ArrayList<ConcreteAgent>();
+	public boolean searchTentativeMembers(Agent leader, Task task) {
+		ArrayList<Agent> selectedAgents = new ArrayList<Agent>();
 
 		// エージェントを信頼度にソート
-		ConcreteAgent[] sortedAgents = AgentTaskLibrary.getSortedAgentsFromArray(leader.getTrustToMember(), 
+		Agent[] sortedAgents = AgentTaskLibrary.getSortedAgentsFromArray(leader.getTrustToMember(), 
 				TeamFormationInstances.getInstance().getParameter().getAgents());
 		debugSortedAgents(sortedAgents, leader);
 
@@ -46,15 +46,15 @@ TentativeMemberSelectionStrategy {
 		return selectTentativeMemberEverySubtask(leader, task, selectedAgents, sortedAgents);
 	}
 
-	private void debugSortedAgents(ConcreteAgent[] agents, ConcreteAgent leader) {
+	private void debugSortedAgents(Agent[] agents, Agent leader) {
 		Log.log.debugln("信頼度順で並んだエージェント");
-		for(ConcreteAgent agent : agents){
+		for(Agent agent : agents){
 			Log.log.debugln(agent + " / 信頼度 = " + leader.getTrustToMember(agent));
 		}
 	}
 
 	@Override
-	public void pullExecutedSubtaskByLeader(ConcreteAgent leader, Task task) {
+	public void pullExecutedSubtaskByLeader(Agent leader, Task task) {
 		int leftDeadline = task.getDeadlineInTask() - Constant.DEADLINE_MIN_2;
 		boolean isAssigned = false;
 
@@ -73,7 +73,7 @@ TentativeMemberSelectionStrategy {
 	}
 
 	@Override
-	public boolean selectTentativeMemberEverySubtask(ConcreteAgent leader, Task task, ArrayList<ConcreteAgent> selectedAgents, ConcreteAgent[] sortedAgents) {
+	public boolean selectTentativeMemberEverySubtask(Agent leader, Task task, ArrayList<Agent> selectedAgents, Agent[] sortedAgents) {
 		for(int selected = 0; selected < Constant.SELECT_MEMBER_NUM; selected++){
 
 			int i = 0;
@@ -84,8 +84,8 @@ TentativeMemberSelectionStrategy {
 				double probability = RandomManager.getRandom(RandomKey.EPSILON_GREEDY_RANDOM_2).nextDouble();	//ε-greedyの確率
 				Log.log.debugln("probability = " + probability);
 
-				ConcreteAgent selectedMember;	//メンバ候補
-				ArrayList<ConcreteAgent> canExecuteSubTaskAgents = AgentTaskLibrary.getAgentsCanExecuteSubtask(subtask, sortedAgents);	//subtaskを処理できるエージェントのリスト
+				Agent selectedMember;	//メンバ候補
+				ArrayList<Agent> canExecuteSubTaskAgents = AgentTaskLibrary.getAgentsCanExecuteSubtask(subtask, sortedAgents);	//subtaskを処理できるエージェントのリスト
 
 				while(true){
 					// デッドラインまでに処理できるエージェントがいなければ
@@ -128,9 +128,9 @@ TentativeMemberSelectionStrategy {
 
 	@Override
 	public void sendOfferMessageToTentativeMembers(Task task,
-			ConcreteAgent leader) {
+			Agent leader) {
 		for(Subtask subtask : task.subtasksByMembers){
-			for(ConcreteAgent agent : subtask.getAgentInfo().getSelectedAgents()){
+			for(Agent agent : subtask.getAgentInfo().getSelectedAgents()){
 				TeamFormationInstances.getInstance().getPost().postOfferMessage(agent, new OfferMessage(leader, agent, subtask));
 				leader.getParameter().addSendAgents(agent);
 			}

@@ -4,14 +4,15 @@ import role.Role;
 import task.Subtask;
 import log.Log;
 import message.TeamFormationMessage;
-import agent.ConcreteAgent;
+import agent.Agent;
+import agent.StructuredAgent;
 
 public class SubtaskReceptionState implements State {
 	
 	private static State state = new SubtaskReceptionState();
 
 	@Override
-	public void agentAction(ConcreteAgent member) {
+	public void agentAction(Agent member) {
 		// チーム編成成否メッセージの取得
 		TeamFormationMessage message = member.getParameter().getTeamFormationMessage();
 
@@ -34,7 +35,9 @@ public class SubtaskReceptionState implements State {
 					message.getLeftReward(), message.getLeftRequireSum());
 			
 			// リーダに対する信頼度のフィードバック
-			member.feedbackTrustToLeader(message.getFrom(), message.getTeam(), true);
+			if (member instanceof StructuredAgent) {
+				((StructuredAgent)member).feedbackTrustToLeader(message.getFrom(), message.getTeam(), true);
+			}
 
 			Log.log.debugln("チーム編成成功メッセージを受信しました");
 			debugExecutedSubtask(member);
@@ -49,11 +52,13 @@ public class SubtaskReceptionState implements State {
 			member.feedbackExpectedReward(message.getFrom(), false, 0, 0, 1);
 			
 			// リーダに対する信頼度のフィードバック
-			member.feedbackTrustToLeader(message.getFrom(), message.getTeam(), false);
+			if (member instanceof StructuredAgent) {
+				((StructuredAgent)member).feedbackTrustToLeader(message.getFrom(), message.getTeam(), false);
+			}
 		}
 	}
 	
-	private void setInfoFromMessage(ConcreteAgent member, TeamFormationMessage message) {
+	private void setInfoFromMessage(Agent member, TeamFormationMessage message) {
 		// 処理するサブタスクをセット
 		/*for(Subtask subtask : message.getSubtasks()){
 			member.getParameter().setExecutedSubtasks(subtask, AgentTaskLibrary.calculateExecuteTime(member, subtask));
@@ -64,7 +69,7 @@ public class SubtaskReceptionState implements State {
 		
 	}
 	
-	private void debugExecutedSubtask(ConcreteAgent member) {
+	private void debugExecutedSubtask(Agent member) {
 		Log.log.debugln("処理するサブタスク");
 		for(Subtask subtask : member.getParameter().getExecutedSubtasks()){
 			Log.log.debugln(subtask);

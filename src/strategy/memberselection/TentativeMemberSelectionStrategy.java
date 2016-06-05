@@ -3,15 +3,15 @@ package strategy.memberselection;
 import java.util.ArrayList;
 
 import task.Task;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 public interface TentativeMemberSelectionStrategy {
 
-	public abstract boolean searchTentativeMembers(ConcreteAgent leader, Task task);
+	public abstract boolean searchTentativeMembers(Agent leader, Task task);
 	
-	public abstract void pullExecutedSubtaskByLeader(ConcreteAgent leader, Task task);
+	public abstract void pullExecutedSubtaskByLeader(Agent leader, Task task);
 	
-	public abstract boolean selectTentativeMemberEverySubtask(ConcreteAgent leader, Task task, ArrayList<ConcreteAgent> selectedAgents, ConcreteAgent[] sortedAgents);
+	public abstract boolean selectTentativeMemberEverySubtask(Agent leader, Task task, ArrayList<Agent> selectedAgents, Agent[] sortedAgents);
 	
-	public abstract void sendOfferMessageToTentativeMembers(Task task, ConcreteAgent leader);
+	public abstract void sendOfferMessageToTentativeMembers(Task task, Agent leader);
 }

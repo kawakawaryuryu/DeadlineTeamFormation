@@ -3,7 +3,7 @@ package state;
 import roleaction.RoleAction;
 import roleaction.TentativeMemberSelectionAction;
 import constant.Constant;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 public class TaskMarkedWaitingState implements State {
 
@@ -12,7 +12,7 @@ public class TaskMarkedWaitingState implements State {
 	private RoleAction strategy = new TentativeMemberSelectionAction();
 
 	@Override
-	public void agentAction(ConcreteAgent agent) {
+	public void agentAction(Agent agent) {
 		// ntick前　マークしようとしているタスクがマークされているかチェック
 		// ntick後　タスクをマークし, 仮メンバ探しをする
 

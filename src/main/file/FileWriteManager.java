@@ -22,7 +22,8 @@ import task.Task;
 import team.Team;
 import config.Configuration;
 import constant.Constant;
-import agent.ConcreteAgent;
+import agent.Agent;
+import agent.StructuredAgent;
 
 public class FileWriteManager {
 	static int fileNumber;	//ファイルのnumber
@@ -255,7 +256,7 @@ public class FileWriteManager {
 	 * @return
 	 * @throws IOException
 	 */
-	public static PrintWriter writeHeaderOfGreedy(ArrayList<ConcreteAgent> agents) throws IOException{
+	public static PrintWriter writeHeaderOfGreedy(ArrayList<Agent> agents) throws IOException{
 		makeDirectory("greedy", "");
 
 		String file = "greedy" + "_" + fileName + ".csv";
@@ -280,7 +281,7 @@ public class FileWriteManager {
 	 * @param agents
 	 * @throws IOException
 	 */
-	public static void writeBodyOfGreedy(PrintWriter pw, int turn, ArrayList<ConcreteAgent> agents) throws IOException{
+	public static void writeBodyOfGreedy(PrintWriter pw, int turn, ArrayList<Agent> agents) throws IOException{
 		pw.print(turn);
 		pw.print(",");
 		for(int i = 0; i < Constant.AGENT_NUM; i++){
@@ -298,7 +299,7 @@ public class FileWriteManager {
 	 * @param turn
 	 * @throws IOException
 	 */
-	public static void writeTrustToMember(ArrayList<ConcreteAgent> agents, int turn) throws IOException{
+	public static void writeTrustToMember(ArrayList<Agent> agents, int turn) throws IOException{
 		makeDirectory("trust/toMember", "/" + fileName + "/result");
 
 		String file = "trust_" + turn + ".csv";
@@ -331,7 +332,7 @@ public class FileWriteManager {
 	 * @param turn
 	 * @throws IOException
 	 */
-	public static void writeRewardExpectation(ArrayList<ConcreteAgent> agents, int turn) throws IOException{
+	public static void writeRewardExpectation(ArrayList<Agent> agents, int turn) throws IOException{
 		makeDirectory("expectedReward", "/" + fileName + "/result/");
 
 		String file = "expectedReward_" + turn + ".csv";
@@ -365,7 +366,7 @@ public class FileWriteManager {
 	 * @param turn
 	 * @throws IOException
 	 */
-	public static void writeTrustToLeader(ArrayList<ConcreteAgent> agents, int turn) throws IOException{
+	public static void writeTrustToLeader(ArrayList<Agent> agents, int turn) throws IOException{
 		makeDirectory("trust/toLeader", "/" + fileName + "/result");
 
 		String file = "trust_" + turn + ".csv";
@@ -382,7 +383,7 @@ public class FileWriteManager {
 			pw.print(agents.get(i));
 			pw.print(",");
 			for(int j = 0; j < Constant.AGENT_NUM; j++){
-				pw.print(agents.get(i).getTrustToLeader(agents.get(j)));
+				pw.print(((StructuredAgent)agents.get(i)).getTrustToLeader(agents.get(j)));
 				pw.print(",");
 			}
 			pw.println();
@@ -399,7 +400,7 @@ public class FileWriteManager {
 	 * @return
 	 * @throws IOException
 	 */
-	private static PrintWriter writeHeaderOfRoleNumber(ArrayList<ConcreteAgent> agents) throws IOException{
+	private static PrintWriter writeHeaderOfRoleNumber(ArrayList<Agent> agents) throws IOException{
 		makeDirectory("role", "/role");
 
 		String file = "roleNumber_" + fileName + ".csv";
@@ -422,7 +423,7 @@ public class FileWriteManager {
 	 * @param exprimentNumber TODO
 	 * @throws Exception 
 	 */
-	public static void writeBodyOfRoleNumber(ArrayList<ConcreteAgent> agents) throws IOException{
+	public static void writeBodyOfRoleNumber(ArrayList<Agent> agents) throws IOException{
 		PrintWriter pw = writeHeaderOfRoleNumber(agents);
 		pw.print("Leader");
 		pw.print(",");
@@ -471,9 +472,9 @@ public class FileWriteManager {
 //		pw.print("");
 	}
 	
-	private static ArrayList<Integer> makeAgentAbilitySumList(ArrayList<ConcreteAgent> agents) {
+	private static ArrayList<Integer> makeAgentAbilitySumList(ArrayList<Agent> agents) {
 		ArrayList<Integer> abilitySumList = new ArrayList<Integer>();
-		for(ConcreteAgent agent : agents){
+		for(Agent agent : agents){
 			if(!abilitySumList.contains(agent.getAbilitySum())){
 				abilitySumList.add(agent.getAbilitySum());
 			}
@@ -491,7 +492,7 @@ public class FileWriteManager {
 	 * @param abilitySumList
 	 * @return
 	 */
-	private static TreeMap<Integer, Integer> cloneTeamFormationNumMap(ArrayList<ConcreteAgent> agents, ArrayList<Integer> abilitySumList){
+	private static TreeMap<Integer, Integer> cloneTeamFormationNumMap(ArrayList<Agent> agents, ArrayList<Integer> abilitySumList){
 		TreeMap<Integer, Integer> teamFormationNumMap = new TreeMap<Integer, Integer>();
 		for(int abilitySum : abilitySumList){
 			teamFormationNumMap.put(abilitySum, 0);
@@ -504,7 +505,7 @@ public class FileWriteManager {
 	 * @param agents
 	 * @throws Exception 
 	 */
-	public static void writeTeamFormationWithAgent(ArrayList<ConcreteAgent> agents) throws IOException{
+	public static void writeTeamFormationWithAgent(ArrayList<Agent> agents) throws IOException{
 		makeDirectory("role", "/teaming");
 
 		String file = "teamingNumber_" + fileName + ".csv";
@@ -512,16 +513,16 @@ public class FileWriteManager {
 		
 		// メンバとのチーム編成回数を書き込む
 		pw.print("," + "Leader" + ",");
-		for(ConcreteAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent);
 		}
 		pw.println();
-		for(ConcreteAgent me : agents){
+		for(Agent me : agents){
 			pw.print(me);
 			pw.print("," + me.getParameter().getElement(Role.LEADER).getRoleNum() + ",");
 			
-			for(ConcreteAgent you : agents){
+			for(Agent you : agents){
 				pw.print(",");
 				pw.print(me.getMeasure().getTeamFormationNumWithMember(you));
 			}
@@ -531,16 +532,16 @@ public class FileWriteManager {
 		
 		// リーダとのチーム編成回数を書き込む
 		pw.print("," + "Member" + ",");
-		for(ConcreteAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent);
 		}
 		pw.println();
-		for(ConcreteAgent me : agents){
+		for(Agent me : agents){
 			pw.print(me);
 			pw.print("," + me.getParameter().getElement(Role.MEMBER).getRoleNum() + ",");
 			
-			for(ConcreteAgent you : agents){
+			for(Agent you : agents){
 				pw.print(",");
 				pw.print(me.getMeasure().getTeamFormationNumWithLeader(you));
 			}
@@ -550,7 +551,7 @@ public class FileWriteManager {
 		
 		// チーム編成合計回数を書き込む
 		pw.print("," + "TeamFormationSum" + ",");
-		for(ConcreteAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent);
 		}
@@ -563,11 +564,11 @@ public class FileWriteManager {
 		}
 		pw.println();
 		
-		for(ConcreteAgent me : agents){
+		for(Agent me : agents){
 			pw.print(me);
 			pw.print("," + ",");
 			TreeMap<Integer, Integer> teamFormationNumMap = cloneTeamFormationNumMap(agents, abilitySumList);
-			for(ConcreteAgent you : agents){
+			for(Agent you : agents){
 				pw.print(",");
 				pw.print(me.getMeasure().getTeamFormationNumWithLeader(you) + me.getMeasure().getTeamFormationNumWithMember(you));
 				teamFormationNumMap.put(you.getAbilitySum(), 

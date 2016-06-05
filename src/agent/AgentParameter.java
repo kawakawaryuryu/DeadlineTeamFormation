@@ -26,12 +26,12 @@ public class AgentParameter {
 	State state;
 	Role role;
 	final HashMap<Role, MeasuredDataForEachRole> elements = new HashMap<Role, MeasuredDataForEachRole>();
-	final ArrayList<ConcreteAgent> sendAgents = new ArrayList<ConcreteAgent>();
+	final ArrayList<Agent> sendAgents = new ArrayList<Agent>();
 	Task markedTask;
 	int executeTime;
 	final ArrayList<Subtask> executedSubtasks = new ArrayList<Subtask>();;
 	Team participatingTeam;
-	ArrayList<ConcreteAgent> trustLeaders = new ArrayList<ConcreteAgent>();
+	ArrayList<Agent> trustLeaders = new ArrayList<Agent>();
 	
 	final ArrayList<OfferMessage> offerMessages = new ArrayList<OfferMessage>();
 	final ArrayList<AnswerMessage> answerMessages = new ArrayList<AnswerMessage>();
@@ -82,7 +82,7 @@ public class AgentParameter {
 		this.role = role;
 	}
 	
-	public void addSendAgents(ConcreteAgent agent) {
+	public void addSendAgents(Agent agent) {
 		sendAgents.add(agent);
 	}
 	
@@ -131,7 +131,7 @@ public class AgentParameter {
 		return elements.get(role);
 	}
 	
-	public ArrayList<ConcreteAgent> getSendAgents() {
+	public ArrayList<Agent> getSendAgents() {
 		return sendAgents;
 	}
 	
@@ -187,20 +187,20 @@ public class AgentParameter {
 		return nextState;
 	}
 	
-	public void setTrustLeaders(ConcreteAgent leader) {
+	public void setTrustLeaders(Agent leader) {
 		if (trustLeaders.size() < Constant.TRUST_LEADER_LIMIT)
 		trustLeaders.add(leader);
 	}
 	
-	public void removeTrustLeader(ConcreteAgent leader) {
+	public void removeTrustLeader(Agent leader) {
 		trustLeaders.remove(leader);
 	}
 	
-	public ArrayList<ConcreteAgent> getTrustLeaders() {
+	public ArrayList<Agent> getTrustLeaders() {
 		return trustLeaders;
 	}
 	
-	public ConcreteAgent getTrustLeaders(int index) {
+	public Agent getTrustLeaders(int index) {
 		return trustLeaders.get(index);
 	}
 	

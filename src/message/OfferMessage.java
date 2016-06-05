@@ -1,12 +1,12 @@
 package message;
 
 import task.Subtask;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 public class OfferMessage extends Message {
 	private Subtask subtask;
 
-	public OfferMessage(ConcreteAgent from, ConcreteAgent to, Subtask subtask) {
+	public OfferMessage(Agent from, Agent to, Subtask subtask) {
 		super(from, to);
 		this.subtask = subtask;
 	}

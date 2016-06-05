@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import role.Role;
 import config.Configuration;
 import constant.Constant;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 public class VisualFileWriter {
 	
@@ -50,7 +50,7 @@ public class VisualFileWriter {
 	 * @return
 	 * @throws Exception 
 	 */
-	private static String getStringMainRole(ConcreteAgent agent) throws IOException{
+	private static String getStringMainRole(Agent agent) throws IOException{
 		if(agent.getParameter().getElement(Role.LEADER).getRoleNum() > agent.getParameter().getElement(Role.MEMBER).getRoleNum() * 2){
 			return "leader";
 		}
@@ -68,7 +68,7 @@ public class VisualFileWriter {
 	 * @param you
 	 * @return
 	 */
-	private static String getStringMainRoleWithYou(ConcreteAgent me, ConcreteAgent you){
+	private static String getStringMainRoleWithYou(Agent me, Agent you){
 		if(me.getMeasure().getTeamFormationNumWithMember(you) > me.getMeasure().getTeamFormationNumWithLeader(you) * 2){
 			return "asLeader";
 		}
@@ -94,7 +94,7 @@ public class VisualFileWriter {
 	 * @param successTeamingEdgeNum ターンごとのチーム編成成功回数
 	 * @throws IOException
 	 */
-	public static void writeVisualizedData(ArrayList<ConcreteAgent> agents, int turn, int experimentNumber, int successTeamingEdgeNum) throws IOException{
+	public static void writeVisualizedData(ArrayList<Agent> agents, int turn, int experimentNumber, int successTeamingEdgeNum) throws IOException{
 		makeDirectory("visualization", "/" + fileName + "/visual/");
 
 		//無向グラフ
@@ -123,13 +123,13 @@ public class VisualFileWriter {
 		pw.println();
 		
 		for(int i = 0; i < Constant.AGENT_NUM; i++){
-			ConcreteAgent me = agents.get(i);
+			Agent me = agents.get(i);
 			
 			//無向グラフ用
 			for(int j = i; j < Constant.AGENT_NUM; j++){
 				boolean isWrite = false;	//書き込むかどうか
 				double threshold = 0.00;	//可視化の閾値
-				ConcreteAgent you = agents.get(j);
+				Agent you = agents.get(j);
 				
 				//相手とのチーム編成回数の割合
 				double teamingRateWithYou = 
@@ -204,7 +204,7 @@ public class VisualFileWriter {
 	 * @param successTeamingEdgeNum
 	 * @throws IOException
 	 */
-	public static void writeVisualizedMoreData(ArrayList<ConcreteAgent> agents, int turn) throws IOException{
+	public static void writeVisualizedMoreData(ArrayList<Agent> agents, int turn) throws IOException{
 		makeDirectory("visualization", "/" + fileName + "/data/");
 
 		String file = "teaming_" + turn + ".csv";
@@ -212,31 +212,31 @@ public class VisualFileWriter {
 		
 		pw.println(turn + "ターン目");
 		pw.print("エージェントID");
-		for(ConcreteAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent.getId());
 		}
 		pw.println();
 		pw.print("リソース");
-		for(ConcreteAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent.getAbility(0) + " " + agent.getAbility(1));
 		}
 		pw.println();
 		pw.print("リーダ回数");
-		for(ConcreteAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent.getParameter().getElement(Role.LEADER).getRoleNum());
 		}
 		pw.println();
 		pw.print("メンバ回数");
-		for(ConcreteAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent.getParameter().getElement(Role.MEMBER).getRoleNum());
 		}
 		pw.println();
 		pw.print("合計回数");
-		for(ConcreteAgent agent : agents){
+		for(Agent agent : agents){
 			pw.print(",");
 			pw.print(agent.getParameter().getElement(Role.LEADER).getRoleNum() 
 					+ agent.getParameter().getElement(Role.MEMBER).getRoleNum());
@@ -247,7 +247,7 @@ public class VisualFileWriter {
 		int members = 0;
 		int neithers = 0;
 		pw.print("主な役割");
-		for(ConcreteAgent agent : agents){
+		for(Agent agent : agents){
 			String role = getStringMainRole(agent);
 			pw.print(",");
 			pw.print(role);

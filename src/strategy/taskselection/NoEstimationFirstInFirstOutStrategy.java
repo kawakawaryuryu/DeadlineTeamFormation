@@ -2,13 +2,13 @@ package strategy.taskselection;
 
 import task.Task;
 import main.teamformation.TeamFormationInstances;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 public class NoEstimationFirstInFirstOutStrategy implements
 		TaskSelectionStrategy {
 
 	@Override
-	public Task selectTask(ConcreteAgent agent) {
+	public Task selectTask(Agent agent) {
 		for(Task task : TeamFormationInstances.getInstance().getParameter().lookingTaskQueue()){
 			if(!task.getMark()){
 				return task;

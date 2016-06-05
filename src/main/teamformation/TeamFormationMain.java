@@ -4,7 +4,8 @@ import log.Log;
 import main.model.Model;
 import config.Configuration;
 import constant.Constant;
-import agent.ConcreteAgent;
+import agent.Agent;
+import agent.RationalAgent;
 
 public class TeamFormationMain {
 	
@@ -103,7 +104,7 @@ public class TeamFormationMain {
 			for(int i = 0; i < ability.length; i++){
 				ability[i] = id % Constant.AGENT_ABILITY_MAX + Constant.AGENT_ABILITY_INIT;
 			}
-			TeamFormationInstances.getInstance().getParameter().agents.add(new ConcreteAgent(id, ability));
+			TeamFormationInstances.getInstance().getParameter().agents.add(new RationalAgent(id, ability));
 		}
 	}
 

@@ -11,14 +11,14 @@ import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.OfferMessage;
 import constant.Constant;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 public class RandomTentativeMemberSelection implements
 		TentativeMemberSelectionStrategy {
 
 	@Override
-	public boolean searchTentativeMembers(ConcreteAgent leader, Task task) {
-		ArrayList<ConcreteAgent> selectedAgents = new ArrayList<ConcreteAgent>();
+	public boolean searchTentativeMembers(Agent leader, Task task) {
+		ArrayList<Agent> selectedAgents = new ArrayList<Agent>();
 		
 		// タスク中の各サブタスクをリソースの降順にソート
 		task.sortSubTaskListByRequire();
@@ -34,7 +34,7 @@ public class RandomTentativeMemberSelection implements
 	}
 
 	@Override
-	public void pullExecutedSubtaskByLeader(ConcreteAgent leader, Task task) {
+	public void pullExecutedSubtaskByLeader(Agent leader, Task task) {
 		int leftDeadline = task.getDeadlineInTask() - Constant.DEADLINE_MIN_2;
 		boolean isAssigned = false;
 		
@@ -53,9 +53,9 @@ public class RandomTentativeMemberSelection implements
 	}
 
 	@Override
-	public boolean selectTentativeMemberEverySubtask(ConcreteAgent leader,
-			Task task, ArrayList<ConcreteAgent> selectedAgents,
-			ConcreteAgent[] sortedAgents) {
+	public boolean selectTentativeMemberEverySubtask(Agent leader,
+			Task task, ArrayList<Agent> selectedAgents,
+			Agent[] sortedAgents) {
 		if(sortedAgents != null){
 			System.err.println("sotedAgentsはnullではありません");
 			System.exit(-1);
@@ -63,8 +63,8 @@ public class RandomTentativeMemberSelection implements
 		
 		for(Subtask subtask : task.subtasksByMembers){
 			int selected = 0;
-			ConcreteAgent selectedMember;	//メンバ候補
-			ArrayList<ConcreteAgent> canExecuteSubTaskAgents = new ArrayList<ConcreteAgent>(TeamFormationInstances.getInstance().getParameter().getAgents());
+			Agent selectedMember;	//メンバ候補
+			ArrayList<Agent> canExecuteSubTaskAgents = new ArrayList<Agent>(TeamFormationInstances.getInstance().getParameter().getAgents());
 			
 			while(selected < Constant.SELECT_MEMBER_NUM){
 				Log.log.debugln(subtask + " のサブタスク　" + (selected + 1) + "回目:メンバ候補を選択します");
@@ -100,9 +100,9 @@ public class RandomTentativeMemberSelection implements
 
 	@Override
 	public void sendOfferMessageToTentativeMembers(Task task,
-			ConcreteAgent leader) {
+			Agent leader) {
 		for(Subtask subtask : task.subtasksByMembers){
-			for(ConcreteAgent agent : subtask.getAgentInfo().getSelectedAgents()){
+			for(Agent agent : subtask.getAgentInfo().getSelectedAgents()){
 				TeamFormationInstances.getInstance().getPost().postOfferMessage(agent, new OfferMessage(leader, agent, subtask));
 				leader.getParameter().addSendAgents(agent);
 			}

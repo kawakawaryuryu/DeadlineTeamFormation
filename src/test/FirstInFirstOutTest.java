@@ -10,14 +10,15 @@ import strategy.taskselection.FirstInFirstOutStrategy;
 import task.Failure;
 import task.Task;
 import team.Team;
-import agent.ConcreteAgent;
+import agent.Agent;
+import agent.RationalAgent;
 
 public class FirstInFirstOutTest {
 
 	@Test
 	public void testCanExecuteTaskInTeam1() {
 		// チーム履歴がないときはtrue
-		ConcreteAgent agent = new ConcreteAgent(0);
+		Agent agent = new RationalAgent(0);
 		Task task = new Task(0, 3, 5);
 		
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
@@ -27,10 +28,10 @@ public class FirstInFirstOutTest {
 	@Test
 	public void testCanExecuteTaskInTeam2() {
 		// チームの平均リソースでタスクがデッドラインまでに処理できる場合
-		ConcreteAgent agent = new ConcreteAgent(0);
+		Agent agent = new RationalAgent(0);
 		Team team = new Team(agent);
-		team.addMember(new ConcreteAgent(1));
-		team.addMember(new ConcreteAgent(2));
+		team.addMember(new RationalAgent(1));
+		team.addMember(new RationalAgent(2));
 		agent.getParameter().getPastTeam().addTeam(team);
 		Task task = new Task(0, 3, 5);
 		
@@ -41,10 +42,10 @@ public class FirstInFirstOutTest {
 	@Test
 	public void testCanExecuteTaskInTeam3() {
 		// チームの平均リソースでタスクがデッドラインまでに処理できない場合
-		ConcreteAgent agent = new ConcreteAgent(0);
+		Agent agent = new RationalAgent(0);
 		Team team = new Team(agent);
-		team.addMember(new ConcreteAgent(1));
-		team.addMember(new ConcreteAgent(2));
+		team.addMember(new RationalAgent(1));
+		team.addMember(new RationalAgent(2));
 		agent.getParameter().getPastTeam().addTeam(team);
 		Task task = new Task(0, 3, 3);
 				
@@ -60,7 +61,7 @@ public class FirstInFirstOutTest {
 		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task1);
 		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task2);
 		
-		ConcreteAgent agent = new ConcreteAgent(0);
+		Agent agent = new RationalAgent(0);
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
 		assertEquals(strategy.selectTask(agent), task1);
 	}
@@ -73,10 +74,10 @@ public class FirstInFirstOutTest {
 		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task1);
 		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task2);
 		
-		ConcreteAgent agent = new ConcreteAgent(0);
+		Agent agent = new RationalAgent(0);
 		Team team = new Team(agent);
-		team.addMember(new ConcreteAgent(1));
-		team.addMember(new ConcreteAgent(2));
+		team.addMember(new RationalAgent(1));
+		team.addMember(new RationalAgent(2));
 		agent.getParameter().getPastTeam().addTeam(team);
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
 		assertEquals("チーム平均リソース = " + agent.getParameter().getPastTeam().getAverageAbilitiesPerTeam(), strategy.selectTask(agent), task2);
@@ -91,10 +92,10 @@ public class FirstInFirstOutTest {
 		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task1);
 		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task2);
 		
-		ConcreteAgent agent = new ConcreteAgent(0);
+		Agent agent = new RationalAgent(0);
 		Team team = new Team(agent);
-		team.addMember(new ConcreteAgent(1));
-		team.addMember(new ConcreteAgent(2));
+		team.addMember(new RationalAgent(1));
+		team.addMember(new RationalAgent(2));
 		agent.getParameter().getPastTeam().addTeam(team);
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
 		assertEquals(strategy.selectTask(agent), task2);

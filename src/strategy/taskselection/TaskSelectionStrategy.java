@@ -1,7 +1,7 @@
 package strategy.taskselection;
 
 import task.Task;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 public interface TaskSelectionStrategy {
 
@@ -10,5 +10,5 @@ public interface TaskSelectionStrategy {
 	 * @param agent
 	 * @return
 	 */
-	public abstract Task selectTask(ConcreteAgent agent);
+	public abstract Task selectTask(Agent agent);
 }

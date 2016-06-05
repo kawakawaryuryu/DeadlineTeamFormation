@@ -1,7 +1,7 @@
 package strategy.subtaskallocation;
 
 import task.Subtask;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 public interface SubtaskAllocationStrategy {
 	
@@ -9,7 +9,7 @@ public interface SubtaskAllocationStrategy {
 	 * 仮チームのメンバにサブタスクを振り割る
 	 * @param leader
 	 */
-	public abstract void decideMembers(ConcreteAgent leader);
+	public abstract void decideMembers(Agent leader);
 	
 	/**
 	 * 複数のメンバ候補から一人を絞る
@@ -17,11 +17,11 @@ public interface SubtaskAllocationStrategy {
 	 * @param subtask
 	 * @return
 	 */
-	public abstract ConcreteAgent selectMember(ConcreteAgent leader, Subtask subtask);
+	public abstract Agent selectMember(Agent leader, Subtask subtask);
 	
 	/**
 	 * 割り当てが決まっていないサブタスクを割り当てる
 	 * @param leader
 	 */
-	public abstract boolean allocateNotAllocatedSubtask(ConcreteAgent leader);
+	public abstract boolean allocateNotAllocatedSubtask(Agent leader);
 }

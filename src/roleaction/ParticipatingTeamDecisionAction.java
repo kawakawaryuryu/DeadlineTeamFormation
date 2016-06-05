@@ -7,12 +7,12 @@ import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.AnswerMessage;
 import message.OfferMessage;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 public class ParticipatingTeamDecisionAction implements RoleAction {
 
 	@Override
-	public void action(ConcreteAgent agent) {
+	public void action(Agent agent) {
 		// 参加するチームのリーダにはOKメッセージ、それ以外にはNGメッセージを送信する
 		answerToOfferMessages(agent);
 		
@@ -25,7 +25,7 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 		agent.getParameter().changeRole(Role.MEMBER);
 	}
 	
-	private void answerToOfferMessages(ConcreteAgent agent) {
+	private void answerToOfferMessages(Agent agent) {
 		for(OfferMessage offer : agent.getParameter().getOfferMessages()){
 			if(agent.getParameter().getSelectedOfferMessage() != offer){
 				Log.log.debugln(offer.getFrom() + " に参加NGメッセージを返信しました");

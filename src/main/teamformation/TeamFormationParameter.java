@@ -17,12 +17,13 @@ import state.TaskMarkedWaitingState;
 import state.TaskSelectionState;
 import task.Task;
 import constant.Constant;
-import agent.ConcreteAgent;
+import agent.Agent;
+import agent.StructuredAgent;
 
 public class TeamFormationParameter {
-	final ArrayList<ConcreteAgent> agents = new ArrayList<ConcreteAgent>();
-	final HashMap<State, ArrayList<ConcreteAgent>> agentsMap = new HashMap<State, ArrayList<ConcreteAgent>>();
-	final HashMap<TaskMarking, ArrayList<ConcreteAgent>> taskMarkingAgentMap = new HashMap<TaskMarking, ArrayList<ConcreteAgent>>();
+	final ArrayList<Agent> agents = new ArrayList<Agent>();
+	final HashMap<State, ArrayList<Agent>> agentsMap = new HashMap<State, ArrayList<Agent>>();
+	final HashMap<TaskMarking, ArrayList<Agent>> taskMarkingAgentMap = new HashMap<TaskMarking, ArrayList<Agent>>();
 	public final ArrayList<Task> taskQueue = new ArrayList<Task>();
 	private int taskId = 0;
 	
@@ -37,12 +38,12 @@ public class TeamFormationParameter {
 	
 	private void initializeAgentsMap() {
 		agentsMap.clear();
-		agentsMap.put(TaskSelectionState.getState(), new ArrayList<ConcreteAgent>());
-		agentsMap.put(RoleSelectionState.getState(), new ArrayList<ConcreteAgent>());
-		agentsMap.put(SubtaskAllocationState.getState(), new ArrayList<ConcreteAgent>());
-		agentsMap.put(SubtaskReceptionState.getState(), new ArrayList<ConcreteAgent>());
-		agentsMap.put(TaskExecuteState.getState(), new ArrayList<ConcreteAgent>());
-		agentsMap.put(TaskMarkedWaitingState.getState(), new ArrayList<ConcreteAgent>());
+		agentsMap.put(TaskSelectionState.getState(), new ArrayList<Agent>());
+		agentsMap.put(RoleSelectionState.getState(), new ArrayList<Agent>());
+		agentsMap.put(SubtaskAllocationState.getState(), new ArrayList<Agent>());
+		agentsMap.put(SubtaskReceptionState.getState(), new ArrayList<Agent>());
+		agentsMap.put(TaskExecuteState.getState(), new ArrayList<Agent>());
+		agentsMap.put(TaskMarkedWaitingState.getState(), new ArrayList<Agent>());
 	}
 	
 	private void initializeTaskMarkingAgentsMap() {
@@ -54,56 +55,56 @@ public class TeamFormationParameter {
 	public void makeAgents() {
 		// エージェントの生成
 		for(int id = 0; id < Constant.AGENT_NUM; id++){
-			agents.add(new ConcreteAgent(id));
+			agents.add(new StructuredAgent(id));
 			
 		}
 	}
 	
-	public ConcreteAgent getAgent(int i){
+	public Agent getAgent(int i){
 		return agents.get(i);
 	}
 	
-	public ArrayList<ConcreteAgent> getAgents(){
+	public ArrayList<Agent> getAgents(){
 		return agents;
 	}
 	
-	public ArrayList<ConcreteAgent> getAgentsFromMap(State state) {
+	public ArrayList<Agent> getAgentsFromMap(State state) {
 		return agentsMap.get(state);
 	}
 	
 	public void debugAgents() {
 		Log.log.debugln("エージェントリスト");
-		for(ConcreteAgent agent : agents){
+		for(Agent agent : agents){
 			Log.log.debugln(agent);
 		}
 		Log.log.debugln();
 	}
 	
 	void clearAgentsMap() {
-		for(ArrayList<ConcreteAgent> agentsList : agentsMap.values()){
+		for(ArrayList<Agent> agentsList : agentsMap.values()){
 			agentsList.clear();
 		}
 	}
 	
 	void clearTaskMarkingAgentsMap() {
-		for(ArrayList<ConcreteAgent> agentsList : taskMarkingAgentMap.values()){
+		for(ArrayList<Agent> agentsList : taskMarkingAgentMap.values()){
 			agentsList.clear();
 		}
 	}
 	
 	void shuffleAgentsMap() {
-		for(ArrayList<ConcreteAgent> agentsList : agentsMap.values()){
+		for(ArrayList<Agent> agentsList : agentsMap.values()){
 			Collections.shuffle(agentsList, RandomManager.getRandom(RandomKey.AGENT_MAP_RANDOM));
 		}
 	}
 	
 	void classifyAgentIntoState() {
-		for(ConcreteAgent agent : agents){
+		for(Agent agent : agents){
 			agentsMap.get(agent.getParameter().getState()).add(agent);
 		}
 	}
 	
-	public void addAgentToAgentsMap(State state, ConcreteAgent agent) {
+	public void addAgentToAgentsMap(State state, Agent agent) {
 		if(state.equals(agent.getParameter().getState())){
 			agentsMap.get(state).add(agent);
 		}
@@ -113,7 +114,7 @@ public class TeamFormationParameter {
 		}
 	}
 	
-	public void addAgentToTaskMarkingAgentsMap(TaskMarking isMarked, ConcreteAgent agent) {
+	public void addAgentToTaskMarkingAgentsMap(TaskMarking isMarked, Agent agent) {
 		if(agent.getParameter().getState().equals(TaskSelectionState.getState())
 				|| agent.getParameter().getState().equals(TaskMarkedWaitingState.getState())){
 			taskMarkingAgentMap.get(isMarked).add(agent);

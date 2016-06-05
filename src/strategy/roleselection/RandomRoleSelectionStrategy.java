@@ -9,13 +9,13 @@ import library.AgentTaskLibrary;
 import log.Log;
 import message.OfferMessage;
 import constant.Constant;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 public class RandomRoleSelectionStrategy implements RoleSelectionStrategy {
 	
 	@Override
 	public OfferMessage selectMessage(
-			ArrayList<OfferMessage> messages, ConcreteAgent agent) {
+			ArrayList<OfferMessage> messages, Agent agent) {
 		OfferMessage maxExpectedRewardMessage;
 		// ランダムに選ぶ
 		maxExpectedRewardMessage = messages.get(RandomManager.getRandom(RandomKey.SELECT_RANDOM_1).nextInt(messages.size()));
@@ -25,7 +25,7 @@ public class RandomRoleSelectionStrategy implements RoleSelectionStrategy {
 	}
 
 	@Override
-	public double calculateExpectedLeaderReward(ConcreteAgent agent, Task task) {
+	public double calculateExpectedLeaderReward(Agent agent, Task task) {
 		double leaderReward;	//リーダの期待報酬
 		
 		if(task == null){
@@ -40,7 +40,7 @@ public class RandomRoleSelectionStrategy implements RoleSelectionStrategy {
 	}
 
 	@Override
-	public double calculateExpectedMemberReward(ConcreteAgent agent,
+	public double calculateExpectedMemberReward(Agent agent,
 			ArrayList<OfferMessage> messages) {
 		// 来ている提案メッセージから処理できるメッセージを抽出
 		ArrayList<OfferMessage> canBeExecutedMessages = AgentTaskLibrary.getCanExecuteOfferMessages(messages, agent);
@@ -61,7 +61,7 @@ public class RandomRoleSelectionStrategy implements RoleSelectionStrategy {
 		return memberReward;
 	}
 	
-	private double getExpectedMemberReward(ConcreteAgent agent, OfferMessage message) {
+	private double getExpectedMemberReward(Agent agent, OfferMessage message) {
 		int expectedExecuteTime = AgentTaskLibrary.calculateExecuteTime(agent, message.getSubtask());
 		double memberReward = (double)expectedExecuteTime * agent.getRewardExpectation(message.getFrom());
 		

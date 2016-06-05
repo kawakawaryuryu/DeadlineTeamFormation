@@ -1,13 +1,13 @@
 package message;
 
 import task.Subtask;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 public class AnswerMessage extends Message {
 	private boolean isok;
 	private Subtask subtask;
 
-	public AnswerMessage(ConcreteAgent from, ConcreteAgent to, boolean isok, Subtask subtask) {
+	public AnswerMessage(Agent from, Agent to, boolean isok, Subtask subtask) {
 		super(from, to);
 		this.isok = isok;
 		this.subtask = subtask;

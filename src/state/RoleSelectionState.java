@@ -13,7 +13,7 @@ import strategy.StrategyManager;
 import strategy.roleselection.RoleSelectionStrategy;
 import log.Log;
 import constant.Constant;
-import agent.ConcreteAgent;
+import agent.Agent;
 
 public class RoleSelectionState implements State {
 	
@@ -28,7 +28,7 @@ public class RoleSelectionState implements State {
 	}
 
 	@Override
-	public void agentAction(ConcreteAgent agent) {
+	public void agentAction(Agent agent) {
 		// リーダ時の期待報酬を計算
 		double expectedLeaderReward = roleSelectionStrategy.calculateExpectedLeaderReward(agent, agent.getParameter().getMarkedTask());
 		Log.log.debugln("リーダ時の期待報酬 = " + expectedLeaderReward);
