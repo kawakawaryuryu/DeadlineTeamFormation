@@ -1,5 +1,6 @@
 package agent;
 
+import task.Task;
 import agent.paramter.AbstractAgentParameter;
 import agent.paramter.RationalAgentParameter;
 import constant.Constant;
@@ -26,8 +27,8 @@ public class RationalAgent extends Agent {
 	}
 
 	@Override
-	public void calculateLeaderReward(boolean isok) {
-		reward = isok ? parameter.getMarkedTask().getTaskRequireSum() * greedy : 0.0;
+	public void calculateLeaderReward(boolean isok, Task executedTask) {
+		reward = isok ? executedTask.getTaskRequireSum() * greedy : 0.0;
 	}
 
 	@Override
@@ -37,9 +38,9 @@ public class RationalAgent extends Agent {
 	}
 
 	@Override
-	public void feedbackGreedy(boolean isok) {
+	public void feedbackGreedy(boolean isok, Task executedTask) {
 		double value = isok ? 1.0 : 0.0;
-		calculateLeaderReward(isok);	//獲得報酬の計算
+		calculateLeaderReward(isok, executedTask);	//獲得報酬の計算
 		greedy = Constant.LEARN_RATE_GREEDY * value + (1.0 - Constant.LEARN_RATE_GREEDY) * greedy;	//欲張り度の更新
 	}
 

@@ -6,6 +6,7 @@ import agent.paramter.AbstractAgentParameter;
 import log.Log;
 import random.RandomKey;
 import random.RandomManager;
+import task.Task;
 import constant.Constant;
 
 public abstract class Agent {
@@ -105,11 +106,11 @@ public abstract class Agent {
 
 	public abstract String type();
 
-	public abstract void calculateLeaderReward(boolean isok);
+	public abstract void calculateLeaderReward(boolean isok, Task executedTask);
 
 	public abstract void calculateMemberReward(boolean isok, int subtaskRequire, double leftReward, int leftRequireSum);
 
-	public abstract void feedbackGreedy(boolean isok);
+	public abstract void feedbackGreedy(boolean isok, Task executedTask);
 
 	public abstract void feedbackTrustToMember(Agent you, boolean isok);
 

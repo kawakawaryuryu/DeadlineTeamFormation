@@ -4,7 +4,6 @@ import log.Log;
 import main.model.Model;
 import config.Configuration;
 import constant.Constant;
-import agent.Agent;
 import agent.RationalAgent;
 
 public class TeamFormationMain {

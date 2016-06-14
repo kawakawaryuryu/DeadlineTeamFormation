@@ -157,7 +157,7 @@ public class SubtaskAllocationState implements State {
 	
 	private void feedbackGreedyAndTrustToMember(Agent leader) {
 		// 欲張り度
-		leader.feedbackGreedy(leader.getParameter().getLeaderField().isTeaming);
+		leader.feedbackGreedy(leader.getParameter().getLeaderField().isTeaming, leader.getParameter().getMarkedTask());
 		
 		// 信頼度
 		for(Agent agent : leader.getParameter().getLeaderField().trueAgents){
