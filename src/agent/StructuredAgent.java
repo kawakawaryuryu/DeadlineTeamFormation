@@ -3,7 +3,6 @@ package agent;
 import java.util.Arrays;
 
 import agent.paramter.AbstractAgentParameter;
-import agent.paramter.StructuredAgentParameter;
 import task.Task;
 import team.Team;
 import constant.Constant;
@@ -12,8 +11,6 @@ import constant.Constant;
  * チーム固定化エージェント
  */
 public class StructuredAgent extends Agent {
-
-	protected AbstractAgentParameter parameter = new StructuredAgentParameter();
 
 	double[] trustToLeader = new double[Constant.AGENT_NUM];
 
