@@ -2,7 +2,6 @@ package agent;
 
 import task.Task;
 import agent.paramter.AbstractAgentParameter;
-import agent.paramter.RationalAgentParameter;
 import constant.Constant;
 
 /**
@@ -10,14 +9,12 @@ import constant.Constant;
  */
 public class RationalAgent extends Agent {
 
-	AbstractAgentParameter paramter = new RationalAgentParameter();
-
-	public RationalAgent(int id) {
-		super(id);
+	public RationalAgent(int id, AbstractAgentParameter parameter) {
+		super(id, parameter);
 	}
 
-	public RationalAgent(int id, int[] ability) {
-		super(id, ability);
+	public RationalAgent(int id, int[] ability, AbstractAgentParameter parameter) {
+		super(id, ability, parameter);
 	}
 	
 

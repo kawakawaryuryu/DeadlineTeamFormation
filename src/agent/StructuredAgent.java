@@ -17,14 +17,14 @@ public class StructuredAgent extends Agent {
 
 	double[] trustToLeader = new double[Constant.AGENT_NUM];
 
-	public StructuredAgent(int id) {
-		super(id);
+	public StructuredAgent(int id, AbstractAgentParameter parameter) {
+		super(id, parameter);
 		Arrays.fill(trustToLeader, Constant.INITIAL_TRUST_TO_LEADER);
 		trustToLeader[id] = 0.0;
 	}
 
-	public StructuredAgent(int id, int[] ability) {
-		super(id, ability);
+	public StructuredAgent(int id, int[] ability, AbstractAgentParameter parameter) {
+		super(id, ability, parameter);
 		Arrays.fill(trustToLeader, Constant.INITIAL_TRUST_TO_LEADER);
 		trustToLeader[id] = 0.0;
 	}

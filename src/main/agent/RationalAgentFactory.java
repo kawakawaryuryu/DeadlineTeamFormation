@@ -2,6 +2,8 @@ package main.agent;
 
 import agent.Agent;
 import agent.RationalAgent;
+import agent.paramter.AbstractAgentParameter;
+import agent.paramter.RationalAgentParameter;
 
 public class RationalAgentFactory implements AgentFactory {
 
@@ -11,7 +13,8 @@ public class RationalAgentFactory implements AgentFactory {
 
 	@Override
 	public Agent makeAgent(int id) {
-		return new RationalAgent(id);
+		AbstractAgentParameter parameter = new RationalAgentParameter();
+		return new RationalAgent(id, parameter);
 	}
 
 }

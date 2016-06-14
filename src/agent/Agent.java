@@ -23,8 +23,9 @@ public abstract class Agent {
 	double[] rewardExpectation = new double[Constant.AGENT_NUM];
 
 
-	public Agent(int id) {
+	public Agent(int id, AbstractAgentParameter parameter) {
 		this.id = id;
+		this.parameter = parameter;
 		ability = new int[Constant.RESOURCE_NUM];
 		for(int i = 0; i < ability.length; i++){
 			ability[i] = RandomManager.getRandom(RandomKey.AGENT_RANDOM).nextInt(Constant.AGENT_ABILITY_MAX) + Constant.AGENT_ABILITY_INIT;
@@ -38,8 +39,8 @@ public abstract class Agent {
 		rewardExpectation[id] = 0.0;
 	}
 
-	public Agent(int id, int[] ability) {
-		this(id);
+	public Agent(int id, int[] ability, AbstractAgentParameter parameter) {
+		this(id, parameter);
 		abilitySum = 0;
 		for(int i = 0; i < this.ability.length; i++){
 			this.ability[i] = ability[i];

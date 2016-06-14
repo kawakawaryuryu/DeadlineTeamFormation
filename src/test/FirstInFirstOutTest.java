@@ -12,13 +12,16 @@ import task.Task;
 import team.Team;
 import agent.Agent;
 import agent.RationalAgent;
+import agent.paramter.AbstractAgentParameter;
+import agent.paramter.RationalAgentParameter;
 
 public class FirstInFirstOutTest {
 
 	@Test
 	public void testCanExecuteTaskInTeam1() {
 		// チーム履歴がないときはtrue
-		Agent agent = new RationalAgent(0);
+		AbstractAgentParameter parameter = new RationalAgentParameter();
+		Agent agent = new RationalAgent(0, parameter);
 		Task task = new Task(0, 3, 5);
 		
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
@@ -28,10 +31,11 @@ public class FirstInFirstOutTest {
 	@Test
 	public void testCanExecuteTaskInTeam2() {
 		// チームの平均リソースでタスクがデッドラインまでに処理できる場合
-		Agent agent = new RationalAgent(0);
+		AbstractAgentParameter parameter = new RationalAgentParameter();
+		Agent agent = new RationalAgent(0, parameter);
 		Team team = new Team(agent);
-		team.addMember(new RationalAgent(1));
-		team.addMember(new RationalAgent(2));
+		team.addMember(new RationalAgent(1, parameter));
+		team.addMember(new RationalAgent(2, parameter));
 		agent.getParameter().getPastTeam().addTeam(team);
 		Task task = new Task(0, 3, 5);
 		
@@ -42,10 +46,11 @@ public class FirstInFirstOutTest {
 	@Test
 	public void testCanExecuteTaskInTeam3() {
 		// チームの平均リソースでタスクがデッドラインまでに処理できない場合
-		Agent agent = new RationalAgent(0);
+		AbstractAgentParameter parameter = new RationalAgentParameter();
+		Agent agent = new RationalAgent(0, parameter);
 		Team team = new Team(agent);
-		team.addMember(new RationalAgent(1));
-		team.addMember(new RationalAgent(2));
+		team.addMember(new RationalAgent(1, parameter));
+		team.addMember(new RationalAgent(2, parameter));
 		agent.getParameter().getPastTeam().addTeam(team);
 		Task task = new Task(0, 3, 3);
 				
@@ -61,7 +66,8 @@ public class FirstInFirstOutTest {
 		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task1);
 		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task2);
 		
-		Agent agent = new RationalAgent(0);
+		AbstractAgentParameter parameter = new RationalAgentParameter();
+		Agent agent = new RationalAgent(0, parameter);
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
 		assertEquals(strategy.selectTask(agent), task1);
 	}
@@ -74,10 +80,11 @@ public class FirstInFirstOutTest {
 		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task1);
 		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task2);
 		
-		Agent agent = new RationalAgent(0);
+		AbstractAgentParameter parameter = new RationalAgentParameter();
+		Agent agent = new RationalAgent(0, parameter);
 		Team team = new Team(agent);
-		team.addMember(new RationalAgent(1));
-		team.addMember(new RationalAgent(2));
+		team.addMember(new RationalAgent(1, parameter));
+		team.addMember(new RationalAgent(2, parameter));
 		agent.getParameter().getPastTeam().addTeam(team);
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
 		assertEquals("チーム平均リソース = " + agent.getParameter().getPastTeam().getAverageAbilitiesPerTeam(), strategy.selectTask(agent), task2);
@@ -92,10 +99,11 @@ public class FirstInFirstOutTest {
 		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task1);
 		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task2);
 		
-		Agent agent = new RationalAgent(0);
+		AbstractAgentParameter parameter = new RationalAgentParameter();
+		Agent agent = new RationalAgent(0, parameter);
 		Team team = new Team(agent);
-		team.addMember(new RationalAgent(1));
-		team.addMember(new RationalAgent(2));
+		team.addMember(new RationalAgent(1, parameter));
+		team.addMember(new RationalAgent(2, parameter));
 		agent.getParameter().getPastTeam().addTeam(team);
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
 		assertEquals(strategy.selectTask(agent), task2);

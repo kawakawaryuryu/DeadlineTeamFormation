@@ -2,6 +2,8 @@ package main.agent;
 
 import agent.Agent;
 import agent.StructuredAgent;
+import agent.paramter.AbstractAgentParameter;
+import agent.paramter.StructuredAgentParameter;
 
 public class StructuredAgentFactory implements AgentFactory {
 
@@ -11,7 +13,8 @@ public class StructuredAgentFactory implements AgentFactory {
 
 	@Override
 	public Agent makeAgent(int id) {
-		return new StructuredAgent(id);
+		AbstractAgentParameter parameter = new StructuredAgentParameter();
+		return new StructuredAgent(id, parameter);
 	}
 
 }
