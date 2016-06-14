@@ -5,6 +5,9 @@ import java.util.Date;
 
 import log.Log;
 import log.logger.Type;
+import main.agent.AgentFactory;
+import main.agent.RationalAgentFactory;
+import main.agent.StructuredAgentFactory;
 import main.model.AgentActionManager;
 import main.model.Model;
 import main.model.TaskCopy;
@@ -30,11 +33,15 @@ public class Configuration {
 	public static int FILE_NUMBER;
 	public static String LEARNING;
 	public static String ESTIMATION;
+	public static String AGENT_TYPE;
 	public static String METHOD_NAME;
 
 
 	// Model
 	public static Model model = new TaskCopy();
+
+	// AgentFactory
+	public static AgentFactory factory;
 
 	// AgetnactionManager
 	public static AgentActionManager action = new AgentActionManager();
@@ -60,9 +67,10 @@ public class Configuration {
 	public static void setParameters(String args[]) {
 		EXPERIMET_TYPE = args[0];
 		FILE_NUMBER = Integer.parseInt(args[1]);
-		LEARNING = args[2];
-		ESTIMATION = args[3];
-		METHOD_NAME = args[4];
+		AGENT_TYPE = args[2];
+		LEARNING = args[3];
+		ESTIMATION = args[4];
+		METHOD_NAME = args[5];
 
 		LOG_PATH = "log/debug_" + FILE_NUMBER + ".log";
 	}
@@ -73,6 +81,19 @@ public class Configuration {
 		}
 		else {
 			Log.setLogInstance(Type.NOLOG, LOG_PATH);
+		}
+	}
+
+	public static void setAgentFactory() {
+		if (AGENT_TYPE.equals("Rational")) {
+			factory = new RationalAgentFactory();
+		}
+		else if (AGENT_TYPE.equals("Structured")) {
+			factory = new StructuredAgentFactory();
+		}
+		else {
+			System.err.println("そのようなAgentFactoryは存在しません");
+			System.exit(-1);
 		}
 	}
 

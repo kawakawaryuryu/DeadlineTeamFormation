@@ -12,19 +12,36 @@ public class Experiment {
 	 * @param isEstimating 見積もりあり。見積もりなし のうちのどれか
 	 */
 	public static void set() {
-		setStrategy(Configuration.LEARNING);
+		setStrategy(Configuration.LEARNING, Configuration.AGENT_TYPE);
 		setEstimation(Configuration.ESTIMATION);
 		setLearnRate(Configuration.LEARNING);
 	}
 	
-	private static void setStrategy(String isLearning) {
-		if(isLearning.equals("learning") || isLearning.equals("noLearning")) {
-//			StrategyManager.setLearningAndNoLearningStrategy();
-//			StrategyManager.setLearningAndNoLearningStrategyForMemberSelection();
-			StrategyManager.setReciprocalStrategy();
-		}
-		else if(isLearning.equals("random")) {
+	private static void setStrategy(String isLearning, String agentType) {
+		if(isLearning.equals("random")) {
 			StrategyManager.setRandomStrategy();
+		}
+		else if (agentType.equals("Rational")) {
+			if(isLearning.equals("learning") || isLearning.equals("noLearning")) {
+				// StrategyManager.setLearningAndNoLearningStrategy();
+				// StrategyManager.setLearningAndNoLearningStrategyForMemberSelection();
+				StrategyManager.setLearningAndNoLearningStrategy();
+			}
+			else {
+				System.err.println("そのような学習戦略は存在しません");
+				System.exit(-1);
+			}
+		}
+		else if (agentType.equals("Structured")) {
+			if(isLearning.equals("learning") || isLearning.equals("noLearning")) {
+				// StrategyManager.setLearningAndNoLearningStrategy();
+				// StrategyManager.setLearningAndNoLearningStrategyForMemberSelection();
+				StrategyManager.setReciprocalStrategy();
+			}
+			else {
+				System.err.println("そのような学習戦略は存在しません");
+				System.exit(-1);
+			}
 		}
 		else {
 			System.err.println("そのような学習戦略は存在しません");

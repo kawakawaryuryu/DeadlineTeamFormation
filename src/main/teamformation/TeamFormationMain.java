@@ -1,6 +1,7 @@
 package main.teamformation;
 
 import log.Log;
+import main.agent.AgentFactory;
 import main.model.Model;
 import config.Configuration;
 import constant.Constant;
@@ -17,12 +18,12 @@ public class TeamFormationMain {
 	}
 	
 
-	public static void teamFormation(int experimentNumber, Model model) {
+	public static void teamFormation(int experimentNumber, Model model, AgentFactory factory) {
 		TeamFormationInstances.getInstance().initialize();
 		
 		// エージェントの生成
 		// TODO 全てをTeamFormationParameterに任してよいか（完全にブラックボックスでよいか）
-		TeamFormationInstances.getInstance().getParameter().makeAgents();
+		TeamFormationInstances.getInstance().getParameter().makeAgents(factory);
 
 		// エージェントの能力を指定して生成
 //		makeAgents();

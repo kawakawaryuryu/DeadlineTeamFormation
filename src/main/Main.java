@@ -27,9 +27,10 @@ public class Main {
 		// コマンドライン引数 args について
 		// args[0] : experiment or debug
 		// args[1] : exprimentNumber (learning+estimation=1, noLearning+estimation=2, learning+noEstimation=3, random+noEstimation=4)
-		// args[2] : learning or noLearning or random
-		// args[3] : estimation or noEstimation
-		// args[4] : Name for graph
+		// args[2] : Type of agent (Rational, Structured, ...)
+		// args[3] : learning or noLearning or random
+		// args[4] : estimation or noEstimation
+		// args[5] : Name for graph
 		//
 		//--------------------------------------------
 		Configuration.setParameters(args);
@@ -37,6 +38,7 @@ public class Main {
 		FileWriteManager.set();
 		VisualFileWriter.set();
 		Experiment.set();
+		Configuration.setAgentFactory();
 		
 		
 		// チーム編成可視化の閾値のセット
@@ -55,7 +57,7 @@ public class Main {
 			random.initialize(experimentNumber);
 			
 			// チーム編成を行う
-			TeamFormationMain.teamFormation(experimentNumber, Configuration.model);
+			TeamFormationMain.teamFormation(experimentNumber, Configuration.model, Configuration.factory);
 			
 			// 1回の実験で計測したデータを保存
 			InstanceManager.getInstance().getMeasure().saveAllMeasuredData();

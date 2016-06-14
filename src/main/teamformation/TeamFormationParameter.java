@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import log.Log;
 import main.TaskMarking;
+import main.agent.AgentFactory;
 import random.RandomKey;
 import random.RandomManager;
 import state.State;
@@ -18,7 +19,6 @@ import state.TaskSelectionState;
 import task.Task;
 import constant.Constant;
 import agent.Agent;
-import agent.StructuredAgent;
 
 public class TeamFormationParameter {
 	final ArrayList<Agent> agents = new ArrayList<Agent>();
@@ -52,10 +52,10 @@ public class TeamFormationParameter {
 //		taskMarkingAgentMap.put(TaskMarking.NO_TASK_MARKING, new ArrayList<Agent>());
 	}
 	
-	public void makeAgents() {
+	public void makeAgents(AgentFactory factory) {
 		// エージェントの生成
 		for(int id = 0; id < Constant.AGENT_NUM; id++){
-			agents.add(new StructuredAgent(id));
+			agents.add(factory.makeAgent(id));
 			
 		}
 	}
