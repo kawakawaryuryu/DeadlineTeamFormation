@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import constant.Constant;
 import agent.Agent;
+import agent.StructuredAgent;
 import main.file.FileWriteManager;
 import main.file.VisualFileWriter;
 
@@ -113,8 +114,10 @@ public class TeamFormationFileManager {
 		if(experimentNumber == 1){
 			FileWriteManager.writeBodyOfGreedy(greedy, turn, agents);
 			FileWriteManager.writeTrustToMember(agents, turn);
-			FileWriteManager.writeTrustToLeader(agents, turn);
 			FileWriteManager.writeRewardExpectation(agents, turn);
+			if (agents.get(0) instanceof StructuredAgent) {
+				FileWriteManager.writeTrustToLeader(agents, turn);
+			}
 		}
 	}
 	
