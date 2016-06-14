@@ -11,6 +11,7 @@ import message.OfferMessage;
 import task.Task;
 import agent.Agent;
 import agent.StructuredAgent;
+import agent.paramter.StructuredAgentParameter;
 
 public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 
@@ -96,6 +97,9 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 
 		double memberReward;
 
+		// parameterをStructuredAgentParameterにキャスト
+		StructuredAgentParameter parameter = (StructuredAgentParameter)agent.getParameter();
+
 		// 処理できるメッセージがない場合
 		if(canBeExecutedMessages.isEmpty()){
 			//	System.out.println("処理できるメッセージは来ませんでした");
@@ -103,13 +107,13 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 		}
 
 		// 処理できるメッセージがあり、信頼エージェントもいる場合
-		else if (!canBeExecutedMessages.isEmpty() && !agent.getParameter().getTrustLeaders().isEmpty()) {
+		else if (!canBeExecutedMessages.isEmpty() && !parameter.getTrustLeaders().isEmpty()) {
 
 			// 信頼エージェントが処理できるメッセージの中にいるか判定
 			ArrayList<OfferMessage> trustMessages = new ArrayList<OfferMessage>();
 			for (OfferMessage message : canBeExecutedMessages) {
 				Agent leader = message.getFrom(); 
-				if (agent.getParameter().getTrustLeaders().contains(leader)) {
+				if (parameter.getTrustLeaders().contains(leader)) {
 					trustMessages.add(message);
 				}
 			}
@@ -129,7 +133,7 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 		}
 
 		// 処理できるメッセージがあるが、信頼エージェントがいない場合
-		else if (!canBeExecutedMessages.isEmpty() && agent.getParameter().getTrustLeaders().isEmpty()) {
+		else if (!canBeExecutedMessages.isEmpty() && parameter.getTrustLeaders().isEmpty()) {
 			OfferMessage selectedMessage = selectMessage(canBeExecutedMessages, agent);
 			agent.getParameter().setSelectedOfferMessage(selectedMessage);
 			memberReward = getExpectedMemberReward(agent, selectedMessage);

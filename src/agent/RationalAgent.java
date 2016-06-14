@@ -1,8 +1,15 @@
 package agent;
 
+import agent.paramter.AbstractAgentParameter;
+import agent.paramter.RationalAgentParameter;
 import constant.Constant;
 
+/**
+ * 合理エージェント
+ */
 public class RationalAgent extends Agent {
+
+	AbstractAgentParameter paramter = new RationalAgentParameter();
 
 	public RationalAgent(int id) {
 		super(id);

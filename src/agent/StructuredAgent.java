@@ -2,11 +2,18 @@ package agent;
 
 import java.util.Arrays;
 
+import agent.paramter.AbstractAgentParameter;
+import agent.paramter.StructuredAgentParameter;
 import team.Team;
 import constant.Constant;
 
+/**
+ * チーム固定化エージェント
+ */
 public class StructuredAgent extends Agent {
-	
+
+	protected AbstractAgentParameter parameter = new StructuredAgentParameter();
+
 	double[] trustToLeader = new double[Constant.AGENT_NUM];
 
 	public StructuredAgent(int id) {
@@ -97,10 +104,10 @@ public class StructuredAgent extends Agent {
 		trustToLeader[you.id] = Constant.LEARN_RATE_TRUST_TO_LEADER * value + (1.0 - Constant.LEARN_RATE_TRUST_TO_LEADER) * trustToLeader[you.id];
 	
 		// 信頼エージェントの更新
-		if (trustToLeader[you.id] > Constant.TRUST_LEADER_THREASHOLD && !this.parameter.trustLeaders.contains(you)) {
+		if (trustToLeader[you.id] > Constant.TRUST_LEADER_THREASHOLD && !this.parameter.containsTrustLeader(you)) {
 			this.parameter.setTrustLeaders(you);
 		}
-		else if (trustToLeader[you.id] <= Constant.TRUST_LEADER_THREASHOLD && this.parameter.trustLeaders.contains(you)) {
+		else if (trustToLeader[you.id] <= Constant.TRUST_LEADER_THREASHOLD && this.parameter.containsTrustLeader(you)) {
 			this.parameter.removeTrustLeader(you);
 		}
 	}
@@ -108,10 +115,9 @@ public class StructuredAgent extends Agent {
 	public double getTrustToLeader(Agent you) {
 		return trustToLeader[you.id];
 	}
-	
+
 	public double[] getTrustToLeader() {
 		return trustToLeader;
 	}
-
 
 }

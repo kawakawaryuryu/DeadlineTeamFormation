@@ -2,6 +2,7 @@ package agent;
 
 import java.util.Arrays;
 
+import agent.paramter.AbstractAgentParameter;
 import log.Log;
 import random.RandomKey;
 import random.RandomManager;
@@ -13,7 +14,7 @@ public abstract class Agent {
 	protected int[] ability;
 	protected int abilitySum = 0;
 	protected AgentMeasuredData measure = new AgentMeasuredData();
-	protected AgentParameter parameter = new AgentParameter();
+	protected AbstractAgentParameter parameter;
 
 	double reward;
 	double greedy;
@@ -58,7 +59,7 @@ public abstract class Agent {
 		return abilitySum;
 	}
 
-	public AgentParameter getParameter() {
+	public AbstractAgentParameter getParameter() {
 		return parameter;
 	}
 
@@ -67,7 +68,7 @@ public abstract class Agent {
 	}
 
 	public void action() {
-		Log.log.debugln(this + " の行動 / " + this.parameter.state);
+		Log.log.debugln(this + " の行動 / " + this.parameter.getState());
 		parameter.getState().agentAction(this);
 		Log.log.debugln();
 	}
