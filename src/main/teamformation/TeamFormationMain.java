@@ -5,7 +5,6 @@ import main.agent.AgentFactory;
 import main.model.Model;
 import config.Configuration;
 import constant.Constant;
-import agent.RationalAgent;
 
 public class TeamFormationMain {
 	
@@ -98,14 +97,4 @@ public class TeamFormationMain {
 	}
 	
 	
-	private static void makeAgents() {
-		for(int id = 0; id < Constant.AGENT_NUM; id++){
-			int[] ability = new int[Constant.RESOURCE_NUM];
-			for(int i = 0; i < ability.length; i++){
-				ability[i] = id % Constant.AGENT_ABILITY_MAX + Constant.AGENT_ABILITY_INIT;
-			}
-			TeamFormationInstances.getInstance().getParameter().agents.add(new RationalAgent(id, ability));
-		}
-	}
-
 }
