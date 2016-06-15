@@ -88,6 +88,7 @@ public class Main {
 				+ "Date: " + Configuration.DATE + "\n"
 				+ "Time: " + Configuration.TIME + "\n"
 				+ "FileNumber: " + Configuration.FILE_NUMBER + "\n"
+				+ "Agent Type: " + Configuration.AGENT_TYPE + "\n"
 				+ "Learning: " + Configuration.LEARNING + "\n"
 				+ "Estimation: " + Configuration.ESTIMATION + "\n"
 				+ "Executed Time: " + hour + "時間" + minute + "分" + second + "秒" + "\n";
