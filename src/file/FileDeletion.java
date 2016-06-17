@@ -1,4 +1,4 @@
-package main.file;
+package file;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +11,7 @@ public class FileDeletion {
 	private static String isExperiment;
 	private static String fileName;
 	private static String filePath;
-	
+
 	private static void set() {
 		isExperiment = "debug";
 //		isExperiment = "experiment";
@@ -20,7 +20,7 @@ public class FileDeletion {
 		filePath = FileWriteManager.path + isExperiment + "/" + date + "/";
 		fileName = time + "_" + fileNumber;
 	}
-	
+
 	/**
 	 * ファイルを消去
 	 */
@@ -28,7 +28,7 @@ public class FileDeletion {
 		File file = new File(filePath + "data/file/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/file_" + fileName + ".csv");
 		file.delete();
 	}
-	
+
 	/**
 	 * ファイルの場合は削除
 	 * ディレクトリの場合は再帰
@@ -37,7 +37,7 @@ public class FileDeletion {
 		if(file.isFile()){
 			file.delete();
 		}
-		
+
 		else if(file.isDirectory()){
 			File[] f = file.listFiles();
 			for(int i = 0; i < f.length; i++){
@@ -45,12 +45,12 @@ public class FileDeletion {
 			}
 			file.delete();
 		}
-		
+
 		else{
 			System.err.println(file.getName() + "は存在しません");
 		}
 	}
-	
+
 	/**
 	 * タスク処理量（結果）の消去
 	 * @throws IOException
@@ -65,7 +65,7 @@ public class FileDeletion {
 //		pw.print("");
 //		pw.close();
 //	}
-	
+
 	/**
 	 * タスク処理リソース量の消去
 	 */
@@ -73,7 +73,7 @@ public class FileDeletion {
 		File file = new File(filePath + "data/TaskRequireResult/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/average/require_average_" + fileName + ".csv");
 		delete(file);
 	}
-	
+
 	/**
 	 * チーム人数ごとのチーム編成成功回数の消去
 	 */
@@ -81,7 +81,7 @@ public class FileDeletion {
 		File file = new File(filePath + "data/TaskRequireResult/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/teamingSuccess/teaming_success_" + fileName + ".csv");
 		delete(file);
 	}
-	
+
 	/**
 	 * 欲張り度の消去
 	 */
@@ -89,7 +89,7 @@ public class FileDeletion {
 		File file = new File(filePath + "data/greedy/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/greedy_" + fileName + ".csv");
 		delete(file);
 	}
-	
+
 	/**
 	 * 提案受託期待度を消去
 	 * @throws IOException 
@@ -98,7 +98,7 @@ public class FileDeletion {
 		File file = new File(filePath + "data/trust/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + fileName);
 		delete(file);
 	}
-	
+
 	/**
 	 * 可視化のファイルを消去
 	 */
@@ -106,7 +106,7 @@ public class FileDeletion {
 		File file = new File(filePath + "data/visualization/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + fileName);
 		delete(file);
 	}
-	
+
 	/**
 	 * 報酬期待度の消去
 	 */
@@ -114,7 +114,7 @@ public class FileDeletion {
 		File file = new File(filePath + "data/expectedReward/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + fileName);
 		delete(file);
 	}
-	
+
 	/**
 	 * 役割担当回数の消去
 	 */
@@ -122,7 +122,7 @@ public class FileDeletion {
 		File file = new File(filePath + "data/role/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/role/roleNumber_" + fileName + ".csv");
 		delete(file);
 	}
-	
+
 	/**
 	 * 各エージェントとのチーム編成回数記録を消去
 	 */
@@ -130,7 +130,7 @@ public class FileDeletion {
 		File file = new File(filePath + "data/role/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/teaming/teamingNumber_" + fileName + ".csv");
 		delete(file);
 	}
-	
+
 	/**
 	 * タスクキューの消去
 	 */
@@ -138,7 +138,7 @@ public class FileDeletion {
 		File file = new File(filePath + "data/queue/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/taskQueue_" + fileName + ".csv");
 		delete(file);
 	}
-	
+
 	/**
 	 * その他情を消去
 	 */
@@ -146,7 +146,7 @@ public class FileDeletion {
 		File file = new File(filePath + "data/other/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/otherInfo_" + fileName + ".csv");
 		delete(file);
 	}
-	
+
 	/**
 	 * チーム平均リソースを消去
 	 */
@@ -154,7 +154,7 @@ public class FileDeletion {
 		File file = new File(filePath + "data/team/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/teamResourceAverage_" + fileName + ".csv");
 		delete(file);
 	}
-	
+
 	/**
 	 * 状態ごとのエージェント数を消去
 	 */
@@ -162,7 +162,7 @@ public class FileDeletion {
 		File file = new File(filePath + "data/state/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/agentStateNum_" + fileName + ".csv");
 		delete(file);
 	}
-	
+
 	/**
 	 * ヒストグラム用のデータを消去
 	 */
@@ -170,7 +170,7 @@ public class FileDeletion {
 		File file = new File(filePath + "data/histogram/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/teamNumHistogram_" + fileName + ".csv");
 		delete(file);
 	}
-	
+
 	public static void main(String[] args) {
 		set();
 		fileDeleteWrite();

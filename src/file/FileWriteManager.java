@@ -1,4 +1,4 @@
-package main.file;
+package file;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -31,7 +31,7 @@ public class FileWriteManager {
 	static String path;
 	static String fileName;
 	static String method;
-	
+
 	/**
 	 * ファイル番号とパスを設定する
 	 * @param isExperiment TODO
@@ -41,16 +41,16 @@ public class FileWriteManager {
 		isWrite = Configuration.ADD_WRITE;
 		path = Configuration.FILE_PATH;
 		fileNumber = Configuration.FILE_NUMBER;
-		
+
 		path += Configuration.EXPERIMET_TYPE + "/" + Configuration.DATE + "/data/";
 		fileName = Configuration.TIME + "_" + fileNumber;
 		method = Configuration.METHOD_NAME;
 	}
-	
+
 	private static String getPath(String dataType, String tailDir) {
 		return path + dataType + "/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + tailDir;
 	}
-	
+
 	private static void makeDirectory(String dataType, String tailDir) {
 		File directory = new File(getPath(dataType, tailDir));
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
@@ -58,13 +58,13 @@ public class FileWriteManager {
 			directory.mkdirs();
 		}
 	}
-	
+
 	private static PrintWriter getPrintWriter(String dataType, String tailDir, String file) throws IOException {
 		return new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
 				(getPath(dataType, tailDir) + "/" + file, isWrite), "Shift_JIS")));
 	}
-	
-	
+
+
 	/**
 	 * ファイルの内容説明の書き込み
 	 * @param learning TODO
@@ -77,7 +77,7 @@ public class FileWriteManager {
 		RoleSelectionStrategy roleSelectionStrategy = StrategyManager.getRoleSelectionStrategy();
 		SubtaskAllocationStrategy allocationStrategy = StrategyManager.getAllocationStrategy();
 		TentativeMemberSelectionStrategy memberSelectionStrategy = StrategyManager.getMemberSelectionStrategy();
-		
+
 		makeDirectory("file", "");
 
 		String file = "file" + "_" + fileName + ".csv";
@@ -121,11 +121,11 @@ public class FileWriteManager {
 		for(int i = 0; i < Constant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM; i++){
 			pw.println(i + " 番目" + "," + Constant.TEAM_FORMATION_PERCENTAGE_BORDER[i]);
 		}
-		
+
 //		pw.print("");
 		pw.close();
 	}
-	
+
 	/**
 	 * 時間ごとの計測データのヘッダを書き込む
 	 * @return
@@ -163,18 +163,18 @@ public class FileWriteManager {
 		pw.print("マークしたタスクのリソース");
 		pw.print(",");
 		pw.println("マークしたタスクの残りデッドライン");
-		
+
 		return pw;
 	}
-	
+
 	/**
 	 * 時間ごとの計測を書き込む
 	 * @param measure TODO
 	 * @throws IOException
 	 */
-	public static void writeBodyOfMeasuredDataPerTurn(MeasuredDataManager measure) throws IOException{	
+	public static void writeBodyOfMeasuredDataPerTurn(MeasuredDataManager measure) throws IOException{
 		PrintWriter pw = writeHeaderOfMeasuredDataPerTurn();
-		
+
 		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
 			int turn = Constant.MEASURE_TURN_NUM * (i + 1);
 			pw.print(turn);
@@ -206,7 +206,7 @@ public class FileWriteManager {
 
 		pw.close();
 	}
-	
+
 	/**
 	 * チーム人数ごとのチーム編成成功回数の時間推移を書き込む（最初）
 	 * @throws IOException
@@ -225,10 +225,10 @@ public class FileWriteManager {
 			pw.print(",");
 		}
 		pw.println();
-		
+
 		return pw;
 	}
-	
+
 	/**
 	 * チーム人数ごとのチーム編成成功回数の時間推移を書き込む（書き込み）
 	 * @param measure TODO
@@ -236,7 +236,7 @@ public class FileWriteManager {
 	 */
 	public static void writeBodyOfTeamMeasuredData(MeasuredDataManager measure) throws IOException {
 		PrintWriter pw = writeHeaderOfTeamMeasuredData();
-		
+
 		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
 			int turn = Constant.ARRAY_SIZE_FOR_MEASURE * (i + 1);
 			pw.print(turn);
@@ -249,7 +249,7 @@ public class FileWriteManager {
 		}
 		pw.close();
 	}
-	
+
 	/**
 	 * 欲張り度を書き込む（最初）
 	 * @param agents
@@ -269,11 +269,11 @@ public class FileWriteManager {
 			pw.print(",");
 		}
 		pw.println();
-		
+
 //		pw.print("");
 		return pw;
 	}
-	
+
 	/**
 	 * 欲張り度を書き込む
 	 * @param pw
@@ -289,10 +289,10 @@ public class FileWriteManager {
 			pw.print(",");
 		}
 		pw.println();
-		
+
 //		pw.print("");
 	}
-	
+
 	/**
 	 * メンバに対する信頼度の書き込み
 	 * @param agents
@@ -321,11 +321,11 @@ public class FileWriteManager {
 			pw.println();
 		}
 		pw.println();
-		
+
 //		pw.print("");
 		pw.close();
 	}
-	
+
 	/**
 	 * 報酬期待度の書き込み
 	 * @param agents
@@ -337,7 +337,7 @@ public class FileWriteManager {
 
 		String file = "expectedReward_" + turn + ".csv";
 		PrintWriter pw = getPrintWriter("expectedReward", "/" + fileName + "/result/", file);
-		
+
 //		pw.println(experimentNumber + "回目");
 		pw.print(",");
 		for(int i = 0; i < Constant.AGENT_NUM; i++){
@@ -355,11 +355,11 @@ public class FileWriteManager {
 			pw.println();
 		}
 		pw.println();
-		
+
 //		pw.print("");
 		pw.close();
 	}
-	
+
 	/**
 	 * リーダに対する信頼度の書き込み
 	 * @param agents
@@ -389,11 +389,11 @@ public class FileWriteManager {
 			pw.println();
 		}
 		pw.println();
-		
+
 //		pw.print("");
 		pw.close();
 	}
-	
+
 	/**
 	 * 役割の担当回数の書き込み（最初）
 	 * @param agents
@@ -405,23 +405,23 @@ public class FileWriteManager {
 
 		String file = "roleNumber_" + fileName + ".csv";
 		PrintWriter pw = getPrintWriter("role", "/role", file);
-		
+
 		pw.print(",");
 		for(int i = 0; i < Constant.AGENT_NUM; i++){
 			pw.print(agents.get(i));
 			pw.print(",");
 		}
 		pw.println();
-		
+
 //		pw.print("");
 		return pw;
 	}
-	
+
 	/**
 	 * 役割の担当回数、各状態にかけた時間の合計の書き込み
 	 * @param agents
 	 * @param exprimentNumber TODO
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public static void writeBodyOfRoleNumber(ArrayList<Agent> agents) throws IOException{
 		PrintWriter pw = writeHeaderOfRoleNumber(agents);
@@ -468,10 +468,10 @@ public class FileWriteManager {
 			pw.print((double)agents.get(i).getParameter().getElement(Role.EXECUTE).getStateTime() / (double)Constant.TURN_NUM * 100);
 			pw.print(",");
 		}*/
-		
+
 //		pw.print("");
 	}
-	
+
 	private static ArrayList<Integer> makeAgentAbilitySumList(ArrayList<Agent> agents) {
 		ArrayList<Integer> abilitySumList = new ArrayList<Integer>();
 		for(Agent agent : agents){
@@ -479,13 +479,13 @@ public class FileWriteManager {
 				abilitySumList.add(agent.getAbilitySum());
 			}
 		}
-		
+
 		// リソースの昇順にソート
 		Collections.sort(abilitySumList);
-		
+
 		return abilitySumList;
 	}
-	
+
 	/**
 	 * 引数のマップと同じキーを持つマップを生成する
 	 * @param agents
@@ -499,18 +499,18 @@ public class FileWriteManager {
 		}
 		return teamFormationNumMap;
 	}
-	
+
 	/**
 	 * 各エージェントとのチーム編成回数を記録
 	 * @param agents
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public static void writeTeamFormationWithAgent(ArrayList<Agent> agents) throws IOException{
 		makeDirectory("role", "/teaming");
 
 		String file = "teamingNumber_" + fileName + ".csv";
 		PrintWriter pw = getPrintWriter("role", "/teaming", file);
-		
+
 		// メンバとのチーム編成回数を書き込む
 		pw.print("," + "Leader" + ",");
 		for(Agent agent : agents){
@@ -521,7 +521,7 @@ public class FileWriteManager {
 		for(Agent me : agents){
 			pw.print(me);
 			pw.print("," + me.getParameter().getElement(Role.LEADER).getRoleNum() + ",");
-			
+
 			for(Agent you : agents){
 				pw.print(",");
 				pw.print(me.getMeasure().getTeamFormationNumWithMember(you));
@@ -529,7 +529,7 @@ public class FileWriteManager {
 			pw.println();
 		}
 		pw.println();
-		
+
 		// リーダとのチーム編成回数を書き込む
 		pw.print("," + "Member" + ",");
 		for(Agent agent : agents){
@@ -540,7 +540,7 @@ public class FileWriteManager {
 		for(Agent me : agents){
 			pw.print(me);
 			pw.print("," + me.getParameter().getElement(Role.MEMBER).getRoleNum() + ",");
-			
+
 			for(Agent you : agents){
 				pw.print(",");
 				pw.print(me.getMeasure().getTeamFormationNumWithLeader(you));
@@ -548,7 +548,7 @@ public class FileWriteManager {
 			pw.println();
 		}
 		pw.println();
-		
+
 		// チーム編成合計回数を書き込む
 		pw.print("," + "TeamFormationSum" + ",");
 		for(Agent agent : agents){
@@ -563,7 +563,7 @@ public class FileWriteManager {
 			pw.print(abilitySum);
 		}
 		pw.println();
-		
+
 		for(Agent me : agents){
 			pw.print(me);
 			pw.print("," + ",");
@@ -582,10 +582,10 @@ public class FileWriteManager {
 			}
 			pw.println();
 		}
-		
+
 		pw.close();
 	}
-	
+
 	/**
 	 * チーム数のヒストグラム用のデータを書き込む（最初）
 	 * @return
@@ -596,14 +596,14 @@ public class FileWriteManager {
 
 		String file = "teamNumHistogram_" + fileName + ".csv";
 		PrintWriter pw = getPrintWriter("histogram", "", file);
-		
+
 		pw.print("人数" + "," + "タスク処理時間" + "," + "1タスクのリソース量" + "," + "1タスク中のサブタスク数");
 		pw.print(",");
 		pw.println("リソース合計" + "," + "1人あたりのリソース" + "," + "リーダのリソース" + "," + "メンバ1人あたりのリソース");
-		
+
 		return pw;
 	}
-	
+
 	/**
 	 * チーム数のヒストグラムを書き込む
 	 * @param team
@@ -616,7 +616,7 @@ public class FileWriteManager {
 		pw.print(",");
 		pw.println(team.getTeamResourceSum() + "," + (double)team.getTeamResourceSum() / (double)team.getTeamMate().size() + "," + team.getLeaderResource() + "," + team.getMemberResourcePerAgent());
 	}
-	
+
 	/**
 	 * タスクキューの中身を書き込む（最初）
 	 * @return
@@ -627,12 +627,12 @@ public class FileWriteManager {
 
 		String file = "taskQueue_" + fileName + ".csv";
 		PrintWriter pw = getPrintWriter("queue", "", file);
-		
+
 		pw.println("経過ターン" + "," + "タスクキューサイズ" + "," + "マークあり数" + "," + "マークなし数" + "," + "タスクキューの中身");
-		
+
 		return pw;
 	}
-	
+
 	/**
 	 * タスクキューの中身を書き込む
 	 * @param pw
@@ -652,7 +652,7 @@ public class FileWriteManager {
 		}
 		pw.println();
 	}
-	
+
 	/**
 	 * その他の情報を書き込む
 	 * @param measure TODO
@@ -663,7 +663,7 @@ public class FileWriteManager {
 
 		String file = "otherInfo_" + fileName + ".csv";
 		PrintWriter pw = getPrintWriter("other", "", file);
-		
+
 		pw.println("仮チームの平均サイズ" + "," + measure.tentativeTeamSize / (double)Constant.EXPERIMENT_NUM);
 		pw.println("チームの平均サイズ" + "," + measure.teamSize / (double)Constant.EXPERIMENT_NUM);
 		pw.println("チームの平均処理時間" + "," + measure.teamExecuteTime / (double)Constant.EXPERIMENT_NUM);
@@ -681,14 +681,14 @@ public class FileWriteManager {
 		pw.println("タスクキューの平均サイズ" + "," + measure.taskQueueNum / (double)Constant.EXPERIMENT_NUM);
 		pw.println("マークなしのタスクキューの平均サイズ" + "," + measure.unmarkedTaskQueueNum / (double)Constant.EXPERIMENT_NUM);
 		pw.println();
-		
+
 		pw.println("チーム内人数" + "," + "1チームの不要な拘束時間" + "," + "1チーム中の1人あたりの不要な拘束時間" + "," + "チーム編成成功数");
 		for(int i = 0; i < measure.bindingTimeInTeamEveryTeamSize.length; i++){
 			pw.println(i + "," + measure.bindingTimeInTeamEveryTeamSize[i] / (double)Constant.EXPERIMENT_NUM + ","
 					+ (measure.bindingTimeInTeamEveryTeamSize[i] / (double)i) / (double)Constant.EXPERIMENT_NUM + ","
 					+ measure.allSuccessTeamFormationNumEveryTeamSize[i] / (double)Constant.EXPERIMENT_NUM);
 		}
-		
+
 		pw.close();
 	}
 

@@ -1,4 +1,4 @@
-package main.file;
+package file;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,21 +14,21 @@ import constant.Constant;
 import agent.Agent;
 
 public class VisualFileWriter {
-	
+
 	private static boolean isWrite;
 	private static String path;
 	private static String fileName;
-	
+
 	public static void set() {
 		isWrite = Configuration.ADD_WRITE;
 		path = FileWriteManager.path;
 		fileName = FileWriteManager.fileName;
 	}
-	
+
 	private static String getPath(String dataType, String tailDir) {
 		return path + dataType + "/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + tailDir;
 	}
-	
+
 	private static void makeDirectory(String dataType, String tailDir) {
 		File directory = new File(getPath(dataType, tailDir));
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
@@ -36,19 +36,19 @@ public class VisualFileWriter {
 			directory.mkdirs();
 		}
 	}
-	
+
 	private static PrintWriter getPrintWriter(String dataType, String tailDir, String file) throws IOException {
 		return new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
 				(getPath(dataType, tailDir) + "/" + file, isWrite), "Shift_JIS")));
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 一定ターンまでのエージェントの主な役割を返す
 	 * @param agent
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	private static String getStringMainRole(Agent agent) throws IOException{
 		if(agent.getParameter().getElement(Role.LEADER).getRoleNum() > agent.getParameter().getElement(Role.MEMBER).getRoleNum() * 2){
@@ -61,7 +61,7 @@ public class VisualFileWriter {
 			return "neither";
 		}
 	}
-	
+
 	/**
 	 * 相手とチーム編成をする際に担当する主な役割を返す
 	 * @param me
@@ -79,7 +79,7 @@ public class VisualFileWriter {
 			return "asNeither";
 		}
 	}
-	
+
 	/**
 	 * 可視化のための書き込み
 	 * ＜有向グラフ用＞
@@ -100,7 +100,7 @@ public class VisualFileWriter {
 		//無向グラフ
 		String file = "non_directed_" + turn + ".csv";
 		PrintWriter pw = getPrintWriter("visualization", "/" + fileName + "/visual/", file);
-		
+
 		pw.print("my_id" + "," + "your_id");
 		pw.print(",");
 		pw.print("my_ability");
@@ -121,22 +121,22 @@ public class VisualFileWriter {
 		pw.print(",");
 		pw.print("team_formation_sum_percentage_over_border");
 		pw.println();
-		
+
 		for(int i = 0; i < Constant.AGENT_NUM; i++){
 			Agent me = agents.get(i);
-			
+
 			//無向グラフ用
 			for(int j = i; j < Constant.AGENT_NUM; j++){
 				boolean isWrite = false;	//書き込むかどうか
 				double threshold = 0.00;	//可視化の閾値
 				Agent you = agents.get(j);
-				
+
 				//相手とのチーム編成回数の割合
-				double teamingRateWithYou = 
+				double teamingRateWithYou =
 						(double)(me.getMeasure().getTeamFormationNumWithLeader(you)
 								+ me.getMeasure().getTeamFormationNumWithMember(you))
 						/ (double)successTeamingEdgeNum * 100;
-				
+
 				//チーム編成割合がどの閾値よりも下回る場合は書き込まない
 				for(int k = 0; k < Constant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM; k++){
 					if(teamingRateWithYou > Constant.TEAM_FORMATION_PERCENTAGE_BORDER[k]){
@@ -148,32 +148,32 @@ public class VisualFileWriter {
 				if(!isWrite && i != j){
 					continue;
 				}
-				
+
 				//自分id、相手id
 				pw.print(me.getId() + "," + you.getId());
 				pw.print(",");
-				
+
 				//自分の能力、自分の能力の合計
 				pw.print(me.getAbility(0) + " " + me.getAbility(1) + "," + me.getAbilitySum());
 				pw.print(",");
-				
+
 				//主に担当した役割
 				pw.print(getStringMainRole(me));
 				pw.print(",");
-				
+
 				//リーダ回数、メンバ回数
 				pw.print(me.getParameter().getElement(Role.LEADER).getRoleNum() + "," + me.getParameter().getElement(Role.MEMBER).getRoleNum());
 				pw.print(",");
-				
+
 				if(j != i){
 					//相手とのチーム編成合計回数
 					pw.print(me.getMeasure().getTeamFormationNumWithLeader(you) + me.getMeasure().getTeamFormationNumWithMember(you));
 					pw.print(",");
-					
+
 					//相手とのリーダとしての回数、相手とのメンバとしての回数
 					pw.print(me.getMeasure().getTeamFormationNumWithMember(you) + "," + me.getMeasure().getTeamFormationNumWithLeader(you));
 					pw.print(",");
-					
+
 					//相手とチーム編成をする際に担当する主な役割
 					pw.print(getStringMainRoleWithYou(me, you));
 					pw.print(",");
@@ -181,21 +181,21 @@ public class VisualFileWriter {
 					//相手とのチーム編成合計回数の割合
 					pw.print(teamingRateWithYou);
 					pw.print(",");
-					
+
 					//チーム編成合計回数の割合が閾値以上か（パーセンテージ）
 					pw.print("more_than_" + threshold);
 				}
 				else{
 					pw.print("-1" + "," + "-1" + "," + "-1" + "," + "false" + "," + "-1" + "," + "false");
 				}
-				
+
 				pw.println();
 			}
 		}
 
 		pw.close();
 	}
-	
+
 	/**
 	 * 可視化の際の補足的データ
 	 * @param agents
@@ -209,7 +209,7 @@ public class VisualFileWriter {
 
 		String file = "teaming_" + turn + ".csv";
 		PrintWriter pw = getPrintWriter("visualization", "/" + fileName + "/data/", file);
-		
+
 		pw.println(turn + "ターン目");
 		pw.print("エージェントID");
 		for(Agent agent : agents){
@@ -262,12 +262,12 @@ public class VisualFileWriter {
 			}
 		}
 		pw.println();
-		
+
 		pw.println();
 		pw.println("リーダ数" + "," + leaders);
 		pw.println("メンバ数" + "," + members);
-		pw.println("どちらでもない数" + "," + neithers); 
-		
+		pw.println("どちらでもない数" + "," + neithers);
+
 		pw.close();
 	}
 }

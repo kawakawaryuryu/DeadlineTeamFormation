@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import constant.Constant;
 import agent.Agent;
 import agent.StructuredAgent;
-import main.file.FileWriteManager;
-import main.file.VisualFileWriter;
+import file.FileWriteManager;
+import file.VisualFileWriter;
 
 public class TeamFormationFileManager {
 
