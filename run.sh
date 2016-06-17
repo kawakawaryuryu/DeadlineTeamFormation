@@ -7,4 +7,3 @@ java -Xms${memory}m -Xmx${memory}m -classpath 'jar/*:bin' main.Main debug 4 Rati
 java -Xms${memory}m -Xmx${memory}m -classpath 'jar/*:bin' main.Main debug 5 Structured learning estimation BTFM/ED &
 java -Xms${memory}m -Xmx${memory}m -classpath 'jar/*:bin' main.Main debug 6 Structured noLearning estimation ED &
 java -Xms${memory}m -Xmx${memory}m -classpath 'jar/*:bin' main.Main debug 7 Structured learning noEstimation BTFM &
-java -Xms${memory}m -Xmx${memory}m -classpath 'jar/*:bin' main.Main debug 8 Structured random noEstimation Random &
