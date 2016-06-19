@@ -685,6 +685,8 @@ public class FileWriteManager {
 				parameter.setFalseTrustLeaderTriger();
 			}
 		}
+
+		pw.println();
 	}
 
 	/**
