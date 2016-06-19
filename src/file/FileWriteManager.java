@@ -696,18 +696,8 @@ public class FileWriteManager {
 		for (int i = 0; i < agents.size(); i++) {
 			pw.print(",");
 			StructuredAgentParameter parameter = (StructuredAgentParameter)agents.get(i).getParameter();
-			if (parameter.getTrustLeaderTriger()) {
-				if (parameter.getTrustLeaders().size() == 0) {
-					pw.print("信頼エージェントなし");
-				}
-				else {
-					for (Agent agent : parameter.getTrustLeaders()) {
-						pw.print(agent + "  ");
-					}
-				}
-
-				// trigerをfalseに戻す
-				parameter.setFalseTrustLeaderTriger();
+			for (Agent agent : parameter.getTrustLeaders()) {
+				pw.print(agent + "  ");
 			}
 		}
 
@@ -734,12 +724,7 @@ public class FileWriteManager {
 		pw.print(turn);
 		for (int i = 0; i < agents.size(); i++) {
 			pw.print(",");
-			if (agents.get(i).getParameter().getPastTeam().getTeamResourceTriger()) {
-				pw.print(agents.get(i).getParameter().getPastTeam().getAverageAbilitiesPerTeam());
-
-				// trigerをfalseに戻す
-				agents.get(i).getParameter().getPastTeam().setFlaseTeamResourceTriger();
-			}
+			pw.print(agents.get(i).getParameter().getPastTeam().getAverageAbilitiesPerTeam());
 		}
 
 		pw.println();
