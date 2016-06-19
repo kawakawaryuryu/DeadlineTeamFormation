@@ -48,10 +48,21 @@ public class FileWriteManager {
 		method = Configuration.METHOD_NAME;
 	}
 
+	/**
+	 * ファイルパスを返す
+	 * @param dataType
+	 * @param tailDir 後ろのディレクトリ
+	 * @return
+	 */
 	private static String getPath(String dataType, String tailDir) {
 		return path + dataType + "/" + Constant.AGENT_NUM + "agents/" + Constant.TURN_NUM + "t/" + tailDir;
 	}
 
+	/**
+	 * 書き込みファイルパスまでのディレクトリを作成する
+	 * @param dataType
+	 * @param tailDir 後ろのディレクトリ
+	 */
 	private static void makeDirectory(String dataType, String tailDir) {
 		File directory = new File(getPath(dataType, tailDir));
 		/* ディレクトリが存在しない場合はディレクトリを作成 */
@@ -60,6 +71,14 @@ public class FileWriteManager {
 		}
 	}
 
+	/**
+	 * ファイル書き込みのPrintWriterのインスタンスを生成して返す
+	 * @param dataType
+	 * @param tailDir
+	 * @param file 時刻 + Number
+	 * @return
+	 * @throws IOException
+	 */
 	private static PrintWriter getPrintWriter(String dataType, String tailDir, String file) throws IOException {
 		return new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream
 				(getPath(dataType, tailDir) + "/" + file, isWrite), "Shift_JIS")));
@@ -689,6 +708,37 @@ public class FileWriteManager {
 
 				// trigerをfalseに戻す
 				parameter.setFalseTrustLeaderTriger();
+			}
+		}
+
+		pw.println();
+	}
+
+	public static PrintWriter writeHeaderOfTeamResources(ArrayList<Agent> agents) throws IOException {
+		makeDirectory("TeamResources", "");
+
+		String file = "TeamResources_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("TeamResources", "", file);
+
+		pw.print("経過ターン");
+		for (int i = 0; i < agents.size(); i++) {
+			pw.print(",");
+			pw.print(agents.get(i));
+		}
+		pw.println();
+
+		return pw;
+	}
+
+	public static void writeBodyOfTeamResource(PrintWriter pw, int turn, ArrayList<Agent> agents) throws IOException {
+		pw.print(turn);
+		for (int i = 0; i < agents.size(); i++) {
+			pw.print(",");
+			if (agents.get(i).getParameter().getPastTeam().getTeamResourceTriger()) {
+				pw.print(agents.get(i).getParameter().getPastTeam().getAverageAbilitiesPerTeam());
+
+				// trigerをfalseに戻す
+				agents.get(i).getParameter().getPastTeam().setFlaseTeamResourceTriger();
 			}
 		}
 

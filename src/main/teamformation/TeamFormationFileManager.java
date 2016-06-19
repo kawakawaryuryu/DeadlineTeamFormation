@@ -25,6 +25,9 @@ public class TeamFormationFileManager {
 	
 	// 信頼エージェントリスト書き込み用PrintWriterインスタンスを取得
 	PrintWriter trustLeadersWriter;
+
+	// チームリソース書き込み用PrintWriterインスタンスを取得
+	PrintWriter teamResourceWriter;
 	
 	
 	public void setFileInstances(int experimentNumber) {
@@ -33,6 +36,8 @@ public class TeamFormationFileManager {
 			taskQueueWriter = getTaskQueueWriter(experimentNumber);
 			trustLeadersWriter
 				= getTrustLeadersWriter(experimentNumber, TeamFormationInstances.getInstance().getParameter().getAgents());
+			teamResourceWriter
+				= getTeamResourceWriter(experimentNumber, TeamFormationInstances.getInstance().getParameter().getAgents());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -65,6 +70,9 @@ public class TeamFormationFileManager {
 
 			// 信頼エージェントリストの書き込み
 			writeTrustLeaders(experimentNumber, turn, trustLeadersWriter, TeamFormationInstances.getInstance().getParameter().getAgents());
+
+			// チームリソースの書き込み
+			writeTeamResource(experimentNumber, turn, teamResourceWriter, TeamFormationInstances.getInstance().getParameter().getAgents());
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -92,6 +100,9 @@ public class TeamFormationFileManager {
 
 			// trustLeadersWriterをclose
 			closeTrustLeaderWrite(experimentNumber, trustLeadersWriter);
+
+			// teamResourceWriterをclose
+			closeTeamResourceWrite(experimentNumber, teamResourceWriter);
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -181,6 +192,27 @@ public class TeamFormationFileManager {
 	private void closeTrustLeaderWrite(int experimentNumber, PrintWriter trustLeadersWriter) {
 		if (experimentNumber == 1) {
 			trustLeadersWriter.close();
+		}
+	}
+
+	private PrintWriter getTeamResourceWriter(int experimentNumber, ArrayList<Agent> agents) throws IOException {
+		if (experimentNumber == 1) {
+			return FileWriteManager.writeHeaderOfTeamResources(agents);
+		}
+		else {
+			return null;
+		}
+	}
+
+	private void writeTeamResource(int experimentNumber, int turn, PrintWriter teamResourceWriter, ArrayList<Agent> agents) throws IOException {
+		if (experimentNumber == 1) {
+			FileWriteManager.writeBodyOfTeamResource(teamResourceWriter, turn, agents);
+		}
+	}
+
+	private void closeTeamResourceWrite(int experimentNumber, PrintWriter teamResourceWriter) {
+		if (experimentNumber == 1) {
+			teamResourceWriter.close();
 		}
 	}
 }

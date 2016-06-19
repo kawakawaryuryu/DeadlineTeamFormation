@@ -7,6 +7,7 @@ import constant.Constant;
 public class PastTeam {
 	private ArrayList<Team> pastTeams = new ArrayList<Team>();
 	private double averageAbilitiesPerTeam;
+	private boolean teamResourceTriger = false;
 	
 	public void addTeam(Team team) {
 		pastTeams.add(team);
@@ -26,6 +27,8 @@ public class PastTeam {
 		if(pastTeams.size() != 0){
 			averageAbilitiesPerTeam = averageAbilitiesSum / pastTeams.size();
 		}
+
+		teamResourceTriger = true;
 	}
 	
 	public double getAverageAbilitiesPerTeam() {
@@ -34,5 +37,13 @@ public class PastTeam {
 	
 	public boolean isEmptyPastTeams() {
 		return pastTeams.isEmpty();
+	}
+
+	public boolean getTeamResourceTriger() {
+		return teamResourceTriger;
+	}
+
+	public void setFlaseTeamResourceTriger() {
+		teamResourceTriger = false;
 	}
 }
