@@ -678,9 +678,15 @@ public class FileWriteManager {
 			pw.print(",");
 			StructuredAgentParameter parameter = (StructuredAgentParameter)agents.get(i).getParameter();
 			if (parameter.getTrustLeaderTriger()) {
-				for (Agent agent : parameter.getTrustLeaders()) {
-					pw.print(agent + "  ");
+				if (parameter.getTrustLeaders().size() == 0) {
+					pw.print("信頼エージェントなし");
 				}
+				else {
+					for (Agent agent : parameter.getTrustLeaders()) {
+						pw.print(agent + "  ");
+					}
+				}
+
 				// trigerをfalseに戻す
 				parameter.setFalseTrustLeaderTriger();
 			}
