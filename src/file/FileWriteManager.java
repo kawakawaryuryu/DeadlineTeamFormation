@@ -69,10 +69,11 @@ public class FileWriteManager {
 	 * ファイルの内容説明の書き込み
 	 * @param learning TODO
 	 * @param estimation TODO
+	 * @param agentType TODO
 	 * @return
 	 * @throws IOException
 	 */
-	public static void fileExplain(String learning, String estimation) throws IOException{
+	public static void fileExplain(String learning, String estimation, String agentType) throws IOException{
 		TaskSelectionStrategy taskSelectionStrategy = StrategyManager.getTaskSelectionStrategy();
 		RoleSelectionStrategy roleSelectionStrategy = StrategyManager.getRoleSelectionStrategy();
 		SubtaskAllocationStrategy allocationStrategy = StrategyManager.getAllocationStrategy();
@@ -91,6 +92,7 @@ public class FileWriteManager {
 		pw.println("ターン" + "," + Constant.TURN_NUM);
 		pw.println("試行回数" + "," + Constant.EXPERIMENT_NUM);
 		pw.println("エージェント数" + "," + Constant.AGENT_NUM);
+		pw.println("エージェントタイプ" + "," + agentType);
 		pw.println("リソースの種類数" + "," + Constant.RESOURCE_NUM);
 		pw.println("欲張り度の初期値" + "," + Constant.INITIAL_GREEDY);
 		pw.println("メンバに対する信頼度の初期値" + "," + Constant.INITIAL_TRUST_TO_MEMBER);

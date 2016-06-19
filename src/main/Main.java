@@ -69,7 +69,7 @@ public class Main {
 		}
 		
 		// 実験データを書き込み
-		writeMeasuredData(Configuration.LEARNING, Configuration.ESTIMATION);
+		writeMeasuredData(Configuration.LEARNING, Configuration.ESTIMATION, Configuration.AGENT_TYPE);
 		
 		
 		
@@ -98,9 +98,9 @@ public class Main {
 		
 	}
 	
-	private static void writeMeasuredData(String learning, String estimation) {
+	private static void writeMeasuredData(String learning, String estimation, String agentType) {
 		try {
-			FileWriteManager.fileExplain(learning, estimation);
+			FileWriteManager.fileExplain(learning, estimation, agentType);
 			FileWriteManager.writeBodyOfMeasuredDataPerTurn(InstanceManager.getInstance().getMeasure());
 			FileWriteManager.writeBodyOfTeamMeasuredData(InstanceManager.getInstance().getMeasure());
 			FileWriteManager.writeOtherData(InstanceManager.getInstance().getMeasure());
