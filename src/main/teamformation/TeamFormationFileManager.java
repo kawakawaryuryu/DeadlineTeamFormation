@@ -23,12 +23,16 @@ public class TeamFormationFileManager {
 	// タスクキュー書き込み用PrintWriterインスタンスを取得
 	PrintWriter taskQueueWriter;
 	
+	// 信頼エージェントリスト書き込み用PrintWriterインスタンスを取得
+	PrintWriter trustLeadersWriter;
 	
 	
 	public void setFileInstances(int experimentNumber) {
 		try {
 			greedyWriter = getGreedyWriter(experimentNumber);
 			taskQueueWriter = getTaskQueueWriter(experimentNumber);
+			trustLeadersWriter
+				= getTrustLeadersWriter(experimentNumber, TeamFormationInstances.getInstance().getParameter().getAgents());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -58,6 +62,9 @@ public class TeamFormationFileManager {
 			if(Constant.TURN_NUM - turn < Constant.END_TURN_NUM){
 				writeTaskQueue(experimentNumber, turn, taskQueueWriter, noMarkTaskNum);
 			}
+
+			// 信頼エージェントリストの書き込み
+			writeTrustLeaders(experimentNumber, turn, trustLeadersWriter, TeamFormationInstances.getInstance().getParameter().getAgents());
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -82,6 +89,9 @@ public class TeamFormationFileManager {
 
 			// taskQueueWriterをclose
 			closeTaskQueueWrite(experimentNumber, taskQueueWriter);
+
+			// trustLeadersWriterをclose
+			closeTrustLeaderWrite(experimentNumber, trustLeadersWriter);
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
@@ -147,6 +157,30 @@ public class TeamFormationFileManager {
 	private void closeTaskQueueWrite(int experimentNumber, PrintWriter taskQueueWriter) throws IOException {
 		if(experimentNumber == 1){
 			taskQueueWriter.close();
+		}
+	}
+
+	private PrintWriter getTrustLeadersWriter(int experimentNumber, ArrayList<Agent> agents) throws IOException {
+		if (experimentNumber == 1) {
+			return FileWriteManager.writeHeaderOfTrustLeaders(agents);
+		}
+		else {
+			return null;
+		}
+	}
+
+	private void writeTrustLeaders(int experimentNumber, int turn, PrintWriter trustLeadersWriter, ArrayList<Agent> agents)
+			throws IOException {
+		if (experimentNumber == 1) {
+			if (agents.get(0) instanceof StructuredAgent) {
+				FileWriteManager.writeBodyOfTrustLeaders(trustLeadersWriter, turn, agents);
+			}
+		}
+	}
+
+	private void closeTrustLeaderWrite(int experimentNumber, PrintWriter trustLeadersWriter) {
+		if (experimentNumber == 1) {
+			trustLeadersWriter.close();
 		}
 	}
 }

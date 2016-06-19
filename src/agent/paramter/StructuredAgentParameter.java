@@ -9,17 +9,24 @@ public class StructuredAgentParameter extends AbstractAgentParameter {
 
 	ArrayList<Agent> trustLeaders = new ArrayList<Agent>();
 
+	// 信頼エージェントがリストに加えられた or 外れた場合にtrueになる
+	boolean trustLeaderTriger;
+
 	public StructuredAgentParameter() {
 		super();
+		trustLeaderTriger = false;
 	}
 
 
 	public void setTrustLeaders(Agent leader) {
-		if (trustLeaders.size() < Constant.TRUST_LEADER_LIMIT)
-		trustLeaders.add(leader);
+		if (trustLeaders.size() < Constant.TRUST_LEADER_LIMIT) {
+			trustLeaderTriger = true;
+			trustLeaders.add(leader);
+		}
 	}
 
 	public void removeTrustLeader(Agent leader) {
+		trustLeaderTriger = true;
 		trustLeaders.remove(leader);
 	}
 
@@ -33,6 +40,14 @@ public class StructuredAgentParameter extends AbstractAgentParameter {
 
 	public boolean containsTrustLeader(Agent you) {
 		return trustLeaders.contains(you);
+	}
+
+	public boolean getTrustLeaderTriger() {
+		return trustLeaderTriger;
+	}
+
+	public void setFalseTrustLeaderTriger() {
+		trustLeaderTriger = false;
 	}
 
 }

@@ -24,6 +24,7 @@ import config.Configuration;
 import constant.Constant;
 import agent.Agent;
 import agent.StructuredAgent;
+import agent.paramter.StructuredAgentParameter;
 
 public class FileWriteManager {
 	static int fileNumber;	//ファイルのnumber
@@ -653,6 +654,37 @@ public class FileWriteManager {
 			pw.print(task);
 		}
 		pw.println();
+	}
+
+	public static PrintWriter writeHeaderOfTrustLeaders(ArrayList<Agent> agents) throws IOException {
+		makeDirectory("trustLeaders", "");
+
+		String file = "trustLeaders_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("trustLeaders", "", file);
+
+		pw.print("経過ターン");
+		for (int i = 0; i < agents.size(); i++) {
+			pw.print(",");
+			pw.print(agents.get(i));
+		}
+		pw.println();
+
+		return pw;
+	}
+
+	public static void writeBodyOfTrustLeaders(PrintWriter pw, int turn, ArrayList<Agent> agents) throws IOException {
+		pw.print(turn);
+		for (int i = 0; i < agents.size(); i++) {
+			pw.print(",");
+			StructuredAgentParameter parameter = (StructuredAgentParameter)agents.get(i).getParameter();
+			if (parameter.getTrustLeaderTriger()) {
+				for (Agent agent : parameter.getTrustLeaders()) {
+					pw.print(agent + "  ");
+				}
+				// trigerをfalseに戻す
+				parameter.setFalseTrustLeaderTriger();
+			}
+		}
 	}
 
 	/**
