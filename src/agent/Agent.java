@@ -93,7 +93,7 @@ public abstract class Agent {
 
 	public String toString() {
 		StringBuilder str = new StringBuilder();
-		str.append("id = " + id + " / ability = ");
+		str.append("id=" + id + "/ability=");
 		for(int i = 0; i < Constant.RESOURCE_NUM; i++){
 			str.append(ability[i] + " ");
 		}
