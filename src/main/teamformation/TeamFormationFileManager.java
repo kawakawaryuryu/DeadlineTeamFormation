@@ -66,13 +66,14 @@ public class TeamFormationFileManager {
 			// タスクキューの中身を書き込み
 			if(Constant.TURN_NUM - turn < Constant.END_TURN_NUM){
 				writeTaskQueue(experimentNumber, turn, taskQueueWriter, noMarkTaskNum);
+
+				// 信頼エージェントリストの書き込み
+				writeTrustLeaders(experimentNumber, turn, trustLeadersWriter, TeamFormationInstances.getInstance().getParameter().getAgents());
+
+				// チームリソースの書き込み
+				writeTeamResource(experimentNumber, turn, teamResourceWriter, TeamFormationInstances.getInstance().getParameter().getAgents());
 			}
 
-			// 信頼エージェントリストの書き込み
-			writeTrustLeaders(experimentNumber, turn, trustLeadersWriter, TeamFormationInstances.getInstance().getParameter().getAgents());
-
-			// チームリソースの書き込み
-			writeTeamResource(experimentNumber, turn, teamResourceWriter, TeamFormationInstances.getInstance().getParameter().getAgents());
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
