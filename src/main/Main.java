@@ -100,7 +100,7 @@ public class Main {
 	
 	private static void writeMeasuredData(String learning, String estimation, String agentType) {
 		try {
-			FileWriteManager.fileExplain(learning, estimation, agentType);
+			FileWriteManager.fileExplain(learning, estimation);
 			FileWriteManager.writeBodyOfMeasuredDataPerTurn(InstanceManager.getInstance().getMeasure());
 			FileWriteManager.writeBodyOfTeamMeasuredData(InstanceManager.getInstance().getMeasure());
 			FileWriteManager.writeOtherData(InstanceManager.getInstance().getMeasure());

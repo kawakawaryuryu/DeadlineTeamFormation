@@ -32,6 +32,7 @@ public class FileWriteManager {
 	static String path;
 	static String fileName;
 	static String method;
+	static String agentType;
 
 	/**
 	 * ファイル番号とパスを設定する
@@ -46,6 +47,7 @@ public class FileWriteManager {
 		path += Configuration.EXPERIMET_TYPE + "/" + Configuration.DATE + "/data/";
 		fileName = Configuration.TIME + "_" + fileNumber;
 		method = Configuration.METHOD_NAME;
+		agentType = Configuration.AGENT_TYPE;
 	}
 
 	/**
@@ -89,11 +91,10 @@ public class FileWriteManager {
 	 * ファイルの内容説明の書き込み
 	 * @param learning TODO
 	 * @param estimation TODO
-	 * @param agentType TODO
 	 * @return
 	 * @throws IOException
 	 */
-	public static void fileExplain(String learning, String estimation, String agentType) throws IOException{
+	public static void fileExplain(String learning, String estimation) throws IOException{
 		TaskSelectionStrategy taskSelectionStrategy = StrategyManager.getTaskSelectionStrategy();
 		RoleSelectionStrategy roleSelectionStrategy = StrategyManager.getRoleSelectionStrategy();
 		SubtaskAllocationStrategy allocationStrategy = StrategyManager.getAllocationStrategy();
@@ -159,7 +160,7 @@ public class FileWriteManager {
 		String file = "require_average" + "_" + fileName + ".csv";
 		PrintWriter pw = getPrintWriter("TaskRequireResult", "/average", file);
 
-		pw.println("平均" + Constant.EXPERIMENT_NUM + "回" + "," + method);
+		pw.println("平均" + Constant.EXPERIMENT_NUM + "回" + "," + method + "," + agentType);
 		pw.print("経過ターン");
 		pw.print(",");
 		pw.print(Constant.MEASURE_TURN_NUM + "ターン毎のタスク処理リソース量");
