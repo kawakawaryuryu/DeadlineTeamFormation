@@ -686,12 +686,18 @@ public class FileWriteManager {
 			pw.print(",");
 			pw.print(agents.get(i));
 		}
+		pw.print(",");
+		pw.print(",");
+		pw.print("信頼エージェントを保持しているエージェント数");
 		pw.println();
 
 		return pw;
 	}
 
 	public static void writeBodyOfTrustLeaders(PrintWriter pw, int turn, ArrayList<Agent> agents) throws IOException {
+		// 信頼エージェントを保持しているエージェント数
+		int haved = 0;
+
 		pw.print(turn);
 		for (int i = 0; i < agents.size(); i++) {
 			pw.print(",");
@@ -699,7 +705,11 @@ public class FileWriteManager {
 			for (Agent agent : parameter.getTrustLeaders()) {
 				pw.print(agent + "  ");
 			}
+			if(parameter.getTrustLeaders().size() > 0) haved++;
 		}
+		pw.print(",");
+		pw.print(",");
+		pw.print(haved);
 
 		pw.println();
 	}
