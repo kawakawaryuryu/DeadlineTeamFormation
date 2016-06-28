@@ -173,7 +173,12 @@ public class TeamFormationFileManager {
 
 	private PrintWriter getTrustLeadersWriter(int experimentNumber, ArrayList<Agent> agents) throws IOException {
 		if (experimentNumber == 1) {
-			return FileWriteManager.writeHeaderOfTrustLeaders(agents);
+			if (agents.get(0) instanceof StructuredAgent) {
+				return FileWriteManager.writeHeaderOfTrustLeaders(agents);
+			}
+			else {
+				return null;
+			}
 		}
 		else {
 			return null;
