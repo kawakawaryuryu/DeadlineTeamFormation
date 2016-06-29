@@ -47,7 +47,7 @@ public class Main {
 		// 実験を行う
 		for(int experimentNumber = 1; experimentNumber <= Constant.EXPERIMENT_NUM; experimentNumber++){
 			System.out.print("Team formation at " + experimentNumber + " times starts!");
-			System.out.println("  Learning: " + Configuration.LEARNING + " / Estimation: " + Configuration.ESTIMATION);
+			System.out.println("  Agent: " + Configuration.AGENT_TYPE + " / Learning: " + Configuration.LEARNING + " / Estimation: " + Configuration.ESTIMATION);
 			
 			// ログ設定
 			Configuration.setLog(experimentNumber);
@@ -79,7 +79,7 @@ public class Main {
 		int minute = (time%3600) / 60;
 		int second = (time%3600) % 60;
 		System.out.print("Executed time = " + time + "秒 = " + hour + "時間" + minute + "分" + second + "秒");
-		System.out.println("  Learning: " + args[2] + " / Estimation: " + args[3]);
+		System.out.println("  Agent: " + Configuration.AGENT_TYPE + " / Learning: " + Configuration.LEARNING + " / Estimation: " + Configuration.ESTIMATION);
 		
 		// 実験終了のメール送信
 		String subject = "実験終了";
