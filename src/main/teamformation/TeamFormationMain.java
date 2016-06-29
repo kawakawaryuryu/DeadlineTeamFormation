@@ -74,7 +74,7 @@ public class TeamFormationMain {
 		TeamFormationInstances.getInstance().getMeasure().measureAtEnd(TeamFormationInstances.getInstance().getParameter().agents);
 		
 		// ファイルインスタンスをclose
-		fileMng.close(experimentNumber);
+		fileMng.close(experimentNumber, TeamFormationInstances.getInstance().getParameter().getAgents());
 		
 		debugExecutedTaskRequire();
 	}

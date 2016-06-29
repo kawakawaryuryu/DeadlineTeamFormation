@@ -91,7 +91,7 @@ public class TeamFormationFileManager {
 		}
 	}
 	
-	public void close(int experimentNumber) {
+	public void close(int experimentNumber, ArrayList<Agent> agents) {
 		try {
 			// greedyWriterをclose
 			closeGreedyWrite(experimentNumber, greedyWriter);
@@ -100,7 +100,7 @@ public class TeamFormationFileManager {
 			closeTaskQueueWrite(experimentNumber, taskQueueWriter);
 
 			// trustLeadersWriterをclose
-			closeTrustLeaderWrite(experimentNumber, trustLeadersWriter);
+			closeTrustLeaderWrite(experimentNumber, trustLeadersWriter, agents.get(0));
 
 			// teamResourceWriterをclose
 			closeTeamResourceWrite(experimentNumber, teamResourceWriter);
@@ -195,9 +195,11 @@ public class TeamFormationFileManager {
 		}
 	}
 
-	private void closeTrustLeaderWrite(int experimentNumber, PrintWriter trustLeadersWriter) {
+	private void closeTrustLeaderWrite(int experimentNumber, PrintWriter trustLeadersWriter, Agent agent) {
 		if (experimentNumber == 1) {
-			trustLeadersWriter.close();
+			if (agent instanceof StructuredAgent) {
+				trustLeadersWriter.close();
+			}
 		}
 	}
 
