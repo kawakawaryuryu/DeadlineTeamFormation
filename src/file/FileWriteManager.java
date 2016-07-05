@@ -762,7 +762,7 @@ public class FileWriteManager {
 	public static void writeBodyOfAgentsNum(MeasuredDataManager measure) throws IOException {
 		PrintWriter pw = writeHeaderOfAgentsNum();
 
-		for (int i = 1; i <= Constant.TURN_NUM; i++) {
+		for (int i = 0; i < Constant.TURN_NUM; i++) {
 			pw.print(i);
 			pw.print(",");
 			pw.print(measure.initialStateAgentNumPerTurn[i] / (double)Constant.EXPERIMENT_NUM);
