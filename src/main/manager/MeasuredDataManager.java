@@ -48,6 +48,13 @@ public class MeasuredDataManager {
 	
 	public double[] markedTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] markedTaskDeadline = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+
+	public double[] initialStateAgentNumPerTurn = new double[Constant.TURN_NUM];
+	public double[] leaderOrMemberStateAgentNumPerTurn = new double[Constant.TURN_NUM];
+	public double[] executeStateAgentNumPerTurn = new double[Constant.TURN_NUM];
+	public double initialStateAgentNum;
+	public double leaderOrMemberStateAgentNum;
+	public double executeStateAgentNum;
 	
 	MeasuredDataManager() {
 		Arrays.fill(successTaskRequire, 0);
@@ -87,6 +94,13 @@ public class MeasuredDataManager {
 		
 		Arrays.fill(markedTaskRequire, 0);
 		Arrays.fill(markedTaskDeadline, 0);
+
+		Arrays.fill(initialStateAgentNumPerTurn, 0);
+		Arrays.fill(leaderOrMemberStateAgentNumPerTurn, 0);
+		Arrays.fill(executeStateAgentNumPerTurn, 0);
+		initialStateAgentNum = 0;
+		leaderOrMemberStateAgentNum = 0;
+		executeStateAgentNum = 0;
 	}
 	
 	public void saveAllMeasuredData() {
@@ -98,6 +112,7 @@ public class MeasuredDataManager {
 		saveMainRoleData();
 		saveTaskQueueNum();
 		saveMarkedTask();
+		saveAgentsNum();
 	}
 	
 	private void saveMeasuredDataPerTurn() {
@@ -162,6 +177,17 @@ public class MeasuredDataManager {
 			markedTaskRequire[i] += TeamFormationInstances.getInstance().getMeasure().getAverageMarkedTaskRequire(i);
 			markedTaskDeadline[i] += TeamFormationInstances.getInstance().getMeasure().getAverageMarkedTaskDeadline(i);
 		}
+	}
+
+	private void saveAgentsNum() {
+		for (int i = 0; i < Constant.TURN_NUM; i++) {
+			initialStateAgentNumPerTurn[i] += TeamFormationInstances.getInstance().getMeasure().initialStateAgentNumPerTurn[i];
+			leaderOrMemberStateAgentNumPerTurn[i] += TeamFormationInstances.getInstance().getMeasure().leaderOrMemberStateAgentNumPerTurn[i];
+			executeStateAgentNumPerTurn[i] += TeamFormationInstances.getInstance().getMeasure().executeStateAgentNumPerTurn[i];
+		}
+		initialStateAgentNum += TeamFormationInstances.getInstance().getMeasure().getAverageInitialStateAgentNum();
+		leaderOrMemberStateAgentNum += TeamFormationInstances.getInstance().getMeasure().getAverageLeaderOrMemberStateAgentNum();
+		executeStateAgentNum += TeamFormationInstances.getInstance().getMeasure().getAverageExecuteStateAgentNum();
 	}
 	
 }

@@ -741,6 +741,39 @@ public class FileWriteManager {
 		pw.println();
 	}
 
+	private static PrintWriter writeHeaderOfAgentsNum() throws IOException {
+		makeDirectory("agentsNum", "");
+
+		String file = "agentsNum_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("agentsNum", "", file);
+
+		pw.print("経過ターン");
+		pw.print(",");
+		pw.print("初期状態のエージェント数");
+		pw.print(",");
+		pw.print("リーダ or メンバ状態のエージェント数");
+		pw.print(",");
+		pw.print("タスク実行状態のエージェント数");
+		pw.println();
+
+		return pw;
+	}
+
+	public static void writeBodyOfAgentsNum(MeasuredDataManager measure) throws IOException {
+		PrintWriter pw = writeHeaderOfAgentsNum();
+
+		for (int i = 1; i <= Constant.TURN_NUM; i++) {
+			pw.print(i);
+			pw.print(",");
+			pw.print(measure.initialStateAgentNumPerTurn[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.print(",");
+			pw.print(measure.leaderOrMemberStateAgentNumPerTurn[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.print(",");
+			pw.print(measure.executeStateAgentNumPerTurn[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.println();
+		}
+	}
+
 	/**
 	 * その他の情報を書き込む
 	 * @param measure TODO
@@ -762,6 +795,9 @@ public class FileWriteManager {
 		pw.println("1人あたりのリーダ状態にかけた時間" + "," + (double)measure.leaderTime / (double)Constant.EXPERIMENT_NUM);
 		pw.println("1人あたりのメンバ状態にかけた時間" + "," + (double)measure.memberTime / (double)Constant.EXPERIMENT_NUM);
 		pw.println("1人あたりの実行状態にかけた時間" + "," + (double)measure.executeTime / (double)Constant.EXPERIMENT_NUM);
+		pw.println("初期状態のエージェント数" + "," + (double)measure.initialStateAgentNum / (double)Constant.EXPERIMENT_NUM);
+		pw.println("リーダ or メンバ状態のエージェント数" + "," + (double)measure.leaderOrMemberStateAgentNum / (double)Constant.EXPERIMENT_NUM);
+		pw.println("タスク実行状態のエージェント数" + "," + (double)measure.executeStateAgentNum / (double)Constant.EXPERIMENT_NUM);
 		pw.println("1チーム中の1人あたりの最後の数ターンに処理していた時間" + "," + measure.executingTimePerAgentInTeamAtEnd / (double)Constant.EXPERIMENT_NUM);
 		pw.println("1チーム中の1人あたりの最後の数ターンに拘束されていた時間" + "," + measure.bindingTimePerAgentInTeamAtEnd / (double)Constant.EXPERIMENT_NUM);
 		pw.println("総タスク処理リソースの平均" + "," + (double)measure.allSuccessTaskRequire / (double)Constant.EXPERIMENT_NUM);

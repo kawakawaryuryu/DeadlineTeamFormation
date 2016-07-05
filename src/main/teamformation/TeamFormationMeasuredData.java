@@ -4,13 +4,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import role.Role;
+import state.RoleSelectionState;
+import state.SubtaskAllocationState;
+import state.SubtaskReceptionState;
+import state.TaskExecuteState;
+import state.TaskMarkedWaitingState;
+import state.TaskSelectionState;
 import task.Task;
 import team.Team;
 import constant.Constant;
 import agent.Agent;
 
 public class TeamFormationMeasuredData {
+	// 50ターンごとに計測する用のインデックス
 	int arrayIndex;
+	// 毎ターン計測する用のインデックス
+	int turnIndex;
 	
 	public int[] successTaskRequire = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public int allSuccessTaskRequire;
@@ -55,9 +64,17 @@ public class TeamFormationMeasuredData {
 	public int[] markedTaskNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] markedTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] markedTaskDeadline = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+
+	public int[] initialStateAgentNumPerTurn = new int[Constant.TURN_NUM];
+	public int[] leaderOrMemberStateAgentNumPerTurn = new int[Constant.TURN_NUM];
+	public int[] executeStateAgentNumPerTurn = new int[Constant.TURN_NUM];
+	public int initialStateAgentNum;
+	public int leaderOrMemberStateAgentNum;
+	public int executeStateAgentNum;
 	
 	public void initialize() {
 		arrayIndex = 0;
+		turnIndex = 0;
 		
 		Arrays.fill(successTaskRequire, 0);
 		allSuccessTaskRequire = 0;
@@ -104,10 +121,21 @@ public class TeamFormationMeasuredData {
 		Arrays.fill(markedTaskNum, 0);
 		Arrays.fill(markedTaskRequire, 0);
 		Arrays.fill(markedTaskDeadline, 0);
+
+		Arrays.fill(initialStateAgentNumPerTurn, 0);
+		Arrays.fill(leaderOrMemberStateAgentNumPerTurn, 0);
+		Arrays.fill(executeStateAgentNumPerTurn, 0);
+		initialStateAgentNum = 0;
+		leaderOrMemberStateAgentNum = 0;
+		executeStateAgentNum = 0;
 	}
 	
 	public void addArrayIndex() {
 		arrayIndex++;
+	}
+
+	public void addTurnIndex() {
+		turnIndex++;
 	}
 	
 	public void countInSuccessCase(int require, Team team) {
@@ -184,6 +212,12 @@ public class TeamFormationMeasuredData {
 			countEachStateTime(agent);
 		}
 	}
+
+	public void measureEveryTurn(ArrayList<Agent> agents) {
+		for (Agent agent : agents) {
+			countAgentsNum(agent);
+		}
+	}
 	
 	private void classifyMainRoleNum(Agent agent) {
 		int leaderNum = agent.getParameter().getElement(Role.LEADER).getRoleNum();
@@ -219,6 +253,28 @@ public class TeamFormationMeasuredData {
 		markedTaskNum[arrayIndex]++;
 		markedTaskRequire[arrayIndex] += markedTask.getTaskRequireSum();
 		markedTaskDeadline[arrayIndex] += markedTask.getDeadlineInTask();
+	}
+
+	private void countAgentsNum(Agent agent) {
+		if (agent.getParameter().getState() == TaskSelectionState.getState()
+				|| agent.getParameter().getState() == RoleSelectionState.getState()
+				|| agent.getParameter().getState() == TaskMarkedWaitingState.getState()) {
+			initialStateAgentNumPerTurn[turnIndex]++;
+			initialStateAgentNum++;
+		}
+		else if (agent.getParameter().getState() == SubtaskAllocationState.getState()
+				|| agent.getParameter().getState() == SubtaskReceptionState.getState()) {
+			leaderOrMemberStateAgentNumPerTurn[turnIndex]++;
+			leaderOrMemberStateAgentNum++;
+		}
+		else if (agent.getParameter().getState() == TaskExecuteState.getState()) {
+			executeStateAgentNumPerTurn[turnIndex]++;
+			executeStateAgentNum++;
+		}
+		else {
+			System.err.println("このようなパターンは存在しません");
+			System.exit(-1);
+		}
 	}
 	
 	public int getAllSuccessTeamFormationEdge() {
@@ -295,4 +351,17 @@ public class TeamFormationMeasuredData {
 	public double getAverageMarkedTaskDeadline(int index) {
 		return markedTaskDeadline[index] / getDivideNum(markedTaskNum[index]);
 	}
+
+	public double getAverageInitialStateAgentNum() {
+		return (double)initialStateAgentNum / (double)Constant.TURN_NUM;
+	}
+
+	public double getAverageLeaderOrMemberStateAgentNum() {
+		return (double)leaderOrMemberStateAgentNum / (double)Constant.TURN_NUM;
+	}
+
+	public double getAverageExecuteStateAgentNum() {
+		return (double)executeStateAgentNum / (double)Constant.TURN_NUM;
+	}
+
 }
