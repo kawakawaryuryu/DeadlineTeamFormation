@@ -12,6 +12,7 @@ import role.Role;
 import config.Configuration;
 import constant.Constant;
 import agent.Agent;
+import agent.StructuredAgent;
 
 public class VisualFileWriter {
 
@@ -120,6 +121,12 @@ public class VisualFileWriter {
 		pw.print("team_formation_sum_percentage");
 		pw.print(",");
 		pw.print("team_formation_sum_percentage_over_border");
+		pw.print(",");
+		pw.print("trust_to_member");
+		if (agents.get(0) instanceof StructuredAgent) {
+			pw.print(",");
+			pw.print("trust_to_leader");
+		}
 		pw.println();
 
 		for(int i = 0; i < Constant.AGENT_NUM; i++){
@@ -184,6 +191,17 @@ public class VisualFileWriter {
 
 					//チーム編成合計回数の割合が閾値以上か（パーセンテージ）
 					pw.print("more_than_" + threshold);
+					pw.print(",");
+
+					// リーダからメンバに対する信頼度
+					pw.print(me.getTrustToMember(you));
+
+					// メンバからリーダに対する信頼度
+					if (me instanceof StructuredAgent) {
+						pw.print(",");
+						pw.print(((StructuredAgent) me).getTrustToLeader(you));
+					}
+
 				}
 				else{
 					pw.print("-1" + "," + "-1" + "," + "-1" + "," + "false" + "," + "-1" + "," + "false");
