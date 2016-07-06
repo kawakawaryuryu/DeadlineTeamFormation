@@ -113,6 +113,20 @@ public class Main {
 			String msg = e.getError();
 			mail.send(subject, msg);
 
+		} catch(RuntimeException e) {
+			System.err.println(e.toString());
+			for (StackTraceElement el : e.getStackTrace()) {
+				System.err.println(el);
+			}
+
+			String subject = "エラー報告";
+			StringBuilder msg = new StringBuilder();
+			msg.append(e.toString() + "\n");
+			for (StackTraceElement el : e.getStackTrace()) {
+				msg.append(el + "\n");
+			}
+
+			mail.send(subject, msg.toString());
 		}
 
 	}
