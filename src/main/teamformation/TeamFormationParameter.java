@@ -18,6 +18,7 @@ import state.TaskMarkedWaitingState;
 import state.TaskSelectionState;
 import task.Task;
 import constant.Constant;
+import exception.AbnormalException;
 import agent.Agent;
 
 public class TeamFormationParameter {
@@ -109,8 +110,7 @@ public class TeamFormationParameter {
 			agentsMap.get(state).add(agent);
 		}
 		else{
-			System.err.println("Agentの状態とagentsMapのキーが不一致");
-			System.exit(-1);
+			throw new AbnormalException("Agentの状態とagentsMapのキーが不一致");
 		}
 	}
 	
@@ -120,8 +120,7 @@ public class TeamFormationParameter {
 			taskMarkingAgentMap.get(isMarked).add(agent);
 		}
 		else{
-			System.err.println("Agentの状態とtaskMarkingAgentsMapのキーが不一致");
-			System.exit(-1);
+			throw new AbnormalException("Agentの状態とtaskMarkingAgentsMapのキーが不一致");
 		}
 	}
 	

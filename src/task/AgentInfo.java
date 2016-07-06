@@ -3,6 +3,7 @@ package task;
 import java.util.ArrayList;
 
 import constant.Constant;
+import exception.AbnormalException;
 import agent.Agent;
 
 public class AgentInfo {
@@ -28,8 +29,7 @@ public class AgentInfo {
 	
 	private void isOverSelectedNum() {
 		if(agents.size() > Constant.SELECT_MEMBER_NUM){
-			System.err.println("subtaskが保持するagentsのリストのサイズが" + Constant.SELECT_MEMBER_NUM + "を超えています");
-			System.exit(-1);
+			throw new AbnormalException("subtaskが保持するagentsのリストのサイズが" + Constant.SELECT_MEMBER_NUM + "を超えています");
 		}
 	}
 	

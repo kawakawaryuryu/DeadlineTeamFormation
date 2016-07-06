@@ -3,6 +3,7 @@ package experiment;
 import strategy.StrategyManager;
 import config.Configuration;
 import constant.Constant;
+import exception.AbnormalException;
 
 public class Experiment {
 
@@ -28,8 +29,7 @@ public class Experiment {
 				StrategyManager.setLearningAndNoLearningStrategy();
 			}
 			else {
-				System.err.println("そのような学習戦略は存在しません");
-				System.exit(-1);
+				throw new AbnormalException("そのような学習戦略は存在しません");
 			}
 		}
 		else if (agentType.equals("Structured")) {
@@ -39,13 +39,11 @@ public class Experiment {
 				StrategyManager.setReciprocalStrategy();
 			}
 			else {
-				System.err.println("そのような学習戦略は存在しません");
-				System.exit(-1);
+				throw new AbnormalException("そのような学習戦略は存在しません");
 			}
 		}
 		else {
-			System.err.println("そのような学習戦略は存在しません");
-			System.exit(-1);
+			throw new AbnormalException("そのような学習戦略は存在しません");
 		}
 	}
 	
@@ -57,8 +55,7 @@ public class Experiment {
 			StrategyManager.setNoEstimationStrategy();
 		}
 		else {
-			System.err.println("そのような見積もり戦略は存在しません");
-			System.exit(-1);
+			throw new AbnormalException("そのような見積もり戦略は存在しません");
 		}
 	}
 	
@@ -70,8 +67,7 @@ public class Experiment {
 			Constant.setLearnRateWhenNoLearning();
 		}
 		else {
-			System.err.println("そのような学習戦略は存在しません");
-			System.exit(-1);
+			throw new AbnormalException("そのような学習戦略は存在しません");
 		}
 	}
 }

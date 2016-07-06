@@ -13,6 +13,7 @@ import strategy.StrategyManager;
 import strategy.roleselection.RoleSelectionStrategy;
 import log.Log;
 import constant.Constant;
+import exception.AbnormalException;
 import agent.Agent;
 
 public class RoleSelectionState implements State {
@@ -70,9 +71,7 @@ public class RoleSelectionState implements State {
 			return FutureRole.MEMBER_FUTURE;
 		}
 		else{
-			System.err.println("リーダにもメンバにもなれません");
-			System.exit(-1);
-			return null;
+			throw new AbnormalException("リーダにもメンバにもなれません");
 		}
 	}
 

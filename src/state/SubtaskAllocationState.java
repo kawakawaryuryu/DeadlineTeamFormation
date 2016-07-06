@@ -2,6 +2,7 @@ package state;
 
 import java.util.ArrayList;
 
+import exception.AbnormalException;
 import role.Role;
 import strategy.StrategyManager;
 import strategy.subtaskallocation.SubtaskAllocationStrategy;
@@ -149,8 +150,7 @@ public class SubtaskAllocationState implements State {
 				Log.log.debugln(agent + " にチーム編成成功メッセージを送信しました");
 			}
 			else{
-				System.err.println("sendTeamFormationMessage: このようなパターンはありません");
-				System.exit(-1);
+				throw new AbnormalException("sendTeamFormationMessage: このようなパターンはありません");
 			}
 		}
 	}

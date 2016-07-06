@@ -1,5 +1,6 @@
 package strategy.subtaskallocation;
 
+import exception.AbnormalException;
 import random.RandomKey;
 import random.RandomManager;
 import task.Subtask;
@@ -65,8 +66,7 @@ public class RandomSubtaskAllocationStrategy implements
 			}
 			
 			else{
-				System.err.println("メンバ候補の数がありえません");
-				System.exit(-1);
+				throw new AbnormalException("メンバ候補の数がありえません");
 			}
 		}
 		return true;

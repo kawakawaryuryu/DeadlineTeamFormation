@@ -13,6 +13,7 @@ import state.TaskSelectionState;
 import task.Task;
 import team.Team;
 import constant.Constant;
+import exception.AbnormalException;
 import agent.Agent;
 
 public class TeamFormationMeasuredData {
@@ -272,8 +273,7 @@ public class TeamFormationMeasuredData {
 			executeStateAgentNum++;
 		}
 		else {
-			System.err.println("このようなパターンは存在しません");
-			System.exit(-1);
+			throw new AbnormalException("このようなパターンは存在しません");
 		}
 	}
 	

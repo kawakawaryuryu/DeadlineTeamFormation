@@ -5,6 +5,7 @@ import main.agent.AgentFactory;
 import main.model.Model;
 import config.Configuration;
 import constant.Constant;
+import exception.AbnormalException;
 
 public class TeamFormationMain {
 	
@@ -89,9 +90,7 @@ public class TeamFormationMain {
 		} else if (interval > 1) {
 			return turn % interval == 1;
 		} else {
-			System.err.println("intervalの値がありえません");
-			System.exit(-1);
-			return false;
+			throw new AbnormalException("intervalの値がありえません");
 		}
 	}
 	

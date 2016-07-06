@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import constant.Constant;
+import exception.AbnormalException;
 import library.AgentTaskLibrary;
 import random.RandomKey;
 import random.RandomManager;
@@ -139,9 +140,7 @@ public class ReciprocalRoleSelectionStrategy implements RoleSelectionStrategy {
 			memberReward = getExpectedMemberReward(agent, selectedMessage);
 		}
 		else {
-			memberReward = -1;
-			System.err.println("そのような場合は存在しません");
-			System.exit(-1);
+			throw new AbnormalException("そのような場合は存在しません");
 		}
 		return memberReward;
 	}

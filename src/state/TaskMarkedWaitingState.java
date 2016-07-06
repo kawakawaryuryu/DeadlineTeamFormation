@@ -3,6 +3,7 @@ package state;
 import roleaction.RoleAction;
 import roleaction.TentativeMemberSelectionAction;
 import constant.Constant;
+import exception.AbnormalException;
 import agent.Agent;
 
 public class TaskMarkedWaitingState implements State {
@@ -28,8 +29,7 @@ public class TaskMarkedWaitingState implements State {
 		}
 		
 		else{
-			System.err.println("TaskMarkedWaitingStateでこのようなパターンはありえません");
-			System.exit(-1);
+			throw new AbnormalException("TaskMarkedWaitingStateでこのようなパターンはありえません");
 		}
 	}
 	

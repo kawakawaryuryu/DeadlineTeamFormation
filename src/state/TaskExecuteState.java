@@ -1,5 +1,6 @@
 package state;
 
+import exception.AbnormalException;
 import log.Log;
 import task.Subtask;
 import agent.Agent;
@@ -26,8 +27,7 @@ public class TaskExecuteState implements State {
 			Log.log.debugln("チームの処理が終了しました");
 		}
 		else{
-			System.err.println("TaskExecuteStateでこのようなパターンはありえません");
-			System.exit(-1);
+			throw new AbnormalException("TaskExecuteStateでこのようなパターンはありえません");
 		}
 
 	}

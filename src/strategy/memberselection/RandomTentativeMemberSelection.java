@@ -11,6 +11,7 @@ import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.OfferMessage;
 import constant.Constant;
+import exception.AbnormalException;
 import agent.Agent;
 
 public class RandomTentativeMemberSelection implements
@@ -57,8 +58,7 @@ public class RandomTentativeMemberSelection implements
 			Task task, ArrayList<Agent> selectedAgents,
 			Agent[] sortedAgents) {
 		if(sortedAgents != null){
-			System.err.println("sotedAgentsはnullではありません");
-			System.exit(-1);
+			throw new AbnormalException("sotedAgentsはnullではありません");
 		}
 		
 		for(Subtask subtask : task.subtasksByMembers){
@@ -71,8 +71,7 @@ public class RandomTentativeMemberSelection implements
 				
 				// デッドラインまでに処理できるエージェントがいなければ
 				if(canExecuteSubTaskAgents.isEmpty()){
-					System.err.println("RandomTentativeMemberSelectionでこのようなパターンはありえません");
-					System.exit(-1);
+					throw new AbnormalException("RandomTentativeMemberSelectionでこのようなパターンはありえません");
 				}
 
 				// εの確率でランダムにエージェントを選ぶ

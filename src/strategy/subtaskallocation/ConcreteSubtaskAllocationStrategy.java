@@ -9,6 +9,7 @@ import task.Subtask;
 import library.AgentTaskLibrary;
 import log.Log;
 import constant.Constant;
+import exception.AbnormalException;
 import agent.Agent;
 
 public class ConcreteSubtaskAllocationStrategy implements
@@ -72,8 +73,7 @@ public class ConcreteSubtaskAllocationStrategy implements
 			}
 			
 			else{
-				System.err.println("メンバ候補の数がありえません");
-				System.exit(-1);
+				throw new AbnormalException("メンバ候補の数がありえません");
 			}
 		}
 		

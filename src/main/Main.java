@@ -101,6 +101,12 @@ public class Main {
 
 			if(Configuration.MAIL_SENT) mail.send(subject, msg);
 
+		} catch(AbnormalException e) {
+			System.err.println(e.getError());
+			String subject = "エラー報告";
+			String msg = e.getError();
+			mail.send(subject, msg);
+
 		} catch(ParentException e) {
 			System.err.println(e.getError());
 			String subject = "エラー報告";
