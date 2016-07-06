@@ -3,6 +3,7 @@ package agent.leader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import exception.AbnormalException;
 import task.Subtask;
 import agent.Agent;
 
@@ -40,8 +41,7 @@ public class LeaderField {
 			memberSubtaskMap.put(member, new ArrayList<Subtask>());
 		}
 		else{
-			System.err.println("すでに " + member + " が格納されています");
-			System.exit(-1);
+			throw new AbnormalException("すでに " + member + " が格納されています");
 		}
 	}
 	

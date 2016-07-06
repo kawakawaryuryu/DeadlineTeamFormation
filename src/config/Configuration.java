@@ -3,6 +3,7 @@ package config;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import exception.AbnormalException;
 import log.Log;
 import log.logger.Type;
 import main.agent.AgentFactory;
@@ -92,8 +93,7 @@ public class Configuration {
 			factory = new StructuredAgentFactory();
 		}
 		else {
-			System.err.println("そのようなAgentFactoryは存在しません");
-			System.exit(-1);
+			throw new AbnormalException("そのようなAgentFactoryは存在しません");
 		}
 	}
 
