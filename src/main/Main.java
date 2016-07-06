@@ -139,7 +139,6 @@ public class Main {
 			FileWriteManager.writeBodyOfAgentsNum(InstanceManager.getInstance().getMeasure());
 			FileWriteManager.writeOtherData(InstanceManager.getInstance().getMeasure());
 		} catch(IOException e) {
-			e.printStackTrace();
 			throw new ParentException(e);
 		}
 	}

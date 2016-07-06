@@ -11,6 +11,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.PasswordAuthentication;
 
 import config.Configuration;
+import exception.ParentException;
 
 public class MailSend {
 
@@ -45,7 +46,7 @@ public class MailSend {
 			
 			Transport.send(message);
 		} catch(MessagingException e) {
-			e.printStackTrace();
+			throw new ParentException(e);
 		}
 		
 	}
