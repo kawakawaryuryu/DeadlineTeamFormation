@@ -116,14 +116,14 @@ public class Main {
 		} catch(RuntimeException e) {
 			System.err.println(e.toString());
 			for (StackTraceElement el : e.getStackTrace()) {
-				System.err.println(el);
+				System.err.println("\t" + el);
 			}
 
 			String subject = "エラー報告";
 			StringBuilder msg = new StringBuilder();
 			msg.append(e.toString() + "\n");
 			for (StackTraceElement el : e.getStackTrace()) {
-				msg.append(el + "\n");
+				msg.append("\t" + el + "\n");
 			}
 
 			mail.send(subject, msg.toString());

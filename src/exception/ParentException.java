@@ -32,7 +32,7 @@ public class ParentException extends RuntimeException {
 		error.append(this.parentEx);
 		error.append("\n");
 		for (StackTraceElement el : this.parentEx.getStackTrace()) {
-			error.append(el + "\n");
+			error.append("\t" + el + "\n");
 		}
 		return error.toString();
 	}
@@ -42,7 +42,7 @@ public class ParentException extends RuntimeException {
 		error.append(this);
 		error.append("\n");
 		for (StackTraceElement el : this.getStackTrace()) {
-			error.append(el + "\n");
+			error.append("\t" + el + "\n");
 		}
 		return error.toString();
 	}
