@@ -677,10 +677,10 @@ public class FileWriteManager {
 	}
 
 	public static PrintWriter writeHeaderOfTrustLeaders(ArrayList<Agent> agents) throws IOException {
-		makeDirectory("trustLeaders", "");
+		makeDirectory("trustLeaders", "/agent");
 
 		String file = "trustLeaders_" + fileName + ".csv";
-		PrintWriter pw = getPrintWriter("trustLeaders", "", file);
+		PrintWriter pw = getPrintWriter("trustLeaders", "/agent", file);
 
 		pw.print("経過ターン");
 		for (int i = 0; i < agents.size(); i++) {
@@ -697,20 +697,57 @@ public class FileWriteManager {
 
 	public static void writeBodyOfTrustLeaders(PrintWriter pw, int turn, ArrayList<Agent> agents) throws IOException {
 		// 信頼エージェントを保持しているエージェント数
-		int haved = 0;
+		int having = 0;
 
 		pw.print(turn);
 		for (int i = 0; i < agents.size(); i++) {
 			pw.print(",");
 			StructuredAgentParameter parameter = (StructuredAgentParameter)agents.get(i).getParameter();
 			for (Agent agent : parameter.getTrustLeaders()) {
-				pw.print(agent + "  ");
+				pw.print(agent.getId() + "  ");
 			}
-			if(parameter.getTrustLeaders().size() > 0) haved++;
+			if(parameter.getTrustLeaders().size() > 0) having++;
 		}
 		pw.print(",");
 		pw.print(",");
-		pw.print(haved);
+		pw.print(having);
+
+		pw.println();
+	}
+
+	public static PrintWriter writeHeaderOfTrustLeadersNum(ArrayList<Agent> agents) throws IOException {
+		makeDirectory("trustLeaders", "/num");
+
+		String file = "trustLeadersNum_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("trustLeaders", "/num", file);
+
+		pw.print("経過ターン");
+		for (int i = 0; i < agents.size(); i++) {
+			pw.print(",");
+			pw.print(agents.get(i));
+		}
+		pw.print(",");
+		pw.print(",");
+		pw.print("信頼エージェントを保持しているエージェント数");
+		pw.println();
+
+		return pw;
+	}
+
+	public static void writeBodyOfTrustLeadersNum(PrintWriter pw, int turn, ArrayList<Agent> agents) throws IOException {
+		// 信頼エージェントを保持しているエージェント数
+		int having = 0;
+
+		pw.print(turn);
+		for (int i = 0; i < agents.size(); i++) {
+			pw.print(",");
+			StructuredAgentParameter parameter = (StructuredAgentParameter)agents.get(i).getParameter();
+			pw.print(parameter.getTrustLeaders().size());
+			if(parameter.getTrustLeaders().size() > 0) having++;
+		}
+		pw.print(",");
+		pw.print(",");
+		pw.print(having);
 
 		pw.println();
 	}

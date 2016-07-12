@@ -27,6 +27,9 @@ public class TeamFormationFileManager {
 	// 信頼エージェントリスト書き込み用PrintWriterインスタンスを取得
 	PrintWriter trustLeadersWriter;
 
+	// 信頼エージェントリストの保持数書き込み用PrintWriterインスタンスを取得
+	PrintWriter trustLeadersNumWriter;
+
 	// チームリソース書き込み用PrintWriterインスタンスを取得
 	PrintWriter teamResourceWriter;
 	
@@ -37,6 +40,8 @@ public class TeamFormationFileManager {
 			taskQueueWriter = getTaskQueueWriter(experimentNumber);
 			trustLeadersWriter
 				= getTrustLeadersWriter(experimentNumber, TeamFormationInstances.getInstance().getParameter().getAgents());
+			trustLeadersNumWriter
+				= getTrustLeadersNumWriter(experimentNumber, TeamFormationInstances.getInstance().getParameter().getAgents());
 			teamResourceWriter
 				= getTeamResourceWriter(experimentNumber, TeamFormationInstances.getInstance().getParameter().getAgents());
 		} catch (IOException e) {
@@ -71,6 +76,9 @@ public class TeamFormationFileManager {
 				// 信頼エージェントリストの書き込み
 				writeTrustLeaders(experimentNumber, turn, trustLeadersWriter, TeamFormationInstances.getInstance().getParameter().getAgents());
 
+				// 信頼エージェントリストのエージェント保持数の書き込み
+				writeTrustLeadersNum(experimentNumber, turn, trustLeadersNumWriter, TeamFormationInstances.getInstance().getParameter().getAgents());
+
 				// チームリソースの書き込み
 				writeTeamResource(experimentNumber, turn, teamResourceWriter, TeamFormationInstances.getInstance().getParameter().getAgents());
 			}
@@ -102,6 +110,9 @@ public class TeamFormationFileManager {
 
 			// trustLeadersWriterをclose
 			closeTrustLeaderWrite(experimentNumber, trustLeadersWriter, agents.get(0));
+
+			// trustLeadersNumWriterをclose
+			closeTrustLeaderNumWrite(experimentNumber, trustLeadersNumWriter, agents.get(0));
 
 			// teamResourceWriterをclose
 			closeTeamResourceWrite(experimentNumber, teamResourceWriter);
@@ -200,6 +211,37 @@ public class TeamFormationFileManager {
 		if (experimentNumber == 1) {
 			if (agent instanceof StructuredAgent) {
 				trustLeadersWriter.close();
+			}
+		}
+	}
+
+	private PrintWriter getTrustLeadersNumWriter(int experimentNumber, ArrayList<Agent> agents) throws IOException {
+		if (experimentNumber == 1) {
+			if (agents.get(0) instanceof StructuredAgent) {
+				return FileWriteManager.writeHeaderOfTrustLeadersNum(agents);
+			}
+			else {
+				return null;
+			}
+		}
+		else {
+			return null;
+		}
+	}
+
+	private void writeTrustLeadersNum(int experimentNumber, int turn, PrintWriter trustLeadersNumWriter, ArrayList<Agent> agents)
+			throws IOException {
+		if (experimentNumber == 1) {
+			if (agents.get(0) instanceof StructuredAgent) {
+				FileWriteManager.writeBodyOfTrustLeadersNum(trustLeadersNumWriter, turn, agents);
+			}
+		}
+	}
+
+	private void closeTrustLeaderNumWrite(int experimentNumber, PrintWriter trustLeadersNumWriter, Agent agent) {
+		if (experimentNumber == 1) {
+			if (agent instanceof StructuredAgent) {
+				trustLeadersNumWriter.close();
 			}
 		}
 	}
