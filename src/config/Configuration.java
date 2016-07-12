@@ -1,9 +1,13 @@
 package config;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import exception.AbnormalException;
+import exception.ParentException;
 import log.Log;
 import log.logger.Type;
 import main.agent.AgentFactory;
@@ -50,11 +54,11 @@ public class Configuration {
 	
 	// Mail
 	public static final boolean MAIL_SENT = true;
-	public static final String MAIL_HOST = "smtp.gmail.com";
-	public static final String MAIL_FROM = "kawakawaryuryu@gmail.com";
-	public static final String MAIL_TO = "ryu-kawakawa.0216@ezweb.ne.jp";
-	public static final String MAIL_USER = "kawakawaryuryu";
-	public static final String MAIL_PASS = "ryu-5216";
+	public static String MAIL_HOST;
+	public static String MAIL_FROM;
+	public static String MAIL_TO;
+	public static String MAIL_USER;
+	public static String MAIL_PASS;
 
 	
 	public static void setDateTime() {
@@ -82,6 +86,22 @@ public class Configuration {
 		}
 		else {
 			Log.setLogInstance(Type.NOLOG, LOG_PATH);
+		}
+	}
+
+	public static void readProperties() {
+		Properties prop = new Properties();
+		String file = "config.properties";
+		try {
+			prop.load(new FileInputStream(file));
+
+			MAIL_HOST = prop.getProperty("host");
+			MAIL_FROM = prop.getProperty("from");
+			MAIL_TO = prop.getProperty("to");
+			MAIL_USER = prop.getProperty("user");
+			MAIL_PASS = prop.getProperty("pass");
+		} catch(IOException e) {
+			throw new ParentException(e);
 		}
 	}
 

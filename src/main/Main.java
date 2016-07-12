@@ -44,6 +44,7 @@ public class Main {
 			FileWriteManager.set();
 			VisualFileWriter.set();
 			Experiment.set();
+			Configuration.readProperties();
 			Configuration.setAgentFactory();
 
 
