@@ -24,6 +24,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 
+		Configuration.readProperties();
 		MailSend mail = new MailSend();
 
 		try {
@@ -44,7 +45,6 @@ public class Main {
 			FileWriteManager.set();
 			VisualFileWriter.set();
 			Experiment.set();
-			Configuration.readProperties();
 			Configuration.setAgentFactory();
 
 

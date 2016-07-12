@@ -101,7 +101,8 @@ public class Configuration {
 			MAIL_USER = prop.getProperty("user");
 			MAIL_PASS = prop.getProperty("pass");
 		} catch(IOException e) {
-			throw new ParentException(e);
+			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 
