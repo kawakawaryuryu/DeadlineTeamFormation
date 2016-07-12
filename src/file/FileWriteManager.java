@@ -772,6 +772,8 @@ public class FileWriteManager {
 			pw.print(measure.executeStateAgentNumPerTurn[i] / (double)Constant.EXPERIMENT_NUM);
 			pw.println();
 		}
+
+		pw.close();
 	}
 
 	/**
