@@ -7,7 +7,7 @@ compile() {
 			[[ $file = */test ]] && continue 
 			compile $file
 		elif [ -f $file ]; then
-			[[ $file = *.java ]] && javac -classpath bin -d bin $file
+			[[ $file = *.java ]] && javac -classpath 'bin' -d 'bin' $file
 		fi
 	done
 }
