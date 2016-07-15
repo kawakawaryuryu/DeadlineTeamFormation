@@ -90,7 +90,7 @@ public class Configuration {
 
 	public static void readProperties() {
 		Properties prop = new Properties();
-		String file = "config.properties";
+		String file = "properties/config.properties";
 		try {
 			prop.load(new FileInputStream(file));
 
