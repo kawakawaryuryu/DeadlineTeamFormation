@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Random;
 
+import exception.ParentException;
+
 public class RandomManager {
 	private static final int RANDOM_ARRAY_SIZE = 50;
 	private static HashMap<RandomKey, Random> randomMap = new HashMap<RandomKey, Random>();
@@ -51,7 +53,7 @@ public class RandomManager {
 			}
 			br.close();
 		} catch(IOException e) {
-			e.printStackTrace();
+			throw new ParentException(e);
 		}
 	}
 	

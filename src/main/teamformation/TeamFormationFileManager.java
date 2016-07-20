@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import constant.Constant;
 import agent.Agent;
 import agent.StructuredAgent;
+import exception.ParentException;
 import file.FileWriteManager;
 import file.VisualFileWriter;
 
@@ -39,7 +40,7 @@ public class TeamFormationFileManager {
 			teamResourceWriter
 				= getTeamResourceWriter(experimentNumber, TeamFormationInstances.getInstance().getParameter().getAgents());
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new ParentException(e);
 		}
 
 	}
@@ -75,7 +76,7 @@ public class TeamFormationFileManager {
 			}
 
 		} catch(IOException e) {
-			e.printStackTrace();
+			throw new ParentException(e);
 		}
 	}
 	
@@ -87,7 +88,7 @@ public class TeamFormationFileManager {
 			// チーム編成1回のみに必要なデータを計測
 			writeMeasuredData(TeamFormationInstances.getInstance().getParameter().getAgents(), experimentNumber);
 		} catch(IOException e) {
-			e.printStackTrace();
+			throw new ParentException(e);
 		}
 	}
 	
@@ -105,7 +106,7 @@ public class TeamFormationFileManager {
 			// teamResourceWriterをclose
 			closeTeamResourceWrite(experimentNumber, teamResourceWriter);
 		} catch(IOException e) {
-			e.printStackTrace();
+			throw new ParentException(e);
 		}
 	}
 	
