@@ -10,14 +10,9 @@ public class FileLogger extends Logger {
 
 	private PrintWriter pw;
 	
-	public FileLogger(String path) {
-		try {
-			File file = new File(path);
-			pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
-		} catch(IOException e) {
-			e.printStackTrace();
-			System.exit(-1);
-		}
+	public FileLogger(String path) throws IOException {
+		File file = new File(path);
+		pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 	}
 
 
