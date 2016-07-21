@@ -17,15 +17,14 @@ import experiment.Experiment;
 
 public class Main {
 	static long start = System.currentTimeMillis();	//実行スタート時間
-	
-	
+
+
 	private static RandomManager random = new RandomManager();
-	
-	
+
+
 	public static void main(String[] args) {
 
-		Configuration.readProperties();
-		MailSend mail = new MailSend();
+		MailSend mail;
 
 		try {
 
@@ -46,6 +45,7 @@ public class Main {
 			VisualFileWriter.set();
 			Experiment.set();
 			Configuration.setAgentFactory();
+			Configuration.readProperties();
 
 
 			// チーム編成可視化の閾値のセット
@@ -100,18 +100,23 @@ public class Main {
 					+ "Estimation: " + Configuration.ESTIMATION + "\n"
 					+ "Executed Time: " + hour + "時間" + minute + "分" + second + "秒" + "\n";
 
+			mail = new MailSend();
 			if(Configuration.MAIL_SENT) mail.send(subject, msg);
 
 		} catch(AbnormalException e) {
 			System.err.println(e.getError());
 			String subject = "エラー報告";
 			String msg = e.getError();
+
+			mail = new MailSend();
 			mail.send(subject, msg);
 
 		} catch(ParentException e) {
 			System.err.println(e.getError());
 			String subject = "エラー報告";
 			String msg = e.getError();
+
+			mail = new MailSend();
 			mail.send(subject, msg);
 
 		} catch(RuntimeException e) {
@@ -127,11 +132,12 @@ public class Main {
 				msg.append("\t" + el + "\n");
 			}
 
+			mail = new MailSend();
 			mail.send(subject, msg.toString());
 		}
 
 	}
-	
+
 	private static void writeMeasuredData(String learning, String estimation, String agentType) {
 		try {
 			FileWriteManager.fileExplain(learning, estimation);
