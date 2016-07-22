@@ -110,6 +110,11 @@ public class StructuredAgent extends Agent {
 		}
 	}
 
+	public void decreaseTrustToLeader(Agent you) {
+		trustToLeader[you.id] -= Constant.TRUST_DECREMENT_VALUE;
+		if (trustToLeader[you.id] < 0) trustToLeader[you.id] = 0.0;
+	}
+
 	public double getTrustToLeader(Agent you) {
 		return trustToLeader[you.id];
 	}

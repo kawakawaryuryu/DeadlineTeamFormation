@@ -36,6 +36,7 @@ public class Constant {
 	public static final double INITIAL_TRUST_TO_MEMBER = 0.5;	//提案受託期待度の初期値
 	public static final double INITIAL_EXPECTED_REWARD = 1.0;	//報酬期待度の初期値
 	public static final double INITIAL_TRUST_TO_LEADER = 0.5;
+	public static final double TRUST_DECREMENT_VALUE = 0.00001;	// 信頼度の減少値（フェロモンモデル）
 	public static double LEARN_RATE_GREEDY;	//欲張り度の学習率
 	public static double LEARN_RATE_TRUST_TO_MEMBER;	//提案受託期待度の学習率
 	public static double LEARN_RATE_REWARD;	//報酬期待度の学習率

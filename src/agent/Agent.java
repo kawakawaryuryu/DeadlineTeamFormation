@@ -79,6 +79,11 @@ public abstract class Agent {
 		return greedy;
 	}
 
+	public void decreaseTrustToMember(Agent you) {
+		trustToMember[you.id] -= Constant.TRUST_DECREMENT_VALUE;
+		if (trustToMember[you.id] < 0) trustToMember[you.id] = 0.0;
+	}
+
 	public double getTrustToMember(Agent you) {
 		return trustToMember[you.id];
 	}
