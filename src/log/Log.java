@@ -1,5 +1,8 @@
 package log;
 
+import java.io.IOException;
+
+import exception.ParentException;
 import log.logger.FileLogger;
 import log.logger.Logger;
 import log.logger.NoLogger;
@@ -14,7 +17,11 @@ public class Log {
 
 	public Log(Type type, String path) {
 		if (type == Type.FILE_DEBUG) {
-			logger = new FileLogger(path);
+			try{
+				logger = new FileLogger(path);
+			} catch(IOException e) {
+				throw new ParentException(e);
+			}
 		}
 		else if (type == Type.STD_DEBUG) {
 			logger = new StdLogger();
