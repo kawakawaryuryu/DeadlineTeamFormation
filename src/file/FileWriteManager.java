@@ -125,6 +125,7 @@ public class FileWriteManager {
 		pw.println("リーダに対する信頼度の学習率" + "," + Constant.LEARN_RATE_TRUST_TO_LEADER);
 		pw.println("信頼エージェントの閾値" + "," + Constant.TRUST_LEADER_THREASHOLD);
 		pw.println("信頼エージェントの保持上限数" + "," + Constant.TRUST_LEADER_LIMIT);
+		pw.println("1tickごとに減少させていく信頼度の値" + "," + Constant.TRUST_DECREMENT_VALUE);
 		pw.println("チーム履歴を保持する数" + "," + Constant.PAST_TEAM_NUM);
 		pw.println("タスクの中のサブタスク数" + "," + Constant.SUBTASK_IN_TASK_INIT + "　~　" + (Constant.SUBTASK_IN_TASK_INIT + Constant.SUBTASK_IN_TASK_NUM - 1));
 		pw.println("エージェントのリソース" + "," + Constant.AGENT_ABILITY_INIT + "　~　" + (Constant.AGENT_ABILITY_INIT + Constant.AGENT_ABILITY_MAX - 1));
