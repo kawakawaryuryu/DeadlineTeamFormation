@@ -59,6 +59,9 @@ public class Configuration {
 	public static String MAIL_USER;
 	public static String MAIL_PASS;
 
+	// slack
+	public static final boolean SLACK_SENT = true;
+
 	
 	public static void setDateTime() {
 		Date date = new Date();

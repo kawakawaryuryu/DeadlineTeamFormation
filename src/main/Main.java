@@ -5,6 +5,7 @@ import java.io.IOException;
 import random.RandomManager;
 import log.Log;
 import mail.MailSend;
+import mail.Slack;
 import file.FileWriteManager;
 import file.VisualFileWriter;
 import main.manager.InstanceManager;
@@ -24,7 +25,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		MailSend mail;
+		Slack slack;
 
 		try {
 
@@ -100,24 +101,24 @@ public class Main {
 					+ "Estimation: " + Configuration.ESTIMATION + "\n"
 					+ "Executed Time: " + hour + "時間" + minute + "分" + second + "秒" + "\n";
 
-			mail = new MailSend();
-			if(Configuration.MAIL_SENT) mail.send(subject, msg);
+			slack = new Slack();
+			if(Configuration.SLACK_SENT) slack.notifyToSlack(subject, msg, true);
 
 		} catch(AbnormalException e) {
 			System.err.println(e.getError());
 			String subject = "エラー報告";
 			String msg = e.getError();
 
-			mail = new MailSend();
-			mail.send(subject, msg);
+			slack = new Slack();
+			slack.notifyToSlack(subject, msg, false);
 
 		} catch(ParentException e) {
 			System.err.println(e.getError());
 			String subject = "エラー報告";
 			String msg = e.getError();
 
-			mail = new MailSend();
-			mail.send(subject, msg);
+			slack = new Slack();
+			slack.notifyToSlack(subject, msg, false);
 
 		} catch(RuntimeException e) {
 			System.err.println(e.toString());
@@ -132,8 +133,8 @@ public class Main {
 				msg.append("\t" + el + "\n");
 			}
 
-			mail = new MailSend();
-			mail.send(subject, msg.toString());
+			slack = new Slack();
+			slack.notifyToSlack(subject, msg.toString(), false);
 		}
 
 	}
