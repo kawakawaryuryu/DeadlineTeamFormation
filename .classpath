@@ -7,5 +7,6 @@
 	<classpathentry kind="var" path="EXTERNAL_JAR/log4j-core-2.5.jar"/>
 	<classpathentry kind="var" path="EXTERNAL_JAR/activation.jar"/>
 	<classpathentry kind="var" path="EXTERNAL_JAR/mail.jar"/>
+	<classpathentry kind="var" path="EXTERNAL_JAR/jsonic-1.3.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
