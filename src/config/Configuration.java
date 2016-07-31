@@ -93,7 +93,7 @@ public class Configuration {
 
 	public static void readProperties() {
 		Properties prop = new Properties();
-		String file = "properties/config.properties";
+		String file = "properties/mail.properties";
 		try {
 			prop.load(new FileInputStream(file));
 
