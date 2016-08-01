@@ -102,7 +102,7 @@ public class Slack {
 
             // POSTレスポンス
             BufferedReader reader =  new BufferedReader(new InputStreamReader(con.getInputStream()));
-            if (reader.lines().findFirst().get() == "OK") {
+            if (reader.lines().findFirst().get() != "OK") {
             	throw new Exception("Response is not correct from Slack");
             }
 
