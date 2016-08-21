@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import random.RandomManager;
 import log.Log;
-import mail.MailSend;
 import mail.Slack;
 import file.FileWriteManager;
 import file.VisualFileWriter;
@@ -41,6 +40,7 @@ public class Main {
 			//
 			//--------------------------------------------
 			Configuration.setParameters(args);
+			Configuration.getHeadRevision();
 			Configuration.setDateTime();
 			FileWriteManager.set();
 			VisualFileWriter.set();

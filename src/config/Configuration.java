@@ -1,12 +1,15 @@
 package config;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
 import exception.AbnormalException;
+import exception.ParentException;
 import log.Log;
 import log.logger.Type;
 import main.agent.AgentFactory;
@@ -18,6 +21,9 @@ import main.model.TaskCopy;
 
 
 public class Configuration {
+
+	// Git Revision num
+	public static String REVISION;
 	
 	// Date, Time
 	public static String DATE;
@@ -80,6 +86,21 @@ public class Configuration {
 		METHOD_NAME = args[5];
 
 		LOG_PATH = "log/debug_" + FILE_NUMBER + ".log";
+	}
+
+	public static void getHeadRevision() {
+		try {
+			ProcessBuilder pb = new ProcessBuilder("git", "rev-parse", "HEAD");
+			Process process = pb.start();
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String ret = reader.readLine();
+
+			REVISION = ret.substring(0, 7);
+			reader.close();
+		} catch (IOException e) {
+			throw new ParentException(e);
+		}
 	}
 
 	public static void setLog(int experimentNumber) {

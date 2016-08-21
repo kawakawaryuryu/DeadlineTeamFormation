@@ -44,7 +44,9 @@ public class FileWriteManager {
 		path = Configuration.FILE_PATH;
 		fileNumber = Configuration.FILE_NUMBER;
 
-		path += Configuration.EXPERIMET_TYPE + "/" + Configuration.DATE + "/data/";
+		path += Configuration.EXPERIMET_TYPE + "/" + Configuration.DATE + "/";
+		path += "data_" + Configuration.REVISION + "/";
+
 		fileName = Configuration.TIME + "_" + fileNumber;
 		method = Configuration.METHOD_NAME;
 		agentType = Configuration.AGENT_TYPE;
