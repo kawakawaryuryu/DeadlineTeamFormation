@@ -10,6 +10,11 @@ public class OfferMessage extends Message {
 		super(from, to);
 		this.subtask = subtask;
 	}
+
+	public OfferMessage(Agent from, Agent to, int delayTime, Subtask subtask) {
+		super(from, to, delayTime);
+		this.subtask = subtask;
+	}
 	
 	public Subtask getSubtask() {
 		return subtask;

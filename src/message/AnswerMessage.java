@@ -12,6 +12,12 @@ public class AnswerMessage extends Message {
 		this.isok = isok;
 		this.subtask = subtask;
 	}
+
+	public AnswerMessage(Agent from, Agent to, int delayTime, boolean isok, Subtask subtask) {
+		super(from, to, delayTime);
+		this.isok = isok;
+		this.subtask = subtask;
+	}
 	
 	public boolean getIsOk() {
 		return isok;

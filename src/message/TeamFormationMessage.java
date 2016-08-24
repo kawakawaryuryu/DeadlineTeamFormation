@@ -25,6 +25,11 @@ public class TeamFormationMessage extends Message {
 		this.isok = isok;
 	}
 
+	public TeamFormationMessage(Agent from, Agent to, int delayTime, boolean isok) {
+		super(from, to, delayTime);
+		this.isok = isok;
+	}
+
 	/**
 	 * チーム編成に成功した場合
 	 * @param from
@@ -38,6 +43,16 @@ public class TeamFormationMessage extends Message {
 	public TeamFormationMessage(Agent from, Agent to, boolean isok, ArrayList<Subtask> subtasks, 
 			double leftReward, int leftRequireSum, Team team) {
 		this(from, to, isok);
+		this.subtasks = subtasks;
+		this.leftReward = leftReward;
+		this.leftRequireSum = leftRequireSum;
+		this.team = team;
+		calculateSubtaskRequireSum();
+	}
+
+	public TeamFormationMessage(Agent from, Agent to, int delayTime, boolean isok, ArrayList<Subtask> subtasks, 
+			double leftReward, int leftRequireSum, Team team) {
+		this(from, to, delayTime, isok);
 		this.subtasks = subtasks;
 		this.leftReward = leftReward;
 		this.leftRequireSum = leftRequireSum;
