@@ -5,10 +5,8 @@ import java.util.HashMap;
 import random.RandomKey;
 import random.RandomManager;
 import role.FutureRole;
-import roleaction.BackToInitialStateAction;
-import roleaction.MoveToWaitingAction;
-import roleaction.ParticipatingTeamDecisionAction;
 import roleaction.RoleAction;
+import roleaction.RoleActionManager;
 import strategy.StrategyManager;
 import strategy.roleselection.RoleSelectionStrategy;
 import log.Log;
@@ -23,9 +21,9 @@ public class RoleSelectionState implements State {
 	private HashMap<FutureRole, RoleAction> strategyMap = new HashMap<FutureRole, RoleAction>();
 	
 	private RoleSelectionState() {
-		strategyMap.put(FutureRole.LEADER_FUTURE, new MoveToWaitingAction());
-		strategyMap.put(FutureRole.MEMBER_FUTURE, new ParticipatingTeamDecisionAction());
-		strategyMap.put(FutureRole.NO_ROLE_FUTURE, new BackToInitialStateAction());
+		strategyMap.put(FutureRole.LEADER_FUTURE, RoleActionManager.moveToWaitingAction);
+		strategyMap.put(FutureRole.MEMBER_FUTURE, RoleActionManager.participatingTeamDecisionAction);
+		strategyMap.put(FutureRole.NO_ROLE_FUTURE, RoleActionManager.backToInitialStateAction);
 	}
 
 	@Override
