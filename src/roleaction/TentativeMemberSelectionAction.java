@@ -7,6 +7,7 @@ import strategy.StrategyManager;
 import strategy.memberselection.TentativeMemberSelectionStrategy;
 import task.Failure;
 import team.Team;
+import library.MessageLibrary;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.AnswerMessage;
@@ -39,9 +40,10 @@ public class TentativeMemberSelectionAction implements RoleAction {
 	
 	private void refuseOfferMessages(Agent agent) {
 		for(OfferMessage offer : agent.getParameter().getOfferMessages()){
+			int delayTime = MessageLibrary.getMessageTime(agent, offer.getFrom());
 			Log.log.debugln(offer.getFrom() + "からのメッセージを断ります");
-			TeamFormationInstances.getInstance().getPost().postAnswerMessage(offer.getFrom(), 
-					new AnswerMessage(agent, offer.getFrom(), false, offer.getSubtask()));
+			TeamFormationInstances.getInstance().getPost().postAnswerMessage(offer.getFrom(),
+					new AnswerMessage(agent, offer.getFrom(), delayTime, false, offer.getSubtask()));
 		}
 	}
 	

@@ -9,6 +9,7 @@ import strategy.subtaskallocation.SubtaskAllocationStrategy;
 import task.Failure;
 import task.Subtask;
 import team.Team;
+import library.MessageLibrary;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.AnswerMessage;
@@ -136,9 +137,11 @@ public class SubtaskAllocationState implements State {
 	
 	private void sendTeamFormationMessage(Agent leader, double leftReward, int leftRequireSum) {
 		for(Agent agent : leader.getParameter().getLeaderField().trueAgents){
+			int delayTime = MessageLibrary.getMessageTime(leader, agent);
 			if(!leader.getParameter().getLeaderField().memberSubtaskMap.containsKey(agent) 
 					|| !leader.getParameter().getLeaderField().isTeaming){
-				TeamFormationInstances.getInstance().getPost().postTeamFormationMessage(agent, new TeamFormationMessage(leader, agent, false));
+				TeamFormationInstances.getInstance().getPost().postTeamFormationMessage(agent,
+						new TeamFormationMessage(leader, agent, delayTime, false));
 				Log.log.debugln(agent + " にチーム編成失敗メッセージを送信しました");
 			}
 			else if(leader.getParameter().getLeaderField().memberSubtaskMap.containsKey(agent) 
@@ -146,7 +149,7 @@ public class SubtaskAllocationState implements State {
 				ArrayList<Subtask> subtasks = leader.getParameter().getLeaderField().memberSubtaskMap.get(agent);
 				Team team = leader.getParameter().getParticipatingTeam();
 				TeamFormationInstances.getInstance().getPost().postTeamFormationMessage(agent, 
-						new TeamFormationMessage(leader, agent, true, subtasks, leftReward, leftRequireSum, team));
+						new TeamFormationMessage(leader, agent, delayTime, true, subtasks, leftReward, leftRequireSum, team));
 				Log.log.debugln(agent + " にチーム編成成功メッセージを送信しました");
 			}
 			else{

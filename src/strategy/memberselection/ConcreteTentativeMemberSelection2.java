@@ -7,6 +7,7 @@ import random.RandomManager;
 import task.Subtask;
 import task.Task;
 import library.AgentTaskLibrary;
+import library.MessageLibrary;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.OfferMessage;
@@ -131,7 +132,9 @@ TentativeMemberSelectionStrategy {
 			Agent leader) {
 		for(Subtask subtask : task.subtasksByMembers){
 			for(Agent agent : subtask.getAgentInfo().getSelectedAgents()){
-				TeamFormationInstances.getInstance().getPost().postOfferMessage(agent, new OfferMessage(leader, agent, subtask));
+				int delayTime = MessageLibrary.getMessageTime(leader, agent);
+				TeamFormationInstances.getInstance().getPost().postOfferMessage(agent,
+						new OfferMessage(leader, agent, delayTime, subtask));
 				leader.getParameter().addSendAgents(agent);
 			}
 		}	

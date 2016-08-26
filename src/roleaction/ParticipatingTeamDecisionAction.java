@@ -3,6 +3,7 @@ package roleaction;
 import role.Role;
 import state.SubtaskReceptionState;
 import task.Failure;
+import library.MessageLibrary;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.AnswerMessage;
@@ -27,15 +28,16 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 	
 	private void answerToOfferMessages(Agent agent) {
 		for(OfferMessage offer : agent.getParameter().getOfferMessages()){
+			int delayTime = MessageLibrary.getMessageTime(agent, offer.getFrom());
 			if(agent.getParameter().getSelectedOfferMessage() != offer){
 				Log.log.debugln(offer.getFrom() + " に参加NGメッセージを返信しました");
-				TeamFormationInstances.getInstance().getPost().postAnswerMessage(offer.getFrom(), 
-						new AnswerMessage(agent, offer.getFrom(), false, offer.getSubtask()));
+				TeamFormationInstances.getInstance().getPost().postAnswerMessage(offer.getFrom(),
+						new AnswerMessage(agent, offer.getFrom(), delayTime, false, offer.getSubtask()));
 			}
 			else{
 				Log.log.debugln(offer.getFrom() + " に参加OKメッセージを返信しました");
-				TeamFormationInstances.getInstance().getPost().postAnswerMessage(offer.getFrom(), 
-						new AnswerMessage(agent, offer.getFrom(), true, offer.getSubtask()));
+				TeamFormationInstances.getInstance().getPost().postAnswerMessage(offer.getFrom(),
+						new AnswerMessage(agent, offer.getFrom(), delayTime, true, offer.getSubtask()));
 			}
 		}
 	}
