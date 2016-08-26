@@ -1,8 +1,5 @@
 package main.teamformation;
 
-
-import post.DelayPost;
-import post.Post;
 import agent.Agent;
 import agent.StructuredAgent;
 import log.Log;
@@ -58,9 +55,6 @@ public class TeamFormationMain {
 			// 状態ごとのエージェントマップをシャッフル
 			TeamFormationInstances.getInstance().getParameter().shuffleAgentsMap();
 
-			// メッセージを各エージェントに送る
-			sendMessages();
-
 			// 行動する
 			model.run(Configuration.action);
 
@@ -105,15 +99,6 @@ public class TeamFormationMain {
 			return turn % interval == 1;
 		} else {
 			throw new AbnormalException("intervalの値がありえません");
-		}
-	}
-
-	private static void sendMessages() {
-		Post post = TeamFormationInstances.getInstance().getPost();
-		if (post instanceof DelayPost) {
-			((DelayPost)post).sendOfferMessages();
-			((DelayPost)post).sendAnswerMessages();
-			((DelayPost)post).sendTeamFormationMessages();
 		}
 	}
 

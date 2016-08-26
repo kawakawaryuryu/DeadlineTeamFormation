@@ -9,6 +9,8 @@ import main.TaskMarking;
 import main.agent.AgentFactory;
 import random.RandomKey;
 import random.RandomManager;
+import state.LeaderWaitingState;
+import state.MemberWaitingState;
 import state.State;
 import state.RoleSelectionState;
 import state.SubtaskAllocationState;
@@ -43,6 +45,8 @@ public class TeamFormationParameter {
 		agentsMap.put(RoleSelectionState.getState(), new ArrayList<Agent>());
 		agentsMap.put(SubtaskAllocationState.getState(), new ArrayList<Agent>());
 		agentsMap.put(SubtaskReceptionState.getState(), new ArrayList<Agent>());
+		agentsMap.put(LeaderWaitingState.getState(), new ArrayList<Agent>());
+		agentsMap.put(MemberWaitingState.getState(), new ArrayList<Agent>());
 		agentsMap.put(TaskExecuteState.getState(), new ArrayList<Agent>());
 		agentsMap.put(TaskMarkedWaitingState.getState(), new ArrayList<Agent>());
 	}

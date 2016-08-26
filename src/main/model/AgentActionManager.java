@@ -2,6 +2,8 @@ package main.model;
 
 import log.Log;
 import main.teamformation.TeamFormationInstances;
+import state.LeaderWaitingState;
+import state.MemberWaitingState;
 import state.RoleSelectionState;
 import state.SubtaskAllocationState;
 import state.SubtaskReceptionState;
@@ -52,6 +54,19 @@ public class AgentActionManager {
 		Log.log.debugln();
 		Log.log.debugln("------- メンバ状態のエージェントの行動 -------");
 		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(SubtaskReceptionState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+	}
+
+	public void actionByLeaderOrMemberWaitingAgent() {
+		Log.log.debugln("------- リーダ前待機状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(LeaderWaitingState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+		Log.log.debugln("------- メンバ待機状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(MemberWaitingState.getState())){
 			agent.action();
 		}
 		Log.log.debugln();
