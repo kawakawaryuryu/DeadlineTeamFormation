@@ -24,6 +24,7 @@ public class TeamFormationInstances {
 	public void initialize() {
 		parameter.initialize();
 		measure.initialize();
+		post.initialize();
 	}
 	
 	public TeamFormationParameter getParameter() {

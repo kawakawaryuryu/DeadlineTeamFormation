@@ -23,6 +23,12 @@ public class DelayPost extends Post {
 		teamFormationMessages = new ArrayList<TeamFormationMessage>();
 	}
 
+	public void initialize() {
+		offerMessages.clear();
+		answerMessages.clear();
+		teamFormationMessages.clear();
+	}
+
 	@Override
 	public void postOfferMessage(Agent to, OfferMessage message) {
 		if(message.getDelayTime() == 0) to.getParameter().addOfferMessage(message);
