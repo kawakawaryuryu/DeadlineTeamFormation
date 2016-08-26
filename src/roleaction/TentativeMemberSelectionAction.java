@@ -1,6 +1,8 @@
 package roleaction;
 
 import role.Role;
+import state.LeaderWaitingState;
+import state.StateManager;
 import state.SubtaskAllocationState;
 import state.TaskSelectionState;
 import strategy.StrategyManager;
@@ -49,7 +51,7 @@ public class TentativeMemberSelectionAction implements RoleAction {
 	
 	private void actionInSearchingSuccessCase(Agent agent) {
 		agent.getParameter().setParticipatingTeam(new Team(agent));
-		agent.getParameter().changeState(SubtaskAllocationState.getState());
+		StateManager.changeStateConsideringDelay(agent, SubtaskAllocationState.getState(), LeaderWaitingState.getState());
 		agent.getParameter().changeRole(Role.LEADER);
 	}
 	

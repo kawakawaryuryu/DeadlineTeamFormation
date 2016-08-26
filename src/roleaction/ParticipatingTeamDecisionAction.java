@@ -1,6 +1,8 @@
 package roleaction;
 
 import role.Role;
+import state.MemberWaitingState;
+import state.StateManager;
 import state.SubtaskReceptionState;
 import task.Failure;
 import library.MessageLibrary;
@@ -22,7 +24,7 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 			agent.getParameter().getMarkedTask().markingTask(false, Failure.DECIDE_MEMBER_FAILURE);
 		}
 		
-		agent.getParameter().changeState(SubtaskReceptionState.getState());
+		StateManager.changeStateConsideringDelay(agent, SubtaskReceptionState.getState(), MemberWaitingState.getState());
 		agent.getParameter().changeRole(Role.MEMBER);
 	}
 	
