@@ -45,14 +45,14 @@ public class DelayPost extends Post {
 		Iterator<OfferMessage> it = offerMessages.iterator();
 		while (it.hasNext()) {
 			OfferMessage message = it.next();
+			// 通信時間を+1する
+			message.countDelay();
+
 			// 遅延時間に達したら
 			if (message.getDelayCount() == message.getDelayTime()) {
 				Agent to = message.getTo();
 				to.getParameter().addOfferMessage(message);
 				it.remove();
-			}
-			else {
-				message.countDelay();
 			}
 		}
 	}
@@ -61,14 +61,14 @@ public class DelayPost extends Post {
 		Iterator<AnswerMessage> it = answerMessages.iterator();
 		while (it.hasNext()) {
 			AnswerMessage message = it.next();
+			// 通信時間を+1する
+			message.countDelay();
+
 			// 遅延時間に達したら
 			if (message.getDelayCount() == message.getDelayTime()) {
 				Agent to = message.getTo();
 				to.getParameter().addAnswerMessage(message);
 				it.remove();
-			}
-			else {
-				message.countDelay();
 			}
 		}
 	}
@@ -77,14 +77,14 @@ public class DelayPost extends Post {
 		Iterator<TeamFormationMessage> it = teamFormationMessages.iterator();
 		while (it.hasNext()) {
 			TeamFormationMessage message = it.next();
+			// 通信時間を+1する
+			message.countDelay();
+
 			// 遅延時間に達したら
 			if (message.getDelayCount() == message.getDelayTime()) {
 				Agent to = message.getTo();
 				to.getParameter().setTeamFormationMessage(message);
 				it.remove();
-			}
-			else {
-				message.countDelay();
 			}
 		}
 	}

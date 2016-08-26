@@ -22,6 +22,7 @@ public class Message {
 	}
 
 	public Message(Agent from, Agent to, int delayTime) {
+		this(from, to);
 		this.delayTime = delayTime;
 	}
 	
