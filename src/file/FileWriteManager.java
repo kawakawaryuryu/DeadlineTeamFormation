@@ -136,6 +136,7 @@ public class FileWriteManager {
 		pw.println("1tickに追加する平均タスク数" + "," + Constant.ADD_TASK_PER_TURN);
 		pw.println("タスク追加間隔" + "," + Constant.ADD_TASK_INTERVAL);
 		pw.println("タスクコピーにかかる時間" + "," + Constant.WAIT_TURN);
+		pw.println("通信遅延時間" + "," + Constant.MESSAGE_DELAY);
 		pw.println("ε-greedyのε" + "," + Constant.EPSILON);
 		pw.println("ε-greedyのε（メンバ候補の決定時）" + "," + Constant.EPSILON2);
 		pw.println("1サブタスクごとに送るメッセージ数" + "," + Constant.SELECT_MEMBER_NUM);
