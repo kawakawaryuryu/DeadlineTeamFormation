@@ -6,10 +6,7 @@ import post.Post;
 
 public class MessageDelay implements Model {
 
-	private static Post post;
-
 	public MessageDelay() {
-		post = TeamFormationInstances.getInstance().getPost();
 	}
 
 	@Override
@@ -26,18 +23,21 @@ public class MessageDelay implements Model {
 	}
 
 	private static void sendOfferMessages() {
+		Post post = TeamFormationInstances.getInstance().getPost();
 		if (post instanceof DelayPost) {
 			((DelayPost)post).sendOfferMessages();
 		}
 	}
 
 	private void sendAnswerMessages() {
+		Post post = TeamFormationInstances.getInstance().getPost();
 		if (post instanceof DelayPost) {
 			((DelayPost)post).sendAnswerMessages();
 		}
 	}
 
 	private void sendTeamFormationMessages() {
+		Post post = TeamFormationInstances.getInstance().getPost();
 		if (post instanceof DelayPost) {
 			((DelayPost)post).sendTeamFormationMessages();
 		}
