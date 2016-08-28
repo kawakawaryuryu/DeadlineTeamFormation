@@ -22,6 +22,10 @@ public class MessageDelay implements Model {
 		action.actionByExecuteAgent();
 	}
 
+	public String toString() {
+		return "通信遅延モデル";
+	}
+
 	private static void sendOfferMessages() {
 		Post post = TeamFormationInstances.getInstance().getPost();
 		if (post instanceof DelayPost) {

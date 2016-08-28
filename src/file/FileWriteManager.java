@@ -144,6 +144,7 @@ public class FileWriteManager {
 		pw.println("役割選択の戦略" + "," + roleSelectionStrategy.toString());
 		pw.println("サブタスク割り当ての戦略" + "," + allocationStrategy.toString());
 		pw.println("仮メンバ選択の戦略" + "," + memberSelectionStrategy.toString());
+		pw.println("エージェント行動の流れ（モデル）" + "," + Configuration.model);
 		pw.println("可視化のための閾値を格納する配列要素数" + "," + Constant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM);
 		for(int i = 0; i < Constant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM; i++){
 			pw.println(i + " 番目" + "," + Constant.TEAM_FORMATION_PERCENTAGE_BORDER[i]);

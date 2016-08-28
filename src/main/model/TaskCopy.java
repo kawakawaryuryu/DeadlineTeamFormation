@@ -12,4 +12,8 @@ public class TaskCopy implements Model {
 		action.actionByExecuteAgent();
 	}
 
+	public String toString() {
+		return "タスクコピーモデル";
+	}
+
 }
