@@ -1,6 +1,7 @@
 package strategy.taskselection;
 
 import task.Task;
+import library.DeadlineLibrary;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
 import constant.Constant;
@@ -50,7 +51,7 @@ public class FirstInFirstOutStrategy implements TaskSelectionStrategy {
 			Log.log.debugln("チーム履歴がありませんでした");
 		}
 		
-		if(countTime <= task.getDeadlineInTask() - (Constant.WAIT_TURN + Constant.DEADLINE_MIN_2)){
+		if(countTime <= task.getDeadlineInTask() - (DeadlineLibrary.getReducedDeadlineAtInitialTurn(Constant.MESSAGE_DELAY))){
 			return true;
 		}
 		else{

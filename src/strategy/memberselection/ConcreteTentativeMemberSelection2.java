@@ -7,6 +7,7 @@ import random.RandomManager;
 import task.Subtask;
 import task.Task;
 import library.AgentTaskLibrary;
+import library.DeadlineLibrary;
 import library.MessageLibrary;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
@@ -56,7 +57,7 @@ TentativeMemberSelectionStrategy {
 
 	@Override
 	public void pullExecutedSubtaskByLeader(Agent leader, Task task) {
-		int leftDeadline = task.getDeadlineInTask() - Constant.DEADLINE_MIN_2;
+		int leftDeadline = task.getDeadlineInTask() - DeadlineLibrary.getReducedDeadlineAtFirstTurn(Constant.MESSAGE_DELAY);
 		boolean isAssigned = false;
 
 		for(Subtask subtask : task.getSubTaskList()){

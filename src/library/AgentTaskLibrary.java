@@ -85,7 +85,7 @@ public class AgentTaskLibrary {
 	
 	public static ArrayList<Agent> getAgentsCanExecuteSubtask(Subtask subtask, Agent[] agents) {
 		ArrayList<Agent> agentsCanExecuteSubtask = new ArrayList<Agent>();
-		int taskDeadline = subtask.getDeadline() - Constant.DEADLINE_MIN_2;
+		int taskDeadline = subtask.getDeadline() - DeadlineLibrary.getReducedDeadlineAtFirstTurn(Constant.MESSAGE_DELAY);
 		for(Agent agent : agents){
 			if(isExecuteSubTask(agent, subtask, taskDeadline)){
 				agentsCanExecuteSubtask.add(agent);
@@ -98,7 +98,8 @@ public class AgentTaskLibrary {
 		ArrayList<OfferMessage> canExecuteMessages = new ArrayList<OfferMessage>();
 		/* 処理できる提案メッセージを抽出 */
 		for(OfferMessage message : messages){
-			if(isExecuteSubTask(agent, message.getSubtask(), message.getSubtask().getDeadline() - Constant.DEADLINE_MIN_2)){
+			if(isExecuteSubTask(agent, message.getSubtask(), message.getSubtask().getDeadline()
+					- DeadlineLibrary.getReducedDeadlineAtFirstTurn(Constant.MESSAGE_DELAY))){
 				canExecuteMessages.add(message);
 			}
 		}
