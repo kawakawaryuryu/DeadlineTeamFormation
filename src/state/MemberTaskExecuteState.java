@@ -19,8 +19,7 @@ public class MemberTaskExecuteState implements State {
 		debugExecuteTime(member);
 
 		// 自分がサブタスク実行中
-		if(member.getParameter().getTimerField().getTaskExecuteStateTimer() <= member.getParameter().getExecuteTime() &&
-				member.getParameter().getTimerField().getTaskExecuteStateTimer() != member.getParameter().getParticipatingTeam().getTeamExecuteTime()){
+		if(member.getParameter().getTimerField().getTaskExecuteStateTimer() < member.getParameter().getExecuteTime()){
 			debugExecutedSubtask(member);
 		}
 
