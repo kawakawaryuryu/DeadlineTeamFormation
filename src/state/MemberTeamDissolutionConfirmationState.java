@@ -46,7 +46,7 @@ public class MemberTeamDissolutionConfirmationState implements State {
 	}
 
 	public String toString() {
-		return "メンバチーム解散通知受信状態";
+		return "メンバチーム解散通知確認状態";
 	}
 
 }
