@@ -13,6 +13,7 @@ import random.RandomManager;
 import state.LeaderTaskExecuteState;
 import state.LeaderWaitingState;
 import state.MemberTaskExecuteState;
+import state.MemberTeamDissolutionConfirmationState;
 import state.MemberWaitingState;
 import state.State;
 import state.RoleSelectionState;
@@ -54,6 +55,7 @@ public class TeamFormationParameter {
 		agentsMap.put(TaskMarkedWaitingState.getState(), new ArrayList<Agent>());
 		agentsMap.put(LeaderTaskExecuteState.getState(), new ArrayList<Agent>());
 		agentsMap.put(MemberTaskExecuteState.getState(), new ArrayList<Agent>());
+		agentsMap.put(MemberTeamDissolutionConfirmationState.getState(), new ArrayList<Agent>());
 	}
 	
 	private void initializeTaskMarkingAgentsMap() {

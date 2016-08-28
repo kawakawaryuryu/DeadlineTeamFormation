@@ -5,6 +5,7 @@ import main.teamformation.TeamFormationInstances;
 import state.LeaderTaskExecuteState;
 import state.LeaderWaitingState;
 import state.MemberTaskExecuteState;
+import state.MemberTeamDissolutionConfirmationState;
 import state.MemberWaitingState;
 import state.RoleSelectionState;
 import state.SubtaskAllocationState;
@@ -93,6 +94,14 @@ public class AgentActionManager {
 	public void actionByMemberExecuteAgent() {
 		Log.log.debugln("------- メンバタスク実行状態のエージェントの行動 -------");
 		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(MemberTaskExecuteState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+	}
+
+	public void actionByMemberTeamDissolutionConfirmationAgent() {
+		Log.log.debugln("------- メンバチーム解散通知確認状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(MemberTeamDissolutionConfirmationState.getState())){
 			agent.action();
 		}
 		Log.log.debugln();

@@ -18,9 +18,6 @@ public class MemberTaskExecuteState implements State {
 		member.getParameter().getTimerField().countTaskExecuteStateTimer();
 		debugExecuteTime(member);
 
-		// リーダからのチーム解散通知確認
-		boolean disolved = hasTeamDissolutionMessage(member);
-
 		// 自分がサブタスク実行中
 		if(member.getParameter().getTimerField().getTaskExecuteStateTimer() <= member.getParameter().getExecuteTime() &&
 				member.getParameter().getTimerField().getTaskExecuteStateTimer() != member.getParameter().getParticipatingTeam().getTeamExecuteTime()){
@@ -34,16 +31,18 @@ public class MemberTaskExecuteState implements State {
 			Log.log.debugln("サブタスクの処理が完了しました");
 		}
 
-		// チーム解散の通知が来た
-		else if(member.getParameter().getExecuteTime() < member.getParameter().getTimerField().getTaskExecuteStateTimer() &&
-				disolved){
-			member.getParameter().changeState(TaskSelectionState.getState());
-			Log.log.debugln("チームの処理が終了しました");
+		// チーム解散の通知待ち
+		else if(member.getParameter().getExecuteTime() < member.getParameter().getTimerField().getTaskExecuteStateTimer()){
+			// ここでは何もしない
+			Log.log.debugln("チーム解散通知待ちです");
 		}
 
 		else{
 			throw new AbnormalException("MemberTaskExecuteStateでこのようなパターンはありえません");
 		}
+
+		// チーム解散通知受信状態に移行できるようにエージェントマップに追加
+		TeamFormationInstances.getInstance().getParameter().addAgentToAgentsMap(MemberTeamDissolutionConfirmationState.getState(), member);
 	}
 
 	public static State getState() {
@@ -52,16 +51,6 @@ public class MemberTaskExecuteState implements State {
 
 	public String toString() {
 		return "メンバタスク実行状態";
-	}
-
-	/**
-	 * チーム解散メッセージを受け取ったか確認
-	 * @param member
-	 * @return
-	 */
-	private boolean hasTeamDissolutionMessage(Agent member) {
-		if(member.getParameter().getTeamDissolutionMessage() != null) return true;
-		else return false;
 	}
 
 	private void sendSubtaskDoneMessage(Agent member) {

@@ -21,8 +21,9 @@ public class MessageDelay implements Model {
 		action.actionByLeaderOrMemberAgent();
 		sendSubtaskDoneMessages();
 		sendTeamDissolutionMessages();
-		action.actionByLeaderExecuteAgent();
 		action.actionByMemberExecuteAgent();
+		action.actionByLeaderExecuteAgent();
+		action.actionByMemberTeamDissolutionConfirmationAgent();
 	}
 
 	public String toString() {
