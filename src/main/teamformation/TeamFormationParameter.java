@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import library.DeadlineLibrary;
 import log.Log;
 import main.TaskMarking;
 import main.agent.AgentFactory;
 import random.RandomKey;
 import random.RandomManager;
+import state.LeaderTaskExecuteState;
 import state.LeaderWaitingState;
+import state.MemberTaskExecuteState;
 import state.MemberWaitingState;
 import state.State;
 import state.RoleSelectionState;
@@ -49,6 +52,8 @@ public class TeamFormationParameter {
 		agentsMap.put(MemberWaitingState.getState(), new ArrayList<Agent>());
 		agentsMap.put(TaskExecuteState.getState(), new ArrayList<Agent>());
 		agentsMap.put(TaskMarkedWaitingState.getState(), new ArrayList<Agent>());
+		agentsMap.put(LeaderTaskExecuteState.getState(), new ArrayList<Agent>());
+		agentsMap.put(MemberTaskExecuteState.getState(), new ArrayList<Agent>());
 	}
 	
 	private void initializeTaskMarkingAgentsMap() {

@@ -19,14 +19,17 @@ public class MessageDelay implements Model {
 		action.actionByRoleSelectionAgent();
 		action.actionByLeaderOrMemberWaitingAgent();
 		action.actionByLeaderOrMemberAgent();
-		action.actionByExecuteAgent();
+		sendSubtaskDoneMessages();
+		sendTeamDissolutionMessages();
+		action.actionByLeaderExecuteAgent();
+		action.actionByMemberExecuteAgent();
 	}
 
 	public String toString() {
 		return "通信遅延モデル";
 	}
 
-	private static void sendOfferMessages() {
+	private void sendOfferMessages() {
 		Post post = TeamFormationInstances.getInstance().getPost();
 		if (post instanceof DelayPost) {
 			((DelayPost)post).sendOfferMessages();
@@ -44,6 +47,20 @@ public class MessageDelay implements Model {
 		Post post = TeamFormationInstances.getInstance().getPost();
 		if (post instanceof DelayPost) {
 			((DelayPost)post).sendTeamFormationMessages();
+		}
+	}
+
+	private void sendSubtaskDoneMessages() {
+		Post post = TeamFormationInstances.getInstance().getPost();
+		if (post instanceof DelayPost) {
+			((DelayPost)post).sendSubtaskDoneMessages();
+		}
+	}
+
+	private void sendTeamDissolutionMessages() {
+		Post post = TeamFormationInstances.getInstance().getPost();
+		if (post instanceof DelayPost) {
+			((DelayPost)post).sendTeamDissolutionMessages();
 		}
 	}
 }

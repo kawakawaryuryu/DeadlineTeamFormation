@@ -2,7 +2,9 @@ package main.model;
 
 import log.Log;
 import main.teamformation.TeamFormationInstances;
+import state.LeaderTaskExecuteState;
 import state.LeaderWaitingState;
+import state.MemberTaskExecuteState;
 import state.MemberWaitingState;
 import state.RoleSelectionState;
 import state.SubtaskAllocationState;
@@ -75,6 +77,22 @@ public class AgentActionManager {
 	public void actionByExecuteAgent() {
 		Log.log.debugln("------- タスク実行状態のエージェントの行動 -------");
 		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(TaskExecuteState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+	}
+
+	public void actionByLeaderExecuteAgent() {
+		Log.log.debugln("------- リーダタスク実行状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(LeaderTaskExecuteState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+	}
+
+	public void actionByMemberExecuteAgent() {
+		Log.log.debugln("------- メンバタスク実行状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(MemberTaskExecuteState.getState())){
 			agent.action();
 		}
 		Log.log.debugln();
