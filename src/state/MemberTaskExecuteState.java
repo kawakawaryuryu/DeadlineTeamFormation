@@ -41,6 +41,8 @@ public class MemberTaskExecuteState implements State {
 			throw new AbnormalException("MemberTaskExecuteStateでこのようなパターンはありえません");
 		}
 
+		// チーム解散通知確認状態に移行
+		member.getParameter().changeState(MemberTeamDissolutionConfirmationState.getState());
 		// チーム解散通知受信状態に移行できるようにエージェントマップに追加
 		TeamFormationInstances.getInstance().getParameter().addAgentToAgentsMap(MemberTeamDissolutionConfirmationState.getState(), member);
 	}
