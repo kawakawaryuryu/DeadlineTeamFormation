@@ -22,6 +22,7 @@ public class DelayPost extends Post {
 	private ArrayList<TeamDissolutionMessage> teamDissolutionMessages;
 
 	public DelayPost() {
+		super();
 		offerMessages = new ArrayList<OfferMessage>();
 		answerMessages = new ArrayList<AnswerMessage>();
 		teamFormationMessages = new ArrayList<TeamFormationMessage>();
@@ -29,6 +30,7 @@ public class DelayPost extends Post {
 		teamDissolutionMessages = new ArrayList<TeamDissolutionMessage>();
 	}
 
+	@Override
 	public void initialize() {
 		offerMessages.clear();
 		answerMessages.clear();
