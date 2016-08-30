@@ -62,7 +62,7 @@ public class SubtaskAllocationState implements State {
 			TeamFormationInstances.getInstance().getParameter().removeTask(leader.getParameter().getMarkedTask());
 			
 			// 状態遷移
-			leader.getParameter().changeState(TaskExecuteState.getState());
+			leader.getParameter().changeState(LeaderTaskExecuteState.getState());
 		}
 		// チーム編成に失敗した場合
 		else{
