@@ -17,7 +17,7 @@ import main.agent.RationalAgentFactory;
 import main.agent.StructuredAgentFactory;
 import main.model.AgentActionManager;
 import main.model.Model;
-import main.model.TaskCopy;
+import main.model.MessageDelay;
 
 
 public class Configuration {
@@ -48,7 +48,7 @@ public class Configuration {
 
 
 	// Model
-	public static Model model = new TaskCopy();
+	public static Model model = new MessageDelay();
 
 	// AgentFactory
 	public static AgentFactory factory;
