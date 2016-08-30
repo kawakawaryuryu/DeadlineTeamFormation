@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import role.Role;
+import state.LeaderTaskExecuteState;
+import state.MemberTaskExecuteState;
+import state.MemberTeamDissolutionConfirmationState;
 import state.RoleSelectionState;
 import state.SubtaskAllocationState;
 import state.SubtaskReceptionState;
-import state.TaskExecuteState;
 import state.TaskMarkedWaitingState;
 import state.TaskSelectionState;
 import task.Task;
@@ -268,7 +270,9 @@ public class TeamFormationMeasuredData {
 			leaderOrMemberStateAgentNumPerTurn[turnIndex]++;
 			leaderOrMemberStateAgentNum++;
 		}
-		else if (agent.getParameter().getState() == TaskExecuteState.getState()) {
+		else if (agent.getParameter().getState() == LeaderTaskExecuteState.getState()
+				|| agent.getParameter().getState() == MemberTaskExecuteState.getState()
+				|| agent.getParameter().getState() == MemberTeamDissolutionConfirmationState.getState()) {
 			executeStateAgentNumPerTurn[turnIndex]++;
 			executeStateAgentNum++;
 		}
