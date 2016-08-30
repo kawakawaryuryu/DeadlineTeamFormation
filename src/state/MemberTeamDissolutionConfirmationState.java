@@ -26,7 +26,7 @@ public class MemberTeamDissolutionConfirmationState implements State {
 		}
 
 		else {
-			throw new AbnormalException("MemberTeamDissolutionReceptionStateでこのようなパターンはありえません");
+			throw new AbnormalException("MemberTeamDissolutionConfirmationStateでこのようなパターンはありえません");
 		}
 
 	}
