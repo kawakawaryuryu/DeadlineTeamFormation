@@ -57,9 +57,13 @@ public class MemberTaskExecuteState implements State {
 
 	private void sendSubtaskDoneMessage(Agent member) {
 		Post post = TeamFormationInstances.getInstance().getPost();
-		Agent leader = member.getParameter().getTeamFormationMessage().getFrom();
-		int delayTime = MessageLibrary.getMessageTime(member, leader);
-		((DelayPost)post).postSubtaskDoneMessage(leader, new SubtaskDoneMessage(member, leader, delayTime));
+		if(post instanceof DelayPost) {
+			Agent leader = member.getParameter().getTeamFormationMessage().getFrom();
+			int delayTime = MessageLibrary.getMessageTime(member, leader);
+			((DelayPost)post).postSubtaskDoneMessage(leader, new SubtaskDoneMessage(member, leader, delayTime));
+		} else {
+			throw new AbnormalException("postの型が違います");
+		}
 	}
 
 	private void debugExecuteTime(Agent member) {
