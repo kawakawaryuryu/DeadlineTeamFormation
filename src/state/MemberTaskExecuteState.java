@@ -1,6 +1,7 @@
 package state;
 
 import post.DelayPost;
+import post.Post;
 import task.Subtask;
 import library.MessageLibrary;
 import log.Log;
@@ -55,10 +56,10 @@ public class MemberTaskExecuteState implements State {
 	}
 
 	private void sendSubtaskDoneMessage(Agent member) {
-		DelayPost post = (DelayPost)TeamFormationInstances.getInstance().getPost();
+		Post post = TeamFormationInstances.getInstance().getPost();
 		Agent leader = member.getParameter().getTeamFormationMessage().getFrom();
 		int delayTime = MessageLibrary.getMessageTime(member, leader);
-		post.postSubtaskDoneMessage(leader, new SubtaskDoneMessage(member, leader, delayTime));
+		((DelayPost)post).postSubtaskDoneMessage(leader, new SubtaskDoneMessage(member, leader, delayTime));
 	}
 
 	private void debugExecuteTime(Agent member) {

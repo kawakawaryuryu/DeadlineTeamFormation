@@ -1,6 +1,7 @@
 package state;
 
 import post.DelayPost;
+import post.Post;
 import exception.AbnormalException;
 import task.Subtask;
 import library.MessageLibrary;
@@ -77,10 +78,10 @@ public class LeaderTaskExecuteState implements State {
 	}
 
 	private void sendTeamDissolutionMessages(Agent leader) {
-		DelayPost post = (DelayPost)TeamFormationInstances.getInstance().getPost();
+		Post post = TeamFormationInstances.getInstance().getPost();
 		for(Agent member : leader.getParameter().getParticipatingTeam().getMembers()) {
 			int delayTime = MessageLibrary.getMessageTime(leader, member);
-			post.postTeamDissolutionMessage(member, new TeamDissolutionMessage(leader, member, delayTime));
+			((DelayPost)post).postTeamDissolutionMessage(member, new TeamDissolutionMessage(leader, member, delayTime));
 		}
 	}
 
