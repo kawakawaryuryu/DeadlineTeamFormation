@@ -15,7 +15,7 @@ public class MemberTeamDissolutionConfirmationState implements State {
 		boolean disolved = hasTeamDissolutionMessage(member);
 
 		// リーダからチーム解散の通知が来た
-		if(member.getParameter().getExecuteTime() < member.getParameter().getTimerField().getTaskExecuteStateTimer() && disolved){
+		if(member.getParameter().getExecuteTime() <= member.getParameter().getTimerField().getTaskExecuteStateTimer() && disolved){
 			member.getParameter().changeState(TaskSelectionState.getState());
 			Log.log.debugln("チームの処理が終了しました");
 		}
