@@ -18,10 +18,10 @@ public class LeaderWaitingState implements State {
 		// タイマーを+1カウント
 		agent.getParameter().getTimerField().countLeaderWaitingStateTimer();
 
-		if(agent.getParameter().getTimerField().getLeaderWaitingStateTimer() < Constant.MESSAGE_DELAY) {
+		if(agent.getParameter().getTimerField().getLeaderWaitingStateTimer() < Constant.MESSAGE_DELAY * 2) {
 			// 何もしない
 		}
-		else if(agent.getParameter().getTimerField().getLeaderWaitingStateTimer() == Constant.MESSAGE_DELAY) {
+		else if(agent.getParameter().getTimerField().getLeaderWaitingStateTimer() == Constant.MESSAGE_DELAY * 2) {
 			// リーダ状態に移行
 			agent.getParameter().changeState(SubtaskAllocationState.getState());
 		}

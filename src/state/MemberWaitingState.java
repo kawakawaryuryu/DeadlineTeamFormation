@@ -18,10 +18,10 @@ public class MemberWaitingState implements State {
 		// タイマーを+1カウント
 		agent.getParameter().getTimerField().countMemberWaitingStateTimer();
 
-		if(agent.getParameter().getTimerField().getMemberWaitingStateTimer() < Constant.MESSAGE_DELAY) {
+		if(agent.getParameter().getTimerField().getMemberWaitingStateTimer() < Constant.MESSAGE_DELAY * 2) {
 			// 何もしない
 		}
-		else if(agent.getParameter().getTimerField().getMemberWaitingStateTimer() == Constant.MESSAGE_DELAY) {
+		else if(agent.getParameter().getTimerField().getMemberWaitingStateTimer() == Constant.MESSAGE_DELAY * 2) {
 			// メンバ状態に移行
 			agent.getParameter().changeState(SubtaskReceptionState.getState());
 		}
