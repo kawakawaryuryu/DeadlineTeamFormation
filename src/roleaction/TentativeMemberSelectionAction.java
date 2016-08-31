@@ -1,12 +1,15 @@
 package roleaction;
 
 import role.Role;
+import state.LeaderWaitingState;
+import state.StateManager;
 import state.SubtaskAllocationState;
 import state.TaskSelectionState;
 import strategy.StrategyManager;
 import strategy.memberselection.TentativeMemberSelectionStrategy;
 import task.Failure;
 import team.Team;
+import library.MessageLibrary;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.AnswerMessage;
@@ -39,15 +42,16 @@ public class TentativeMemberSelectionAction implements RoleAction {
 	
 	private void refuseOfferMessages(Agent agent) {
 		for(OfferMessage offer : agent.getParameter().getOfferMessages()){
+			int delayTime = MessageLibrary.getMessageTime(agent, offer.getFrom());
 			Log.log.debugln(offer.getFrom() + "からのメッセージを断ります");
-			TeamFormationInstances.getInstance().getPost().postAnswerMessage(offer.getFrom(), 
-					new AnswerMessage(agent, offer.getFrom(), false, offer.getSubtask()));
+			TeamFormationInstances.getInstance().getPost().postAnswerMessage(offer.getFrom(),
+					new AnswerMessage(agent, offer.getFrom(), delayTime, false, offer.getSubtask()));
 		}
 	}
 	
 	private void actionInSearchingSuccessCase(Agent agent) {
 		agent.getParameter().setParticipatingTeam(new Team(agent));
-		agent.getParameter().changeState(SubtaskAllocationState.getState());
+		StateManager.changeStateConsideringDelay(agent, SubtaskAllocationState.getState(), LeaderWaitingState.getState());
 		agent.getParameter().changeRole(Role.LEADER);
 	}
 	

@@ -7,6 +7,8 @@ import random.RandomManager;
 import task.Subtask;
 import task.Task;
 import library.AgentTaskLibrary;
+import library.DeadlineLibrary;
+import library.MessageLibrary;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.OfferMessage;
@@ -47,7 +49,7 @@ public class ConcreteTentativeMemberSelection implements
 
 	@Override
 	public void pullExecutedSubtaskByLeader(Agent leader, Task task) {
-		int leftDeadline = task.getDeadlineInTask() - Constant.DEADLINE_MIN_2;
+		int leftDeadline = task.getDeadlineInTask() - DeadlineLibrary.getReducedDeadlineAtFirstTurn(Constant.MESSAGE_DELAY);
 		boolean isAssigned = false;
 		
 		for(Subtask subtask : task.getSubTaskList()){
@@ -117,7 +119,9 @@ public class ConcreteTentativeMemberSelection implements
 			Agent leader) {
 		for(Subtask subtask : task.subtasksByMembers){
 			for(Agent agent : subtask.getAgentInfo().getSelectedAgents()){
-				TeamFormationInstances.getInstance().getPost().postOfferMessage(agent, new OfferMessage(leader, agent, subtask));
+				int delayTime = MessageLibrary.getMessageTime(leader, agent);
+				TeamFormationInstances.getInstance().getPost().postOfferMessage(agent,
+						new OfferMessage(leader, agent, delayTime, subtask));
 				leader.getParameter().addSendAgents(agent);
 			}
 		}	

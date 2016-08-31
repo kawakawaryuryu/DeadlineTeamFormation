@@ -2,6 +2,11 @@ package main.model;
 
 import log.Log;
 import main.teamformation.TeamFormationInstances;
+import state.LeaderTaskExecuteState;
+import state.LeaderWaitingState;
+import state.MemberTaskExecuteState;
+import state.MemberTeamDissolutionConfirmationState;
+import state.MemberWaitingState;
 import state.RoleSelectionState;
 import state.SubtaskAllocationState;
 import state.SubtaskReceptionState;
@@ -57,9 +62,46 @@ public class AgentActionManager {
 		Log.log.debugln();
 	}
 
+	public void actionByLeaderOrMemberWaitingAgent() {
+		Log.log.debugln("------- リーダ前待機状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(LeaderWaitingState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+		Log.log.debugln("------- メンバ待機状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(MemberWaitingState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+	}
+
 	public void actionByExecuteAgent() {
 		Log.log.debugln("------- タスク実行状態のエージェントの行動 -------");
 		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(TaskExecuteState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+	}
+
+	public void actionByLeaderExecuteAgent() {
+		Log.log.debugln("------- リーダタスク実行状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(LeaderTaskExecuteState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+	}
+
+	public void actionByMemberExecuteAgent() {
+		Log.log.debugln("------- メンバタスク実行状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(MemberTaskExecuteState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+	}
+
+	public void actionByMemberTeamDissolutionConfirmationAgent() {
+		Log.log.debugln("------- メンバチーム解散通知確認状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(MemberTeamDissolutionConfirmationState.getState())){
 			agent.action();
 		}
 		Log.log.debugln();

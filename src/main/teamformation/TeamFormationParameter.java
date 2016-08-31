@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import library.DeadlineLibrary;
 import log.Log;
 import main.TaskMarking;
 import main.agent.AgentFactory;
 import random.RandomKey;
 import random.RandomManager;
+import state.LeaderTaskExecuteState;
+import state.LeaderWaitingState;
+import state.MemberTaskExecuteState;
+import state.MemberTeamDissolutionConfirmationState;
+import state.MemberWaitingState;
 import state.State;
 import state.RoleSelectionState;
 import state.SubtaskAllocationState;
@@ -43,8 +49,13 @@ public class TeamFormationParameter {
 		agentsMap.put(RoleSelectionState.getState(), new ArrayList<Agent>());
 		agentsMap.put(SubtaskAllocationState.getState(), new ArrayList<Agent>());
 		agentsMap.put(SubtaskReceptionState.getState(), new ArrayList<Agent>());
+		agentsMap.put(LeaderWaitingState.getState(), new ArrayList<Agent>());
+		agentsMap.put(MemberWaitingState.getState(), new ArrayList<Agent>());
 		agentsMap.put(TaskExecuteState.getState(), new ArrayList<Agent>());
 		agentsMap.put(TaskMarkedWaitingState.getState(), new ArrayList<Agent>());
+		agentsMap.put(LeaderTaskExecuteState.getState(), new ArrayList<Agent>());
+		agentsMap.put(MemberTaskExecuteState.getState(), new ArrayList<Agent>());
+		agentsMap.put(MemberTeamDissolutionConfirmationState.getState(), new ArrayList<Agent>());
 	}
 	
 	private void initializeTaskMarkingAgentsMap() {
@@ -167,7 +178,7 @@ public class TeamFormationParameter {
 		for(int i = 0; i < taskQueue.size(); ){
 			taskQueue.get(i).subtractDeadlineInTask();
 			// タスクのデッドラインが処理できない時間だったらキューから削除する
-			if(taskQueue.get(i).getDeadlineInTask() <= (Constant.WAIT_TURN + Constant.DEADLINE_MIN_2) 
+			if(taskQueue.get(i).getDeadlineInTask() <= (DeadlineLibrary.getReducedDeadlineAtInitialTurn(Constant.MESSAGE_DELAY))
 					&& !taskQueue.get(i).getMark()){
 				measure.countFailure(taskQueue.get(i).getTaskRequireSum());
 				removeTask(taskQueue.get(i));

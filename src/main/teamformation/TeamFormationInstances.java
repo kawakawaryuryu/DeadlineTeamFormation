@@ -1,5 +1,6 @@
 package main.teamformation;
 
+import post.DelayPost;
 import post.Post;
 
 /**
@@ -14,7 +15,7 @@ public class TeamFormationInstances {
 	private TeamFormationInstances() {
 		parameter = new TeamFormationParameter();
 		measure = new TeamFormationMeasuredData();
-		post = new Post();
+		post = new DelayPost();
 	}
 	
 	
@@ -24,6 +25,7 @@ public class TeamFormationInstances {
 	public void initialize() {
 		parameter.initialize();
 		measure.initialize();
+		post.initialize();
 	}
 	
 	public TeamFormationParameter getParameter() {

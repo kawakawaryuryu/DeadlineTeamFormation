@@ -136,6 +136,7 @@ public class FileWriteManager {
 		pw.println("1tickに追加する平均タスク数" + "," + Constant.ADD_TASK_PER_TURN);
 		pw.println("タスク追加間隔" + "," + Constant.ADD_TASK_INTERVAL);
 		pw.println("タスクコピーにかかる時間" + "," + Constant.WAIT_TURN);
+		pw.println("通信遅延時間" + "," + Constant.MESSAGE_DELAY);
 		pw.println("ε-greedyのε" + "," + Constant.EPSILON);
 		pw.println("ε-greedyのε（メンバ候補の決定時）" + "," + Constant.EPSILON2);
 		pw.println("1サブタスクごとに送るメッセージ数" + "," + Constant.SELECT_MEMBER_NUM);
@@ -143,6 +144,7 @@ public class FileWriteManager {
 		pw.println("役割選択の戦略" + "," + roleSelectionStrategy.toString());
 		pw.println("サブタスク割り当ての戦略" + "," + allocationStrategy.toString());
 		pw.println("仮メンバ選択の戦略" + "," + memberSelectionStrategy.toString());
+		pw.println("エージェント行動の流れ（モデル）" + "," + Configuration.model);
 		pw.println("可視化のための閾値を格納する配列要素数" + "," + Constant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM);
 		for(int i = 0; i < Constant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM; i++){
 			pw.println(i + " 番目" + "," + Constant.TEAM_FORMATION_PERCENTAGE_BORDER[i]);

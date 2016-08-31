@@ -4,7 +4,11 @@ public class Constant {
 	
 	public static final int EXPERIMENT_NUM = 50;
 	
+	// タスクコピー時間
 	public static final int WAIT_TURN = 3;
+
+	// メッセージ遅延時間
+	public static final int MESSAGE_DELAY = 0;
 	
 	/* Main */
 	public static final int AGENT_NUM = 350;	//エージェント数

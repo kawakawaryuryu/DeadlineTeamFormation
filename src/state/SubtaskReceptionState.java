@@ -28,7 +28,7 @@ public class SubtaskReceptionState implements State {
 					member.getParameter().getParticipatingTeam());
 			
 			// 状態遷移
-			member.getParameter().changeState(TaskExecuteState.getState());
+			member.getParameter().changeState(MemberTaskExecuteState.getState());
 			
 			// 報酬期待度のフィードバック
 			member.feedbackExpectedReward(message.getFrom(), true, message.getSubtaskRequireSum(), 

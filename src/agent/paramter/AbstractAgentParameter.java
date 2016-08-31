@@ -9,6 +9,8 @@ import agent.leader.LeaderField;
 import agent.member.MemberField;
 import message.AnswerMessage;
 import message.OfferMessage;
+import message.SubtaskDoneMessage;
+import message.TeamDissolutionMessage;
 import message.TeamFormationMessage;
 import role.ExecuteMeasuredData;
 import role.InitialMeasuredData;
@@ -37,6 +39,8 @@ public abstract class AbstractAgentParameter {
 	final ArrayList<OfferMessage> offerMessages = new ArrayList<OfferMessage>();
 	final ArrayList<AnswerMessage> answerMessages = new ArrayList<AnswerMessage>();
 	TeamFormationMessage teamFormationMessage;
+	final ArrayList<SubtaskDoneMessage> subtaskDoneMessages = new ArrayList<SubtaskDoneMessage>();
+	TeamDissolutionMessage teamDissolutionMessage;
 	OfferMessage selectedOfferMessage;
 
 	final LeaderField leaderField = new LeaderField();
@@ -68,6 +72,8 @@ public abstract class AbstractAgentParameter {
 		offerMessages.clear();
 		answerMessages.clear();
 		teamFormationMessage = null;
+		subtaskDoneMessages.clear();
+		teamDissolutionMessage = null;
 		selectedOfferMessage = null;
 
 		leaderField.initialize();
@@ -114,6 +120,14 @@ public abstract class AbstractAgentParameter {
 
 	public void setTeamFormationMessage(TeamFormationMessage message) {
 		teamFormationMessage = message;
+	}
+
+	public void addSubtaskDoneMessage(SubtaskDoneMessage message) {
+		subtaskDoneMessages.add(message);
+	}
+
+	public void setTeamDissolutionMessage(TeamDissolutionMessage message) {
+		teamDissolutionMessage = message;
 	}
 
 	public void setSelectedOfferMessage(OfferMessage message) {
@@ -170,6 +184,14 @@ public abstract class AbstractAgentParameter {
 
 	public TeamFormationMessage getTeamFormationMessage() {
 		return teamFormationMessage;
+	}
+
+	public ArrayList<SubtaskDoneMessage> getSubtaskDoneMessages() {
+		return subtaskDoneMessages;
+	}
+
+	public TeamDissolutionMessage getTeamDissolutionMessage() {
+		return teamDissolutionMessage;
 	}
 
 	public LeaderField getLeaderField() {

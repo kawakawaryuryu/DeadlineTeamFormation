@@ -10,4 +10,8 @@ public class TaskNoCopy implements Model {
 		action.actionByExecuteAgent();
 	}
 
+	public String toString() {
+		return "タスクコピーなしモデル";
+	}
+
 }

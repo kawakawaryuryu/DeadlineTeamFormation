@@ -1,6 +1,5 @@
 package main.teamformation;
 
-
 import agent.Agent;
 import agent.StructuredAgent;
 import log.Log;
@@ -55,6 +54,7 @@ public class TeamFormationMain {
 
 			// 状態ごとのエージェントマップをシャッフル
 			TeamFormationInstances.getInstance().getParameter().shuffleAgentsMap();
+
 			// 行動する
 			model.run(Configuration.action);
 
