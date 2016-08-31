@@ -5,11 +5,14 @@ import java.util.Arrays;
 
 import role.Role;
 import state.LeaderTaskExecuteState;
+import state.LeaderWaitingState;
 import state.MemberTaskExecuteState;
 import state.MemberTeamDissolutionConfirmationState;
+import state.MemberWaitingState;
 import state.RoleSelectionState;
 import state.SubtaskAllocationState;
 import state.SubtaskReceptionState;
+import state.TaskExecuteState;
 import state.TaskMarkedWaitingState;
 import state.TaskSelectionState;
 import task.Task;
@@ -266,13 +269,16 @@ public class TeamFormationMeasuredData {
 			initialStateAgentNum++;
 		}
 		else if (agent.getParameter().getState() == SubtaskAllocationState.getState()
-				|| agent.getParameter().getState() == SubtaskReceptionState.getState()) {
+				|| agent.getParameter().getState() == SubtaskReceptionState.getState()
+				|| agent.getParameter().getState() == LeaderWaitingState.getState()
+				|| agent.getParameter().getState() == MemberWaitingState.getState()) {
 			leaderOrMemberStateAgentNumPerTurn[turnIndex]++;
 			leaderOrMemberStateAgentNum++;
 		}
 		else if (agent.getParameter().getState() == LeaderTaskExecuteState.getState()
 				|| agent.getParameter().getState() == MemberTaskExecuteState.getState()
-				|| agent.getParameter().getState() == MemberTeamDissolutionConfirmationState.getState()) {
+				|| agent.getParameter().getState() == MemberTeamDissolutionConfirmationState.getState()
+				|| agent.getParameter().getState() == TaskExecuteState.getState()) {
 			executeStateAgentNumPerTurn[turnIndex]++;
 			executeStateAgentNum++;
 		}
