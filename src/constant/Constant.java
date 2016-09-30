@@ -5,9 +5,11 @@ public class Constant {
 	public static final int EXPERIMENT_NUM = 50;
 	
 	// タスクコピー時間
+	// 現在の実装モデル的にタスク返却にコスト（時間）がかかるモデルのときはタスクコピー時間が通信遅延時間よりも小さくなければならない！
 	public static final int WAIT_TURN = 3;
 
 	// メッセージ遅延時間
+	// 現在の実装モデル的にタスク返却にコスト（時間）がかかるモデルのときはタスクコピー時間が通信遅延時間よりも小さくなければならない！
 	public static final int MESSAGE_DELAY = 0;
 	
 	/* Main */

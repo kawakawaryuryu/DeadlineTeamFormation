@@ -1,5 +1,7 @@
 package roleaction;
 
+import constant.Constant;
+import exception.AbnormalException;
 import role.Role;
 import state.MemberWaitingState;
 import state.StateManager;
@@ -21,7 +23,12 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 		
 		// マークしていたタスクがある場合はマークを外す
 		if(agent.getParameter().getMarkedTask() != null){
-			agent.getParameter().getMarkedTask().markingTask(false, Failure.DECIDE_MEMBER_FAILURE);
+			agent.getParameter().getMarkedTask().countFailure(Failure.DECIDE_MEMBER_FAILURE);
+			// タスク返却に時間がかかるモデルのときはタスク転送時間 < 通信遅延時間でなければならないようにしている
+			// つまり、メンバを選択した際にタスクをキューに戻すときのタスク返却時間はリーダからのメッセージ待機の間に行っているとしている
+			if(Constant.WAIT_TURN > Constant.MESSAGE_DELAY) {
+				throw new AbnormalException("タスク転送時間が通信遅延時間よりも長いです");
+			}
 		}
 		
 		StateManager.changeStateConsideringDelay(agent, SubtaskReceptionState.getState(), MemberWaitingState.getState());

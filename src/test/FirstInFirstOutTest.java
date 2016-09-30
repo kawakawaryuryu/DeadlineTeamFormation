@@ -7,7 +7,6 @@ import main.teamformation.TeamFormationMain;
 import org.junit.Test;
 
 import strategy.taskselection.FirstInFirstOutStrategy;
-import task.Failure;
 import task.Task;
 import team.Team;
 import agent.Agent;
@@ -93,7 +92,7 @@ public class FirstInFirstOutTest {
 	@Test
 	public void testSelectTask3() {
 		Task task1 = new Task(0, 3, 5);
-		task1.markingTask(true, Failure.MARK_TURE);
+		task1.markingTask(true);
 		Task task2 = new Task(1, 3, 5);
 		TeamFormationInstances.getInstance().getParameter().taskQueue.clear();
 		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task1);
