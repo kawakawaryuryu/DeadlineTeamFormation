@@ -23,7 +23,9 @@ public class MemberWaitingState implements State {
 
 		// タスクをキューに返却する（最後に戻す）モデルのとき
 		if(Configuration.model instanceof MessageDelayFailurePenalty
-				&& agent.getParameter().getTimerField().getMemberWaitingStateTimer() == Constant.WAIT_TURN) {
+				&& agent.getParameter().getTimerField().getMemberWaitingStateTimer() == Constant.WAIT_TURN
+				&& agent.getParameter().getMarkedTask() != null) {
+
 			// タスクをキューに返却する
 
 			// サブタスクが保持している情報をクリア
