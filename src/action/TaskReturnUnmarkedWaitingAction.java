@@ -14,4 +14,8 @@ public class TaskReturnUnmarkedWaitingAction implements Action {
 
 	}
 
+	public String toString() {
+		return "キューのそのままの位置にタスクを戻す(マーク外すだけ)";
+	}
+
 }

@@ -18,4 +18,8 @@ public class TaskReturnToLastWaitingAction implements Action {
 		TeamFormationInstances.getInstance().getParameter().returnTask(agent.getParameter().getMarkedTask());
 	}
 
+	public String toString() {
+		return "キューの最後にタスクを返却";
+	}
+
 }
