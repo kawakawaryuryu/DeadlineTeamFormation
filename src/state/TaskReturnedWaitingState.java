@@ -1,8 +1,8 @@
 package state;
 
-import main.teamformation.TeamFormationInstances;
 import constant.Constant;
 import exception.AbnormalException;
+import action.ActionManager;
 import agent.Agent;
 
 public class TaskReturnedWaitingState implements State {
@@ -28,10 +28,8 @@ public class TaskReturnedWaitingState implements State {
 			// タスクからマークを外す
 			agent.getParameter().getMarkedTask().markingTask(false);
 
-			// 現時点はタスクはマークし、チーム編成に成功した場合初めてキューから取り除くので、
-			// キューの最後に戻すのは一旦キューから削除し、再度キューの最後に追加するようにしている
-			TeamFormationInstances.getInstance().getParameter().removeTask(agent.getParameter().getMarkedTask());
-			TeamFormationInstances.getInstance().getParameter().returnTask(agent.getParameter().getMarkedTask());
+			// タスクを返却する
+			ActionManager.taskReturnAction.action(agent);
 
 			// 初期状態に移行
 			agent.getParameter().changeState(TaskSelectionState.getState());
