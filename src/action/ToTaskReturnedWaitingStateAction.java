@@ -1,4 +1,4 @@
-package action.toinital;
+package action;
 
 import main.model.MessageDelayFailurePenalty;
 import config.Configuration;
@@ -6,7 +6,6 @@ import constant.Constant;
 import exception.AbnormalException;
 import state.TaskReturnedWaitingState;
 import state.TaskSelectionState;
-import action.Action;
 import agent.Agent;
 
 /**
