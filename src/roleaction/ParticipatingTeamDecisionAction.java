@@ -18,7 +18,7 @@ import agent.Agent;
 
 public class ParticipatingTeamDecisionAction implements RoleAction {
 
-	int delayTime = Constant.MESSAGE_DELAY;
+	int waitTurn = Constant.WAIT_TURN;
 
 	@Override
 	public void action(Agent agent) {
@@ -29,9 +29,9 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 		if(agent.getParameter().getMarkedTask() != null){
 			agent.getParameter().getMarkedTask().countFailure(Failure.DECIDE_MEMBER_FAILURE);
 
-			// 通信遅延がないときはここでタスクのマークを外す
+			// タスクコピー時間が0のときはここでタスクのマークを外す
 			// TODO マークを外す処理を外に出す
-			if(delayTime == 0) {
+			if(waitTurn == 0) {
 				if(!(Configuration.taskReturnStrategy instanceof TaskReturnToLastStrategy)) {
 					Configuration.taskReturnStrategy.returnTask(agent);
 				}
