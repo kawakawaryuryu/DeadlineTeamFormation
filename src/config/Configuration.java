@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
+import strategy.taskreturn.TaskDisposalStrategy;
+import strategy.taskreturn.TaskReturnStrategy;
 import exception.AbnormalException;
 import exception.ParentException;
 import log.Log;
@@ -55,6 +57,9 @@ public class Configuration {
 
 	// AgetnactionManager
 	public static AgentActionManager action = new AgentActionManager();
+
+	// TaskReturnStrategy
+	public static TaskReturnStrategy taskReturnStrategy = new TaskDisposalStrategy();
 	
 	
 	// Mail
