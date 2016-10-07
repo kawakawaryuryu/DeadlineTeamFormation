@@ -8,6 +8,11 @@ public class TaskReturnToLastStrategy implements TaskReturnStrategy {
 	@Override
 	public void returnTask(Agent agent) {
 
+		// サブタスクが保持している情報をクリア
+		agent.getParameter().getMarkedTask().clear();
+		// タスクマークを外す
+		agent.getParameter().getMarkedTask().markingTask(false);
+
 		// 現時点はタスクはマークし、チーム編成に成功した場合初めてキューから取り除くので、
 		// キューの最後に戻すのは一旦キューから削除し、再度キューの最後に追加するようにしている
 		TeamFormationInstances.getInstance().getParameter().removeTask(agent.getParameter().getMarkedTask());
