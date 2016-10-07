@@ -194,5 +194,14 @@ public class Task {
 			subtask.getAgentInfo().clear();
 		}
 	}
+
+	public int getRemovedMarkNumByEstimationFailure() {
+		return removedMarkNumByTeamFormationFailure;
+	}
+
+	public int getRemovedMarkNumByTeamFormationFailure() {
+		return removedMarkNumByTeamFormationFailure;
+	}
+
 	
 }
