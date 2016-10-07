@@ -14,6 +14,7 @@ import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.AnswerMessage;
 import message.TeamFormationMessage;
+import action.ActionManager;
 import agent.Agent;
 
 public class SubtaskAllocationState implements State {
@@ -74,11 +75,11 @@ public class SubtaskAllocationState implements State {
 			// サブタスクが保持している情報をクリア
 			leader.getParameter().getMarkedTask().clear();
 			
-			// タスクからマークを外す
-			leader.getParameter().getMarkedTask().markingTask(false, Failure.TEAM_FORMATION_FAILURE);
+			// タスクが保持するチーム編成失敗回数をカウント
+			leader.getParameter().getMarkedTask().countFailure(Failure.TEAM_FORMATION_FAILURE);
 			
 			// 状態遷移
-			leader.getParameter().changeState(TaskSelectionState.getState());
+			ActionManager.toTaskReturnedWaitingStateAction.action(leader);
 		}
 		
 		// チーム編成回数をカウント

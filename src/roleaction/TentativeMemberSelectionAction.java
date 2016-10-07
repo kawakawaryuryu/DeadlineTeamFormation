@@ -4,7 +4,6 @@ import role.Role;
 import state.LeaderWaitingState;
 import state.StateManager;
 import state.SubtaskAllocationState;
-import state.TaskSelectionState;
 import strategy.StrategyManager;
 import strategy.memberselection.TentativeMemberSelectionStrategy;
 import task.Failure;
@@ -14,6 +13,7 @@ import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.AnswerMessage;
 import message.OfferMessage;
+import action.ActionManager;
 import agent.Agent;
 
 public class TentativeMemberSelectionAction implements RoleAction {
@@ -56,10 +56,10 @@ public class TentativeMemberSelectionAction implements RoleAction {
 	}
 	
 	private void actionInSearchingFailureCase(Agent agent) {
-		agent.getParameter().getMarkedTask().markingTask(false, Failure.ESTIMATION_FAILURE);
+		agent.getParameter().getMarkedTask().countFailure(Failure.ESTIMATION_FAILURE);
 		agent.getParameter().getMarkedTask().clear();
 		TeamFormationInstances.getInstance().getMeasure().countGiveUpTeamFormationNum();
-		agent.getParameter().changeState(TaskSelectionState.getState());
+		ActionManager.toTaskReturnedWaitingStateAction.action(agent);
 	}
 	
 	

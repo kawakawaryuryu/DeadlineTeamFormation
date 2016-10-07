@@ -91,15 +91,21 @@ public class Task {
 	/**
 	 * タスクにマークをする
 	 * @param isMarking
-	 * @param failure チーム編成失敗 or 見積もり失敗
 	 */
-	public void markingTask(boolean isMarking, Failure failure){
+	public void markingTask(boolean isMarking){
 		mark = isMarking;
-		if(!isMarking && failure == Failure.ESTIMATION_FAILURE){
+	}
+
+	public void countFailure(Failure failure) {
+		switch(failure) {
+		case ESTIMATION_FAILURE:
 			removedMarkNumByEstimationFailure++;
-		}
-		else if(!isMarking && failure == Failure.TEAM_FORMATION_FAILURE){
+			break;
+		case TEAM_FORMATION_FAILURE:
 			removedMarkNumByTeamFormationFailure++;
+			break;
+		default:
+			break;
 		}
 	}
 	

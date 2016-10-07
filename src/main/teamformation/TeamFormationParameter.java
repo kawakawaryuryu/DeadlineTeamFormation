@@ -21,6 +21,7 @@ import state.SubtaskAllocationState;
 import state.SubtaskReceptionState;
 import state.TaskExecuteState;
 import state.TaskMarkedWaitingState;
+import state.TaskReturnedWaitingState;
 import state.TaskSelectionState;
 import task.Task;
 import constant.Constant;
@@ -53,6 +54,7 @@ public class TeamFormationParameter {
 		agentsMap.put(MemberWaitingState.getState(), new ArrayList<Agent>());
 		agentsMap.put(TaskExecuteState.getState(), new ArrayList<Agent>());
 		agentsMap.put(TaskMarkedWaitingState.getState(), new ArrayList<Agent>());
+		agentsMap.put(TaskReturnedWaitingState.getState(), new ArrayList<Agent>());
 		agentsMap.put(LeaderTaskExecuteState.getState(), new ArrayList<Agent>());
 		agentsMap.put(MemberTaskExecuteState.getState(), new ArrayList<Agent>());
 		agentsMap.put(MemberTeamDissolutionConfirmationState.getState(), new ArrayList<Agent>());
@@ -172,6 +174,10 @@ public class TeamFormationParameter {
 	
 	public void removeTask(Task task){
 		taskQueue.remove(task);
+	}
+
+	public void returnTask(Task task) {
+		taskQueue.add(task);
 	}
 	
 	void decreaseTaskDeadline(TeamFormationMeasuredData measure) {

@@ -283,7 +283,7 @@ public class TeamFormationMeasuredData {
 			executeStateAgentNum++;
 		}
 		else {
-			throw new AbnormalException("このようなパターンは存在しません");
+			//throw new AbnormalException("このようなパターンは存在しません");
 		}
 	}
 	

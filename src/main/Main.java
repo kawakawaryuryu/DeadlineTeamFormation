@@ -144,7 +144,7 @@ public class Main {
 			FileWriteManager.fileExplain(learning, estimation);
 			FileWriteManager.writeBodyOfMeasuredDataPerTurn(InstanceManager.getInstance().getMeasure());
 			FileWriteManager.writeBodyOfTeamMeasuredData(InstanceManager.getInstance().getMeasure());
-			FileWriteManager.writeBodyOfAgentsNum(InstanceManager.getInstance().getMeasure());
+			//FileWriteManager.writeBodyOfAgentsNum(InstanceManager.getInstance().getMeasure());
 			FileWriteManager.writeOtherData(InstanceManager.getInstance().getMeasure());
 		} catch(IOException e) {
 			throw new ParentException(e);

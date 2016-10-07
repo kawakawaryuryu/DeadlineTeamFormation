@@ -12,6 +12,7 @@ import state.SubtaskAllocationState;
 import state.SubtaskReceptionState;
 import state.TaskExecuteState;
 import state.TaskMarkedWaitingState;
+import state.TaskReturnedWaitingState;
 import state.TaskSelectionState;
 import agent.Agent;
 
@@ -25,6 +26,14 @@ public class AgentActionManager {
 		}
 		Log.log.debugln("------- タスクマーク待機状態のエージェントの行動 -------");
 		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(TaskMarkedWaitingState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+	}
+
+	public void actionByReturnedWaitingAgent() {
+		Log.log.debugln("------- タスク返却待機状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(TaskReturnedWaitingState.getState())){
 			agent.action();
 		}
 		Log.log.debugln();
