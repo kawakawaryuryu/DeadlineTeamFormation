@@ -42,7 +42,7 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 
 			// タスク返却に時間がかかるモデルのときはタスク転送時間 < 通信遅延時間でなければならないようにしている
 			// つまり、メンバを選択した際にタスクをキューに戻すときのタスク返却時間はリーダからのメッセージ待機の間に行っているとしている
-			if(Constant.WAIT_TURN > Constant.MESSAGE_DELAY) {
+			if(waitTurn > Constant.MESSAGE_DELAY) {
 				throw new AbnormalException("タスク転送時間が通信遅延時間よりも長いです");
 			}
 		}
