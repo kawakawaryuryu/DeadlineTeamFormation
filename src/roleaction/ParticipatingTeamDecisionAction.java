@@ -16,6 +16,8 @@ import agent.Agent;
 
 public class ParticipatingTeamDecisionAction implements RoleAction {
 
+	int delayTime = Constant.MESSAGE_DELAY;
+
 	@Override
 	public void action(Agent agent) {
 		// 参加するチームのリーダにはOKメッセージ、それ以外にはNGメッセージを送信する
@@ -24,6 +26,13 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 		// マークしていたタスクがある場合はマークを外す
 		if(agent.getParameter().getMarkedTask() != null){
 			agent.getParameter().getMarkedTask().countFailure(Failure.DECIDE_MEMBER_FAILURE);
+
+			// 通信遅延がないときはここでタスクのマークを外す
+			// TODO マークを外す処理を外に出す
+			if(delayTime == 0) {
+				agent.getParameter().getMarkedTask().markingTask(false);
+			}
+
 			// タスク返却に時間がかかるモデルのときはタスク転送時間 < 通信遅延時間でなければならないようにしている
 			// つまり、メンバを選択した際にタスクをキューに戻すときのタスク返却時間はリーダからのメッセージ待機の間に行っているとしている
 			if(Constant.WAIT_TURN > Constant.MESSAGE_DELAY) {
