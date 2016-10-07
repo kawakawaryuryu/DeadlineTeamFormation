@@ -1,11 +1,13 @@
 package roleaction;
 
+import config.Configuration;
 import constant.Constant;
 import exception.AbnormalException;
 import role.Role;
 import state.MemberWaitingState;
 import state.StateManager;
 import state.SubtaskReceptionState;
+import strategy.taskreturn.TaskReturnToLastStrategy;
 import task.Failure;
 import library.MessageLibrary;
 import log.Log;
@@ -30,7 +32,12 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 			// 通信遅延がないときはここでタスクのマークを外す
 			// TODO マークを外す処理を外に出す
 			if(delayTime == 0) {
-				agent.getParameter().getMarkedTask().markingTask(false);
+				if(!(Configuration.taskReturnStrategy instanceof TaskReturnToLastStrategy)) {
+					Configuration.taskReturnStrategy.returnTask(agent);
+				}
+				else {
+					throw new AbnormalException("タスク戻し戦略がおかしいです");
+				}
 			}
 
 			// タスク返却に時間がかかるモデルのときはタスク転送時間 < 通信遅延時間でなければならないようにしている

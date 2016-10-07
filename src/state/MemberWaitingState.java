@@ -26,16 +26,9 @@ public class MemberWaitingState implements State {
 				&& agent.getParameter().getTimerField().getMemberWaitingStateTimer() == Constant.WAIT_TURN
 				&& agent.getParameter().getMarkedTask() != null) {
 
-			// タスクをキューに返却する
-
-			// サブタスクが保持している情報をクリア
-			agent.getParameter().getMarkedTask().clear();
-
-			// タスクからマークを外す
-			agent.getParameter().getMarkedTask().markingTask(false);
 
 			// タスクを返却する
-			ActionManager.taskReturnAction.action(agent);
+			Configuration.taskReturnStrategy.returnTask(agent);
 		}
 
 		if(agent.getParameter().getTimerField().getMemberWaitingStateTimer() < Constant.MESSAGE_DELAY * 2) {
