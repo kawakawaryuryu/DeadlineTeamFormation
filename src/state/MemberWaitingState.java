@@ -4,7 +4,6 @@ import main.model.MessageDelayFailurePenalty;
 import config.Configuration;
 import constant.Constant;
 import exception.AbnormalException;
-import action.ActionManager;
 import agent.Agent;
 
 public class MemberWaitingState implements State {
