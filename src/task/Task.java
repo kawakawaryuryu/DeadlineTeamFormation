@@ -196,7 +196,7 @@ public class Task {
 	}
 
 	public int getRemovedMarkNumByEstimationFailure() {
-		return removedMarkNumByTeamFormationFailure;
+		return removedMarkNumByEstimationFailure;
 	}
 
 	public int getRemovedMarkNumByTeamFormationFailure() {
