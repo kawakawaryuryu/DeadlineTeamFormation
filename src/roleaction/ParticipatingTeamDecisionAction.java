@@ -32,13 +32,11 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 
 			// タスクコピー時間が0のときはここでタスクのマークを外す
 			// TODO マークを外す処理を外に出す
-			if(waitTurn == 0) {
-				if(!(Configuration.taskReturnStrategy instanceof TaskReturnToLastStrategy)) {
-					Configuration.taskReturnStrategy.returnTask(agent);
-				}
-				else {
-					throw new AbnormalException("タスク戻し戦略がおかしいです");
-				}
+			if(!(Configuration.taskReturnStrategy instanceof TaskReturnToLastStrategy) && !(Configuration.model instanceof MessageDelayFailurePenalty)) {
+				Configuration.taskReturnStrategy.returnTask(agent);
+			}
+			else {
+				throw new AbnormalException("タスク戻し戦略がおかしいです");
 			}
 
 			// タスク返却に時間がかかるモデルのときはタスク転送時間 < 通信遅延時間でなければならないようにしている
