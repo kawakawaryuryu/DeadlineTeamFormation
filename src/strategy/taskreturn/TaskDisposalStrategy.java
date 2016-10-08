@@ -18,6 +18,7 @@ public class TaskDisposalStrategy implements TaskReturnStrategy {
 		// チーム編成失敗によってタスクがキューに戻される回数がある一定値を超えたらタスクを廃棄する
 		Task task = agent.getParameter().getMarkedTask();
 		if (task.getRemovedMarkNumByTeamFormationFailure() == Constant.TASK_DISPOSAL_THREASHOLD) {
+			TeamFormationInstances.getInstance().getMeasure().countFailure(task.getTaskRequireSum());
 			TeamFormationInstances.getInstance().getParameter().removeTask(task);
 		}
 		else if (task.getRemovedMarkNumByTeamFormationFailure() > Constant.TASK_DISPOSAL_THREASHOLD) {
