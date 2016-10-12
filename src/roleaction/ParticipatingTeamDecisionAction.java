@@ -32,7 +32,8 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 
 			// タスクコピー時間が0のときはここでタスクのマークを外す
 			// TODO マークを外す処理を外に出す
-			if(!(Configuration.taskReturnStrategy instanceof TaskReturnToLastStrategy) && !(Configuration.model instanceof MessageDelayFailurePenalty)) {
+			if(!(Configuration.taskReturnStrategy instanceof TaskReturnToLastStrategy)
+					&& !(Configuration.model instanceof MessageDelayFailurePenalty)) {
 				Configuration.taskReturnStrategy.returnTask(agent);
 			}
 			else {

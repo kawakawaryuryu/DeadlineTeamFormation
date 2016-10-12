@@ -8,8 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
-import strategy.taskreturn.TaskDisposalStrategy;
 import strategy.taskreturn.TaskReturnStrategy;
+import strategy.taskreturn.TaskUnmarkStrategy;
 import exception.AbnormalException;
 import exception.ParentException;
 import log.Log;
@@ -59,7 +59,7 @@ public class Configuration {
 	public static AgentActionManager action = new AgentActionManager();
 
 	// TaskReturnStrategy
-	public static TaskReturnStrategy taskReturnStrategy = new TaskDisposalStrategy();
+	public static TaskReturnStrategy taskReturnStrategy = new TaskUnmarkStrategy();
 	
 	
 	// Mail

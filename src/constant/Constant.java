@@ -67,7 +67,7 @@ public class Constant {
 	public static final int MEASURE_Q_INIT_TURN_NUM = 10000;
 	public static final int MEASURE_VISUALIZATION_TURN_NUM = TURN_NUM;	//可視化のための結果の計測ターン
 	public static final int END_TURN_NUM_FOR_AVERAGE = 1000;	//平均として算出するものを計測する用のターン
-	public static final int END_TURN_NUM = 1000;
+	public static final int END_TURN_NUM = 500;
 	
 	/* エージェントの状態 */
 	public static final int ARRAY_SIZE_FOR_MEASURE = TURN_NUM/MEASURE_TURN_NUM;
