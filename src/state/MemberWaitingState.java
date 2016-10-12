@@ -4,7 +4,6 @@ import main.model.MessageDelayFailurePenalty;
 import config.Configuration;
 import constant.Constant;
 import exception.AbnormalException;
-import action.ActionManager;
 import agent.Agent;
 
 public class MemberWaitingState implements State {
@@ -26,16 +25,9 @@ public class MemberWaitingState implements State {
 				&& agent.getParameter().getTimerField().getMemberWaitingStateTimer() == Constant.WAIT_TURN
 				&& agent.getParameter().getMarkedTask() != null) {
 
-			// タスクをキューに返却する
-
-			// サブタスクが保持している情報をクリア
-			agent.getParameter().getMarkedTask().clear();
-
-			// タスクからマークを外す
-			agent.getParameter().getMarkedTask().markingTask(false);
 
 			// タスクを返却する
-			ActionManager.taskReturnAction.action(agent);
+			Configuration.taskReturnStrategy.returnTask(agent);
 		}
 
 		if(agent.getParameter().getTimerField().getMemberWaitingStateTimer() < Constant.MESSAGE_DELAY * 2) {

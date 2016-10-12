@@ -35,6 +35,7 @@ public class Constant {
 	public static final int TASK_REQUIRE_INIT = 1;	//タスクのリソースの最小値
 	public static final int TASK_REQUIRE_MALTIPLE = 6;	//タスクリソースの倍数
 	public static final int TASK_DEADLINE_MULTIPLE = 1;
+	public static final int TASK_DISPOSAL_THREASHOLD = 3;	// チーム編成失敗によって廃棄する閾値
 	
 	/* Agent */
 	public static final double INITIAL_GREEDY = 0.5;	//欲張り度の初期値

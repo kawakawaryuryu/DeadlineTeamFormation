@@ -6,6 +6,7 @@ import constant.Constant;
 import exception.AbnormalException;
 import state.TaskReturnedWaitingState;
 import state.TaskSelectionState;
+import strategy.taskreturn.TaskReturnToLastStrategy;
 import agent.Agent;
 
 /**
@@ -21,8 +22,14 @@ public class ToTaskReturnedWaitingStateAction implements Action {
 			// 待機時間（コピー時間）が0の場合はすぐに移行
 			agent.getParameter().changeState(TaskSelectionState.getState());
 
-			// タスクマークを外す
-			agent.getParameter().getMarkedTask().markingTask(false);
+			// タスクを返却する
+			// TODO ここでifの条件分岐をしないように外に出す
+			if (!(Configuration.taskReturnStrategy instanceof TaskReturnToLastStrategy)) {
+				Configuration.taskReturnStrategy.returnTask(agent);
+			}
+			else {
+				throw new AbnormalException("タスク戻し戦略がおかしいです");
+			}
 		}
 		else if(Configuration.model instanceof MessageDelayFailurePenalty) {
 			// 待機状態に移行

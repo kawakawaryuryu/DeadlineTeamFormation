@@ -173,7 +173,10 @@ public class TeamFormationParameter {
 	}
 	
 	public void removeTask(Task task){
-		taskQueue.remove(task);
+		boolean removed = taskQueue.remove(task);
+		if (!removed) {
+			throw new AbnormalException("タスクをキューから除けませんでした");
+		}
 	}
 
 	public void returnTask(Task task) {
