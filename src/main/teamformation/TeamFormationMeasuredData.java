@@ -66,6 +66,12 @@ public class TeamFormationMeasuredData {
 	
 	public int unmarkedTaskQueueNum;
 	public int taskQueueNum;
+
+	// タスクのマークを外された平均回数を計測する用
+	public int unmarkedTaskNum;
+	public int unmarkedTaskNumByEstimationFailure;
+	public int unmarkedTaskNumByTeamFormationFailure;
+	public int unmarkedTaskNumByMemberDecision;
 	
 	public int[] markedTaskNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] markedTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
@@ -123,6 +129,11 @@ public class TeamFormationMeasuredData {
 		
 		unmarkedTaskQueueNum = 0;
 		taskQueueNum = 0;
+
+		unmarkedTaskNum = 0;
+		unmarkedTaskNumByEstimationFailure = 0;
+		unmarkedTaskNumByTeamFormationFailure = 0;
+		unmarkedTaskNumByMemberDecision = 0;
 		
 		Arrays.fill(markedTaskNum, 0);
 		Arrays.fill(markedTaskRequire, 0);
@@ -254,6 +265,21 @@ public class TeamFormationMeasuredData {
 		unmarkedTaskQueueNum += unmarkedNum;
 		taskQueueNum += allNum;
 	}
+
+	public void countUnmarkedTaskNumByEstimationFailure() {
+		unmarkedTaskNum++;
+		unmarkedTaskNumByEstimationFailure++;
+	}
+
+	public void countUnmarkedTaskNumByTeamFormationFailure() {
+		unmarkedTaskNum++;
+		unmarkedTaskNumByTeamFormationFailure++;
+	}
+
+	public void countUnmarkedTaskNumByMemberDecision() {
+		unmarkedTaskNum++;
+		unmarkedTaskNumByMemberDecision++;
+	}
 	
 	public void countMarkedTask(Task markedTask) {
 		markedTaskNum[arrayIndex]++;
@@ -352,6 +378,22 @@ public class TeamFormationMeasuredData {
 	
 	public double getAverageTaskQueueNum() {
 		return (double)taskQueueNum / (double)Constant.TURN_NUM;
+	}
+
+	public double getAverageUnmarkedTaskNum() {
+		return (double)unmarkedTaskNum / (double)Constant.TURN_NUM;
+	}
+
+	public double getAverageUnmarkedTaskNumByEstimationFailure() {
+		return (double)unmarkedTaskNumByEstimationFailure / (double)Constant.TURN_NUM;
+	}
+
+	public double getAverageUnmarkedTaskNumByTeamFormationFailure() {
+		return (double)unmarkedTaskNumByTeamFormationFailure / (double)Constant.TURN_NUM;
+	}
+
+	public double getAverageUnmarkedTaskNumByMemberDecision() {
+		return (double)unmarkedTaskNumByMemberDecision / (double)Constant.TURN_NUM;
 	}
 	
 	public double getAverageMarkedTaskRequire(int index) {

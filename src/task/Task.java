@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import main.teamformation.TeamFormationInstances;
 import random.RandomKey;
 import random.RandomManager;
 import constant.Constant;
@@ -101,12 +102,15 @@ public class Task {
 		switch(failure) {
 		case ESTIMATION_FAILURE:
 			removedMarkNumByEstimationFailure++;
+			TeamFormationInstances.getInstance().getMeasure().countUnmarkedTaskNumByEstimationFailure();
 			break;
 		case TEAM_FORMATION_FAILURE:
 			removedMarkNumByTeamFormationFailure++;
+			TeamFormationInstances.getInstance().getMeasure().countUnmarkedTaskNumByTeamFormationFailure();
 			break;
 		case DECIDE_MEMBER_FAILURE:
 			removedMarkNumByMemberDecision++;
+			TeamFormationInstances.getInstance().getMeasure().countUnmarkedTaskNumByMemberDecision();
 			break;
 		default:
 			break;

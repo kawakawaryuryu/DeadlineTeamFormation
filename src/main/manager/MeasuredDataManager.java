@@ -45,6 +45,11 @@ public class MeasuredDataManager {
 	
 	public double unmarkedTaskQueueNum;
 	public double taskQueueNum;
+
+	public double unmarkedTaskNum;
+	public double unmarkedTaskNumByEstimationFailure;
+	public double unmarkedTaskNumByTeamFormationFailure;
+	public double unmarkedTaskNumByMemberDecision;
 	
 	public double[] markedTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] markedTaskDeadline = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
@@ -91,6 +96,11 @@ public class MeasuredDataManager {
 		
 		unmarkedTaskQueueNum = 0;
 		taskQueueNum = 0;
+
+		unmarkedTaskNum = 0;
+		unmarkedTaskNumByEstimationFailure = 0;
+		unmarkedTaskNumByTeamFormationFailure = 0;
+		unmarkedTaskNumByMemberDecision = 0;
 		
 		Arrays.fill(markedTaskRequire, 0);
 		Arrays.fill(markedTaskDeadline, 0);
@@ -111,6 +121,7 @@ public class MeasuredDataManager {
 		saveTeamSizeData();
 		saveMainRoleData();
 		saveTaskQueueNum();
+		saveUnmarkedTaskNum();
 		saveMarkedTask();
 		saveAgentsNum();
 	}
@@ -170,6 +181,16 @@ public class MeasuredDataManager {
 	private void saveTaskQueueNum() {
 		unmarkedTaskQueueNum += TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskQueueNum();
 		taskQueueNum += TeamFormationInstances.getInstance().getMeasure().getAverageTaskQueueNum();
+	}
+
+	public void saveUnmarkedTaskNum() {
+		unmarkedTaskNum += TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskNum();
+		unmarkedTaskNumByEstimationFailure
+			+= TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskNumByEstimationFailure();
+		unmarkedTaskNumByTeamFormationFailure
+			+= TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskNumByTeamFormationFailure();
+		unmarkedTaskNumByMemberDecision
+			+= TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskNumByMemberDecision();
 	}
 	
 	private void saveMarkedTask() {
