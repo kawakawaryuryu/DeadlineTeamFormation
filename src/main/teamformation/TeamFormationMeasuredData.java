@@ -159,7 +159,7 @@ public class TeamFormationMeasuredData {
 		allSuccessTaskRequire += require;
 		successTeamFormationNum[arrayIndex]++;
 		allSuccessTeamFormationNum++;
-		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.MEASURE_SUCCESS_AT_END_TURN_NUM) {
+		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.END_TURN_NUM_FOR_AVERAGE) {
 			successTeamFormationNumAtEnd++;
 		}
 	}
@@ -193,7 +193,7 @@ public class TeamFormationMeasuredData {
 	
 	private void countExecutingTimeInTeam(int time, int teamSize) {
 		executingTimePerAgentInTeam[arrayIndex] += (double)time / (double)teamSize;
-		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.MEASURE_SUCCESS_AT_END_TURN_NUM) {
+		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.END_TURN_NUM_FOR_AVERAGE) {
 			executingTimePerAgentInTeamAtEnd += (double)time / (double)teamSize;
 		}
 	}
@@ -202,7 +202,7 @@ public class TeamFormationMeasuredData {
 		bindingTimeInTeamEveryTeamSize[teamSize] += time;
 		bindingTimeInTeam[arrayIndex] += time;
 		bindingTimePerAgentInTeam[arrayIndex] += (double)time / (double)teamSize;
-		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.MEASURE_SUCCESS_AT_END_TURN_NUM) {
+		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.END_TURN_NUM_FOR_AVERAGE) {
 			bindingTimePerAgentInTeamAtEnd += (double)time / (double)teamSize;
 		}
 	}

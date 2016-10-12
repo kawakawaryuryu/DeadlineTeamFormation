@@ -40,7 +40,7 @@ public class AgentMeasuredData {
 	private void countSuccessNum(MeasuredDataForEachRole element) {
 		successNum++;
 		element.countRoleNum();
-		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.MEASURE_SUCCESS_AT_END_TURN_NUM){
+		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.END_TURN_NUM_FOR_AVERAGE){
 			successNumAtEnd++;
 		}
 	}
@@ -80,13 +80,13 @@ public class AgentMeasuredData {
 	}
 	
 	public void countExecutingTimeAtEnd(int time) {
-		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.MEASURE_SUCCESS_AT_END_TURN_NUM){
+		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.END_TURN_NUM_FOR_AVERAGE){
 			executingTimeAtEnd += time;
 		}
 	}
 	
 	public void countBindingTimeAtEnd(int time) {
-		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.MEASURE_SUCCESS_AT_END_TURN_NUM){
+		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.END_TURN_NUM_FOR_AVERAGE){
 			bindingTimeAtEnd += time;
 		}
 	}

@@ -66,7 +66,7 @@ public class Constant {
 	public static final int MEASURE_Q_TURN_NUM = 10000;	//Q値の計測ターン数
 	public static final int MEASURE_Q_INIT_TURN_NUM = 10000;
 	public static final int MEASURE_VISUALIZATION_TURN_NUM = TURN_NUM;	//可視化のための結果の計測ターン
-	public static final int MEASURE_SUCCESS_AT_END_TURN_NUM = 1000;	//チーム編成成功回数を計測する最後のターン数
+	public static final int END_TURN_NUM_FOR_AVERAGE = 1000;	//平均として算出するものを計測する用のターン
 	public static final int END_TURN_NUM = 1000;
 	
 	/* エージェントの状態 */
