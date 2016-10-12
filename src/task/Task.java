@@ -16,6 +16,7 @@ public class Task {
 	private boolean mark = false;	//タスクがマークされているかどうか
 	private int removedMarkNumByEstimationFailure = 0;	//見積もり失敗によってマークを外された回数
 	private int removedMarkNumByTeamFormationFailure = 0;	//チーム編成失敗によってマークを外された回数
+	private int removedMarkNumByMemberDecision = 0;	//メンバ選択によってタスクのマークを外された回数
 	private ArrayList<Subtask> subtasks = new ArrayList<Subtask>();	//タスクが持つサブタスクを保持するリスト
 	public ArrayList<Subtask> subtasksByMembers = new ArrayList<Subtask>();	//リーダ以外が処理するサブタスクリスト
 	
@@ -104,6 +105,9 @@ public class Task {
 		case TEAM_FORMATION_FAILURE:
 			removedMarkNumByTeamFormationFailure++;
 			break;
+		case DECIDE_MEMBER_FAILURE:
+			removedMarkNumByMemberDecision++;
+			break;
 		default:
 			break;
 		}
@@ -170,9 +174,10 @@ public class Task {
 	public String toString(){
 		StringBuffer string = new StringBuffer();
 		string.append("id = " + id + " / subtask_num = " + numberOfSubtask + " / deadline = " + deadlineInTask
-				+ " / mark = " + mark +  " / removedMarkNum(EstimationFailure TeamFormationFailure) = "
-				+ (removedMarkNumByEstimationFailure + removedMarkNumByTeamFormationFailure)
-				+ "(" + removedMarkNumByEstimationFailure + " " + removedMarkNumByTeamFormationFailure + ")"
+				+ " / mark = " + mark +  " / removedMarkNum(EstimationFailure TeamFormationFailure MemberDecision) = "
+				+ (removedMarkNumByEstimationFailure + removedMarkNumByTeamFormationFailure + removedMarkNumByMemberDecision)
+				+ "(" + removedMarkNumByEstimationFailure + " " + removedMarkNumByTeamFormationFailure
+				+ " " + removedMarkNumByMemberDecision + ")"
 				+ " / taskRequireSum = " + taskRequireSum);
 		string.append(" / subtaskList(require) = ");
 		for(Subtask subtask : subtasks){
