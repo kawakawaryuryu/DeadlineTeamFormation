@@ -18,6 +18,7 @@ public class MeasuredDataManager {
 	public int allSuccessTeamFormationNum;
 	public double[] failureTeamFormationNum = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] giveUpTeamFormationNum = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public double[] unmarkedByMemberSelectionNum = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] tryingTeamFormationNum = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	
 	public double[][] successTeamFormationNumEveryTeamSize = new double[Constant.ARRAY_SIZE_FOR_MEASURE][Constant.ARRAY_SIZE_FOR_TEAM];
@@ -72,6 +73,7 @@ public class MeasuredDataManager {
 		allSuccessTeamFormationNum = 0;
 		Arrays.fill(failureTeamFormationNum, 0);
 		Arrays.fill(giveUpTeamFormationNum, 0);
+		Arrays.fill(unmarkedByMemberSelectionNum, 0);
 		Arrays.fill(tryingTeamFormationNum, 0);
 		
 		for(double[] array : successTeamFormationNumEveryTeamSize){
@@ -134,6 +136,7 @@ public class MeasuredDataManager {
 			successTeamFormationNum[i] += TeamFormationInstances.getInstance().getMeasure().successTeamFormationNum[i];
 			failureTeamFormationNum[i] += TeamFormationInstances.getInstance().getMeasure().failureTeamFormationNum[i];
 			giveUpTeamFormationNum[i] += TeamFormationInstances.getInstance().getMeasure().giveUpTeamFormationNum[i];
+			unmarkedByMemberSelectionNum[i] += TeamFormationInstances.getInstance().getMeasure().unmarkedByMemberSelectionNum[i];
 			tryingTeamFormationNum[i] += TeamFormationInstances.getInstance().getMeasure().tryingTeamFormationNum[i];
 			for(int j = 0; j < Constant.ARRAY_SIZE_FOR_TEAM; j++){
 				successTeamFormationNumEveryTeamSize[i][j] += TeamFormationInstances.getInstance().getMeasure().successTeamFormationNumEveryTeamSize[i][j];

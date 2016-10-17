@@ -191,7 +191,9 @@ public class FileWriteManager {
 		pw.print(",");
 		pw.print("マークしたタスクのリソース");
 		pw.print(",");
-		pw.println("マークしたタスクの残りデッドライン");
+		pw.print("マークしたタスクの残りデッドライン");
+		pw.print(",");
+		pw.println("メンバ選択によってタスクマークを外した回数");
 
 		return pw;
 	}
@@ -230,7 +232,9 @@ public class FileWriteManager {
 			pw.print(",");
 			pw.print(measure.markedTaskRequire[i] / (double)Constant.EXPERIMENT_NUM);
 			pw.print(",");
-			pw.println(measure.markedTaskDeadline[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.print(measure.markedTaskDeadline[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.print(",");
+			pw.println(measure.unmarkedByMemberSelectionNum[i] / (double)Constant.EXPERIMENT_NUM);
 		}
 
 		pw.close();

@@ -29,6 +29,7 @@ public class ParticipatingTeamDecisionAction implements RoleAction {
 		// マークしていたタスクがある場合はマークを外す
 		if(agent.getParameter().getMarkedTask() != null){
 			agent.getParameter().getMarkedTask().countFailure(Failure.DECIDE_MEMBER_FAILURE);
+			TeamFormationInstances.getInstance().getMeasure().countUnmarkedByMemberSelectionNum();
 
 			// タスクコピー時間が0のときはここでタスクのマークを外す
 			// TODO マークを外す処理を外に出す

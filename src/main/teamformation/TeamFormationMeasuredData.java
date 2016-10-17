@@ -37,6 +37,7 @@ public class TeamFormationMeasuredData {
 	public int allSuccessTeamFormationNum;
 	public int[] failureTeamFormationNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public int[] giveUpTeamFormationNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public int[] unmarkedByMemberSelectionNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public int[] tryingTeamFormationNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
 	
 	public int[][] successTeamFormationNumEveryTeamSize = new int[Constant.ARRAY_SIZE_FOR_MEASURE][Constant.ARRAY_SIZE_FOR_TEAM];
@@ -98,6 +99,7 @@ public class TeamFormationMeasuredData {
 		allSuccessTeamFormationNum = 0;
 		Arrays.fill(failureTeamFormationNum, 0);
 		Arrays.fill(giveUpTeamFormationNum, 0);
+		Arrays.fill(unmarkedByMemberSelectionNum, 0);
 		Arrays.fill(tryingTeamFormationNum, 0);
 		
 		for(int[] array : successTeamFormationNumEveryTeamSize){
@@ -187,6 +189,10 @@ public class TeamFormationMeasuredData {
 	
 	public void countGiveUpTeamFormationNum() {
 		giveUpTeamFormationNum[arrayIndex]++;
+	}
+
+	public void countUnmarkedByMemberSelectionNum() {
+		unmarkedByMemberSelectionNum[arrayIndex]++;
 	}
 	
 	public void countTryingTeamFormationNum() {
