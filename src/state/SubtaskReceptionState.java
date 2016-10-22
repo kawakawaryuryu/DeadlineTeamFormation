@@ -29,6 +29,9 @@ public class SubtaskReceptionState implements State {
 			
 			// 状態遷移
 			member.getParameter().changeState(MemberTaskExecuteState.getState());
+
+			// 獲得報酬の計算
+			member.calculateMemberReward(true, message.getSubtaskRequireSum(), message.getLeftReward(), message.getLeftRequireSum());
 			
 			// 報酬期待度のフィードバック
 			member.feedbackExpectedReward(message.getFrom(), true, message.getSubtaskRequireSum(), 
@@ -47,6 +50,9 @@ public class SubtaskReceptionState implements State {
 			Log.log.debugln("チーム編成失敗メッセージを受信しました");
 			// 状態遷移;
 			member.getParameter().changeState(TaskSelectionState.getState());
+
+			// 獲得報酬の計算
+			member.calculateMemberReward(false, message.getSubtaskRequireSum(), message.getLeftReward(), message.getLeftRequireSum());
 			
 			// 報酬期待度のフィードバック
 			member.feedbackExpectedReward(message.getFrom(), false, 0, 0, 1);

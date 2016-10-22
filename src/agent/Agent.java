@@ -116,7 +116,7 @@ public abstract class Agent {
 
 	public abstract void calculateMemberReward(boolean isok, int subtaskRequire, double leftReward, int leftRequireSum);
 
-	public abstract void feedbackGreedy(boolean isok, Task executedTask);
+	public abstract void feedbackGreedy(boolean isok);
 
 	public abstract void feedbackTrustToMember(Agent you, boolean isok);
 
