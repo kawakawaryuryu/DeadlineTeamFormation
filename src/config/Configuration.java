@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
+import strategy.greedy.GreedyDecreasePenaltyStrategy;
+import strategy.greedy.GreedyPenaltyStrategy;
 import strategy.taskreturn.TaskReturnStrategy;
 import strategy.taskreturn.TaskUnmarkStrategy;
 import exception.AbnormalException;
@@ -60,6 +62,9 @@ public class Configuration {
 
 	// TaskReturnStrategy
 	public static TaskReturnStrategy taskReturnStrategy = new TaskUnmarkStrategy();
+
+	// GreedyPenaltyStrategy
+	public static GreedyPenaltyStrategy greedyPenaltyStrategy = new GreedyDecreasePenaltyStrategy();
 	
 	
 	// Mail
