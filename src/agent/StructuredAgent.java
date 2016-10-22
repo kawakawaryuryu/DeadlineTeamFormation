@@ -43,9 +43,8 @@ public class StructuredAgent extends Agent {
 	}
 
 	@Override
-	public void feedbackGreedy(boolean isok, Task executedTask) {
+	public void feedbackGreedy(boolean isok) {
 		double value = isok ? 1.0 : 0.0;
-		calculateLeaderReward(isok, executedTask);	//獲得報酬の計算
 		greedy = Constant.LEARN_RATE_GREEDY * value + (1.0 - Constant.LEARN_RATE_GREEDY) * greedy;	//欲張り度の更新
 	}
 
@@ -71,7 +70,6 @@ public class StructuredAgent extends Agent {
 	@Override
 	public void feedbackExpectedReward(Agent you, boolean isok,
 			int subtaskRequire, double leftReward, int leftRequireSum) {
-		calculateMemberReward(isok, subtaskRequire, leftReward, leftRequireSum);	//獲得報酬の計算
 		int executeTime;	//実際にかかる処理時間
 		if(isok){
 			executeTime = parameter.getParticipatingTeam().getTeamExecuteTime();

@@ -1,5 +1,6 @@
 package roleaction;
 
+import config.Configuration;
 import role.Role;
 import state.LeaderWaitingState;
 import state.StateManager;
@@ -57,6 +58,7 @@ public class TentativeMemberSelectionAction implements RoleAction {
 	
 	private void actionInSearchingFailureCase(Agent agent) {
 		agent.getParameter().getMarkedTask().countFailure(Failure.ESTIMATION_FAILURE);
+		Configuration.greedyPenaltyStrategy.decreaseGreedy(agent);
 		agent.getParameter().getMarkedTask().clear();
 		TeamFormationInstances.getInstance().getMeasure().countGiveUpTeamFormationNum();
 		ActionManager.toTaskReturnedWaitingStateAction.action(agent);
