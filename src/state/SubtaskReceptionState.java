@@ -31,7 +31,10 @@ public class SubtaskReceptionState implements State {
 			member.getParameter().changeState(MemberTaskExecuteState.getState());
 
 			// 獲得報酬の計算
-			member.calculateMemberReward(true, message.getSubtaskRequireSum(), message.getLeftReward(), message.getLeftRequireSum());
+			double reward = member.calculateMemberReward(true, message.getSubtaskRequireSum(), message.getLeftReward(), message.getLeftRequireSum());
+
+			// メンバ時報酬期待度
+			member.feedbackMemberRewardExpectation(reward, true);
 			
 			// 報酬期待度のフィードバック
 			member.feedbackExpectedReward(message.getFrom(), true, message.getSubtaskRequireSum(), 
@@ -52,7 +55,10 @@ public class SubtaskReceptionState implements State {
 			member.getParameter().changeState(TaskSelectionState.getState());
 
 			// 獲得報酬の計算
-			member.calculateMemberReward(false, message.getSubtaskRequireSum(), message.getLeftReward(), message.getLeftRequireSum());
+			double reward = member.calculateMemberReward(false, message.getSubtaskRequireSum(), message.getLeftReward(), message.getLeftRequireSum());
+
+			// メンバ時報酬期待度
+			member.feedbackMemberRewardExpectation(reward, false);
 			
 			// 報酬期待度のフィードバック
 			member.feedbackExpectedReward(message.getFrom(), false, 0, 0, 1);

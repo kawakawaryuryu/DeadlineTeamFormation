@@ -44,10 +44,14 @@ public class Constant {
 	public static final double INITIAL_EXPECTED_REWARD = 1.0;	//報酬期待度の初期値
 	public static final double INITIAL_TRUST_TO_LEADER = 0.5;
 	public static final double TRUST_DECREMENT_VALUE = 0.00001;	// 信頼度の減少値（フェロモンモデル）
+	public static final double INITIAL_LEADER_REWARD_EXPECTATION = 1.0;
+	public static final double INITIAL_MEMBER_REWARD_EXPECTATION = 1.0;
 	public static double LEARN_RATE_GREEDY;	//欲張り度の学習率
 	public static double LEARN_RATE_TRUST_TO_MEMBER;	//提案受託期待度の学習率
 	public static double LEARN_RATE_REWARD;	//報酬期待度の学習率
 	public static double LEARN_RATE_TRUST_TO_LEADER;
+	public static double LEARN_RATE_LEADER_REWARD_EXPECTATION = 0.05;
+	public static double LEARN_RATE_MEMBER_REWARD_EXPECTATION = 0.05;
 	public static final int PAST_TEAM_NUM = 10;	//チーム履歴を保持する数
 	
 	 /* 信頼エージェントの閾値 */
@@ -60,6 +64,7 @@ public class Constant {
 	
 	public static final double EPSILON = 0.05;	//ε-greedyの確率0.05
 	public static final double EPSILON2 = 0.05;	//メンバ候補決定のε-greedyの確率0.00625
+	public static final double EPSILON_ROLE = 0.05; //役割決定時の確率
 	public static final int SELECT_MEMBER_NUM = 2;	//メンバ候補の選択数
 	
 	public static final int MEASURE_TURN_NUM = 50 * ADD_TASK_INTERVAL;	//処理、廃棄リソース量の計測ターン数

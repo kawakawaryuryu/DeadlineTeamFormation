@@ -71,6 +71,7 @@ public class StructuredAgent extends Agent {
 	}
 
 	@Override
+	// TODO rewrdは引数で与えるようにする
 	public void feedbackExpectedReward(Agent you, boolean isok,
 			int subtaskRequire, double leftReward, int leftRequireSum) {
 		rewardExpectation[you.id] = Constant.LEARN_RATE_REWARD * AgentTaskLibrary.getRewardPerTurn(parameter, isok, reward)
@@ -115,6 +116,18 @@ public class StructuredAgent extends Agent {
 
 	public double[] getTrustToLeader() {
 		return trustToLeader;
+	}
+
+	@Override
+	public void feedbackLeaderRewardExpectation(double reward, boolean isok) {
+		leaderRewardExpectation = Constant.LEARN_RATE_LEADER_REWARD_EXPECTATION * AgentTaskLibrary.getRewardPerTurn(parameter, isok, reward)
+				+ (1.0 - Constant.LEARN_RATE_LEADER_REWARD_EXPECTATION) * leaderRewardExpectation;
+	}
+
+	@Override
+	public void feedbackMemberRewardExpectation(double reward, boolean isok) {
+		memberRewardExpectation = Constant.LEARN_RATE_MEMBER_REWARD_EXPECTATION * AgentTaskLibrary.getRewardPerTurn(parameter, isok, reward)
+				+ (1.0 - Constant.LEARN_RATE_MEMBER_REWARD_EXPECTATION) * memberRewardExpectation;
 	}
 
 }

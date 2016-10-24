@@ -161,7 +161,10 @@ public class SubtaskAllocationState implements State {
 	
 	private void feedbackGreedyAndTrustToMember(Agent leader) {
 		// 獲得報酬の計算
-		leader.calculateLeaderReward(leader.getParameter().getLeaderField().isTeaming, leader.getParameter().getMarkedTask());
+		double reward = leader.calculateLeaderReward(leader.getParameter().getLeaderField().isTeaming, leader.getParameter().getMarkedTask());
+
+		// リーダ時期待報酬
+		leader.feedbackLeaderRewardExpectation(reward, leader.getParameter().getLeaderField().isTeaming);
 
 		// 欲張り度
 		leader.feedbackGreedy(leader.getParameter().getLeaderField().isTeaming);

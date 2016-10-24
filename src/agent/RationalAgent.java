@@ -70,4 +70,15 @@ public class RationalAgent extends Agent {
 				+ (1.0 - Constant.LEARN_RATE_REWARD) * rewardExpectation[you.id];	//報酬期待度の更新
 	}
 
+	@Override
+	public void feedbackLeaderRewardExpectation(double reward, boolean isok) {
+		leaderRewardExpectation = Constant.LEARN_RATE_LEADER_REWARD_EXPECTATION * AgentTaskLibrary.getRewardPerTurn(parameter, isok, reward)
+				+ (1.0 - Constant.LEARN_RATE_LEADER_REWARD_EXPECTATION) * leaderRewardExpectation;
+	}
+
+	@Override
+	public void feedbackMemberRewardExpectation(double reward, boolean isok) {
+		memberRewardExpectation = Constant.LEARN_RATE_MEMBER_REWARD_EXPECTATION * AgentTaskLibrary.getRewardPerTurn(parameter, isok, reward)
+				+ (1.0 - Constant.LEARN_RATE_MEMBER_REWARD_EXPECTATION) * memberRewardExpectation;
+	}
 }
