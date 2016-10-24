@@ -10,4 +10,7 @@ public class GreedyDecreasePenaltyStrategy implements GreedyPenaltyStrategy {
 		agent.feedbackGreedy(false);
 	}
 
+	public String toString() {
+		return "見積もり失敗時の欲張り度ペナルティあり戦略";
+	}
 }
