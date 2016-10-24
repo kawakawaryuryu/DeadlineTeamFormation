@@ -112,9 +112,9 @@ public abstract class Agent {
 
 	public abstract String type();
 
-	public abstract void calculateLeaderReward(boolean isok, Task executedTask);
+	public abstract double calculateLeaderReward(boolean isok, Task executedTask);
 
-	public abstract void calculateMemberReward(boolean isok, int subtaskRequire, double leftReward, int leftRequireSum);
+	public abstract double calculateMemberReward(boolean isok, int subtaskRequire, double leftReward, int leftRequireSum);
 
 	public abstract void feedbackGreedy(boolean isok);
 

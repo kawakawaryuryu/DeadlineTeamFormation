@@ -32,14 +32,16 @@ public class StructuredAgent extends Agent {
 	}
 
 	@Override
-	public void calculateLeaderReward(boolean isok, Task executedTask) {
+	public double calculateLeaderReward(boolean isok, Task executedTask) {
 		reward = isok ? executedTask.getTaskRequireSum() * greedy : 0.0;
+		return reward;
 	}
 
 	@Override
-	public void calculateMemberReward(boolean isok, int subtaskRequire,
+	public double calculateMemberReward(boolean isok, int subtaskRequire,
 			double leftReward, int leftRequireSum) {
 		reward = isok ? leftReward * ((double)subtaskRequire / (double)leftRequireSum) : 0.0;	//獲得報酬
+		return reward;
 	}
 
 	@Override
