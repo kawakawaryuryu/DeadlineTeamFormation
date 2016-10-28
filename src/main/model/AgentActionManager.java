@@ -2,6 +2,9 @@ package main.model;
 
 import log.Log;
 import main.teamformation.TeamFormationInstances;
+import state.InitialLeaderState;
+import state.InitialMemberState;
+import state.InitialRoleDecisionState;
 import state.LeaderTaskExecuteState;
 import state.LeaderWaitingState;
 import state.MemberTaskExecuteState;
@@ -45,6 +48,41 @@ public class AgentActionManager {
 		}
 		Log.log.debugln("------- タスク選択状態のエージェントの行動 -------");
 		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(TaskSelectionState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+	}
+
+	public void actionByTaskSelectionAgent() {
+		Log.log.debugln("------- タスク選択状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(TaskSelectionState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+	}
+
+	public void actionByInitialRoleDecisionAgent() {
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(InitialRoleDecisionState.getState())){
+			agent.getParameter().initialize();
+		}
+		Log.log.debugln("------- 初期役割決定状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(InitialRoleDecisionState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+	}
+
+	public void actionByInitialLeaderAgent() {
+		Log.log.debugln("------- 初期リーダ状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(InitialLeaderState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+	}
+
+	public void actionByInitialMemberAgent() {
+		Log.log.debugln("------- 初期メンバ状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(InitialMemberState.getState())){
 			agent.action();
 		}
 		Log.log.debugln();

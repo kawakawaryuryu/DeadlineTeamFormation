@@ -9,6 +9,7 @@ import log.Log;
 import main.teamformation.TeamFormationInstances;
 import message.SubtaskDoneMessage;
 import message.TeamDissolutionMessage;
+import action.ActionManager;
 import agent.Agent;
 
 public class LeaderTaskExecuteState implements State {
@@ -46,7 +47,7 @@ public class LeaderTaskExecuteState implements State {
 				taskDone){
 			// 各メンバにチーム解散を通知する
 			sendTeamDissolutionMessages(leader);
-			leader.getParameter().changeState(TaskSelectionState.getState());
+			ActionManager.toInitialStateAction.action(leader);
 			Log.log.debugln("チームの処理が終了しました");
 		}
 

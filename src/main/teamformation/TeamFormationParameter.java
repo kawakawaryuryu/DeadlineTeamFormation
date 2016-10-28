@@ -10,6 +10,9 @@ import main.TaskMarking;
 import main.agent.AgentFactory;
 import random.RandomKey;
 import random.RandomManager;
+import state.InitialLeaderState;
+import state.InitialMemberState;
+import state.InitialRoleDecisionState;
 import state.LeaderTaskExecuteState;
 import state.LeaderWaitingState;
 import state.MemberTaskExecuteState;
@@ -46,6 +49,9 @@ public class TeamFormationParameter {
 	
 	private void initializeAgentsMap() {
 		agentsMap.clear();
+		agentsMap.put(InitialRoleDecisionState.getState(), new ArrayList<Agent>());
+		agentsMap.put(InitialLeaderState.getState(), new ArrayList<Agent>());
+		agentsMap.put(InitialMemberState.getState(), new ArrayList<Agent>());
 		agentsMap.put(TaskSelectionState.getState(), new ArrayList<Agent>());
 		agentsMap.put(RoleSelectionState.getState(), new ArrayList<Agent>());
 		agentsMap.put(SubtaskAllocationState.getState(), new ArrayList<Agent>());

@@ -5,7 +5,6 @@ import config.Configuration;
 import constant.Constant;
 import exception.AbnormalException;
 import state.TaskReturnedWaitingState;
-import state.TaskSelectionState;
 import strategy.taskreturn.TaskReturnToLastStrategy;
 import agent.Agent;
 
@@ -20,7 +19,7 @@ public class ToTaskReturnedWaitingStateAction implements Action {
 	public void action(Agent agent) {
 		if(waitTurn == 0 || !(Configuration.model instanceof MessageDelayFailurePenalty)) {
 			// 待機時間（コピー時間）が0の場合はすぐに移行
-			agent.getParameter().changeState(TaskSelectionState.getState());
+			ActionManager.toInitialStateAction.action(agent);
 
 			// タスクを返却する
 			// TODO ここでifの条件分岐をしないように外に出す

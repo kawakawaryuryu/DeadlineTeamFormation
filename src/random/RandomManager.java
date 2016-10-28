@@ -41,6 +41,8 @@ public class RandomManager {
 		randomMap.put(RandomKey.SELECT_RANDOM_5, new Random(randomArray[21]));
 		randomMap.put(RandomKey.REQUIRE_RANDOM, new Random(randomArray[22]));
 		randomMap.put(RandomKey.GREEDY_RANDOM, new Random(randomArray[23]));
+		randomMap.put(RandomKey.EPSILON_ROLE_DECISION_RANDOM, new Random(randomArray[24]));
+		randomMap.put(RandomKey.ROLE_DECISION_RANDOM, new Random(randomArray[25]));
 	}
 	
 	private static void makeRandom(int experimentNumber) {

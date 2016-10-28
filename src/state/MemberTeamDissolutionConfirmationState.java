@@ -2,6 +2,7 @@ package state;
 
 import exception.AbnormalException;
 import log.Log;
+import action.ActionManager;
 import agent.Agent;
 
 public class MemberTeamDissolutionConfirmationState implements State {
@@ -16,7 +17,7 @@ public class MemberTeamDissolutionConfirmationState implements State {
 
 		// リーダからチーム解散の通知が来た
 		if(member.getParameter().getExecuteTime() <= member.getParameter().getTimerField().getTaskExecuteStateTimer() && disolved){
-			member.getParameter().changeState(TaskSelectionState.getState());
+			ActionManager.toInitialStateAction.action(member);
 			Log.log.debugln("チームの処理が終了しました");
 		}
 
