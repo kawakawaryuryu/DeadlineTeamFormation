@@ -67,7 +67,7 @@ public class TeamFormationMain {
 			TeamFormationInstances.getInstance().getParameter().decreaseTaskDeadline(TeamFormationInstances.getInstance().getMeasure());
 
 			// 信頼度を減少させる
-			decreaseTrustToMember();
+			//decreaseTrustToMember();
 			if (TeamFormationInstances.getInstance().getParameter().getAgent(0) instanceof StructuredAgent) {
 				decreaseTrustToLeader();
 			}
