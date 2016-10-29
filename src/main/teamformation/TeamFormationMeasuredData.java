@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import role.Role;
+import state.InitialLeaderState;
+import state.InitialMemberState;
+import state.InitialRoleDecisionState;
 import state.LeaderTaskExecuteState;
 import state.LeaderWaitingState;
 import state.MemberTaskExecuteState;
@@ -296,7 +299,10 @@ public class TeamFormationMeasuredData {
 	private void countAgentsNum(Agent agent) {
 		if (agent.getParameter().getState() == TaskSelectionState.getState()
 				|| agent.getParameter().getState() == RoleSelectionState.getState()
-				|| agent.getParameter().getState() == TaskMarkedWaitingState.getState()) {
+				|| agent.getParameter().getState() == TaskMarkedWaitingState.getState()
+				|| agent.getParameter().getState() == InitialRoleDecisionState.getState()
+				|| agent.getParameter().getState() == InitialLeaderState.getState()
+				|| agent.getParameter().getState() == InitialMemberState.getState()) {
 			initialStateAgentNumPerTurn[turnIndex]++;
 			initialStateAgentNum++;
 		}
