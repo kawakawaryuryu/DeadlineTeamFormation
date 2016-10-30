@@ -1,5 +1,6 @@
 package state;
 
+import log.Log;
 import main.teamformation.TeamFormationInstances;
 import constant.Constant;
 import exception.AbnormalException;
@@ -35,6 +36,8 @@ public class InitialRoleDecisionState implements State {
 		else {
 			throw new AbnormalException("役割決定においてこのような場合は存在しません");
 		}
+
+		Log.log.debug("役割は" + role + "に決定しました");
 
 		// 次の状態に移行
 		if (role == FutureRole.LEADER_FUTURE) {
