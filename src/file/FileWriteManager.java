@@ -285,6 +285,79 @@ public class FileWriteManager {
 	}
 
 	/**
+	 * リーダ時報酬期待度を書き込む(最初)
+	 * @param agents
+	 * @return
+	 * @throws IOException
+	 */
+	public static PrintWriter writeHeaderOfLeaderRewardExpectation(ArrayList<Agent> agents) throws IOException {
+		makeDirectory("RoleRewardExpectation", "Leader");
+
+		String file = "leaderRewardExpectation" + "_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("RoleRewardExpectation", "Leader", file);
+
+		pw.print("経過ターン");
+		pw.print(",");
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print(agents.get(i));
+			pw.print(",");
+		}
+		pw.println();
+
+		return pw;
+	}
+
+	/**
+	 * リーダ時報酬期待度を書き込む
+	 * @param pw
+	 * @param turn
+	 * @param agents
+	 */
+	public static void writeBodyOfLeaderRewardExpectation(PrintWriter pw, int turn, ArrayList<Agent> agents) {
+		pw.print(turn);
+		pw.print(",");
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print(agents.get(i).getLeaderRewardExpectation());
+			pw.print(",");
+		}
+		pw.println();
+	}
+
+
+	/**
+	 * メンバ時報酬期待度を書き込む(最初)
+	 * @param agents
+	 * @return
+	 * @throws IOException
+	 */
+	public static PrintWriter writeHeaderOfMemberRewardExpectation(ArrayList<Agent> agents) throws IOException {
+		makeDirectory("RoleRewardExpectation", "Member");
+
+		String file = "memberRewardExpectation" + "_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("RoleRewardExpectation", "Member", file);
+
+		pw.print("経過ターン");
+		pw.print(",");
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print(agents.get(i));
+			pw.print(",");
+		}
+		pw.println();
+
+		return pw;
+	}
+
+	public static void writeBodyOfMemberRewardExpectation(PrintWriter pw, int turn, ArrayList<Agent> agents) throws IOException {
+		pw.print(turn);
+		pw.print(",");
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print(agents.get(i).getMemberRewardExpectation());
+			pw.print(",");
+		}
+		pw.println();
+	}
+
+	/**
 	 * 欲張り度を書き込む（最初）
 	 * @param agents
 	 * @return
