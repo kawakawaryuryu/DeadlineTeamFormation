@@ -21,6 +21,9 @@ public class InitialRoleDecisionState implements State {
 
 		FutureRole role;
 
+		Log.log.debugln("リーダ時報酬期待度 = " + agent.getLeaderRewardExpectation());
+		Log.log.debugln("メンバ時報酬期待度 = " + agent.getMemberRewardExpectation());
+
 		// 確率がε以下もしくはリーダ、メンバ時報酬期待度が等しい場合
 		if (probability <= Constant.EPSILON_ROLE || agent.getLeaderRewardExpectation() == agent.getMemberRewardExpectation()) {
 			// ランダムに役割を決定
