@@ -177,6 +177,10 @@ public class TeamFormationParameter {
 	public ArrayList<Task> lookingTaskQueue(){
 		return taskQueue;
 	}
+
+	public ArrayList<Task> lookingLimitedTaskQueue(int start, int end) {
+		return (ArrayList<Task>)taskQueue.subList(start, end);
+	}
 	
 	public void removeTask(Task task){
 		boolean removed = taskQueue.remove(task);
