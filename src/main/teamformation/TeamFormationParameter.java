@@ -179,7 +179,7 @@ public class TeamFormationParameter {
 	}
 
 	public ArrayList<Task> lookingLimitedTaskQueue(int start, int end) {
-		return (ArrayList<Task>)taskQueue.subList(start, end);
+		return end < taskQueue.size() ? (ArrayList<Task>)taskQueue.subList(start, end) : (ArrayList<Task>)taskQueue.subList(start, taskQueue.size());
 	}
 	
 	public void removeTask(Task task){
