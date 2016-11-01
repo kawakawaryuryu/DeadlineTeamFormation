@@ -8,6 +8,7 @@ import constant.Constant;
 public class MeasuredDataManager {
 	
 	
+	// 時間ごとに計測するもの
 	public double[] successTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public int allSuccessTaskRequire;
 	public double[] failureTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
@@ -21,10 +22,12 @@ public class MeasuredDataManager {
 	public double[] unmarkedByMemberSelectionNum = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] tryingTeamFormationNum = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	
+	// チーム人数ごとに計測するもの
 	public double[][] successTeamFormationNumEveryTeamSize = new double[Constant.ARRAY_SIZE_FOR_MEASURE][Constant.ARRAY_SIZE_FOR_TEAM];
 	public double[] allSuccessTeamFormationNumEveryTeamSize = new double[Constant.ARRAY_SIZE_FOR_TEAM];
 	public double[] bindingTimeInTeamEveryTeamSize = new double[Constant.ARRAY_SIZE_FOR_TEAM];
 
+	// 1チームあたりの実行時間、拘束時間等を計測するもの
 	public double teamExecuteTime;
 	public double[] bindingTimeInTeam = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] executingTimePerAgentInTeam = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
@@ -32,29 +35,36 @@ public class MeasuredDataManager {
 	public double executingTimePerAgentInTeamAtEnd;
 	public double bindingTimePerAgentInTeamAtEnd;
 	
+	// チーム人数
 	public double tentativeTeamSize;
 	public double teamSize;
 	
+	// 役割ごとの主に担当したエージェント数
 	public int leaderMain;
 	public int memberMain;
 	public int neitherLeaderNorMember;
 	
+	// 状態ごとの留まった時間
 	public int initialTime;
 	public int leaderTime;
 	public int memberTime;
 	public int executeTime;
 	
+	// タスクキュー内の数
 	public double unmarkedTaskQueueNum;
 	public double taskQueueNum;
 
+	// タスクのマークを外された平均回数を計測する用
 	public double unmarkedTaskNum;
 	public double unmarkedTaskNumByEstimationFailure;
 	public double unmarkedTaskNumByTeamFormationFailure;
 	public double unmarkedTaskNumByMemberDecision;
 	
+	// 時間ごとに計測したマークしたタスクに関するもの
 	public double[] markedTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] markedTaskDeadline = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 
+	// 状態ごとのエージェント数を計測したもの
 	public double[] initialStateAgentNumPerTurn = new double[Constant.TURN_NUM];
 	public double[] leaderOrMemberStateAgentNumPerTurn = new double[Constant.TURN_NUM];
 	public double[] executeStateAgentNumPerTurn = new double[Constant.TURN_NUM];
@@ -63,6 +73,7 @@ public class MeasuredDataManager {
 	public double executeStateAgentNum;
 	
 	MeasuredDataManager() {
+		// 時間ごとに計測するもの
 		Arrays.fill(successTaskRequire, 0);
 		allSuccessTaskRequire = 0;
 		Arrays.fill(failureTaskRequire, 0);
@@ -76,12 +87,14 @@ public class MeasuredDataManager {
 		Arrays.fill(unmarkedByMemberSelectionNum, 0);
 		Arrays.fill(tryingTeamFormationNum, 0);
 		
+		// チーム人数ごとに計測するもの
 		for(double[] array : successTeamFormationNumEveryTeamSize){
 			Arrays.fill(array, 0);
 		}
 		Arrays.fill(allSuccessTeamFormationNumEveryTeamSize, 0);
 		Arrays.fill(bindingTimeInTeamEveryTeamSize, 0);
 		
+		// 1チームあたりの実行時間、拘束時間等を計測するもの
 		teamExecuteTime = 0;
 		Arrays.fill(bindingTimeInTeam, 0);
 		Arrays.fill(executingTimePerAgentInTeam, 0);
@@ -89,24 +102,30 @@ public class MeasuredDataManager {
 		executingTimePerAgentInTeamAtEnd = 0;
 		bindingTimePerAgentInTeamAtEnd = 0;
 		
+		// チーム人数
 		tentativeTeamSize = 0;
 		teamSize = 0;
 		
+		// 役割ごとの主に担当したエージェント数
 		leaderMain = 0;
 		memberMain = 0;
 		neitherLeaderNorMember = 0;
 		
+		// タスクキュー内の数
 		unmarkedTaskQueueNum = 0;
 		taskQueueNum = 0;
 
+		// タスクのマークを外された平均回数を計測する用
 		unmarkedTaskNum = 0;
 		unmarkedTaskNumByEstimationFailure = 0;
 		unmarkedTaskNumByTeamFormationFailure = 0;
 		unmarkedTaskNumByMemberDecision = 0;
 		
+		// 時間ごとに計測したマークしたタスクに関するもの
 		Arrays.fill(markedTaskRequire, 0);
 		Arrays.fill(markedTaskDeadline, 0);
 
+		// 状態ごとのエージェント数を計測したもの
 		Arrays.fill(initialStateAgentNumPerTurn, 0);
 		Arrays.fill(leaderOrMemberStateAgentNumPerTurn, 0);
 		Arrays.fill(executeStateAgentNumPerTurn, 0);
@@ -128,6 +147,9 @@ public class MeasuredDataManager {
 		saveAgentsNum();
 	}
 	
+	/**
+	 * 時間ごとに計測するものを変数に保存する
+	 */
 	private void saveMeasuredDataPerTurn() {
 		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
 			successTaskRequire[i] += TeamFormationInstances.getInstance().getMeasure().successTaskRequire[i]; 
@@ -150,6 +172,9 @@ public class MeasuredDataManager {
 		}
 	}
 	
+	/**
+	 * 1回の実験ごとに計測するものを変数に保存する
+	 */
 	private void saveMeasuredDataAtEnd() {
 		allSuccessTaskRequire += TeamFormationInstances.getInstance().getMeasure().allSuccessTaskRequire;
 		allFailureTaskRequire += TeamFormationInstances.getInstance().getMeasure().allFailureTaskRequire;
@@ -157,6 +182,9 @@ public class MeasuredDataManager {
 		successTeamFormationNumAtEnd += TeamFormationInstances.getInstance().getMeasure().successTeamFormationNumAtEnd;
 	}
 	
+	/**
+	 * チーム人数ごとに計測するものを変数に保存する
+	 */
 	private void saveMeasuredDataEveryTeamSize() {
 		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_TEAM; i++){
 			allSuccessTeamFormationNumEveryTeamSize[i] += TeamFormationInstances.getInstance().getMeasure().allSuccessTeamFormationNumEveryTeamSize[i];
@@ -164,28 +192,43 @@ public class MeasuredDataManager {
 		}
 	}
 	
+	/**
+	 * チーム実行に関するものを変数に保存する
+	 */
 	private void saveTeamExecuteData() {
 		teamExecuteTime += TeamFormationInstances.getInstance().getMeasure().getAverageTeamExecuteTimeInTeam();
 		executingTimePerAgentInTeamAtEnd += TeamFormationInstances.getInstance().getMeasure().getAverageExecutingTimePerAgentInTeamAtEnd();
 		bindingTimePerAgentInTeamAtEnd += TeamFormationInstances.getInstance().getMeasure().getAverageBindingTimePerAgentInTeamAtEnd();
 	}
 	
+	/**
+	 * チーム人数を変数に保存する　
+	 */
 	private void saveTeamSizeData() {
 		tentativeTeamSize += TeamFormationInstances.getInstance().getMeasure().getAverageTentativeTeamSize();
 		teamSize += TeamFormationInstances.getInstance().getMeasure().getAverageTeamSize();
 	}
 	
+	/**
+	 * 役割ごとの主に担当したエージェント数を変数に保存する
+	 */
 	private void saveMainRoleData() {
 		leaderMain += TeamFormationInstances.getInstance().getMeasure().leaderMain;
 		memberMain += TeamFormationInstances.getInstance().getMeasure().memberMain;
 		neitherLeaderNorMember += TeamFormationInstances.getInstance().getMeasure().neitherLeaderNorMember;
 	}
 	
+	/**
+	 * タスクキュー内の数を変数に保存する
+	 */
 	private void saveTaskQueueNum() {
 		unmarkedTaskQueueNum += TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskQueueNum();
 		taskQueueNum += TeamFormationInstances.getInstance().getMeasure().getAverageTaskQueueNum();
 	}
 
+	/**
+	 * タスクのマークを外された平均回数を変数に保存する
+	 */
 	public void saveUnmarkedTaskNum() {
 		unmarkedTaskNum += TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskNum();
 		unmarkedTaskNumByEstimationFailure
@@ -196,6 +239,9 @@ public class MeasuredDataManager {
 			+= TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskNumByMemberDecision();
 	}
 	
+	/**
+	 * 時間ごとに計測したマークしたタスクに関するものを変数に保存する
+	 */
 	private void saveMarkedTask() {
 		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
 			markedTaskRequire[i] += TeamFormationInstances.getInstance().getMeasure().getAverageMarkedTaskRequire(i);
@@ -203,6 +249,9 @@ public class MeasuredDataManager {
 		}
 	}
 
+	/**
+	 * 状態ごとのエージェント数を計測したものを変数に保存する
+	 */
 	private void saveAgentsNum() {
 		for (int i = 0; i < Constant.TURN_NUM; i++) {
 			initialStateAgentNumPerTurn[i] += TeamFormationInstances.getInstance().getMeasure().initialStateAgentNumPerTurn[i];

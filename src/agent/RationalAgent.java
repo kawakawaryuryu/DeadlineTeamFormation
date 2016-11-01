@@ -1,5 +1,6 @@
 package agent;
 
+import library.AgentTaskLibrary;
 import task.Task;
 import agent.paramter.AbstractAgentParameter;
 import constant.Constant;
@@ -24,14 +25,16 @@ public class RationalAgent extends Agent {
 	}
 
 	@Override
-	public void calculateLeaderReward(boolean isok, Task executedTask) {
+	public double calculateLeaderReward(boolean isok, Task executedTask) {
 		reward = isok ? executedTask.getTaskRequireSum() * greedy : 0.0;
+		return reward;
 	}
 
 	@Override
-	public void calculateMemberReward(boolean isok, int subtaskRequire,
+	public double calculateMemberReward(boolean isok, int subtaskRequire,
 			double leftReward, int leftRequireSum) {
 		reward = isok ? leftReward * ((double)subtaskRequire / (double)leftRequireSum) : 0.0;	//獲得報酬
+		return reward;
 	}
 
 	@Override
@@ -60,18 +63,22 @@ public class RationalAgent extends Agent {
 	}
 
 	@Override
+	// TODO rewrdは引数で与えるようにする
 	public void feedbackExpectedReward(Agent you, boolean isok,
 			int subtaskRequire, double leftReward, int leftRequireSum) {
-		int executeTime;	//実際にかかる処理時間
-		if(isok){
-			executeTime = parameter.getParticipatingTeam().getTeamExecuteTime();
-		}
-		//チーム編成に失敗した場合は1とする（0だと割り切れないため）
-		else{
-			executeTime = 1;
-		}
-		rewardExpectation[you.id] = Constant.LEARN_RATE_REWARD * (reward / (double)executeTime) + (1.0 - Constant.LEARN_RATE_REWARD) * rewardExpectation[you.id];	//報酬期待度の更新
+		rewardExpectation[you.id] = Constant.LEARN_RATE_REWARD * AgentTaskLibrary.getRewardPerTurn(parameter, isok, reward)
+				+ (1.0 - Constant.LEARN_RATE_REWARD) * rewardExpectation[you.id];	//報酬期待度の更新
 	}
 
+	@Override
+	public void feedbackLeaderRewardExpectation(double reward, boolean isok) {
+		leaderRewardExpectation = Constant.LEARN_RATE_LEADER_REWARD_EXPECTATION * AgentTaskLibrary.getRewardPerTurn(parameter, isok, reward)
+				+ (1.0 - Constant.LEARN_RATE_LEADER_REWARD_EXPECTATION) * leaderRewardExpectation;
+	}
 
+	@Override
+	public void feedbackMemberRewardExpectation(double reward, boolean isok) {
+		memberRewardExpectation = Constant.LEARN_RATE_MEMBER_REWARD_EXPECTATION * AgentTaskLibrary.getRewardPerTurn(parameter, isok, reward)
+				+ (1.0 - Constant.LEARN_RATE_MEMBER_REWARD_EXPECTATION) * memberRewardExpectation;
+	}
 }

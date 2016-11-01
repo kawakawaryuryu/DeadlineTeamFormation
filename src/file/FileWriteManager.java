@@ -146,6 +146,7 @@ public class FileWriteManager {
 		pw.println("仮メンバ選択の戦略" + "," + memberSelectionStrategy.toString());
 		pw.println("エージェント行動の流れ（モデル）" + "," + Configuration.model);
 		pw.println("タスク返却の戦略" + "," + Configuration.taskReturnStrategy);
+		pw.println("欲張り度ペナルティの戦略" + "," + Configuration.greedyPenaltyStrategy);
 		pw.println("可視化のための閾値を格納する配列要素数" + "," + Constant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM);
 		for(int i = 0; i < Constant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM; i++){
 			pw.println(i + " 番目" + "," + Constant.TEAM_FORMATION_PERCENTAGE_BORDER[i]);
@@ -281,6 +282,79 @@ public class FileWriteManager {
 			pw.println();
 		}
 		pw.close();
+	}
+
+	/**
+	 * リーダ時報酬期待度を書き込む(最初)
+	 * @param agents
+	 * @return
+	 * @throws IOException
+	 */
+	public static PrintWriter writeHeaderOfLeaderRewardExpectation(ArrayList<Agent> agents) throws IOException {
+		makeDirectory("RoleRewardExpectation", "Leader");
+
+		String file = "leaderRewardExpectation" + "_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("RoleRewardExpectation", "Leader", file);
+
+		pw.print("経過ターン");
+		pw.print(",");
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print(agents.get(i));
+			pw.print(",");
+		}
+		pw.println();
+
+		return pw;
+	}
+
+	/**
+	 * リーダ時報酬期待度を書き込む
+	 * @param pw
+	 * @param turn
+	 * @param agents
+	 */
+	public static void writeBodyOfLeaderRewardExpectation(PrintWriter pw, int turn, ArrayList<Agent> agents) {
+		pw.print(turn);
+		pw.print(",");
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print(agents.get(i).getLeaderRewardExpectation());
+			pw.print(",");
+		}
+		pw.println();
+	}
+
+
+	/**
+	 * メンバ時報酬期待度を書き込む(最初)
+	 * @param agents
+	 * @return
+	 * @throws IOException
+	 */
+	public static PrintWriter writeHeaderOfMemberRewardExpectation(ArrayList<Agent> agents) throws IOException {
+		makeDirectory("RoleRewardExpectation", "Member");
+
+		String file = "memberRewardExpectation" + "_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("RoleRewardExpectation", "Member", file);
+
+		pw.print("経過ターン");
+		pw.print(",");
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print(agents.get(i));
+			pw.print(",");
+		}
+		pw.println();
+
+		return pw;
+	}
+
+	public static void writeBodyOfMemberRewardExpectation(PrintWriter pw, int turn, ArrayList<Agent> agents) throws IOException {
+		pw.print(turn);
+		pw.print(",");
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print(agents.get(i).getMemberRewardExpectation());
+			pw.print(",");
+		}
+		pw.println();
 	}
 
 	/**

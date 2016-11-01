@@ -5,6 +5,7 @@ import strategy.taskselection.TaskSelectionStrategy;
 import task.Task;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
+import action.ActionManager;
 import agent.Agent;
 
 public class TaskSelectionState implements State {
@@ -28,8 +29,7 @@ public class TaskSelectionState implements State {
 			Log.log.debugln("タスクをマークしませんでした");
 		}
 		
-		agent.getParameter().changeState(RoleSelectionState.getState());
-		TeamFormationInstances.getInstance().getParameter().addAgentToAgentsMap(RoleSelectionState.getState(), agent);
+		ActionManager.toRoleSelectionStateAction.action(agent);
 	}
 
 	public static State getState() {

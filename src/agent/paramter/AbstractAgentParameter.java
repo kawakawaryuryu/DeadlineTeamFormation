@@ -3,10 +3,12 @@ package agent.paramter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import config.Configuration;
 import agent.Agent;
 import agent.TimerField;
 import agent.leader.LeaderField;
 import agent.member.MemberField;
+import main.model.InitialRoleDecisionModel;
 import message.AnswerMessage;
 import message.OfferMessage;
 import message.SubtaskDoneMessage;
@@ -18,6 +20,7 @@ import role.LeaderMeasuredData;
 import role.MeasuredDataForEachRole;
 import role.MemberMeasuredData;
 import role.Role;
+import state.InitialRoleDecisionState;
 import state.State;
 import state.TaskSelectionState;
 import task.Subtask;
@@ -61,7 +64,9 @@ public abstract class AbstractAgentParameter {
 	}
 
 	public void initialize() {
-		state = TaskSelectionState.getState();
+		// TODO modelに結びつかない設計に修正する
+		state = !(Configuration.model instanceof InitialRoleDecisionModel)? TaskSelectionState.getState()
+				: InitialRoleDecisionState.getState();
 		role = Role.INITIAL;
 		sendAgents.clear();
 		markedTask = null;

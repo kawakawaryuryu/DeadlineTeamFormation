@@ -17,8 +17,13 @@ public class TeamFormationFileManager {
 
 	}
 	
+	// リーダ時報酬期待度書き込み用のPrintWriterインスタンスを取得
+	PrintWriter leaderRewardExpectationWriter;
+
+	// メンバ時報酬期待度書き込み用のPrintWriterインスタンスを取得
+	PrintWriter memberRewardExpectationWriter;
 	
-	// ファイル書き込み用のPrintWriterインスタンスを取得
+	// 欲張り度書き込み用のPrintWriterインスタンスを取得
 	PrintWriter greedyWriter;
 
 	// タスクキュー書き込み用PrintWriterインスタンスを取得
@@ -36,6 +41,8 @@ public class TeamFormationFileManager {
 	
 	public void setFileInstances(int experimentNumber) {
 		try {
+			leaderRewardExpectationWriter = getLeaderRewardExpectationWriter(experimentNumber);
+			memberRewardExpectationWriter = getMemberRewardExpectationWriter(experimentNumber);
 			greedyWriter = getGreedyWriter(experimentNumber);
 			taskQueueWriter = getTaskQueueWriter(experimentNumber);
 			trustLeadersWriter
@@ -102,6 +109,12 @@ public class TeamFormationFileManager {
 	
 	public void close(int experimentNumber, ArrayList<Agent> agents) {
 		try {
+			// leaderRewardExpetationWriterをclose
+			closeLeaderRewardExpectationWrite(experimentNumber, leaderRewardExpectationWriter);
+
+			// memberrRewardExpetationWriterをclose
+			closeMemberRewardExpectationWrite(experimentNumber, memberRewardExpectationWriter);
+
 			// greedyWriterをclose
 			closeGreedyWrite(experimentNumber, greedyWriter);
 
@@ -121,7 +134,38 @@ public class TeamFormationFileManager {
 		}
 	}
 	
-	
+
+	private PrintWriter getLeaderRewardExpectationWriter(int experimentNumber) throws IOException {
+		if(experimentNumber == 1) {
+			return FileWriteManager.writeHeaderOfLeaderRewardExpectation(TeamFormationInstances.getInstance().getParameter().getAgents());
+		}
+		else {
+			return null;
+		}
+	}
+
+	private void closeLeaderRewardExpectationWrite(int experimentNumber, PrintWriter leaderRewardExpectationWriter) {
+		if(experimentNumber == 1) {
+			leaderRewardExpectationWriter.close();
+		}
+	}
+
+	private PrintWriter getMemberRewardExpectationWriter(int experimentNumber) throws IOException {
+		if(experimentNumber == 1) {
+			return FileWriteManager.writeHeaderOfMemberRewardExpectation(TeamFormationInstances.getInstance().getParameter().getAgents());
+		}
+		else {
+			return null;
+		}
+	}
+
+	private void closeMemberRewardExpectationWrite(int experimentNumber, PrintWriter memberRewardExpectationWriter) {
+		if(experimentNumber == 1) {
+			memberRewardExpectationWriter.close();
+		}
+	}
+
+
 	private PrintWriter getGreedyWriter(int experimentNumber) throws IOException {
 		if(experimentNumber == 1){
 			return FileWriteManager.writeHeaderOfGreedy(TeamFormationInstances.getInstance().getParameter().getAgents());
@@ -144,8 +188,11 @@ public class TeamFormationFileManager {
 		}
 	}
 	
+	// TODO greedyWriterをグローバルに与えるようにする
 	private void writeMeasuredDataPerTurn(PrintWriter greedy, int turn, ArrayList<Agent> agents, int experimentNumber) throws IOException {
 		if(experimentNumber == 1){
+			FileWriteManager.writeBodyOfLeaderRewardExpectation(leaderRewardExpectationWriter, turn, agents);
+			FileWriteManager.writeBodyOfMemberRewardExpectation(memberRewardExpectationWriter, turn, agents);
 			FileWriteManager.writeBodyOfGreedy(greedy, turn, agents);
 			FileWriteManager.writeTrustToMember(agents, turn);
 			FileWriteManager.writeRewardExpectation(agents, turn);

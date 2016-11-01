@@ -10,6 +10,7 @@ import task.Subtask;
 import message.OfferMessage;
 import constant.Constant;
 import agent.Agent;
+import agent.paramter.AbstractAgentParameter;
 
 public class AgentTaskLibrary {
 	
@@ -105,5 +106,24 @@ public class AgentTaskLibrary {
 		}
 		
 		return canExecuteMessages;
+	}
+
+	/**
+	 * 1tickあたりの獲得報酬を返す
+	 * @param parameter エージェントパラメータ
+	 * @param isok チーム編成の成否
+	 * @param reward 獲得報酬
+	 * @return
+	 */
+	public static double getRewardPerTurn(AbstractAgentParameter parameter, boolean isok, double reward) {
+		double executeTime;
+		if(isok){
+			executeTime = parameter.getParticipatingTeam().getTeamExecuteTime();
+		}
+		//チーム編成に失敗した場合は1とする（0だと割り切れないため）
+		else{
+			executeTime = 1;
+		}
+		return reward / (double)executeTime;
 	}
 }

@@ -4,6 +4,7 @@ import role.Role;
 import task.Subtask;
 import log.Log;
 import message.TeamFormationMessage;
+import action.ActionManager;
 import agent.Agent;
 import agent.StructuredAgent;
 
@@ -31,7 +32,10 @@ public class SubtaskReceptionState implements State {
 			member.getParameter().changeState(MemberTaskExecuteState.getState());
 
 			// 獲得報酬の計算
-			member.calculateMemberReward(true, message.getSubtaskRequireSum(), message.getLeftReward(), message.getLeftRequireSum());
+			double reward = member.calculateMemberReward(true, message.getSubtaskRequireSum(), message.getLeftReward(), message.getLeftRequireSum());
+
+			// メンバ時報酬期待度
+			member.feedbackMemberRewardExpectation(reward, true);
 			
 			// 報酬期待度のフィードバック
 			member.feedbackExpectedReward(message.getFrom(), true, message.getSubtaskRequireSum(), 
@@ -48,11 +52,14 @@ public class SubtaskReceptionState implements State {
 		// チーム編成失敗の場合
 		else{
 			Log.log.debugln("チーム編成失敗メッセージを受信しました");
-			// 状態遷移;
-			member.getParameter().changeState(TaskSelectionState.getState());
+			// 状態遷移
+			ActionManager.toInitialStateAction.action(member);
 
 			// 獲得報酬の計算
-			member.calculateMemberReward(false, message.getSubtaskRequireSum(), message.getLeftReward(), message.getLeftRequireSum());
+			double reward = member.calculateMemberReward(false, message.getSubtaskRequireSum(), message.getLeftReward(), message.getLeftRequireSum());
+
+			// メンバ時報酬期待度
+			member.feedbackMemberRewardExpectation(reward, false);
 			
 			// 報酬期待度のフィードバック
 			member.feedbackExpectedReward(message.getFrom(), false, 0, 0, 1);

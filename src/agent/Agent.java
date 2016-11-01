@@ -17,10 +17,13 @@ public abstract class Agent {
 	protected AgentMeasuredData measure = new AgentMeasuredData();
 	protected AbstractAgentParameter parameter;
 
+	// TODO rewardはエージェントに持たせる必要なし
 	double reward;
 	double greedy;
 	double[] trustToMember = new double[Constant.AGENT_NUM];
 	double[] rewardExpectation = new double[Constant.AGENT_NUM];
+	double leaderRewardExpectation;
+	double memberRewardExpectation;
 
 
 	public Agent(int id, AbstractAgentParameter parameter) {
@@ -37,6 +40,8 @@ public abstract class Agent {
 		trustToMember[id] = 0.0;
 		Arrays.fill(rewardExpectation, Constant.INITIAL_EXPECTED_REWARD);
 		rewardExpectation[id] = 0.0;
+		leaderRewardExpectation = Constant.INITIAL_LEADER_REWARD_EXPECTATION;
+		memberRewardExpectation = Constant.INITIAL_MEMBER_REWARD_EXPECTATION;
 	}
 
 	public Agent(int id, int[] ability, AbstractAgentParameter parameter) {
@@ -96,6 +101,14 @@ public abstract class Agent {
 		return rewardExpectation[you.id];
 	}
 
+	public double getLeaderRewardExpectation() {
+		return leaderRewardExpectation;
+	}
+
+	public double getMemberRewardExpectation() {
+		return memberRewardExpectation;
+	}
+
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		str.append("id=" + id + "/ability=");
@@ -112,13 +125,17 @@ public abstract class Agent {
 
 	public abstract String type();
 
-	public abstract void calculateLeaderReward(boolean isok, Task executedTask);
+	public abstract double calculateLeaderReward(boolean isok, Task executedTask);
 
-	public abstract void calculateMemberReward(boolean isok, int subtaskRequire, double leftReward, int leftRequireSum);
+	public abstract double calculateMemberReward(boolean isok, int subtaskRequire, double leftReward, int leftRequireSum);
 
 	public abstract void feedbackGreedy(boolean isok);
 
 	public abstract void feedbackTrustToMember(Agent you, boolean isok);
 
 	public abstract void feedbackExpectedReward(Agent you, boolean isok, int subtaskRequire, double leftReward, int leftRequireSum);
+
+	public abstract void feedbackLeaderRewardExpectation(double reward, boolean isok);
+
+	public abstract void feedbackMemberRewardExpectation(double reward, boolean isok);
 }

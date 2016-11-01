@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import role.Role;
+import state.InitialLeaderState;
+import state.InitialMemberState;
+import state.InitialRoleDecisionState;
 import state.LeaderTaskExecuteState;
 import state.LeaderWaitingState;
 import state.MemberTaskExecuteState;
@@ -27,6 +30,7 @@ public class TeamFormationMeasuredData {
 	// 毎ターン計測する用のインデックス
 	int turnIndex;
 	
+	// 時間ごとに計測するもの
 	public int[] successTaskRequire = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public int allSuccessTaskRequire;
 	public int[] failureTaskRequire = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
@@ -40,10 +44,12 @@ public class TeamFormationMeasuredData {
 	public int[] unmarkedByMemberSelectionNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public int[] tryingTeamFormationNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
 	
+	// チーム人数ごとに計測するもの
 	public int[][] successTeamFormationNumEveryTeamSize = new int[Constant.ARRAY_SIZE_FOR_MEASURE][Constant.ARRAY_SIZE_FOR_TEAM];
 	public int[] allSuccessTeamFormationNumEveryTeamSize = new int[Constant.ARRAY_SIZE_FOR_TEAM];
 	public int[] bindingTimeInTeamEveryTeamSize = new int[Constant.ARRAY_SIZE_FOR_TEAM];
 
+	// 1チームあたりの実行時間、拘束時間等を計測するもの
 	public int teamExecuteTime;
 	public int[] bindingTimeInTeam = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] executingTimePerAgentInTeam = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
@@ -51,20 +57,25 @@ public class TeamFormationMeasuredData {
 	public double executingTimePerAgentInTeamAtEnd;
 	public double bindingTimePerAgentInTeamAtEnd;
 	
+	// チーム人数
 	public int tentativeTeamSize;
 	public int teamSize;
 	
+	// 役割ごとの主に担当したエージェント数
 	public int leaderMain;
 	public int memberMain;
 	public int neitherLeaderNorMember;
 	
+	// 状態ごとの留まった時間
 	public int initialTime;
 	public int leaderTime;
 	public int memberTime;
 	public int executeTime;
 	
+	// チーム編成を成功した中で全エージェント間のエッジ数
 	public int allSuccessTeamFormationEdge;
 	
+	// タスクキュー内の数
 	public int unmarkedTaskQueueNum;
 	public int taskQueueNum;
 
@@ -74,10 +85,12 @@ public class TeamFormationMeasuredData {
 	public int unmarkedTaskNumByTeamFormationFailure;
 	public int unmarkedTaskNumByMemberDecision;
 	
+	// 時間ごとに計測したマークしたタスクに関するもの
 	public int[] markedTaskNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] markedTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] markedTaskDeadline = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 
+	// 状態ごとのエージェント数を計測したもの
 	public int[] initialStateAgentNumPerTurn = new int[Constant.TURN_NUM];
 	public int[] leaderOrMemberStateAgentNumPerTurn = new int[Constant.TURN_NUM];
 	public int[] executeStateAgentNumPerTurn = new int[Constant.TURN_NUM];
@@ -86,9 +99,12 @@ public class TeamFormationMeasuredData {
 	public int executeStateAgentNum;
 	
 	public void initialize() {
+		// 50ターンごとに計測する用のインデックス
 		arrayIndex = 0;
+		// 毎ターン計測する用のインデックス
 		turnIndex = 0;
 		
+		// 時間ごとに計測するもの
 		Arrays.fill(successTaskRequire, 0);
 		allSuccessTaskRequire = 0;
 		Arrays.fill(failureTaskRequire, 0);
@@ -102,12 +118,14 @@ public class TeamFormationMeasuredData {
 		Arrays.fill(unmarkedByMemberSelectionNum, 0);
 		Arrays.fill(tryingTeamFormationNum, 0);
 		
+		// チーム人数ごとに計測するもの
 		for(int[] array : successTeamFormationNumEveryTeamSize){
 			Arrays.fill(array, 0);
 		}
 		Arrays.fill(allSuccessTeamFormationNumEveryTeamSize, 0);
 		Arrays.fill(bindingTimeInTeamEveryTeamSize, 0);
 		
+		// 1チームあたりの実行時間、拘束時間等を計測するもの
 		teamExecuteTime = 0;
 		Arrays.fill(bindingTimeInTeam, 0);
 		Arrays.fill(executingTimePerAgentInTeam, 0);
@@ -115,32 +133,40 @@ public class TeamFormationMeasuredData {
 		executingTimePerAgentInTeamAtEnd = 0;
 		bindingTimePerAgentInTeamAtEnd = 0;
 		
+		// チーム人数
 		tentativeTeamSize = 0;
 		teamSize = 0;
 		
+		// 役割ごとの主に担当したエージェント数
 		leaderMain = 0;
 		memberMain = 0;
 		neitherLeaderNorMember = 0;
 		
+		// 状態ごとの留まった時間
 		initialTime = 0;
 		leaderTime = 0;
 		memberTime = 0;
 		executeTime = 0;
 		
+		// チーム編成を成功した中で全エージェント間のエッジ数
 		allSuccessTeamFormationEdge = 0;
 		
+		// タスクキュー内の数
 		unmarkedTaskQueueNum = 0;
 		taskQueueNum = 0;
 
+		// タスクのマークを外された平均回数を計測する用
 		unmarkedTaskNum = 0;
 		unmarkedTaskNumByEstimationFailure = 0;
 		unmarkedTaskNumByTeamFormationFailure = 0;
 		unmarkedTaskNumByMemberDecision = 0;
 		
+		// 時間ごとに計測したマークしたタスクに関するもの
 		Arrays.fill(markedTaskNum, 0);
 		Arrays.fill(markedTaskRequire, 0);
 		Arrays.fill(markedTaskDeadline, 0);
 
+		// 状態ごとのエージェント数を計測したもの
 		Arrays.fill(initialStateAgentNumPerTurn, 0);
 		Arrays.fill(leaderOrMemberStateAgentNumPerTurn, 0);
 		Arrays.fill(executeStateAgentNumPerTurn, 0);
@@ -157,6 +183,11 @@ public class TeamFormationMeasuredData {
 		turnIndex++;
 	}
 	
+	/**
+	 * チーム編成に成功したときにカウントする
+	 * @param require
+	 * @param team
+	 */
 	public void countInSuccessCase(int require, Team team) {
 		countSuccess(require);
 		countSuccessTeamFormationNumEveryTeamSize(team.getTeamMate().size());
@@ -167,6 +198,10 @@ public class TeamFormationMeasuredData {
 		countSuccessTeamFormationEdge(team.getTeamMate().size() - 1);
 	}
 	
+	/**
+	 * チーム編成成功回数や処理リソースなどを計測する
+	 * @param require
+	 */
 	private void countSuccess(int require) {
 		successTaskRequire[arrayIndex] += require;
 		allSuccessTaskRequire += require;
@@ -177,37 +212,66 @@ public class TeamFormationMeasuredData {
 		}
 	}
 	
+	/**
+	 * タスク廃棄に関する数を計測する
+	 * @param require
+	 */
 	public void countFailure(int require) {
 		failureTaskRequire[arrayIndex] += require;
 		allFailureTaskRequire += require;
 		failureTaskNum[arrayIndex]++;
 	}
 	
+	/*
+	 * チーム編成失敗数を計測する
+	 */
 	public void countFailureTeamFormationNum() {
 		failureTeamFormationNum[arrayIndex]++;
 	}
 	
+	/**
+	 * チーム編成断念数(見積もり失敗数)を計測する
+	 */
 	public void countGiveUpTeamFormationNum() {
 		giveUpTeamFormationNum[arrayIndex]++;
 	}
 
+	/**
+	 * メンバ選択によってマークを外したタスク数を計測する
+	 */
 	public void countUnmarkedByMemberSelectionNum() {
 		unmarkedByMemberSelectionNum[arrayIndex]++;
 	}
 	
+	/**
+	 * チーム編成トライ回数を計測する
+	 */
 	public void countTryingTeamFormationNum() {
 		tryingTeamFormationNum[arrayIndex]++;
 	}
 	
+	/**
+	 * チーム人数ごとの成功回数を計測する
+	 * @param teamSize
+	 */
 	private void countSuccessTeamFormationNumEveryTeamSize(int teamSize) {
 		successTeamFormationNumEveryTeamSize[arrayIndex][teamSize]++;
 		allSuccessTeamFormationNumEveryTeamSize[teamSize]++;
 	}
 	
+	/**
+	 * チーム実行時間を計測する
+	 * @param time
+	 */
 	private void countTeamExecuteTime(int time) {
 		teamExecuteTime += time;
 	}
 	
+	/**
+	 * 1チームあたりの実行時間を計測する
+	 * @param time
+	 * @param teamSize
+	 */
 	private void countExecutingTimeInTeam(int time, int teamSize) {
 		executingTimePerAgentInTeam[arrayIndex] += (double)time / (double)teamSize;
 		if(Constant.TURN_NUM - TeamFormationMain.getTurn() < Constant.END_TURN_NUM_FOR_AVERAGE) {
@@ -215,6 +279,11 @@ public class TeamFormationMeasuredData {
 		}
 	}
 	
+	/**
+	 * 1チームあたりの拘束時間を計測する
+	 * @param time
+	 * @param teamSize
+	 */
 	private void countBindingTimeInTeam(int time, int teamSize) {
 		bindingTimeInTeamEveryTeamSize[teamSize] += time;
 		bindingTimeInTeam[arrayIndex] += time;
@@ -224,11 +293,20 @@ public class TeamFormationMeasuredData {
 		}
 	}
 	
+	/**
+	 * チーム人数を計測する
+	 * @param tentativeSize
+	 * @param realSize
+	 */
 	private void countTeamSize(int tentativeSize, int realSize) {
 		tentativeTeamSize += tentativeSize;
 		teamSize += realSize;
 	}
 	
+	/**
+	 * 1回の実験で最後に計測するものを行う
+	 * @param agents
+	 */
 	public void measureAtEnd(ArrayList<Agent> agents) {
 		for(Agent agent : agents){
 			classifyMainRoleNum(agent);
@@ -236,12 +314,20 @@ public class TeamFormationMeasuredData {
 		}
 	}
 
+	/**
+	 * 毎ターン計測するものを行う
+	 * @param agents
+	 */
 	public void measureEveryTurn(ArrayList<Agent> agents) {
 		for (Agent agent : agents) {
 			countAgentsNum(agent);
 		}
 	}
 	
+	/**
+	 * 主に担当した役割ごとのエージェント数を計測する
+	 * @param agent
+	 */
 	private void classifyMainRoleNum(Agent agent) {
 		int leaderNum = agent.getParameter().getElement(Role.LEADER).getRoleNum();
 		int memberNum = agent.getParameter().getElement(Role.MEMBER).getRoleNum();
@@ -256,6 +342,10 @@ public class TeamFormationMeasuredData {
 		}
 	}
 	
+	/**
+	 * 各状態ごとのエージェント数を計測する
+	 * @param agent
+	 */
 	private void countEachStateTime(Agent agent) {
 		initialTime += agent.getParameter().getElement(Role.INITIAL).getStateTime();
 		leaderTime += agent.getParameter().getElement(Role.LEADER).getStateTime();
@@ -263,40 +353,69 @@ public class TeamFormationMeasuredData {
 		executeTime += agent.getParameter().getElement(Role.EXECUTE).getStateTime();
 	}
 	
+	/**
+	 * チーム編成を成功したエージェント間の総エッジ数をカウントする
+	 * @param edge
+	 */
 	private void countSuccessTeamFormationEdge(int edge) {
 		allSuccessTeamFormationEdge += edge;
 	}
 	
+	/**
+	 * タスクキュー内の数を計測する
+	 * @param unmarkedNum
+	 * @param allNum
+	 */
 	public void countTaskQueueNum(int unmarkedNum, int allNum) {
 		unmarkedTaskQueueNum += unmarkedNum;
 		taskQueueNum += allNum;
 	}
 
+	/**
+	 * 見積もり失敗によってマークを外されたタスク数を計測する
+	 */
 	public void countUnmarkedTaskNumByEstimationFailure() {
 		unmarkedTaskNum++;
 		unmarkedTaskNumByEstimationFailure++;
 	}
 
+	/*
+	 * チーム編成失敗によってマークを外されたタスク数を計測する
+	 */
 	public void countUnmarkedTaskNumByTeamFormationFailure() {
 		unmarkedTaskNum++;
 		unmarkedTaskNumByTeamFormationFailure++;
 	}
 
+	/**
+	 * メンバ選択によってマークを外されたタスク数を計測する
+	 */
 	public void countUnmarkedTaskNumByMemberDecision() {
 		unmarkedTaskNum++;
 		unmarkedTaskNumByMemberDecision++;
 	}
 	
+	/**
+	 * マークしたタスクに関するものを計測する
+	 * @param markedTask
+	 */
 	public void countMarkedTask(Task markedTask) {
 		markedTaskNum[arrayIndex]++;
 		markedTaskRequire[arrayIndex] += markedTask.getTaskRequireSum();
 		markedTaskDeadline[arrayIndex] += markedTask.getDeadlineInTask();
 	}
 
+	/**
+	 * 状態ごとのエージェント数を計測する
+	 * @param agent
+	 */
 	private void countAgentsNum(Agent agent) {
 		if (agent.getParameter().getState() == TaskSelectionState.getState()
 				|| agent.getParameter().getState() == RoleSelectionState.getState()
-				|| agent.getParameter().getState() == TaskMarkedWaitingState.getState()) {
+				|| agent.getParameter().getState() == TaskMarkedWaitingState.getState()
+				|| agent.getParameter().getState() == InitialRoleDecisionState.getState()
+				|| agent.getParameter().getState() == InitialLeaderState.getState()
+				|| agent.getParameter().getState() == InitialMemberState.getState()) {
 			initialStateAgentNumPerTurn[turnIndex]++;
 			initialStateAgentNum++;
 		}

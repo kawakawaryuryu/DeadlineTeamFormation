@@ -3,6 +3,7 @@ package state;
 import config.Configuration;
 import constant.Constant;
 import exception.AbnormalException;
+import action.ActionManager;
 import agent.Agent;
 
 public class TaskReturnedWaitingState implements State {
@@ -25,7 +26,7 @@ public class TaskReturnedWaitingState implements State {
 			Configuration.taskReturnStrategy.returnTask(agent);
 
 			// 初期状態に移行
-			agent.getParameter().changeState(TaskSelectionState.getState());
+			ActionManager.toInitialStateAction.action(agent);
 		}
 
 		else{
