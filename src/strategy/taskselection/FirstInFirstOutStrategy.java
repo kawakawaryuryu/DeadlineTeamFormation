@@ -2,6 +2,7 @@ package strategy.taskselection;
 
 import task.Task;
 import library.DeadlineLibrary;
+import library.EstimationLibrary;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
 import constant.Constant;
@@ -23,7 +24,7 @@ public class FirstInFirstOutStrategy implements TaskSelectionStrategy {
 	public Task selectTask(Agent agent){
 		for(Task task : TeamFormationInstances.getInstance().getParameter().lookingTaskQueue()){
 			if(!task.getMark()){
-				if(canExecuteTaskInTeam(agent, task)){
+				if(EstimationLibrary.canExecuteTaskInTeam(agent, task)){
 					return task;
 				}
 			}
