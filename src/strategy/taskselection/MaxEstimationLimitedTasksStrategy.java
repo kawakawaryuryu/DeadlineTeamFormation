@@ -1,5 +1,8 @@
 package strategy.taskselection;
 
+import java.util.Comparator;
+import java.util.stream.Stream;
+
 import constant.Constant;
 import library.EstimationLibrary;
 import main.teamformation.TeamFormationInstances;
@@ -10,16 +13,11 @@ public class MaxEstimationLimitedTasksStrategy implements TaskSelectionStrategy 
 
 	@Override
 	public Task selectTask(Agent agent) {
-		Task selectedTask = null;
-		for(Task task : TeamFormationInstances.getInstance().getParameter().lookingLimitedTaskQueue(0, Constant.ESTIMATION_TASK_LIMIT)){
-			if(!task.getMark()){
-				if(EstimationLibrary.canExecuteTaskInTeam(agent, task)){
-					if (selectedTask == null || (selectedTask != null && selectedTask.getTaskRequireSum() < task.getTaskRequireSum())) {
-						selectedTask = task;
-					}
-				}
-			}
-		}
+		Stream<Task> taskStream = TeamFormationInstances.getInstance().getParameter().taskQueue.stream()
+			.filter(task -> !task.getMark()).limit(Constant.ESTIMATION_TASK_LIMIT)
+			.filter(task -> EstimationLibrary.canExecuteTaskInTeam(agent, task));
+		Task selectedTask = taskStream.findFirst().isPresent() ? taskStream.max(Comparator.comparing(Task::getTaskRequireSum)).get() : null;
+
 		return selectedTask;
 	}
 
