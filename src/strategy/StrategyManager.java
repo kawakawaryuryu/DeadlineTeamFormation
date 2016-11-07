@@ -12,6 +12,8 @@ import strategy.subtaskallocation.ConcreteSubtaskAllocationStrategy;
 import strategy.subtaskallocation.RandomSubtaskAllocationStrategy;
 import strategy.subtaskallocation.SubtaskAllocationStrategy;
 import strategy.taskselection.FirstInFirstOutStrategy;
+import strategy.taskselection.MaxEstimationLimitedTasksStrategy;
+import strategy.taskselection.MaxEstimationStrategy;
 import strategy.taskselection.NoEstimationFirstInFirstOutStrategy;
 import strategy.taskselection.TaskSelectionStrategy;
 
@@ -45,6 +47,8 @@ public class StrategyManager {
 	 */
 	public static void setEstimationStrategy() {
 		taskSelectionStrategy = new FirstInFirstOutStrategy();
+		//taskSelectionStrategy = new MaxEstimationStrategy();
+		//taskSelectionStrategy = new MaxEstimationLimitedTasksStrategy();
 	}
 	
 	/**
