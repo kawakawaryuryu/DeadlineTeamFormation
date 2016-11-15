@@ -25,7 +25,7 @@ public class MaxEstimationLimitedTasksStrategy implements TaskSelectionStrategy 
 	}
 
 	public String toString() {
-		return "限られたタスクの中から見積もって処理できる最大のリソースのタスクを選択する";
+		return "限られたタスクの中から見積もって処理できる最大の(リソース/デッドライン)のタスクを選択する";
 	}
 
 }
