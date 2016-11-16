@@ -97,6 +97,10 @@ public class TeamFormationMeasuredData {
 	public int initialStateAgentNum;
 	public int leaderOrMemberStateAgentNum;
 	public int executeStateAgentNum;
+
+	// 見積もり失敗の中でチームリソースが0(つまりランダムタスクを選んだこと)により失敗した回数を計測したもの
+	public int estimationFailureByRandomSelection;
+	public int estimationFailureByOther;
 	
 	public void initialize() {
 		// 50ターンごとに計測する用のインデックス
@@ -173,6 +177,10 @@ public class TeamFormationMeasuredData {
 		initialStateAgentNum = 0;
 		leaderOrMemberStateAgentNum = 0;
 		executeStateAgentNum = 0;
+
+		// 見積もり失敗の中でチームリソースが0(つまりランダムタスクを選んだこと)により失敗した回数を計測したもの
+		estimationFailureByRandomSelection = 0;
+		estimationFailureByOther = 0;
 	}
 	
 	public void addArrayIndex() {
@@ -437,6 +445,14 @@ public class TeamFormationMeasuredData {
 			//throw new AbnormalException("このようなパターンは存在しません");
 		}
 	}
+
+	public void countEstimationFailureByRandomSelection() {
+		estimationFailureByRandomSelection++;
+	}
+
+	public void countEstimationFailureByOther() {
+		estimationFailureByOther++;
+	}
 	
 	public int getAllSuccessTeamFormationEdge() {
 		return allSuccessTeamFormationEdge;
@@ -539,6 +555,14 @@ public class TeamFormationMeasuredData {
 
 	public double getAverageExecuteStateAgentNum() {
 		return (double)executeStateAgentNum / (double)Constant.TURN_NUM;
+	}
+
+	public double getAverageEstimationFailureByRandomSelection() {
+		return (double)estimationFailureByRandomSelection / (double)Constant.END_TURN_NUM;
+	}
+
+	public double getAverageEstimationFailureByOther() {
+		return (double)estimationFailureByOther / (double)Constant.END_TURN_NUM;
 	}
 
 }
