@@ -1,4 +1,4 @@
-package main.agent;
+package factory.agent;
 
 import agent.Agent;
 import agent.RationalAgent;

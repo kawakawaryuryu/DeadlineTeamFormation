@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import library.DeadlineLibrary;
 import log.Log;
 import main.TaskMarking;
-import main.agent.AgentFactory;
 import random.RandomKey;
 import random.RandomManager;
 import state.InitialLeaderState;
@@ -30,6 +29,7 @@ import state.TaskSelectionState;
 import task.Task;
 import constant.Constant;
 import exception.AbnormalException;
+import factory.agent.AgentFactory;
 import agent.Agent;
 
 public class TeamFormationParameter {
