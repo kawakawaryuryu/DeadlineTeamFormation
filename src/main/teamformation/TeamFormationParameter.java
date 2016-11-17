@@ -27,6 +27,7 @@ import state.TaskMarkedWaitingState;
 import state.TaskReturnedWaitingState;
 import state.TaskSelectionState;
 import task.Task;
+import config.Configuration;
 import constant.Constant;
 import exception.AbnormalException;
 import factory.agent.AgentFactory;
@@ -146,12 +147,8 @@ public class TeamFormationParameter {
 	
 	void addTaskToQueue() {
 		int taskAdditionNum = getPoissonTaskAdditionNum(Constant.ADD_TASK_PER_TURN);
-		for(int id = 0; id < taskAdditionNum; id++){
-			taskQueue.add(new Task(taskId++, 
-					RandomManager.getRandom(RandomKey.TASK_RANDOM).nextInt(Constant.SUBTASK_IN_TASK_NUM) + Constant.SUBTASK_IN_TASK_INIT, 
-					Constant.TASK_DEADLINE_MULTIPLE *
-					(RandomManager.getRandom(RandomKey.DEADLINE_RANDOM).nextInt(Constant.DEADLINE_MAX) 
-							+ Constant.DEADLINE_INIT)));
+		for(int i = 0; i < taskAdditionNum; i++){
+			taskQueue.add(Configuration.taskFactory.makeTask(taskId));
 		}
 		debugTaskQueue();
 	}
