@@ -17,6 +17,8 @@ import exception.ParentException;
 import factory.agent.AgentFactory;
 import factory.agent.RationalAgentFactory;
 import factory.agent.StructuredAgentFactory;
+import factory.subtask.RandomSubtaskFactory;
+import factory.subtask.SubtaskFactory;
 import factory.task.RandomTaskFactory;
 import factory.task.TaskFactory;
 import log.Log;
@@ -61,6 +63,9 @@ public class Configuration {
 
 	// TaskFactory
 	public static TaskFactory taskFactory = new RandomTaskFactory();
+
+	// SubtaskFactory
+	public static SubtaskFactory subtaskFactory = new RandomSubtaskFactory();
 
 	// AgetnactionManager
 	public static AgentActionManager action = new AgentActionManager();
