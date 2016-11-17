@@ -55,7 +55,7 @@ public class Configuration {
 	public static Model model = new MessageDelay();
 
 	// AgentFactory
-	public static AgentFactory factory;
+	public static AgentFactory agentFactory;
 
 	// AgetnactionManager
 	public static AgentActionManager action = new AgentActionManager();
@@ -141,10 +141,10 @@ public class Configuration {
 
 	public static void setAgentFactory() {
 		if (AGENT_TYPE.equals("Rational")) {
-			factory = new RationalAgentFactory();
+			agentFactory = new RationalAgentFactory();
 		}
 		else if (AGENT_TYPE.equals("Structured")) {
-			factory = new StructuredAgentFactory();
+			agentFactory = new StructuredAgentFactory();
 		}
 		else {
 			throw new AbnormalException("そのようなAgentFactoryは存在しません");
