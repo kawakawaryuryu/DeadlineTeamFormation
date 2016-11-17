@@ -27,6 +27,7 @@ public class Constant {
 	public static final int AGENT_ABILITY_INIT = 1;	//エージェントリソースの最小値
 	public static final int SUBTASK_IN_TASK_NUM = 3;	//1タスク中にあるサブタスクの数（２〜４）
 	public static final int SUBTASK_IN_TASK_INIT = 4;	//1タスク中のサブタスクの最小数
+	public static final int SUBTASK_IN_TASK_FIXED_NUM = 5;	//サブタスク数を固定値で与えてタスクを生成するときに使用する
 	public static final int RESOURCE_NUM = 2;	//リソースの種類数
 	public static final int DEADLINE_MAX = 16;	//デッドラインの最大値（４〜７）
 	public static final int DEADLINE_INIT = 15;	//デッドラインの初期値
