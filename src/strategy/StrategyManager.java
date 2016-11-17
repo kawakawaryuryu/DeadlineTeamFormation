@@ -15,6 +15,7 @@ import strategy.taskselection.FirstInFirstOutStrategy;
 import strategy.taskselection.MaxEstimationLimitedTasksStrategy;
 import strategy.taskselection.MaxEstimationStrategy;
 import strategy.taskselection.MaxResourceEstimationLimitedTasksStrategy;
+import strategy.taskselection.MinDeadlineEstimationLimitedTasksStrategy;
 import strategy.taskselection.NoEstimationFirstInFirstOutStrategy;
 import strategy.taskselection.TaskSelectionStrategy;
 
@@ -51,6 +52,7 @@ public class StrategyManager {
 		//taskSelectionStrategy = new MaxEstimationStrategy();
 		//taskSelectionStrategy = new MaxEstimationLimitedTasksStrategy();
 		//taskSelectionStrategy = new MaxResourceEstimationLimitedTasksStrategy();
+		//taskSelectionStrategy = new MinDeadlineEstimationLimitedTasksStrategy();
 	}
 	
 	/**
