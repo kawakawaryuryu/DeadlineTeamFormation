@@ -19,6 +19,9 @@ public class Constant {
 	
 	// TODO ADD_TASK_INTERVAL=1のときはTeamFormationMainの処理を変える必要性
 	public static final int ADD_TASK_INTERVAL = 1;
+
+	// 見積もるタスクの上限数
+	public static final int ESTIMATION_TASK_LIMIT = 10;
 	
 	public static final int AGENT_ABILITY_MAX = 6;	//エージェントリソースの最大値（１〜１０）
 	public static final int AGENT_ABILITY_INIT = 1;	//エージェントリソースの最小値

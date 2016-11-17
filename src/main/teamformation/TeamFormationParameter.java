@@ -3,6 +3,7 @@ package main.teamformation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import library.DeadlineLibrary;
 import log.Log;
@@ -176,6 +177,19 @@ public class TeamFormationParameter {
 	
 	public ArrayList<Task> lookingTaskQueue(){
 		return taskQueue;
+	}
+
+	public ArrayList<Task> lookingLimitedTaskQueue(int start, int end) {
+		ArrayList<Task> unmarkedTasks = getUnmarkedTaskList();
+		return end < unmarkedTasks.size() ? (ArrayList<Task>)unmarkedTasks.subList(start, end) : (ArrayList<Task>)unmarkedTasks.subList(start, unmarkedTasks.size());
+	}
+
+	/**
+	 * マークのついていないタスクキューを返す
+	 * @return
+	 */
+	public ArrayList<Task> getUnmarkedTaskList() {
+		return (ArrayList<Task>)taskQueue.stream().filter(task -> !task.getMark()).collect(Collectors.toList());
 	}
 	
 	public void removeTask(Task task){

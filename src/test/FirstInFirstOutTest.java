@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.*;
+import library.EstimationLibrary;
 import main.teamformation.TeamFormationInstances;
 import main.teamformation.TeamFormationMain;
 
@@ -24,7 +25,7 @@ public class FirstInFirstOutTest {
 		Task task = new Task(0, 3, 5);
 		
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
-		assertEquals(strategy.canExecuteTaskInTeam(agent, task), true);
+		assertEquals(EstimationLibrary.canExecuteTaskInTeam(agent, task), true);
 	}
 	
 	@Test
@@ -39,7 +40,7 @@ public class FirstInFirstOutTest {
 		Task task = new Task(0, 3, 5);
 		
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
-		assertEquals(strategy.canExecuteTaskInTeam(agent, task), true);
+		assertEquals(EstimationLibrary.canExecuteTaskInTeam(agent, task), true);
 	}
 	
 	@Test
@@ -54,7 +55,7 @@ public class FirstInFirstOutTest {
 		Task task = new Task(0, 3, 3);
 				
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
-		assertEquals(strategy.canExecuteTaskInTeam(agent, task), false);
+		assertEquals(EstimationLibrary.canExecuteTaskInTeam(agent, task), false);
 	}
 	
 	@Test

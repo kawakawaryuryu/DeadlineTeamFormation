@@ -931,6 +931,8 @@ public class FileWriteManager {
 		pw.println("見積もり失敗によってマークを外した平均タスク数" + "," + measure.unmarkedTaskNumByEstimationFailure / (double)Constant.EXPERIMENT_NUM);
 		pw.println("チーム編成失敗によってマークを外した平均タスク数" + "," + measure.unmarkedTaskNumByTeamFormationFailure / (double)Constant.EXPERIMENT_NUM);
 		pw.println("メンバ選択によってマークを外した平均タスク数" + "," + measure.unmarkedTaskNumByMemberDecision / (double)Constant.EXPERIMENT_NUM);
+		pw.println("最後の" + Constant.END_TURN_NUM + "の見積もり失敗数の中で保持する平均チームリソースが0でランダムにタスクを選択した回数" + "," + measure.estimationFailureByRandomSelection / (double)Constant.EXPERIMENT_NUM);
+		pw.println("最後の" + Constant.END_TURN_NUM + "の見積もり失敗数の中で見積もってタスクを選択した回数" + "," + measure.estimationFailureByOther / (double)Constant.EXPERIMENT_NUM);
 		pw.println();
 
 		pw.println("チーム内人数" + "," + "1チームの不要な拘束時間" + "," + "1チーム中の1人あたりの不要な拘束時間" + "," + "チーム編成成功数");

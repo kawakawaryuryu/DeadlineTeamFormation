@@ -1,6 +1,7 @@
 package roleaction;
 
 import config.Configuration;
+import constant.Constant;
 import role.Role;
 import state.LeaderWaitingState;
 import state.StateManager;
@@ -12,6 +13,7 @@ import team.Team;
 import library.MessageLibrary;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
+import main.teamformation.TeamFormationMain;
 import message.AnswerMessage;
 import message.OfferMessage;
 import action.ActionManager;
@@ -57,6 +59,13 @@ public class TentativeMemberSelectionAction implements RoleAction {
 	}
 	
 	private void actionInSearchingFailureCase(Agent agent) {
+		// 最後の数ターンで見積もり失敗数の内訳を計測
+		if (Constant.TURN_NUM - TeamFormationMain.getTurn() <= Constant.END_TURN_NUM) {
+			double pastTeamResource = agent.getParameter().getPastTeam().getAverageAbilitiesPerTeam();
+			if(pastTeamResource == 0) TeamFormationInstances.getInstance().getMeasure().countEstimationFailureByRandomSelection();
+			else TeamFormationInstances.getInstance().getMeasure().countEstimationFailureByOther();
+		}
+
 		agent.getParameter().getMarkedTask().countFailure(Failure.ESTIMATION_FAILURE);
 		Configuration.greedyPenaltyStrategy.decreaseGreedy(agent);
 		agent.getParameter().getMarkedTask().clear();

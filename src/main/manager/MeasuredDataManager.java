@@ -71,6 +71,10 @@ public class MeasuredDataManager {
 	public double initialStateAgentNum;
 	public double leaderOrMemberStateAgentNum;
 	public double executeStateAgentNum;
+
+	// 見積もり失敗の中でチームリソースが0(つまりランダムタスクを選んだこと)により失敗した回数を計測したもの
+	public double estimationFailureByRandomSelection;
+	public double estimationFailureByOther;
 	
 	MeasuredDataManager() {
 		// 時間ごとに計測するもの
@@ -132,6 +136,10 @@ public class MeasuredDataManager {
 		initialStateAgentNum = 0;
 		leaderOrMemberStateAgentNum = 0;
 		executeStateAgentNum = 0;
+
+		// 見積もり失敗の中でチームリソースが0(つまりランダムタスクを選んだこと)により失敗した回数を計測したもの
+		estimationFailureByRandomSelection = 0;
+		estimationFailureByOther = 0;
 	}
 	
 	public void saveAllMeasuredData() {
@@ -145,6 +153,7 @@ public class MeasuredDataManager {
 		saveUnmarkedTaskNum();
 		saveMarkedTask();
 		saveAgentsNum();
+		saveEstimationFailureNum();
 	}
 	
 	/**
@@ -261,6 +270,14 @@ public class MeasuredDataManager {
 		initialStateAgentNum += TeamFormationInstances.getInstance().getMeasure().getAverageInitialStateAgentNum();
 		leaderOrMemberStateAgentNum += TeamFormationInstances.getInstance().getMeasure().getAverageLeaderOrMemberStateAgentNum();
 		executeStateAgentNum += TeamFormationInstances.getInstance().getMeasure().getAverageExecuteStateAgentNum();
+	}
+
+	/**
+	 * 見積もり失敗数の内訳回数を計測したものを変数に保存する
+	 */
+	private void saveEstimationFailureNum() {
+		estimationFailureByRandomSelection += TeamFormationInstances.getInstance().getMeasure().getAverageEstimationFailureByRandomSelection();
+		estimationFailureByOther += TeamFormationInstances.getInstance().getMeasure().getAverageEstimationFailureByOther();
 	}
 	
 }

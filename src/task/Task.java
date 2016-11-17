@@ -79,6 +79,14 @@ public class Task {
 	public int getDeadlineInTask(){
 		return deadlineInTask;
 	}
+
+	/**
+	 * 1tickあたりに処理しなければならないタスクリソースの合計を返す
+	 * @return
+	 */
+	public double getTaskRequireSumPerTime() {
+		return (double)taskRequireSum / (double)deadlineInTask;
+	}
 	
 	/**
 	 * タスク、サブタスクのデッドラインを1減らす
