@@ -35,4 +35,8 @@ public class RandomSubtaskFactory implements SubtaskFactory {
 		}
 		return require;
 	}
+
+	public String toString() {
+		return "リソースをランダムに与えてサブタスクを生成するfactory";
+	}
 }

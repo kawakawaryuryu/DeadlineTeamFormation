@@ -32,4 +32,8 @@ public class FixedRequireSubtaskFactory implements SubtaskFactory {
 		return require;
 	}
 
+	public String toString() {
+		return "リソース固定してサブタスクを生成するfactory";
+	}
+
 }

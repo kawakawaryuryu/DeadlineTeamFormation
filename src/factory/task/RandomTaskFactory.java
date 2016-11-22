@@ -23,4 +23,8 @@ public class RandomTaskFactory implements TaskFactory {
 		return new Task(id, numberOfSubtask, deadline);
 	}
 
+	public String toString() {
+		return "サブタスク数、デッドラインをランダムに与えてタスクを生成するfactory";
+	}
+
 }
