@@ -5,8 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import main.teamformation.TeamFormationInstances;
-import random.RandomKey;
-import random.RandomManager;
+import config.Configuration;
 import constant.Constant;
 
 public class Task {
@@ -34,12 +33,8 @@ public class Task {
 		this.numberOfSubtask = numberOfSubtask;	//1タスク中のサブタスクの数
 		this.deadlineInTask = deadline;
 		for(int i = 0; i < numberOfSubtask; i++){
-			int[] require = new int[Constant.RESOURCE_NUM];
+			int[] require = Configuration.subtaskFactory.getSubtaskRequire();
 			for(int j = 0; j < require.length; j++){
-				require[j] = Constant.TASK_REQUIRE_MALTIPLE * 
-						Constant.TASK_DEADLINE_MULTIPLE *
-						(RandomManager.getRandom(RandomKey.REQUIRE_RANDOM).nextInt(Constant.TASK_REQUIRE_MAX) 
-								+ Constant.TASK_REQUIRE_INIT);
 //				require[j] = 3;
 				taskRequireSum += require[j];	//タスク中の合計リソースを計算
 			}

@@ -3,11 +3,11 @@ package main.teamformation;
 import agent.Agent;
 import agent.StructuredAgent;
 import log.Log;
-import main.agent.AgentFactory;
 import main.model.Model;
 import config.Configuration;
 import constant.Constant;
 import exception.AbnormalException;
+import factory.agent.AgentFactory;
 
 public class TeamFormationMain {
 

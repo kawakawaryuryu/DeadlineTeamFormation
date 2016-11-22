@@ -14,11 +14,15 @@ import strategy.taskreturn.TaskReturnStrategy;
 import strategy.taskreturn.TaskUnmarkStrategy;
 import exception.AbnormalException;
 import exception.ParentException;
+import factory.agent.AgentFactory;
+import factory.agent.RationalAgentFactory;
+import factory.agent.StructuredAgentFactory;
+import factory.subtask.RandomSubtaskFactory;
+import factory.subtask.SubtaskFactory;
+import factory.task.RandomTaskFactory;
+import factory.task.TaskFactory;
 import log.Log;
 import log.logger.Type;
-import main.agent.AgentFactory;
-import main.agent.RationalAgentFactory;
-import main.agent.StructuredAgentFactory;
 import main.model.AgentActionManager;
 import main.model.Model;
 import main.model.MessageDelay;
@@ -55,7 +59,13 @@ public class Configuration {
 	public static Model model = new MessageDelay();
 
 	// AgentFactory
-	public static AgentFactory factory;
+	public static AgentFactory agentFactory;
+
+	// TaskFactory
+	public static TaskFactory taskFactory = new RandomTaskFactory();
+
+	// SubtaskFactory
+	public static SubtaskFactory subtaskFactory = new RandomSubtaskFactory();
 
 	// AgetnactionManager
 	public static AgentActionManager action = new AgentActionManager();
@@ -141,10 +151,10 @@ public class Configuration {
 
 	public static void setAgentFactory() {
 		if (AGENT_TYPE.equals("Rational")) {
-			factory = new RationalAgentFactory();
+			agentFactory = new RationalAgentFactory();
 		}
 		else if (AGENT_TYPE.equals("Structured")) {
-			factory = new StructuredAgentFactory();
+			agentFactory = new StructuredAgentFactory();
 		}
 		else {
 			throw new AbnormalException("そのようなAgentFactoryは存在しません");

@@ -65,7 +65,7 @@ public class Main {
 				random.initialize(experimentNumber);
 
 				// チーム編成を行う
-				TeamFormationMain.teamFormation(experimentNumber, Configuration.model, Configuration.factory);
+				TeamFormationMain.teamFormation(experimentNumber, Configuration.model, Configuration.agentFactory);
 
 				// 1回の実験で計測したデータを保存
 				InstanceManager.getInstance().getMeasure().saveAllMeasuredData();
