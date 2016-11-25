@@ -12,8 +12,8 @@ public class InitialRoleDecisionModel implements Model {
 		sendOfferMessages();
 		sendAnswerMessages();
 		sendTeamFormationMessages();
-		action.actionByMarkedWatingAgent();
 		action.actionByTaskSelectionAgent();
+		action.actionByMarkedWatingAgent();
 		action.actionByInitialLeaderAgent();
 		action.actionByInitialMemberAgent();
 		action.actionByLeaderOrMemberWaitingAgent();
