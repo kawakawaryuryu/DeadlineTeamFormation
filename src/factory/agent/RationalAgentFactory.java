@@ -17,4 +17,8 @@ public class RationalAgentFactory implements AgentFactory {
 		return new RationalAgent(id, parameter);
 	}
 
+	public String toString() {
+		return "合理的エージェント生成factory";
+	}
+
 }

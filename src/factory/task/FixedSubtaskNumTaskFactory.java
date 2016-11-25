@@ -21,4 +21,8 @@ public class FixedSubtaskNumTaskFactory implements TaskFactory {
 		return new Task(id, numberOfSubtask, deadline);
 	}
 
+	public String toString() {
+		return "サブタスク数を固定してタスクを生成するfactory";
+	}
+
 }

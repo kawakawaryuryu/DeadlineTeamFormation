@@ -145,6 +145,9 @@ public class FileWriteManager {
 		pw.println("サブタスク割り当ての戦略" + "," + allocationStrategy.toString());
 		pw.println("仮メンバ選択の戦略" + "," + memberSelectionStrategy.toString());
 		pw.println("エージェント行動の流れ（モデル）" + "," + Configuration.model);
+		pw.println("エージェント生成のfactory" + "," + Configuration.agentFactory);
+		pw.println("タスク生成のfactory" + "," + Configuration.taskFactory);
+		pw.println("サブタスク生成のfactory" + "," + Configuration.subtaskFactory);
 		pw.println("タスク返却の戦略" + "," + Configuration.taskReturnStrategy);
 		pw.println("欲張り度ペナルティの戦略" + "," + Configuration.greedyPenaltyStrategy);
 		pw.println("可視化のための閾値を格納する配列要素数" + "," + Constant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM);

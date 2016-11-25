@@ -17,4 +17,8 @@ public class StructuredAgentFactory implements AgentFactory {
 		return new StructuredAgent(id, parameter);
 	}
 
+	public String toString() {
+		return "チーム固定エージェント生成factory";
+	}
+
 }
