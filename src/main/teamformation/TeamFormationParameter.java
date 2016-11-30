@@ -223,7 +223,7 @@ public class TeamFormationParameter {
 	 * @return
 	 */
 	public double getNoMarkedTaskDeadlines() {
-		double deadline = taskQueue.stream().filter(task -> !task.getMark()).mapToInt(Task::getDeadlineInTask).average().getAsDouble();
+		double deadline = taskQueue.stream().filter(task -> !task.getMark()).mapToDouble(Task::getDeadlineInTask).average().orElse(0);
 		return deadline;
 	}
 
@@ -232,7 +232,7 @@ public class TeamFormationParameter {
 	 * @return
 	 */
 	public double getNoMarkedTaskRequire() {
-		double taskRequireSum = taskQueue.stream().filter(task -> !task.getMark()).mapToInt(Task::getTaskRequireSum).average().getAsDouble();
+		double taskRequireSum = taskQueue.stream().filter(task -> !task.getMark()).mapToDouble(Task::getTaskRequireSum).average().orElse(0);
 		return taskRequireSum;
 	}
 
@@ -241,7 +241,7 @@ public class TeamFormationParameter {
 	 * @return
 	 */
 	public double getMarkedTaskDeadlines() {
-		double deadline = taskQueue.stream().filter(task -> task.getMark()).mapToInt(Task::getDeadlineInTask).average().getAsDouble();
+		double deadline = taskQueue.stream().filter(task -> task.getMark()).mapToDouble(Task::getDeadlineInTask).average().orElse(0);
 		return deadline;
 	}
 
@@ -250,7 +250,7 @@ public class TeamFormationParameter {
 	 * @return
 	 */
 	public double getMarkedTaskRequire() {
-		double taskRequireSum = taskQueue.stream().filter(task -> task.getMark()).mapToInt(Task::getTaskRequireSum).average().getAsDouble();
+		double taskRequireSum = taskQueue.stream().filter(task -> task.getMark()).mapToDouble(Task::getTaskRequireSum).average().orElse(0);
 		return taskRequireSum;
 	}
 }
