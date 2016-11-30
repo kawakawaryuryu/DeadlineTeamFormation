@@ -147,8 +147,8 @@ public class TeamFormationParameter {
 	
 	void addTaskToQueue() {
 		int taskAdditionNum = getPoissonTaskAdditionNum(Constant.ADD_TASK_PER_TURN);
-		for(taskId = 0; taskId < taskAdditionNum; taskId++){
-			taskQueue.add(Configuration.taskFactory.makeTask(taskId));
+		for(int i = 0; i < taskAdditionNum; i++){
+			taskQueue.add(Configuration.taskFactory.makeTask(taskId++));
 		}
 		debugTaskQueue();
 	}
