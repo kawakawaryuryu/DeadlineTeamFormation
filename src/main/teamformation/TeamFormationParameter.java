@@ -223,4 +223,40 @@ public class TeamFormationParameter {
 		
 		return noMarkSize;
 	}
+
+	/**
+	 * マークされていないタスクの平均残りデッドラインを返す
+	 * @return
+	 */
+	public double getNoMarkedTaskDeadlines() {
+		double deadline = taskQueue.stream().filter(task -> !task.getMark()).mapToInt(Task::getDeadlineInTask).average().getAsDouble();
+		return deadline;
+	}
+
+	/**
+	 * マークされていないタスクの平均タスクリソースを返す
+	 * @return
+	 */
+	public double getNoMarkedTaskRequire() {
+		double taskRequireSum = taskQueue.stream().filter(task -> !task.getMark()).mapToInt(Task::getTaskRequireSum).average().getAsDouble();
+		return taskRequireSum;
+	}
+
+	/**
+	 * マークされているタスクの平均残りデッドラインを返す
+	 * @return
+	 */
+	public double getMarkedTaskDeadlines() {
+		double deadline = taskQueue.stream().filter(task -> task.getMark()).mapToInt(Task::getDeadlineInTask).average().getAsDouble();
+		return deadline;
+	}
+
+	/**
+	 * マークされているタスクの平均タスクリソースを返す
+	 * @return
+	 */
+	public double getMarkedTaskRequire() {
+		double taskRequireSum = taskQueue.stream().filter(task -> task.getMark()).mapToInt(Task::getTaskRequireSum).average().getAsDouble();
+		return taskRequireSum;
+	}
 }
