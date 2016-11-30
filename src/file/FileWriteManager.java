@@ -930,6 +930,8 @@ public class FileWriteManager {
 		pw.println("総タスク廃棄リソースの平均" + "," + (double)measure.allFailureTaskRequire / (double)Constant.EXPERIMENT_NUM);
 		pw.println("タスクキューの平均サイズ" + "," + measure.taskQueueNum / (double)Constant.EXPERIMENT_NUM);
 		pw.println("マークなしのタスクキューの平均サイズ" + "," + measure.unmarkedTaskQueueNum / (double)Constant.EXPERIMENT_NUM);
+		pw.println("キュー内のマークなしのタスクの平均残りデッドライン" + "," + measure.unmarkedTaskDeadline / (double)Constant.EXPERIMENT_NUM);
+		pw.println("キュー内のマークなしのタスクの平均リソース" + "," + measure.unmarkedTaskRequire / (double)Constant.EXPERIMENT_NUM);
 		pw.println("マークを外した平均タスク数" + "," + measure.unmarkedTaskNum / (double)Constant.EXPERIMENT_NUM);
 		pw.println("見積もり失敗によってマークを外した平均タスク数" + "," + measure.unmarkedTaskNumByEstimationFailure / (double)Constant.EXPERIMENT_NUM);
 		pw.println("チーム編成失敗によってマークを外した平均タスク数" + "," + measure.unmarkedTaskNumByTeamFormationFailure / (double)Constant.EXPERIMENT_NUM);

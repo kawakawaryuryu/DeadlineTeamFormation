@@ -75,9 +75,11 @@ public class TeamFormationMeasuredData {
 	// チーム編成を成功した中で全エージェント間のエッジ数
 	public int allSuccessTeamFormationEdge;
 	
-	// タスクキュー内の数
+	// タスクキュー内のタスクについて
 	public int unmarkedTaskQueueNum;
 	public int taskQueueNum;
+	public double unmarkedTaskDeadline;
+	public double unmarkedTaskRequire;
 
 	// タスクのマークを外された平均回数を計測する用
 	public int unmarkedTaskNum;
@@ -158,6 +160,8 @@ public class TeamFormationMeasuredData {
 		// タスクキュー内の数
 		unmarkedTaskQueueNum = 0;
 		taskQueueNum = 0;
+		unmarkedTaskDeadline = 0;
+		unmarkedTaskRequire = 0;
 
 		// タスクのマークを外された平均回数を計測する用
 		unmarkedTaskNum = 0;
@@ -370,13 +374,17 @@ public class TeamFormationMeasuredData {
 	}
 	
 	/**
-	 * タスクキュー内の数を計測する
+	 * タスクキュー内のタスクについて計測する
 	 * @param unmarkedNum
 	 * @param allNum
+	 * @param unmarkedTaskDeadline TODO
+	 * @param unmarkedTaskRequire TODO
 	 */
-	public void countTaskQueueNum(int unmarkedNum, int allNum) {
+	public void countTaskQueue(int unmarkedNum, int allNum, double unmarkedTaskDeadline, double unmarkedTaskRequire) {
 		unmarkedTaskQueueNum += unmarkedNum;
 		taskQueueNum += allNum;
+		this.unmarkedTaskDeadline += unmarkedTaskDeadline;
+		this.unmarkedTaskRequire += unmarkedTaskRequire;
 	}
 
 	/**
@@ -523,6 +531,14 @@ public class TeamFormationMeasuredData {
 
 	public double getAverageUnmarkedTaskNum() {
 		return (double)unmarkedTaskNum / (double)Constant.TURN_NUM;
+	}
+
+	public double getAverageUnmarkedTaskDeadline() {
+		return unmarkedTaskDeadline / (double)Constant.TURN_NUM;
+	}
+
+	public double getAverageUnmarkedTaskRequire() {
+		return unmarkedTaskRequire / (double)Constant.TURN_NUM;
 	}
 
 	public double getAverageUnmarkedTaskNumByEstimationFailure() {

@@ -61,7 +61,8 @@ public class TeamFormationMain {
 			// タスクキューのサイズを計算
 			// TODO ここだけ系統の違う処理 別クラスに移す必要あるか
 			int noMarkTaskNum = TeamFormationInstances.getInstance().getParameter().getNoMarkingTaskNum();
-			TeamFormationInstances.getInstance().getMeasure().countTaskQueueNum(noMarkTaskNum, TeamFormationInstances.getInstance().getParameter().taskQueue.size());
+			TeamFormationInstances.getInstance().getMeasure().countTaskQueue(noMarkTaskNum, TeamFormationInstances.getInstance().getParameter().taskQueue.size()
+					, TeamFormationInstances.getInstance().getParameter().getNoMarkedTaskDeadlines(), TeamFormationInstances.getInstance().getParameter().getNoMarkedTaskRequire());
 
 			// デッドラインを減らす
 			TeamFormationInstances.getInstance().getParameter().decreaseTaskDeadline(TeamFormationInstances.getInstance().getMeasure());

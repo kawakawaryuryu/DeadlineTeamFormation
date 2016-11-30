@@ -50,9 +50,11 @@ public class MeasuredDataManager {
 	public int memberTime;
 	public int executeTime;
 	
-	// タスクキュー内の数
+	// タスクキュー内のタスクについて
 	public double unmarkedTaskQueueNum;
 	public double taskQueueNum;
+	public double unmarkedTaskDeadline;
+	public double unmarkedTaskRequire;
 
 	// タスクのマークを外された平均回数を計測する用
 	public double unmarkedTaskNum;
@@ -115,9 +117,11 @@ public class MeasuredDataManager {
 		memberMain = 0;
 		neitherLeaderNorMember = 0;
 		
-		// タスクキュー内の数
+		// タスクキュー内のタスクについて
 		unmarkedTaskQueueNum = 0;
 		taskQueueNum = 0;
+		unmarkedTaskDeadline = 0;
+		unmarkedTaskRequire = 0;
 
 		// タスクのマークを外された平均回数を計測する用
 		unmarkedTaskNum = 0;
@@ -233,6 +237,8 @@ public class MeasuredDataManager {
 	private void saveTaskQueueNum() {
 		unmarkedTaskQueueNum += TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskQueueNum();
 		taskQueueNum += TeamFormationInstances.getInstance().getMeasure().getAverageTaskQueueNum();
+		unmarkedTaskDeadline += TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskDeadline();
+		unmarkedTaskRequire += TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskRequire();
 	}
 
 	/**
