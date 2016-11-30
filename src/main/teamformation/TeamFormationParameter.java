@@ -214,13 +214,7 @@ public class TeamFormationParameter {
 	}
 	
 	public int getNoMarkingTaskNum() {
-		int noMarkSize = 0;
-		for(Task task : taskQueue){
-			if(!task.getMark()){
-				noMarkSize++;
-			}
-		}
-		
+		int noMarkSize = taskQueue.stream().filter(task -> !task.getMark()).collect(Collectors.toList()).size();
 		return noMarkSize;
 	}
 
