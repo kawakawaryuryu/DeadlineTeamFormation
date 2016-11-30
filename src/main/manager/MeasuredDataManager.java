@@ -63,8 +63,10 @@ public class MeasuredDataManager {
 	public double unmarkedTaskNumByMemberDecision;
 	
 	// 時間ごとに計測したマークしたタスクに関するもの
-	public double[] markedTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
-	public double[] markedTaskDeadline = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public double[] markedTaskRequireEveryTurn = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public double[] markedTaskDeadlineEveryTurn = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public double[] unmarkedTaskRequireEveryTurn = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public double[] unmarkedTaskDeadlineEveryTurn = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 
 	// 状態ごとのエージェント数を計測したもの
 	public double[] initialStateAgentNumPerTurn = new double[Constant.TURN_NUM];
@@ -130,8 +132,10 @@ public class MeasuredDataManager {
 		unmarkedTaskNumByMemberDecision = 0;
 		
 		// 時間ごとに計測したマークしたタスクに関するもの
-		Arrays.fill(markedTaskRequire, 0);
-		Arrays.fill(markedTaskDeadline, 0);
+		Arrays.fill(markedTaskRequireEveryTurn, 0);
+		Arrays.fill(markedTaskDeadlineEveryTurn, 0);
+		Arrays.fill(unmarkedTaskRequireEveryTurn, 0);
+		Arrays.fill(unmarkedTaskDeadlineEveryTurn, 0);
 
 		// 状態ごとのエージェント数を計測したもの
 		Arrays.fill(initialStateAgentNumPerTurn, 0);
@@ -156,6 +160,7 @@ public class MeasuredDataManager {
 		saveTaskQueueNum();
 		saveUnmarkedTaskNum();
 		saveMarkedTask();
+		saveUnmarkedTask();
 		saveAgentsNum();
 		saveEstimationFailureNum();
 	}
@@ -259,8 +264,15 @@ public class MeasuredDataManager {
 	 */
 	private void saveMarkedTask() {
 		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
-			markedTaskRequire[i] += TeamFormationInstances.getInstance().getMeasure().getAverageMarkedTaskRequire(i);
-			markedTaskDeadline[i] += TeamFormationInstances.getInstance().getMeasure().getAverageMarkedTaskDeadline(i);
+			markedTaskRequireEveryTurn[i] += TeamFormationInstances.getInstance().getMeasure().getAverageMarkedTaskRequireEveryTurn(i);
+			markedTaskDeadlineEveryTurn[i] += TeamFormationInstances.getInstance().getMeasure().getAverageMarkedTaskDeadlineEveryTurn(i);
+		}
+	}
+
+	public void saveUnmarkedTask() {
+		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
+			unmarkedTaskRequireEveryTurn[i] += TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskRequireEveryTurn(i);
+			unmarkedTaskDeadlineEveryTurn[i] += TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskDeadlineEveryTurn(i);
 		}
 	}
 

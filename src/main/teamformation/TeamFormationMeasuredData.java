@@ -88,9 +88,12 @@ public class TeamFormationMeasuredData {
 	public int unmarkedTaskNumByMemberDecision;
 	
 	// 時間ごとに計測したマークしたタスクに関するもの
-	public int[] markedTaskNum = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
-	public double[] markedTaskRequire = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
-	public double[] markedTaskDeadline = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public int[] markedTaskNumEveryTurn = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public double[] markedTaskRequireEveryTurn = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public double[] markedTaskDeadlineEveryTurn = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public int[] unmarkedTaskNumEveryTurn = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public double[] unmarkedTaskRequireEveryTurn = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+	public double[] unmarkedTaskDeadlineEveryTurn = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 
 	// 状態ごとのエージェント数を計測したもの
 	public int[] initialStateAgentNumPerTurn = new int[Constant.TURN_NUM];
@@ -170,9 +173,12 @@ public class TeamFormationMeasuredData {
 		unmarkedTaskNumByMemberDecision = 0;
 		
 		// 時間ごとに計測したマークしたタスクに関するもの
-		Arrays.fill(markedTaskNum, 0);
-		Arrays.fill(markedTaskRequire, 0);
-		Arrays.fill(markedTaskDeadline, 0);
+		Arrays.fill(markedTaskNumEveryTurn, 0);
+		Arrays.fill(markedTaskRequireEveryTurn, 0);
+		Arrays.fill(markedTaskDeadlineEveryTurn, 0);
+		Arrays.fill(unmarkedTaskNumEveryTurn, 0);
+		Arrays.fill(unmarkedTaskRequireEveryTurn, 0);
+		Arrays.fill(unmarkedTaskDeadlineEveryTurn, 0);
 
 		// 状態ごとのエージェント数を計測したもの
 		Arrays.fill(initialStateAgentNumPerTurn, 0);
@@ -416,9 +422,19 @@ public class TeamFormationMeasuredData {
 	 * @param markedTask
 	 */
 	public void countMarkedTask(Task markedTask) {
-		markedTaskNum[arrayIndex]++;
-		markedTaskRequire[arrayIndex] += markedTask.getTaskRequireSum();
-		markedTaskDeadline[arrayIndex] += markedTask.getDeadlineInTask();
+		markedTaskNumEveryTurn[arrayIndex]++;
+		markedTaskRequireEveryTurn[arrayIndex] += markedTask.getTaskRequireSum();
+		markedTaskDeadlineEveryTurn[arrayIndex] += markedTask.getDeadlineInTask();
+	}
+
+	/**
+	 * マークされていないタスクに関するものを計測する
+	 * @param unmarkedTask
+	 */
+	public void countUnmarkedTask(Task unmarkedTask) {
+		unmarkedTaskNumEveryTurn[arrayIndex]++;
+		unmarkedTaskRequireEveryTurn[arrayIndex] += unmarkedTask.getTaskRequireSum();
+		unmarkedTaskDeadlineEveryTurn[arrayIndex] += unmarkedTask.getDeadlineInTask();
 	}
 
 	/**
@@ -553,12 +569,20 @@ public class TeamFormationMeasuredData {
 		return (double)unmarkedTaskNumByMemberDecision / (double)Constant.TURN_NUM;
 	}
 	
-	public double getAverageMarkedTaskRequire(int index) {
-		return markedTaskRequire[index] / getDivideNum(markedTaskNum[index]);
+	public double getAverageMarkedTaskRequireEveryTurn(int index) {
+		return markedTaskRequireEveryTurn[index] / getDivideNum(markedTaskNumEveryTurn[index]);
 	}
 	
-	public double getAverageMarkedTaskDeadline(int index) {
-		return markedTaskDeadline[index] / getDivideNum(markedTaskNum[index]);
+	public double getAverageMarkedTaskDeadlineEveryTurn(int index) {
+		return markedTaskDeadlineEveryTurn[index] / getDivideNum(markedTaskNumEveryTurn[index]);
+	}
+
+	public double getAverageUnmarkedTaskRequireEveryTurn(int index) {
+		return unmarkedTaskRequireEveryTurn[index] / getDivideNum(unmarkedTaskNumEveryTurn[index]);
+	}
+
+	public double getAverageUnmarkedTaskDeadlineEveryTurn(int index) {
+		return unmarkedTaskDeadlineEveryTurn[index] / getDivideNum(unmarkedTaskNumEveryTurn[index]);
 	}
 
 	public double getAverageInitialStateAgentNum() {

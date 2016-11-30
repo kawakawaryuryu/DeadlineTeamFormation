@@ -1,5 +1,6 @@
 package main.teamformation;
 
+import task.Task;
 import agent.Agent;
 import agent.StructuredAgent;
 import log.Log;
@@ -64,6 +65,10 @@ public class TeamFormationMain {
 			TeamFormationInstances.getInstance().getMeasure().countTaskQueue(noMarkTaskNum, TeamFormationInstances.getInstance().getParameter().taskQueue.size()
 					, TeamFormationInstances.getInstance().getParameter().getNoMarkedTaskDeadlines(), TeamFormationInstances.getInstance().getParameter().getNoMarkedTaskRequire());
 
+			// マークされていないタスクについてカウントする
+			// TODO 別の箇所に処理を移す
+			countUnmarkedTask();
+
 			// デッドラインを減らす
 			TeamFormationInstances.getInstance().getParameter().decreaseTaskDeadline(TeamFormationInstances.getInstance().getMeasure());
 
@@ -120,6 +125,14 @@ public class TeamFormationMain {
 		for (Agent me : TeamFormationInstances.getInstance().getParameter().agents) {
 			for (Agent you : TeamFormationInstances.getInstance().getParameter().agents) {
 				if (me != you) ((StructuredAgent)me).decreaseTrustToLeader(you);
+			}
+		}
+	}
+
+	public static void countUnmarkedTask() {
+		for (Task task : TeamFormationInstances.getInstance().getParameter().taskQueue) {
+			if (!task.getMark()) {
+				TeamFormationInstances.getInstance().getMeasure().countUnmarkedTask(task);
 			}
 		}
 	}

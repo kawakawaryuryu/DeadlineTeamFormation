@@ -197,6 +197,10 @@ public class FileWriteManager {
 		pw.print(",");
 		pw.print("マークしたタスクの残りデッドライン");
 		pw.print(",");
+		pw.print("マークされていないタスクのリソース");
+		pw.print(",");
+		pw.print("マークされていないタスクの残りデッドライン");
+		pw.print(",");
 		pw.println("メンバ選択によってタスクマークを外した回数");
 
 		return pw;
@@ -234,9 +238,13 @@ public class FileWriteManager {
 			pw.print(",");
 			pw.print(measure.bindingTimePerAgentInTeam[i] / (double)Constant.EXPERIMENT_NUM);
 			pw.print(",");
-			pw.print(measure.markedTaskRequire[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.print(measure.markedTaskRequireEveryTurn[i] / (double)Constant.EXPERIMENT_NUM);
 			pw.print(",");
-			pw.print(measure.markedTaskDeadline[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.print(measure.markedTaskDeadlineEveryTurn[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.print(",");
+			pw.print(measure.unmarkedTaskRequireEveryTurn[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.print(",");
+			pw.print(measure.unmarkedTaskDeadlineEveryTurn[i] / (double)Constant.EXPERIMENT_NUM);
 			pw.print(",");
 			pw.println(measure.unmarkedByMemberSelectionNum[i] / (double)Constant.EXPERIMENT_NUM);
 		}
