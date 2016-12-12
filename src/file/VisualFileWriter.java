@@ -98,8 +98,8 @@ public class VisualFileWriter {
 	public static void writeVisualizedData(ArrayList<Agent> agents, int turn, int experimentNumber, int successTeamingEdgeNum) throws IOException{
 		makeDirectory("visualization", "/" + fileName + "/visual/");
 
-		//無向グラフ
-		String file = "non_directed_" + turn + ".csv";
+		//有向グラフ
+		String file = "directed_" + turn + ".csv";
 		PrintWriter pw = getPrintWriter("visualization", "/" + fileName + "/visual/", file);
 
 		pw.print("my_id" + "," + "your_id");
@@ -132,8 +132,8 @@ public class VisualFileWriter {
 		for(int i = 0; i < Constant.AGENT_NUM; i++){
 			Agent me = agents.get(i);
 
-			//無向グラフ用
-			for(int j = i; j < Constant.AGENT_NUM; j++){
+			//有向グラフ用
+			for(int j = 0; j < Constant.AGENT_NUM; j++){
 				boolean isWrite = false;	//書き込むかどうか
 				double threshold = 0.00;	//可視化の閾値
 				Agent you = agents.get(j);
