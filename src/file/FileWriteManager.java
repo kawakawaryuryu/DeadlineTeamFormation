@@ -847,6 +847,34 @@ public class FileWriteManager {
 		pw.println();
 	}
 
+	private static PrintWriter writeHeaderOfTrustLeadersNumEveryTurn() throws IOException {
+		makeDirectory("trustLeaders", "/NumPerTurn");
+
+		String file = "trustLeadersNumPerTurn_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("trustLeaders", "/NumPerTurn", file);
+
+		pw.println("平均" + Constant.EXPERIMENT_NUM + "回" + "," + method + "," + agentType);
+		pw.print("経過ターン");
+		pw.print(",");
+		pw.print("信頼エージェント保持数");
+		pw.println();
+
+		return pw;
+	}
+
+	public static void writeBodyOfTrustLeadersNumEveryTurn(MeasuredDataManager measure) throws IOException {
+		PrintWriter pw = writeHeaderOfTrustLeadersNumEveryTurn();
+
+		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
+			int turn = Constant.MEASURE_TURN_NUM * (i + 1);
+
+			pw.print(turn);
+			pw.print(",");
+			pw.print(measure.trustLeadersNumEveryTurn[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.println();
+		}
+	}
+
 	public static PrintWriter writeHeaderOfTeamResources(ArrayList<Agent> agents) throws IOException {
 		makeDirectory("TeamResources", "");
 

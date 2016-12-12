@@ -68,6 +68,9 @@ public class MeasuredDataManager {
 	public double[] unmarkedTaskRequireEveryTurn = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] unmarkedTaskDeadlineEveryTurn = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 
+	// 時間ごとに計測した信頼エージェントに関するもの
+	public double[] trustLeadersNumEveryTurn = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
+
 	// 状態ごとのエージェント数を計測したもの
 	public double[] initialStateAgentNumPerTurn = new double[Constant.TURN_NUM];
 	public double[] leaderOrMemberStateAgentNumPerTurn = new double[Constant.TURN_NUM];
@@ -137,6 +140,9 @@ public class MeasuredDataManager {
 		Arrays.fill(unmarkedTaskRequireEveryTurn, 0);
 		Arrays.fill(unmarkedTaskDeadlineEveryTurn, 0);
 
+		// 時間ごとに計測した信頼エージェントに関するもの
+		Arrays.fill(trustLeadersNumEveryTurn, 0);
+
 		// 状態ごとのエージェント数を計測したもの
 		Arrays.fill(initialStateAgentNumPerTurn, 0);
 		Arrays.fill(leaderOrMemberStateAgentNumPerTurn, 0);
@@ -161,6 +167,7 @@ public class MeasuredDataManager {
 		saveUnmarkedTaskNum();
 		saveMarkedTask();
 		saveUnmarkedTask();
+		saveTrustLeadersNumEveryTurn();
 		saveAgentsNum();
 		saveEstimationFailureNum();
 	}
@@ -273,6 +280,15 @@ public class MeasuredDataManager {
 		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
 			unmarkedTaskRequireEveryTurn[i] += TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskRequireEveryTurn(i);
 			unmarkedTaskDeadlineEveryTurn[i] += TeamFormationInstances.getInstance().getMeasure().getAverageUnmarkedTaskDeadlineEveryTurn(i);
+		}
+	}
+
+	/**
+	 * 時間ごとに計測した信頼エージェントに関するものを保存する
+	 */
+	private void saveTrustLeadersNumEveryTurn() {
+		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++) {
+			trustLeadersNumEveryTurn[i] += TeamFormationInstances.getInstance().getMeasure().getAverageTrustLeadersNumEveryTurn(i);
 		}
 	}
 

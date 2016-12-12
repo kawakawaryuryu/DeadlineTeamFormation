@@ -95,6 +95,9 @@ public class TeamFormationMeasuredData {
 	public double[] unmarkedTaskRequireEveryTurn = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 	public double[] unmarkedTaskDeadlineEveryTurn = new double[Constant.ARRAY_SIZE_FOR_MEASURE];
 
+	// 時間ごとに計測した信頼エージェントに関するもの
+	public int[] trustLeadersNumEveryTurn = new int[Constant.ARRAY_SIZE_FOR_MEASURE];
+
 	// 状態ごとのエージェント数を計測したもの
 	public int[] initialStateAgentNumPerTurn = new int[Constant.TURN_NUM];
 	public int[] leaderOrMemberStateAgentNumPerTurn = new int[Constant.TURN_NUM];
@@ -179,6 +182,9 @@ public class TeamFormationMeasuredData {
 		Arrays.fill(unmarkedTaskNumEveryTurn, 0);
 		Arrays.fill(unmarkedTaskRequireEveryTurn, 0);
 		Arrays.fill(unmarkedTaskDeadlineEveryTurn, 0);
+
+		// 時間ごとに計測した信頼エージェントに関するもの
+		Arrays.fill(trustLeadersNumEveryTurn, 0);
 
 		// 状態ごとのエージェント数を計測したもの
 		Arrays.fill(initialStateAgentNumPerTurn, 0);
@@ -438,6 +444,13 @@ public class TeamFormationMeasuredData {
 	}
 
 	/**
+	 * 信頼エージェントに関するものを計測する
+	 */
+	public void countTrustLeaders() {
+		trustLeadersNumEveryTurn[arrayIndex]++;
+	}
+
+	/**
 	 * 状態ごとのエージェント数を計測する
 	 * @param agent
 	 */
@@ -583,6 +596,10 @@ public class TeamFormationMeasuredData {
 
 	public double getAverageUnmarkedTaskDeadlineEveryTurn(int index) {
 		return unmarkedTaskDeadlineEveryTurn[index] / getDivideNum(unmarkedTaskNumEveryTurn[index]);
+	}
+
+	public double getAverageTrustLeadersNumEveryTurn(int index) {
+		return (double)trustLeadersNumEveryTurn[index] / (double)Constant.MEASURE_TURN_NUM;
 	}
 
 	public double getAverageInitialStateAgentNum() {
