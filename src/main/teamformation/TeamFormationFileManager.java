@@ -71,6 +71,11 @@ public class TeamFormationFileManager {
 				writeMeasuredDataPerTurn(greedyWriter, turn, TeamFormationInstances.getInstance().getParameter().getAgents(), experimentNumber);
 			}
 
+			// リーダ時報酬期待度・メンバ時報酬期待度を書き込み
+			if(turn % Constant.MEASURE_ROLE_REWARD_EXPECTATION_TURN_NUM == 0) {
+				writeRoleRewardExpectationPerTurn(turn, TeamFormationInstances.getInstance().getParameter().getAgents(), experimentNumber);
+			}
+
 			// 可視化用計測データをファイルに書き込み
 			if(turn % Constant.MEASURE_VISUALIZATION_TURN_NUM == 0){
 				writeVisualData(TeamFormationInstances.getInstance().getParameter().getAgents(), turn, experimentNumber, TeamFormationInstances.getInstance().getMeasure().getAllSuccessTeamFormationEdge());
@@ -191,14 +196,19 @@ public class TeamFormationFileManager {
 	// TODO greedyWriterをグローバルに与えるようにする
 	private void writeMeasuredDataPerTurn(PrintWriter greedy, int turn, ArrayList<Agent> agents, int experimentNumber) throws IOException {
 		if(experimentNumber == 1){
-			FileWriteManager.writeBodyOfLeaderRewardExpectation(leaderRewardExpectationWriter, turn, agents);
-			FileWriteManager.writeBodyOfMemberRewardExpectation(memberRewardExpectationWriter, turn, agents);
 			FileWriteManager.writeBodyOfGreedy(greedy, turn, agents);
 			FileWriteManager.writeTrustToMember(agents, turn);
 			FileWriteManager.writeRewardExpectation(agents, turn);
 			if (agents.get(0) instanceof StructuredAgent) {
 				FileWriteManager.writeTrustToLeader(agents, turn);
 			}
+		}
+	}
+
+	private void writeRoleRewardExpectationPerTurn(int turn, ArrayList<Agent> agents, int experimentNumber) throws IOException {
+		if(experimentNumber == 1){
+			FileWriteManager.writeBodyOfLeaderRewardExpectation(leaderRewardExpectationWriter, turn, agents);
+			FileWriteManager.writeBodyOfMemberRewardExpectation(memberRewardExpectationWriter, turn, agents);
 		}
 	}
 	
