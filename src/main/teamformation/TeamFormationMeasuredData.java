@@ -23,6 +23,7 @@ import team.Team;
 import constant.Constant;
 import exception.AbnormalException;
 import agent.Agent;
+import agent.StructuredAgent;
 
 public class TeamFormationMeasuredData {
 	// 50ターンごとに計測する用のインデックス
@@ -345,6 +346,11 @@ public class TeamFormationMeasuredData {
 	public void measureEveryTurn(ArrayList<Agent> agents) {
 		for (Agent agent : agents) {
 			countAgentsNum(agent);
+			// チーム固定エージェントのみカウント
+			// TODO instanceofやめる
+			if(agent instanceof StructuredAgent) {
+				countTrustLeaders();
+			}
 		}
 	}
 	
