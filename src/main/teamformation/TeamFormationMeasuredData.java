@@ -349,7 +349,9 @@ public class TeamFormationMeasuredData {
 			// チーム固定エージェントのみカウント
 			// TODO instanceofやめる
 			if(agent instanceof StructuredAgent) {
-				countTrustLeaders();
+				if(agent.getParameter().getTrustLeaders().size() != 1) {
+					countTrustLeaders();
+				}
 			}
 		}
 	}
