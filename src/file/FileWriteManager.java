@@ -873,6 +873,8 @@ public class FileWriteManager {
 			pw.print(measure.trustLeadersNumEveryTurn[i] / (double)Constant.EXPERIMENT_NUM);
 			pw.println();
 		}
+
+		pw.close();
 	}
 
 	public static PrintWriter writeHeaderOfTeamResources(ArrayList<Agent> agents) throws IOException {
