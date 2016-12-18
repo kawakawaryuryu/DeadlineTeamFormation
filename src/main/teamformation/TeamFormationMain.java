@@ -78,11 +78,12 @@ public class TeamFormationMain {
 				decreaseTrustToLeader();
 			}
 
+			// 毎ターン保持するエージェントごとのデータを計測
+			TeamFormationInstances.getInstance().getMeasure().measureEveryTurn(TeamFormationInstances.getInstance().getParameter().agents);
+
 			// ファイルに計測データ書き込み
 			fileMng.write(turn, experimentNumber, noMarkTaskNum);
 
-			// 毎ターン保持するエージェントごとのデータを計測
-			TeamFormationInstances.getInstance().getMeasure().measureEveryTurn(TeamFormationInstances.getInstance().getParameter().agents);
 			TeamFormationInstances.getInstance().getMeasure().addTurnIndex();
 
 		}
