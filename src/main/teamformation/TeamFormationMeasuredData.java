@@ -344,16 +344,12 @@ public class TeamFormationMeasuredData {
 	 * @param agents
 	 */
 	public void measureEveryTurn(ArrayList<Agent> agents) {
-		for (Agent agent : agents) {
-			countAgentsNum(agent);
-			// チーム固定エージェントのみカウント
-			// TODO instanceofやめる
-			if(agent instanceof StructuredAgent) {
-				if(agent.getParameter().getTrustLeaders().size() != 1) {
-					countTrustLeaders();
-				}
-			}
-		}
+		// 状態ごとのエージェント数を計測
+		agents.stream().forEach(agent -> countAgentsNum(agent));
+		// 信頼エージェントを保持しているエージェント数を計測
+		// TODO instanceofやめる
+		agents.stream().filter(agent -> (agent instanceof StructuredAgent))
+			.filter(agent -> agent.getParameter().getTrustLeaders().size() > 0).forEach(agent -> countTrustLeaders());
 	}
 	
 	/**
