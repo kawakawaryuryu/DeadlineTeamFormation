@@ -24,6 +24,7 @@ import factory.task.TaskFactory;
 import log.Log;
 import log.logger.Type;
 import main.model.AgentActionManager;
+import main.model.MessageDelayByStructuredAgent;
 import main.model.Model;
 import main.model.MessageDelay;
 
@@ -56,7 +57,7 @@ public class Configuration {
 
 
 	// Model
-	public static Model model = new MessageDelay();
+	public static Model model = new MessageDelayByStructuredAgent();
 
 	// AgentFactory
 	public static AgentFactory agentFactory;

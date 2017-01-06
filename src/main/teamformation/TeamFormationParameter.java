@@ -18,6 +18,7 @@ import state.LeaderWaitingState;
 import state.MemberTaskExecuteState;
 import state.MemberTeamDissolutionConfirmationState;
 import state.MemberWaitingState;
+import state.ReciprocalTaskSelectionState;
 import state.State;
 import state.RoleSelectionState;
 import state.SubtaskAllocationState;
@@ -55,6 +56,7 @@ public class TeamFormationParameter {
 		agentsMap.put(InitialLeaderState.getState(), new ArrayList<Agent>());
 		agentsMap.put(InitialMemberState.getState(), new ArrayList<Agent>());
 		agentsMap.put(TaskSelectionState.getState(), new ArrayList<Agent>());
+		agentsMap.put(ReciprocalTaskSelectionState.getState(), new ArrayList<Agent>());
 		agentsMap.put(RoleSelectionState.getState(), new ArrayList<Agent>());
 		agentsMap.put(SubtaskAllocationState.getState(), new ArrayList<Agent>());
 		agentsMap.put(SubtaskReceptionState.getState(), new ArrayList<Agent>());

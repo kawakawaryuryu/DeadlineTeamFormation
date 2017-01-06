@@ -10,6 +10,7 @@ import state.LeaderWaitingState;
 import state.MemberTaskExecuteState;
 import state.MemberTeamDissolutionConfirmationState;
 import state.MemberWaitingState;
+import state.ReciprocalTaskSelectionState;
 import state.RoleSelectionState;
 import state.SubtaskAllocationState;
 import state.SubtaskReceptionState;
@@ -48,6 +49,17 @@ public class AgentActionManager {
 		}
 		Log.log.debugln("------- タスク選択状態のエージェントの行動 -------");
 		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(TaskSelectionState.getState())){
+			agent.action();
+		}
+		Log.log.debugln();
+	}
+
+	public void actionByInitialRationalAndStructuredAgent() {
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(ReciprocalTaskSelectionState.getState())){
+			agent.getParameter().initialize();
+		}
+		Log.log.debugln("------- チーム固定エージェントも含めたタスク選択状態のエージェントの行動 -------");
+		for(Agent agent : TeamFormationInstances.getInstance().getParameter().getAgentsFromMap(ReciprocalTaskSelectionState.getState())){
 			agent.action();
 		}
 		Log.log.debugln();
