@@ -9,6 +9,7 @@ import agent.TimerField;
 import agent.leader.LeaderField;
 import agent.member.MemberField;
 import main.model.InitialRoleDecisionModel;
+import main.model.MessageDelayByStructuredAgent;
 import message.AnswerMessage;
 import message.OfferMessage;
 import message.SubtaskDoneMessage;
@@ -21,6 +22,7 @@ import role.MeasuredDataForEachRole;
 import role.MemberMeasuredData;
 import role.Role;
 import state.InitialRoleDecisionState;
+import state.ReciprocalTaskSelectionState;
 import state.State;
 import state.TaskSelectionState;
 import task.Subtask;
@@ -65,8 +67,15 @@ public abstract class AbstractAgentParameter {
 
 	public void initialize() {
 		// TODO modelに結びつかない設計に修正する
-		state = !(Configuration.model instanceof InitialRoleDecisionModel)? TaskSelectionState.getState()
-				: InitialRoleDecisionState.getState();
+		if (Configuration.model instanceof InitialRoleDecisionModel) {
+			state = InitialRoleDecisionState.getState();
+		}
+		else if (Configuration.model instanceof MessageDelayByStructuredAgent) {
+			state = ReciprocalTaskSelectionState.getState();
+		}
+		else {
+			state = TaskSelectionState.getState();
+		}
 		role = Role.INITIAL;
 		sendAgents.clear();
 		markedTask = null;
