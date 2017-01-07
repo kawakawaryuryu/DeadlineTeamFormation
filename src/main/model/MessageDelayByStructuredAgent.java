@@ -28,7 +28,7 @@ public class MessageDelayByStructuredAgent implements Model {
 	}
 
 	public String toString() {
-		return "通信遅延モデル";
+		return "通信遅延モデル(信頼エージェントを保持するエージェントは強制的にメンバになる)";
 	}
 
 	private void sendOfferMessages() {
