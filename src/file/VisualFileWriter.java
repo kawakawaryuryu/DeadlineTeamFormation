@@ -126,6 +126,8 @@ public class VisualFileWriter {
 		if (agents.get(0) instanceof StructuredAgent) {
 			pw.print(",");
 			pw.print("trust_to_leader");
+			pw.print(",");
+			pw.print("trust_agent");
 		}
 		pw.println();
 
@@ -196,15 +198,23 @@ public class VisualFileWriter {
 					// リーダからメンバに対する信頼度
 					pw.print(me.getTrustToMember(you));
 
-					// メンバからリーダに対する信頼度
 					if (me instanceof StructuredAgent) {
+						// メンバからリーダに対する信頼度
 						pw.print(",");
 						pw.print(((StructuredAgent) me).getTrustToLeader(you));
+						// 信頼エージェントかどうか
+						pw.print(",");
+						pw.print(((StructuredAgent)me).getParameter().getTrustLeaders().isEmpty());
 					}
 
 				}
 				else{
-					pw.print("-1" + "," + "-1" + "," + "-1" + "," + "false" + "," + "-1" + "," + "false");
+					// team_formation_sum, team_formation_num_as_leader, team_formation_num_as_member, main_role_with_you
+					// team_formation_sum_percentage, team_formation_sum_percentage_over_border
+					// trust_to_member, trust_to_leader, trust_agent
+					pw.print("-1" + "," + "-1" + "," + "-1" + "," + "false"
+							+ "," + "-1" + "," + "false"
+							+ "," + "-1" + "," + "-1" + "," + "-1");
 				}
 
 				pw.println();
