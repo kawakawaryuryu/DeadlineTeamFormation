@@ -111,6 +111,10 @@ public class VisualFileWriter {
 		pw.print("main_role");
 		pw.print(",");
 		pw.print("leaderNum" + "," + "memberNum");
+		if (agents.get(0) instanceof StructuredAgent) {
+			pw.print(",");
+			pw.print("has_trust_agent");
+		}
 		pw.print(",");
 		pw.print("team_formation_sum");
 		pw.print(",");
@@ -127,7 +131,7 @@ public class VisualFileWriter {
 			pw.print(",");
 			pw.print("trust_to_leader");
 			pw.print(",");
-			pw.print("trust_agent");
+			pw.print("is_trust_agent");
 		}
 		pw.println();
 
@@ -174,6 +178,12 @@ public class VisualFileWriter {
 				pw.print(me.getParameter().getElement(Role.LEADER).getRoleNum() + "," + me.getParameter().getElement(Role.MEMBER).getRoleNum());
 				pw.print(",");
 
+				if (me instanceof StructuredAgent) {
+					// 信頼エージェントを持っているかどうか
+					pw.print(",");
+					pw.print(!((StructuredAgent)me).getParameter().getTrustLeaders().isEmpty());
+				}
+
 				if(j != i){
 					//相手とのチーム編成合計回数
 					pw.print(me.getMeasure().getTeamFormationNumWithLeader(you) + me.getMeasure().getTeamFormationNumWithMember(you));
@@ -202,16 +212,16 @@ public class VisualFileWriter {
 						// メンバからリーダに対する信頼度
 						pw.print(",");
 						pw.print(((StructuredAgent) me).getTrustToLeader(you));
-						// 信頼エージェントかどうか
+						// 相手が信頼エージェントかどうか
 						pw.print(",");
-						pw.print(((StructuredAgent)me).getParameter().getTrustLeaders().isEmpty());
+						pw.print(((StructuredAgent)me).getParameter().containsTrustLeader(you));
 					}
 
 				}
 				else{
 					// team_formation_sum, team_formation_num_as_leader, team_formation_num_as_member, main_role_with_you
 					// team_formation_sum_percentage, team_formation_sum_percentage_over_border
-					// trust_to_member, trust_to_leader, trust_agent
+					// trust_to_member, trust_to_leader, is_trust_agent
 					pw.print("-1" + "," + "-1" + "," + "-1" + "," + "false"
 							+ "," + "-1" + "," + "false"
 							+ "," + "-1" + "," + "-1" + "," + "-1");
