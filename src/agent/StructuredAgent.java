@@ -2,6 +2,7 @@ package agent;
 
 import java.util.Arrays;
 
+import library.AgentTaskLibrary;
 import agent.paramter.AbstractAgentParameter;
 import task.Task;
 import team.Team;
@@ -32,20 +33,21 @@ public class StructuredAgent extends Agent {
 	}
 
 	@Override
-	public void calculateLeaderReward(boolean isok, Task executedTask) {
+	public double calculateLeaderReward(boolean isok, Task executedTask) {
 		reward = isok ? executedTask.getTaskRequireSum() * greedy : 0.0;
+		return reward;
 	}
 
 	@Override
-	public void calculateMemberReward(boolean isok, int subtaskRequire,
+	public double calculateMemberReward(boolean isok, int subtaskRequire,
 			double leftReward, int leftRequireSum) {
 		reward = isok ? leftReward * ((double)subtaskRequire / (double)leftRequireSum) : 0.0;	//獲得報酬
+		return reward;
 	}
 
 	@Override
-	public void feedbackGreedy(boolean isok, Task executedTask) {
+	public void feedbackGreedy(boolean isok) {
 		double value = isok ? 1.0 : 0.0;
-		calculateLeaderReward(isok, executedTask);	//獲得報酬の計算
 		greedy = Constant.LEARN_RATE_GREEDY * value + (1.0 - Constant.LEARN_RATE_GREEDY) * greedy;	//欲張り度の更新
 	}
 
@@ -69,18 +71,11 @@ public class StructuredAgent extends Agent {
 	}
 
 	@Override
+	// TODO rewrdは引数で与えるようにする
 	public void feedbackExpectedReward(Agent you, boolean isok,
 			int subtaskRequire, double leftReward, int leftRequireSum) {
-		calculateMemberReward(isok, subtaskRequire, leftReward, leftRequireSum);	//獲得報酬の計算
-		int executeTime;	//実際にかかる処理時間
-		if(isok){
-			executeTime = parameter.getParticipatingTeam().getTeamExecuteTime();
-		}
-		//チーム編成に失敗した場合は1とする（0だと割り切れないため）
-		else{
-			executeTime = 1;
-		}
-		rewardExpectation[you.id] = Constant.LEARN_RATE_REWARD * (reward / (double)executeTime) + (1.0 - Constant.LEARN_RATE_REWARD) * rewardExpectation[you.id];	//報酬期待度の更新
+		rewardExpectation[you.id] = Constant.LEARN_RATE_REWARD * AgentTaskLibrary.getRewardPerTurn(parameter, isok, reward)
+				+ (1.0 - Constant.LEARN_RATE_REWARD) * rewardExpectation[you.id];	//報酬期待度の更新
 	}
 
 	public void feedbackTrustToLeader(Agent you, Team team, boolean isok) {
@@ -110,12 +105,29 @@ public class StructuredAgent extends Agent {
 		}
 	}
 
+	public void decreaseTrustToLeader(Agent you) {
+		trustToLeader[you.id] -= Constant.TRUST_DECREMENT_VALUE;
+		if (trustToLeader[you.id] < 0) trustToLeader[you.id] = 0.0;
+	}
+
 	public double getTrustToLeader(Agent you) {
 		return trustToLeader[you.id];
 	}
 
 	public double[] getTrustToLeader() {
 		return trustToLeader;
+	}
+
+	@Override
+	public void feedbackLeaderRewardExpectation(double reward, boolean isok) {
+		leaderRewardExpectation = Constant.LEARN_RATE_LEADER_REWARD_EXPECTATION * AgentTaskLibrary.getRewardPerTurn(parameter, isok, reward)
+				+ (1.0 - Constant.LEARN_RATE_LEADER_REWARD_EXPECTATION) * leaderRewardExpectation;
+	}
+
+	@Override
+	public void feedbackMemberRewardExpectation(double reward, boolean isok) {
+		memberRewardExpectation = Constant.LEARN_RATE_MEMBER_REWARD_EXPECTATION * AgentTaskLibrary.getRewardPerTurn(parameter, isok, reward)
+				+ (1.0 - Constant.LEARN_RATE_MEMBER_REWARD_EXPECTATION) * memberRewardExpectation;
 	}
 
 }

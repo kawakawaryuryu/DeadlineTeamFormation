@@ -17,6 +17,7 @@ public class Team {
 	private ArrayList<Agent> teamMate = new ArrayList<Agent>();
 	private Agent leader;
 	private ArrayList<Agent> members = new ArrayList<Agent>();
+	private ArrayList<Agent> membersForCheck = new ArrayList<Agent>();	// use in LeaderTaskExecuteState class
 	
 	public Team(Agent leader) {
 		this.leader = leader;
@@ -51,6 +52,7 @@ public class Team {
 	
 	public void addMember(Agent agent) {
 		members.add(agent);
+		membersForCheck.add(agent);
 		addTeamMate(agent);
 	}
 	
@@ -114,6 +116,14 @@ public class Team {
 	
 	public ArrayList<Agent> getMembers() {
 		return members;
+	}
+
+	public boolean isEmptyMembersForCheck() {
+		return membersForCheck.isEmpty();
+	}
+
+	public void removeMemberForCheck(Agent member) {
+		membersForCheck.remove(member);
 	}
 	
 	public int getLeaderResource() {

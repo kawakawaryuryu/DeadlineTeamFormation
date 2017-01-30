@@ -9,4 +9,8 @@ public class TaskCopyModifiedMemberSelection implements Model {
 		
 	}
 
+	public String toString() {
+		return "仮メンバ選択戦略を変更したモデル";
+	}
+
 }

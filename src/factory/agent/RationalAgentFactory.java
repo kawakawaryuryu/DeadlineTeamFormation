@@ -1,4 +1,4 @@
-package main.agent;
+package factory.agent;
 
 import agent.Agent;
 import agent.RationalAgent;
@@ -15,6 +15,10 @@ public class RationalAgentFactory implements AgentFactory {
 	public Agent makeAgent(int id) {
 		AbstractAgentParameter parameter = new RationalAgentParameter();
 		return new RationalAgent(id, parameter);
+	}
+
+	public String toString() {
+		return "合理的エージェント生成factory";
 	}
 
 }

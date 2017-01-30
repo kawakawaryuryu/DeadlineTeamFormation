@@ -1,9 +1,8 @@
 package strategy.taskselection;
 
 import task.Task;
-import log.Log;
+import library.EstimationLibrary;
 import main.teamformation.TeamFormationInstances;
-import constant.Constant;
 import agent.Agent;
 
 /**
@@ -22,7 +21,7 @@ public class FirstInFirstOutStrategy implements TaskSelectionStrategy {
 	public Task selectTask(Agent agent){
 		for(Task task : TeamFormationInstances.getInstance().getParameter().lookingTaskQueue()){
 			if(!task.getMark()){
-				if(canExecuteTaskInTeam(agent, task)){
+				if(EstimationLibrary.canExecuteTaskInTeam(agent, task)){
 					return task;
 				}
 			}
@@ -30,33 +29,6 @@ public class FirstInFirstOutStrategy implements TaskSelectionStrategy {
 		return null;
 	}
 	
-	/**
-	 * チームでタスクをデッドラインまでの処理できるか見積もる
-	 * @param agent
-	 * @param task
-	 * @return
-	 */
-	public boolean canExecuteTaskInTeam(Agent agent, Task task){
-		int countTime = 0;
-		int leftTaskResource = task.getTaskRequireSum();
-		
-		/* 過去のチーム履歴がない場合はとりあえず処理できるとする */
-		if(!agent.getParameter().getPastTeam().isEmptyPastTeams()){
-			//ただのチーム平均リソースの場合
-			countTime = (int)Math.ceil((double)leftTaskResource / (double)agent.getParameter().getPastTeam().getAverageAbilitiesPerTeam());
-			
-		}
-		else{
-			Log.log.debugln("チーム履歴がありませんでした");
-		}
-		
-		if(countTime <= task.getDeadlineInTask() - (Constant.WAIT_TURN + Constant.DEADLINE_MIN_2)){
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
 	
 	/**
 	 * キューソートの方法を返す

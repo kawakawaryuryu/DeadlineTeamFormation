@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import random.RandomManager;
 import log.Log;
-import mail.MailSend;
+import mail.Slack;
 import file.FileWriteManager;
 import file.VisualFileWriter;
 import main.manager.InstanceManager;
@@ -24,7 +24,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		MailSend mail;
+		Slack slack;
 
 		try {
 
@@ -40,6 +40,7 @@ public class Main {
 			//
 			//--------------------------------------------
 			Configuration.setParameters(args);
+			Configuration.getHeadRevision();
 			Configuration.setDateTime();
 			FileWriteManager.set();
 			VisualFileWriter.set();
@@ -64,7 +65,7 @@ public class Main {
 				random.initialize(experimentNumber);
 
 				// チーム編成を行う
-				TeamFormationMain.teamFormation(experimentNumber, Configuration.model, Configuration.factory);
+				TeamFormationMain.teamFormation(experimentNumber, Configuration.model, Configuration.agentFactory);
 
 				// 1回の実験で計測したデータを保存
 				InstanceManager.getInstance().getMeasure().saveAllMeasuredData();
@@ -100,24 +101,24 @@ public class Main {
 					+ "Estimation: " + Configuration.ESTIMATION + "\n"
 					+ "Executed Time: " + hour + "時間" + minute + "分" + second + "秒" + "\n";
 
-			mail = new MailSend();
-			if(Configuration.MAIL_SENT) mail.send(subject, msg);
+			slack = new Slack();
+			if(Configuration.SLACK_SENT) slack.notifyToSlack(subject, msg, true);
 
 		} catch(AbnormalException e) {
 			System.err.println(e.getError());
 			String subject = "エラー報告";
 			String msg = e.getError();
 
-			mail = new MailSend();
-			mail.send(subject, msg);
+			slack = new Slack();
+			slack.notifyToSlack(subject, msg, false);
 
 		} catch(ParentException e) {
 			System.err.println(e.getError());
 			String subject = "エラー報告";
 			String msg = e.getError();
 
-			mail = new MailSend();
-			mail.send(subject, msg);
+			slack = new Slack();
+			slack.notifyToSlack(subject, msg, false);
 
 		} catch(RuntimeException e) {
 			System.err.println(e.toString());
@@ -132,8 +133,8 @@ public class Main {
 				msg.append("\t" + el + "\n");
 			}
 
-			mail = new MailSend();
-			mail.send(subject, msg.toString());
+			slack = new Slack();
+			slack.notifyToSlack(subject, msg.toString(), false);
 		}
 
 	}
@@ -143,8 +144,13 @@ public class Main {
 			FileWriteManager.fileExplain(learning, estimation);
 			FileWriteManager.writeBodyOfMeasuredDataPerTurn(InstanceManager.getInstance().getMeasure());
 			FileWriteManager.writeBodyOfTeamMeasuredData(InstanceManager.getInstance().getMeasure());
-			FileWriteManager.writeBodyOfAgentsNum(InstanceManager.getInstance().getMeasure());
+			//FileWriteManager.writeBodyOfAgentsNum(InstanceManager.getInstance().getMeasure());
 			FileWriteManager.writeOtherData(InstanceManager.getInstance().getMeasure());
+
+			// TODO agentTypeを文字列やめる
+			if(agentType.equals("Structured")) {
+				FileWriteManager.writeBodyOfTrustLeadersNumEveryTurn(InstanceManager.getInstance().getMeasure());
+			}
 		} catch(IOException e) {
 			throw new ParentException(e);
 		}

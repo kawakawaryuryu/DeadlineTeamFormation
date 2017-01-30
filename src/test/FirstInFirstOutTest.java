@@ -1,13 +1,13 @@
 package test;
 
 import static org.junit.Assert.*;
+import library.EstimationLibrary;
 import main.teamformation.TeamFormationInstances;
 import main.teamformation.TeamFormationMain;
 
 import org.junit.Test;
 
 import strategy.taskselection.FirstInFirstOutStrategy;
-import task.Failure;
 import task.Task;
 import team.Team;
 import agent.Agent;
@@ -25,7 +25,7 @@ public class FirstInFirstOutTest {
 		Task task = new Task(0, 3, 5);
 		
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
-		assertEquals(strategy.canExecuteTaskInTeam(agent, task), true);
+		assertEquals(EstimationLibrary.canExecuteTaskInTeam(agent, task), true);
 	}
 	
 	@Test
@@ -40,7 +40,7 @@ public class FirstInFirstOutTest {
 		Task task = new Task(0, 3, 5);
 		
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
-		assertEquals(strategy.canExecuteTaskInTeam(agent, task), true);
+		assertEquals(EstimationLibrary.canExecuteTaskInTeam(agent, task), true);
 	}
 	
 	@Test
@@ -55,7 +55,7 @@ public class FirstInFirstOutTest {
 		Task task = new Task(0, 3, 3);
 				
 		FirstInFirstOutStrategy strategy = new FirstInFirstOutStrategy();
-		assertEquals(strategy.canExecuteTaskInTeam(agent, task), false);
+		assertEquals(EstimationLibrary.canExecuteTaskInTeam(agent, task), false);
 	}
 	
 	@Test
@@ -93,7 +93,7 @@ public class FirstInFirstOutTest {
 	@Test
 	public void testSelectTask3() {
 		Task task1 = new Task(0, 3, 5);
-		task1.markingTask(true, Failure.MARK_TURE);
+		task1.markingTask(true);
 		Task task2 = new Task(1, 3, 5);
 		TeamFormationInstances.getInstance().getParameter().taskQueue.clear();
 		TeamFormationInstances.getInstance().getParameter().taskQueue.add(task1);

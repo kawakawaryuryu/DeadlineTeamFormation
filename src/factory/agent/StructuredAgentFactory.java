@@ -1,4 +1,4 @@
-package main.agent;
+package factory.agent;
 
 import agent.Agent;
 import agent.StructuredAgent;
@@ -15,6 +15,10 @@ public class StructuredAgentFactory implements AgentFactory {
 	public Agent makeAgent(int id) {
 		AbstractAgentParameter parameter = new StructuredAgentParameter();
 		return new StructuredAgent(id, parameter);
+	}
+
+	public String toString() {
+		return "チーム固定エージェント生成factory";
 	}
 
 }

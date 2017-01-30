@@ -2,10 +2,10 @@ package state;
 
 import strategy.StrategyManager;
 import strategy.taskselection.TaskSelectionStrategy;
-import task.Failure;
 import task.Task;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
+import action.ActionManager;
 import agent.Agent;
 
 public class TaskSelectionState implements State {
@@ -19,7 +19,7 @@ public class TaskSelectionState implements State {
 		Task selectedTask = strategy.selectTask(agent);
 		if(selectedTask != null){
 			Log.log.debugln(selectedTask + "をマークしました");
-			selectedTask.markingTask(true, Failure.MARK_TURE);
+			selectedTask.markingTask(true);
 			agent.getParameter().setMarkedTask(selectedTask);
 			
 			// マークしたタスクに関するデータを計測
@@ -29,8 +29,7 @@ public class TaskSelectionState implements State {
 			Log.log.debugln("タスクをマークしませんでした");
 		}
 		
-		agent.getParameter().changeState(RoleSelectionState.getState());
-		TeamFormationInstances.getInstance().getParameter().addAgentToAgentsMap(RoleSelectionState.getState(), agent);
+		ActionManager.toRoleSelectionStateAction.action(agent);
 	}
 
 	public static State getState() {

@@ -1,23 +1,38 @@
 package config;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
+import strategy.greedy.GreedyPenaltyStrategy;
+import strategy.greedy.GreedyUnchangePenaltyStrategy;
+import strategy.taskreturn.TaskReturnStrategy;
+import strategy.taskreturn.TaskUnmarkStrategy;
 import exception.AbnormalException;
+import exception.ParentException;
+import factory.agent.AgentFactory;
+import factory.agent.RationalAgentFactory;
+import factory.agent.StructuredAgentFactory;
+import factory.subtask.RandomSubtaskFactory;
+import factory.subtask.SubtaskFactory;
+import factory.task.RandomTaskFactory;
+import factory.task.TaskFactory;
 import log.Log;
 import log.logger.Type;
-import main.agent.AgentFactory;
-import main.agent.RationalAgentFactory;
-import main.agent.StructuredAgentFactory;
 import main.model.AgentActionManager;
+import main.model.MessageDelayByStructuredAgent;
 import main.model.Model;
-import main.model.TaskCopy;
+import main.model.MessageDelay;
 
 
 public class Configuration {
+
+	// Git Revision num
+	public static String REVISION;
 	
 	// Date, Time
 	public static String DATE;
@@ -42,13 +57,25 @@ public class Configuration {
 
 
 	// Model
-	public static Model model = new TaskCopy();
+	public static Model model = new MessageDelayByStructuredAgent();
 
 	// AgentFactory
-	public static AgentFactory factory;
+	public static AgentFactory agentFactory;
+
+	// TaskFactory
+	public static TaskFactory taskFactory = new RandomTaskFactory();
+
+	// SubtaskFactory
+	public static SubtaskFactory subtaskFactory = new RandomSubtaskFactory();
 
 	// AgetnactionManager
 	public static AgentActionManager action = new AgentActionManager();
+
+	// TaskReturnStrategy
+	public static TaskReturnStrategy taskReturnStrategy = new TaskUnmarkStrategy();
+
+	// GreedyPenaltyStrategy
+	public static GreedyPenaltyStrategy greedyPenaltyStrategy = new GreedyUnchangePenaltyStrategy();
 	
 	
 	// Mail
@@ -58,6 +85,9 @@ public class Configuration {
 	public static String MAIL_TO;
 	public static String MAIL_USER;
 	public static String MAIL_PASS;
+
+	// slack
+	public static final boolean SLACK_SENT = true;
 
 	
 	public static void setDateTime() {
@@ -79,6 +109,21 @@ public class Configuration {
 		LOG_PATH = "log/debug_" + FILE_NUMBER + ".log";
 	}
 
+	public static void getHeadRevision() {
+		try {
+			ProcessBuilder pb = new ProcessBuilder("git", "rev-parse", "HEAD");
+			Process process = pb.start();
+
+			BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+			String ret = reader.readLine();
+
+			REVISION = ret.substring(0, 7);
+			reader.close();
+		} catch (IOException e) {
+			throw new ParentException(e);
+		}
+	}
+
 	public static void setLog(int experimentNumber) {
 		if (experimentNumber == 1) {
 			Log.setLogInstance(LOG_TYPE, LOG_PATH);
@@ -90,7 +135,7 @@ public class Configuration {
 
 	public static void readProperties() {
 		Properties prop = new Properties();
-		String file = "properties/config.properties";
+		String file = "properties/mail.properties";
 		try {
 			prop.load(new FileInputStream(file));
 
@@ -107,10 +152,10 @@ public class Configuration {
 
 	public static void setAgentFactory() {
 		if (AGENT_TYPE.equals("Rational")) {
-			factory = new RationalAgentFactory();
+			agentFactory = new RationalAgentFactory();
 		}
 		else if (AGENT_TYPE.equals("Structured")) {
-			factory = new StructuredAgentFactory();
+			agentFactory = new StructuredAgentFactory();
 		}
 		else {
 			throw new AbnormalException("そのようなAgentFactoryは存在しません");

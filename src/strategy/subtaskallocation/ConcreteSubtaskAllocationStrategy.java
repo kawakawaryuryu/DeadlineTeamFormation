@@ -7,6 +7,7 @@ import random.RandomKey;
 import random.RandomManager;
 import task.Subtask;
 import library.AgentTaskLibrary;
+import library.DeadlineLibrary;
 import log.Log;
 import constant.Constant;
 import exception.AbnormalException;
@@ -147,7 +148,8 @@ public class ConcreteSubtaskAllocationStrategy implements
 			boolean isAllocated = false;
 			for(Agent member : sortedAgents){
 				int executeTime = getExecuteTime(leader, member);
-				int deadline = subtask.getDeadline() - executeTime - Constant.DEADLINE_MIN_1;
+				int deadline = subtask.getDeadline() - executeTime
+						- DeadlineLibrary.getReducedDeadlineAtSecondTurn(Constant.MESSAGE_DELAY);
 				if(AgentTaskLibrary.isExecuteSubTask(member, subtask, deadline)){
 					if(!leader.getParameter().getLeaderField().memberSubtaskMap.containsKey(member)){
 						leader.getParameter().getLeaderField().members.add(member);

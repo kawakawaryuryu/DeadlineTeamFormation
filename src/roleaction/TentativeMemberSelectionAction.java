@@ -1,16 +1,22 @@
 package roleaction;
 
+import config.Configuration;
+import constant.Constant;
 import role.Role;
+import state.LeaderWaitingState;
+import state.StateManager;
 import state.SubtaskAllocationState;
-import state.TaskSelectionState;
 import strategy.StrategyManager;
 import strategy.memberselection.TentativeMemberSelectionStrategy;
 import task.Failure;
 import team.Team;
+import library.MessageLibrary;
 import log.Log;
 import main.teamformation.TeamFormationInstances;
+import main.teamformation.TeamFormationMain;
 import message.AnswerMessage;
 import message.OfferMessage;
+import action.ActionManager;
 import agent.Agent;
 
 public class TentativeMemberSelectionAction implements RoleAction {
@@ -39,23 +45,32 @@ public class TentativeMemberSelectionAction implements RoleAction {
 	
 	private void refuseOfferMessages(Agent agent) {
 		for(OfferMessage offer : agent.getParameter().getOfferMessages()){
+			int delayTime = MessageLibrary.getMessageTime(agent, offer.getFrom());
 			Log.log.debugln(offer.getFrom() + "からのメッセージを断ります");
-			TeamFormationInstances.getInstance().getPost().postAnswerMessage(offer.getFrom(), 
-					new AnswerMessage(agent, offer.getFrom(), false, offer.getSubtask()));
+			TeamFormationInstances.getInstance().getPost().postAnswerMessage(offer.getFrom(),
+					new AnswerMessage(agent, offer.getFrom(), delayTime, false, offer.getSubtask()));
 		}
 	}
 	
 	private void actionInSearchingSuccessCase(Agent agent) {
 		agent.getParameter().setParticipatingTeam(new Team(agent));
-		agent.getParameter().changeState(SubtaskAllocationState.getState());
+		StateManager.changeStateConsideringDelay(agent, SubtaskAllocationState.getState(), LeaderWaitingState.getState());
 		agent.getParameter().changeRole(Role.LEADER);
 	}
 	
 	private void actionInSearchingFailureCase(Agent agent) {
-		agent.getParameter().getMarkedTask().markingTask(false, Failure.ESTIMATION_FAILURE);
+		// 最後の数ターンで見積もり失敗数の内訳を計測
+		if (Constant.TURN_NUM - TeamFormationMain.getTurn() <= Constant.END_TURN_NUM) {
+			double pastTeamResource = agent.getParameter().getPastTeam().getAverageAbilitiesPerTeam();
+			if(pastTeamResource == 0) TeamFormationInstances.getInstance().getMeasure().countEstimationFailureByRandomSelection();
+			else TeamFormationInstances.getInstance().getMeasure().countEstimationFailureByOther();
+		}
+
+		agent.getParameter().getMarkedTask().countFailure(Failure.ESTIMATION_FAILURE);
+		Configuration.greedyPenaltyStrategy.decreaseGreedy(agent);
 		agent.getParameter().getMarkedTask().clear();
 		TeamFormationInstances.getInstance().getMeasure().countGiveUpTeamFormationNum();
-		agent.getParameter().changeState(TaskSelectionState.getState());
+		ActionManager.toTaskReturnedWaitingStateAction.action(agent);
 	}
 	
 	

@@ -44,7 +44,9 @@ public class FileWriteManager {
 		path = Configuration.FILE_PATH;
 		fileNumber = Configuration.FILE_NUMBER;
 
-		path += Configuration.EXPERIMET_TYPE + "/" + Configuration.DATE + "/data/";
+		path += Configuration.EXPERIMET_TYPE + "/" + Configuration.DATE + "/";
+		path += "data_" + Configuration.REVISION + "/";
+
 		fileName = Configuration.TIME + "_" + fileNumber;
 		method = Configuration.METHOD_NAME;
 		agentType = Configuration.AGENT_TYPE;
@@ -125,6 +127,11 @@ public class FileWriteManager {
 		pw.println("リーダに対する信頼度の学習率" + "," + Constant.LEARN_RATE_TRUST_TO_LEADER);
 		pw.println("信頼エージェントの閾値" + "," + Constant.TRUST_LEADER_THREASHOLD);
 		pw.println("信頼エージェントの保持上限数" + "," + Constant.TRUST_LEADER_LIMIT);
+		pw.println("リーダ時の報酬獲得度の初期値" + "," + Constant.INITIAL_LEADER_REWARD_EXPECTATION);
+		pw.println("リーダ時の報酬獲得度の学習率" + "," + Constant.LEARN_RATE_LEADER_REWARD_EXPECTATION);
+		pw.println("メンバ時の報酬獲得度の初期値" + "," + Constant.INITIAL_MEMBER_REWARD_EXPECTATION);
+		pw.println("メンバ時の報酬獲得度の学習率" + "," + Constant.LEARN_RATE_MEMBER_REWARD_EXPECTATION);
+		pw.println("1tickごとに減少させていく信頼度の値" + "," + Constant.TRUST_DECREMENT_VALUE);
 		pw.println("チーム履歴を保持する数" + "," + Constant.PAST_TEAM_NUM);
 		pw.println("タスクの中のサブタスク数" + "," + Constant.SUBTASK_IN_TASK_INIT + "　~　" + (Constant.SUBTASK_IN_TASK_INIT + Constant.SUBTASK_IN_TASK_NUM - 1));
 		pw.println("エージェントのリソース" + "," + Constant.AGENT_ABILITY_INIT + "　~　" + (Constant.AGENT_ABILITY_INIT + Constant.AGENT_ABILITY_MAX - 1));
@@ -133,6 +140,7 @@ public class FileWriteManager {
 		pw.println("1tickに追加する平均タスク数" + "," + Constant.ADD_TASK_PER_TURN);
 		pw.println("タスク追加間隔" + "," + Constant.ADD_TASK_INTERVAL);
 		pw.println("タスクコピーにかかる時間" + "," + Constant.WAIT_TURN);
+		pw.println("通信遅延時間" + "," + Constant.MESSAGE_DELAY);
 		pw.println("ε-greedyのε" + "," + Constant.EPSILON);
 		pw.println("ε-greedyのε（メンバ候補の決定時）" + "," + Constant.EPSILON2);
 		pw.println("1サブタスクごとに送るメッセージ数" + "," + Constant.SELECT_MEMBER_NUM);
@@ -140,6 +148,12 @@ public class FileWriteManager {
 		pw.println("役割選択の戦略" + "," + roleSelectionStrategy.toString());
 		pw.println("サブタスク割り当ての戦略" + "," + allocationStrategy.toString());
 		pw.println("仮メンバ選択の戦略" + "," + memberSelectionStrategy.toString());
+		pw.println("エージェント行動の流れ（モデル）" + "," + Configuration.model);
+		pw.println("エージェント生成のfactory" + "," + Configuration.agentFactory);
+		pw.println("タスク生成のfactory" + "," + Configuration.taskFactory);
+		pw.println("サブタスク生成のfactory" + "," + Configuration.subtaskFactory);
+		pw.println("タスク返却の戦略" + "," + Configuration.taskReturnStrategy);
+		pw.println("欲張り度ペナルティの戦略" + "," + Configuration.greedyPenaltyStrategy);
 		pw.println("可視化のための閾値を格納する配列要素数" + "," + Constant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM);
 		for(int i = 0; i < Constant.TEAM_FORMATION_PERCENTAGE_BORDER_NUM; i++){
 			pw.println(i + " 番目" + "," + Constant.TEAM_FORMATION_PERCENTAGE_BORDER[i]);
@@ -185,7 +199,13 @@ public class FileWriteManager {
 		pw.print(",");
 		pw.print("マークしたタスクのリソース");
 		pw.print(",");
-		pw.println("マークしたタスクの残りデッドライン");
+		pw.print("マークしたタスクの残りデッドライン");
+		pw.print(",");
+		pw.print("マークされていないタスクのリソース");
+		pw.print(",");
+		pw.print("マークされていないタスクの残りデッドライン");
+		pw.print(",");
+		pw.println("メンバ選択によってタスクマークを外した回数");
 
 		return pw;
 	}
@@ -222,9 +242,15 @@ public class FileWriteManager {
 			pw.print(",");
 			pw.print(measure.bindingTimePerAgentInTeam[i] / (double)Constant.EXPERIMENT_NUM);
 			pw.print(",");
-			pw.print(measure.markedTaskRequire[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.print(measure.markedTaskRequireEveryTurn[i] / (double)Constant.EXPERIMENT_NUM);
 			pw.print(",");
-			pw.println(measure.markedTaskDeadline[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.print(measure.markedTaskDeadlineEveryTurn[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.print(",");
+			pw.print(measure.unmarkedTaskRequireEveryTurn[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.print(",");
+			pw.print(measure.unmarkedTaskDeadlineEveryTurn[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.print(",");
+			pw.println(measure.unmarkedByMemberSelectionNum[i] / (double)Constant.EXPERIMENT_NUM);
 		}
 
 		pw.close();
@@ -271,6 +297,79 @@ public class FileWriteManager {
 			pw.println();
 		}
 		pw.close();
+	}
+
+	/**
+	 * リーダ時報酬期待度を書き込む(最初)
+	 * @param agents
+	 * @return
+	 * @throws IOException
+	 */
+	public static PrintWriter writeHeaderOfLeaderRewardExpectation(ArrayList<Agent> agents) throws IOException {
+		makeDirectory("RoleRewardExpectation", "Leader");
+
+		String file = "leaderRewardExpectation" + "_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("RoleRewardExpectation", "Leader", file);
+
+		pw.print("経過ターン");
+		pw.print(",");
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print(agents.get(i));
+			pw.print(",");
+		}
+		pw.println();
+
+		return pw;
+	}
+
+	/**
+	 * リーダ時報酬期待度を書き込む
+	 * @param pw
+	 * @param turn
+	 * @param agents
+	 */
+	public static void writeBodyOfLeaderRewardExpectation(PrintWriter pw, int turn, ArrayList<Agent> agents) {
+		pw.print(turn);
+		pw.print(",");
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print(agents.get(i).getLeaderRewardExpectation());
+			pw.print(",");
+		}
+		pw.println();
+	}
+
+
+	/**
+	 * メンバ時報酬期待度を書き込む(最初)
+	 * @param agents
+	 * @return
+	 * @throws IOException
+	 */
+	public static PrintWriter writeHeaderOfMemberRewardExpectation(ArrayList<Agent> agents) throws IOException {
+		makeDirectory("RoleRewardExpectation", "Member");
+
+		String file = "memberRewardExpectation" + "_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("RoleRewardExpectation", "Member", file);
+
+		pw.print("経過ターン");
+		pw.print(",");
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print(agents.get(i));
+			pw.print(",");
+		}
+		pw.println();
+
+		return pw;
+	}
+
+	public static void writeBodyOfMemberRewardExpectation(PrintWriter pw, int turn, ArrayList<Agent> agents) throws IOException {
+		pw.print(turn);
+		pw.print(",");
+		for(int i = 0; i < Constant.AGENT_NUM; i++){
+			pw.print(agents.get(i).getMemberRewardExpectation());
+			pw.print(",");
+		}
+		pw.println();
 	}
 
 	/**
@@ -752,6 +851,36 @@ public class FileWriteManager {
 		pw.println();
 	}
 
+	private static PrintWriter writeHeaderOfTrustLeadersNumEveryTurn() throws IOException {
+		makeDirectory("trustLeaders", "/NumPerTurn");
+
+		String file = "trustLeadersNumPerTurn_" + fileName + ".csv";
+		PrintWriter pw = getPrintWriter("trustLeaders", "/NumPerTurn", file);
+
+		pw.println("平均" + Constant.EXPERIMENT_NUM + "回" + "," + method + "," + agentType);
+		pw.print("経過ターン");
+		pw.print(",");
+		pw.print("信頼エージェント保持数");
+		pw.println();
+
+		return pw;
+	}
+
+	public static void writeBodyOfTrustLeadersNumEveryTurn(MeasuredDataManager measure) throws IOException {
+		PrintWriter pw = writeHeaderOfTrustLeadersNumEveryTurn();
+
+		for(int i = 0; i < Constant.ARRAY_SIZE_FOR_MEASURE; i++){
+			int turn = Constant.MEASURE_TURN_NUM * (i + 1);
+
+			pw.print(turn);
+			pw.print(",");
+			pw.print(measure.trustLeadersNumEveryTurn[i] / (double)Constant.EXPERIMENT_NUM);
+			pw.println();
+		}
+
+		pw.close();
+	}
+
 	public static PrintWriter writeHeaderOfTeamResources(ArrayList<Agent> agents) throws IOException {
 		makeDirectory("TeamResources", "");
 
@@ -843,6 +972,14 @@ public class FileWriteManager {
 		pw.println("総タスク廃棄リソースの平均" + "," + (double)measure.allFailureTaskRequire / (double)Constant.EXPERIMENT_NUM);
 		pw.println("タスクキューの平均サイズ" + "," + measure.taskQueueNum / (double)Constant.EXPERIMENT_NUM);
 		pw.println("マークなしのタスクキューの平均サイズ" + "," + measure.unmarkedTaskQueueNum / (double)Constant.EXPERIMENT_NUM);
+		pw.println("キュー内のマークなしのタスクの平均残りデッドライン" + "," + measure.unmarkedTaskDeadline / (double)Constant.EXPERIMENT_NUM);
+		pw.println("キュー内のマークなしのタスクの平均リソース" + "," + measure.unmarkedTaskRequire / (double)Constant.EXPERIMENT_NUM);
+		pw.println("マークを外した平均タスク数" + "," + measure.unmarkedTaskNum / (double)Constant.EXPERIMENT_NUM);
+		pw.println("見積もり失敗によってマークを外した平均タスク数" + "," + measure.unmarkedTaskNumByEstimationFailure / (double)Constant.EXPERIMENT_NUM);
+		pw.println("チーム編成失敗によってマークを外した平均タスク数" + "," + measure.unmarkedTaskNumByTeamFormationFailure / (double)Constant.EXPERIMENT_NUM);
+		pw.println("メンバ選択によってマークを外した平均タスク数" + "," + measure.unmarkedTaskNumByMemberDecision / (double)Constant.EXPERIMENT_NUM);
+		pw.println("最後の" + Constant.END_TURN_NUM + "ターンでの見積もり失敗数の中で保持する平均チームリソースが0でランダムにタスクを選択した回数" + "," + measure.estimationFailureByRandomSelection / (double)Constant.EXPERIMENT_NUM);
+		pw.println("最後の" + Constant.END_TURN_NUM + "ターンでの見積もり失敗数の中で見積もってタスクを選択した回数" + "," + measure.estimationFailureByOther / (double)Constant.EXPERIMENT_NUM);
 		pw.println();
 
 		pw.println("チーム内人数" + "," + "1チームの不要な拘束時間" + "," + "1チーム中の1人あたりの不要な拘束時間" + "," + "チーム編成成功数");

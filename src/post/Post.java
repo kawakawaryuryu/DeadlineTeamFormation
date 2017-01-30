@@ -6,6 +6,10 @@ import message.TeamFormationMessage;
 import agent.Agent;
 
 public class Post {
+
+	public void initialize() {
+
+	}
 	
 	public void postOfferMessage(Agent to, OfferMessage message) {
 		to.getParameter().addOfferMessage(message);

@@ -3,22 +3,35 @@ package main.teamformation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
+import library.DeadlineLibrary;
 import log.Log;
 import main.TaskMarking;
-import main.agent.AgentFactory;
 import random.RandomKey;
 import random.RandomManager;
+import state.InitialLeaderState;
+import state.InitialMemberState;
+import state.InitialRoleDecisionState;
+import state.LeaderTaskExecuteState;
+import state.LeaderWaitingState;
+import state.MemberTaskExecuteState;
+import state.MemberTeamDissolutionConfirmationState;
+import state.MemberWaitingState;
+import state.ReciprocalTaskSelectionState;
 import state.State;
 import state.RoleSelectionState;
 import state.SubtaskAllocationState;
 import state.SubtaskReceptionState;
 import state.TaskExecuteState;
 import state.TaskMarkedWaitingState;
+import state.TaskReturnedWaitingState;
 import state.TaskSelectionState;
 import task.Task;
+import config.Configuration;
 import constant.Constant;
 import exception.AbnormalException;
+import factory.agent.AgentFactory;
 import agent.Agent;
 
 public class TeamFormationParameter {
@@ -39,12 +52,22 @@ public class TeamFormationParameter {
 	
 	private void initializeAgentsMap() {
 		agentsMap.clear();
+		agentsMap.put(InitialRoleDecisionState.getState(), new ArrayList<Agent>());
+		agentsMap.put(InitialLeaderState.getState(), new ArrayList<Agent>());
+		agentsMap.put(InitialMemberState.getState(), new ArrayList<Agent>());
 		agentsMap.put(TaskSelectionState.getState(), new ArrayList<Agent>());
+		agentsMap.put(ReciprocalTaskSelectionState.getState(), new ArrayList<Agent>());
 		agentsMap.put(RoleSelectionState.getState(), new ArrayList<Agent>());
 		agentsMap.put(SubtaskAllocationState.getState(), new ArrayList<Agent>());
 		agentsMap.put(SubtaskReceptionState.getState(), new ArrayList<Agent>());
+		agentsMap.put(LeaderWaitingState.getState(), new ArrayList<Agent>());
+		agentsMap.put(MemberWaitingState.getState(), new ArrayList<Agent>());
 		agentsMap.put(TaskExecuteState.getState(), new ArrayList<Agent>());
 		agentsMap.put(TaskMarkedWaitingState.getState(), new ArrayList<Agent>());
+		agentsMap.put(TaskReturnedWaitingState.getState(), new ArrayList<Agent>());
+		agentsMap.put(LeaderTaskExecuteState.getState(), new ArrayList<Agent>());
+		agentsMap.put(MemberTaskExecuteState.getState(), new ArrayList<Agent>());
+		agentsMap.put(MemberTeamDissolutionConfirmationState.getState(), new ArrayList<Agent>());
 	}
 	
 	private void initializeTaskMarkingAgentsMap() {
@@ -126,12 +149,8 @@ public class TeamFormationParameter {
 	
 	void addTaskToQueue() {
 		int taskAdditionNum = getPoissonTaskAdditionNum(Constant.ADD_TASK_PER_TURN);
-		for(int id = 0; id < taskAdditionNum; id++){
-			taskQueue.add(new Task(taskId++, 
-					RandomManager.getRandom(RandomKey.TASK_RANDOM).nextInt(Constant.SUBTASK_IN_TASK_NUM) + Constant.SUBTASK_IN_TASK_INIT, 
-					Constant.TASK_DEADLINE_MULTIPLE *
-					(RandomManager.getRandom(RandomKey.DEADLINE_RANDOM).nextInt(Constant.DEADLINE_MAX) 
-							+ Constant.DEADLINE_INIT)));
+		for(int i = 0; i < taskAdditionNum; i++){
+			taskQueue.add(Configuration.taskFactory.makeTask(taskId++));
 		}
 		debugTaskQueue();
 	}
@@ -158,16 +177,36 @@ public class TeamFormationParameter {
 	public ArrayList<Task> lookingTaskQueue(){
 		return taskQueue;
 	}
+
+	public ArrayList<Task> lookingLimitedTaskQueue(int start, int end) {
+		ArrayList<Task> unmarkedTasks = getUnmarkedTaskList();
+		return end < unmarkedTasks.size() ? (ArrayList<Task>)unmarkedTasks.subList(start, end) : (ArrayList<Task>)unmarkedTasks.subList(start, unmarkedTasks.size());
+	}
+
+	/**
+	 * マークのついていないタスクキューを返す
+	 * @return
+	 */
+	public ArrayList<Task> getUnmarkedTaskList() {
+		return (ArrayList<Task>)taskQueue.stream().filter(task -> !task.getMark()).collect(Collectors.toList());
+	}
 	
 	public void removeTask(Task task){
-		taskQueue.remove(task);
+		boolean removed = taskQueue.remove(task);
+		if (!removed) {
+			throw new AbnormalException("タスクをキューから除けませんでした");
+		}
+	}
+
+	public void returnTask(Task task) {
+		taskQueue.add(task);
 	}
 	
 	void decreaseTaskDeadline(TeamFormationMeasuredData measure) {
 		for(int i = 0; i < taskQueue.size(); ){
 			taskQueue.get(i).subtractDeadlineInTask();
 			// タスクのデッドラインが処理できない時間だったらキューから削除する
-			if(taskQueue.get(i).getDeadlineInTask() <= (Constant.WAIT_TURN + Constant.DEADLINE_MIN_2) 
+			if(taskQueue.get(i).getDeadlineInTask() <= (DeadlineLibrary.getReducedDeadlineAtInitialTurn(Constant.MESSAGE_DELAY))
 					&& !taskQueue.get(i).getMark()){
 				measure.countFailure(taskQueue.get(i).getTaskRequireSum());
 				removeTask(taskQueue.get(i));
@@ -177,13 +216,43 @@ public class TeamFormationParameter {
 	}
 	
 	public int getNoMarkingTaskNum() {
-		int noMarkSize = 0;
-		for(Task task : taskQueue){
-			if(!task.getMark()){
-				noMarkSize++;
-			}
-		}
-		
+		int noMarkSize = taskQueue.stream().filter(task -> !task.getMark()).collect(Collectors.toList()).size();
 		return noMarkSize;
+	}
+
+	/**
+	 * マークされていないタスクの平均残りデッドラインを返す
+	 * @return
+	 */
+	public double getNoMarkedTaskDeadlines() {
+		double deadline = taskQueue.stream().filter(task -> !task.getMark()).mapToDouble(Task::getDeadlineInTask).average().orElse(0);
+		return deadline;
+	}
+
+	/**
+	 * マークされていないタスクの平均タスクリソースを返す
+	 * @return
+	 */
+	public double getNoMarkedTaskRequire() {
+		double taskRequireSum = taskQueue.stream().filter(task -> !task.getMark()).mapToDouble(Task::getTaskRequireSum).average().orElse(0);
+		return taskRequireSum;
+	}
+
+	/**
+	 * マークされているタスクの平均残りデッドラインを返す
+	 * @return
+	 */
+	public double getMarkedTaskDeadlines() {
+		double deadline = taskQueue.stream().filter(task -> task.getMark()).mapToDouble(Task::getDeadlineInTask).average().orElse(0);
+		return deadline;
+	}
+
+	/**
+	 * マークされているタスクの平均タスクリソースを返す
+	 * @return
+	 */
+	public double getMarkedTaskRequire() {
+		double taskRequireSum = taskQueue.stream().filter(task -> task.getMark()).mapToDouble(Task::getTaskRequireSum).average().orElse(0);
+		return taskRequireSum;
 	}
 }

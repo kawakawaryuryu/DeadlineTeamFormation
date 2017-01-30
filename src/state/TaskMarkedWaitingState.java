@@ -1,7 +1,6 @@
 package state;
 
-import roleaction.RoleAction;
-import roleaction.TentativeMemberSelectionAction;
+import roleaction.RoleActionManager;
 import constant.Constant;
 import exception.AbnormalException;
 import agent.Agent;
@@ -9,8 +8,6 @@ import agent.Agent;
 public class TaskMarkedWaitingState implements State {
 
 	private static State state = new TaskMarkedWaitingState();
-	
-	private RoleAction strategy = new TentativeMemberSelectionAction();
 
 	@Override
 	public void agentAction(Agent agent) {
@@ -25,7 +22,7 @@ public class TaskMarkedWaitingState implements State {
 
 		else if(agent.getParameter().getTimerField().getTaskMarkedWaitingStateTimer() == Constant.WAIT_TURN) {
 			// 仮メンバを選択する
-			strategy.action(agent);
+			RoleActionManager.tentativeMemberSelectionAction.action(agent);
 		}
 		
 		else{

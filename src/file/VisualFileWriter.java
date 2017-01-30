@@ -98,8 +98,8 @@ public class VisualFileWriter {
 	public static void writeVisualizedData(ArrayList<Agent> agents, int turn, int experimentNumber, int successTeamingEdgeNum) throws IOException{
 		makeDirectory("visualization", "/" + fileName + "/visual/");
 
-		//無向グラフ
-		String file = "non_directed_" + turn + ".csv";
+		//有向グラフ
+		String file = "directed_" + turn + ".csv";
 		PrintWriter pw = getPrintWriter("visualization", "/" + fileName + "/visual/", file);
 
 		pw.print("my_id" + "," + "your_id");
@@ -111,6 +111,10 @@ public class VisualFileWriter {
 		pw.print("main_role");
 		pw.print(",");
 		pw.print("leaderNum" + "," + "memberNum");
+		if (agents.get(0) instanceof StructuredAgent) {
+			pw.print(",");
+			pw.print("has_trust_agent");
+		}
 		pw.print(",");
 		pw.print("team_formation_sum");
 		pw.print(",");
@@ -126,14 +130,16 @@ public class VisualFileWriter {
 		if (agents.get(0) instanceof StructuredAgent) {
 			pw.print(",");
 			pw.print("trust_to_leader");
+			pw.print(",");
+			pw.print("is_trust_agent");
 		}
 		pw.println();
 
 		for(int i = 0; i < Constant.AGENT_NUM; i++){
 			Agent me = agents.get(i);
 
-			//無向グラフ用
-			for(int j = i; j < Constant.AGENT_NUM; j++){
+			//有向グラフ用
+			for(int j = 0; j < Constant.AGENT_NUM; j++){
 				boolean isWrite = false;	//書き込むかどうか
 				double threshold = 0.00;	//可視化の閾値
 				Agent you = agents.get(j);
@@ -172,6 +178,12 @@ public class VisualFileWriter {
 				pw.print(me.getParameter().getElement(Role.LEADER).getRoleNum() + "," + me.getParameter().getElement(Role.MEMBER).getRoleNum());
 				pw.print(",");
 
+				if (me instanceof StructuredAgent) {
+					// 信頼エージェントを持っているかどうか
+					pw.print(",");
+					pw.print(!((StructuredAgent)me).getParameter().getTrustLeaders().isEmpty());
+				}
+
 				if(j != i){
 					//相手とのチーム編成合計回数
 					pw.print(me.getMeasure().getTeamFormationNumWithLeader(you) + me.getMeasure().getTeamFormationNumWithMember(you));
@@ -196,15 +208,23 @@ public class VisualFileWriter {
 					// リーダからメンバに対する信頼度
 					pw.print(me.getTrustToMember(you));
 
-					// メンバからリーダに対する信頼度
 					if (me instanceof StructuredAgent) {
+						// メンバからリーダに対する信頼度
 						pw.print(",");
 						pw.print(((StructuredAgent) me).getTrustToLeader(you));
+						// 相手が信頼エージェントかどうか
+						pw.print(",");
+						pw.print(((StructuredAgent)me).getParameter().containsTrustLeader(you));
 					}
 
 				}
 				else{
-					pw.print("-1" + "," + "-1" + "," + "-1" + "," + "false" + "," + "-1" + "," + "false");
+					// team_formation_sum, team_formation_num_as_leader, team_formation_num_as_member, main_role_with_you
+					// team_formation_sum_percentage, team_formation_sum_percentage_over_border
+					// trust_to_member, trust_to_leader, is_trust_agent
+					pw.print("-1" + "," + "-1" + "," + "-1" + "," + "false"
+							+ "," + "-1" + "," + "false"
+							+ "," + "-1" + "," + "-1" + "," + "-1");
 				}
 
 				pw.println();

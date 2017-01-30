@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import random.RandomKey;
-import random.RandomManager;
+import main.teamformation.TeamFormationInstances;
+import config.Configuration;
 import constant.Constant;
 
 public class Task {
@@ -16,6 +16,7 @@ public class Task {
 	private boolean mark = false;	//タスクがマークされているかどうか
 	private int removedMarkNumByEstimationFailure = 0;	//見積もり失敗によってマークを外された回数
 	private int removedMarkNumByTeamFormationFailure = 0;	//チーム編成失敗によってマークを外された回数
+	private int removedMarkNumByMemberDecision = 0;	//メンバ選択によってタスクのマークを外された回数
 	private ArrayList<Subtask> subtasks = new ArrayList<Subtask>();	//タスクが持つサブタスクを保持するリスト
 	public ArrayList<Subtask> subtasksByMembers = new ArrayList<Subtask>();	//リーダ以外が処理するサブタスクリスト
 	
@@ -32,12 +33,8 @@ public class Task {
 		this.numberOfSubtask = numberOfSubtask;	//1タスク中のサブタスクの数
 		this.deadlineInTask = deadline;
 		for(int i = 0; i < numberOfSubtask; i++){
-			int[] require = new int[Constant.RESOURCE_NUM];
+			int[] require = Configuration.subtaskFactory.getSubtaskRequire();
 			for(int j = 0; j < require.length; j++){
-				require[j] = Constant.TASK_REQUIRE_MALTIPLE * 
-						Constant.TASK_DEADLINE_MULTIPLE *
-						(RandomManager.getRandom(RandomKey.REQUIRE_RANDOM).nextInt(Constant.TASK_REQUIRE_MAX) 
-								+ Constant.TASK_REQUIRE_INIT);
 //				require[j] = 3;
 				taskRequireSum += require[j];	//タスク中の合計リソースを計算
 			}
@@ -77,6 +74,14 @@ public class Task {
 	public int getDeadlineInTask(){
 		return deadlineInTask;
 	}
+
+	/**
+	 * 1tickあたりに処理しなければならないタスクリソースの合計を返す
+	 * @return
+	 */
+	public double getTaskRequireSumPerTime() {
+		return (double)taskRequireSum / (double)deadlineInTask;
+	}
 	
 	/**
 	 * タスク、サブタスクのデッドラインを1減らす
@@ -91,15 +96,27 @@ public class Task {
 	/**
 	 * タスクにマークをする
 	 * @param isMarking
-	 * @param failure チーム編成失敗 or 見積もり失敗
 	 */
-	public void markingTask(boolean isMarking, Failure failure){
+	public void markingTask(boolean isMarking){
 		mark = isMarking;
-		if(!isMarking && failure == Failure.ESTIMATION_FAILURE){
+	}
+
+	public void countFailure(Failure failure) {
+		switch(failure) {
+		case ESTIMATION_FAILURE:
 			removedMarkNumByEstimationFailure++;
-		}
-		else if(!isMarking && failure == Failure.TEAM_FORMATION_FAILURE){
+			TeamFormationInstances.getInstance().getMeasure().countUnmarkedTaskNumByEstimationFailure();
+			break;
+		case TEAM_FORMATION_FAILURE:
 			removedMarkNumByTeamFormationFailure++;
+			TeamFormationInstances.getInstance().getMeasure().countUnmarkedTaskNumByTeamFormationFailure();
+			break;
+		case DECIDE_MEMBER_FAILURE:
+			removedMarkNumByMemberDecision++;
+			TeamFormationInstances.getInstance().getMeasure().countUnmarkedTaskNumByMemberDecision();
+			break;
+		default:
+			break;
 		}
 	}
 	
@@ -164,9 +181,10 @@ public class Task {
 	public String toString(){
 		StringBuffer string = new StringBuffer();
 		string.append("id = " + id + " / subtask_num = " + numberOfSubtask + " / deadline = " + deadlineInTask
-				+ " / mark = " + mark +  " / removedMarkNum(EstimationFailure TeamFormationFailure) = "
-				+ (removedMarkNumByEstimationFailure + removedMarkNumByTeamFormationFailure)
-				+ "(" + removedMarkNumByEstimationFailure + " " + removedMarkNumByTeamFormationFailure + ")"
+				+ " / mark = " + mark +  " / removedMarkNum(EstimationFailure TeamFormationFailure MemberDecision) = "
+				+ (removedMarkNumByEstimationFailure + removedMarkNumByTeamFormationFailure + removedMarkNumByMemberDecision)
+				+ "(" + removedMarkNumByEstimationFailure + " " + removedMarkNumByTeamFormationFailure
+				+ " " + removedMarkNumByMemberDecision + ")"
 				+ " / taskRequireSum = " + taskRequireSum);
 		string.append(" / subtaskList(require) = ");
 		for(Subtask subtask : subtasks){
@@ -188,5 +206,14 @@ public class Task {
 			subtask.getAgentInfo().clear();
 		}
 	}
+
+	public int getRemovedMarkNumByEstimationFailure() {
+		return removedMarkNumByEstimationFailure;
+	}
+
+	public int getRemovedMarkNumByTeamFormationFailure() {
+		return removedMarkNumByTeamFormationFailure;
+	}
+
 	
 }
