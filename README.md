@@ -14,3 +14,7 @@
 - .classpathに書かれてる"EXTERNAL_JAR"はjarディレクトリのパスをeclipseで変数として作成してある
 - antをインストールすれば```ant```コマンドでビルドができる（はず）
     - ただし、ビルドに必要なxmlファイルを作成する必要あり ←eclipseで作成できる！
+
+# メールやスラックに通知を飛ばしたいとき
+1. ```cp properties/prototype/*.properties properties/```を実行
+2. propertiesファイルに必要項目を記入
