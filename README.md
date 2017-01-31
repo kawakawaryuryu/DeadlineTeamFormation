@@ -18,3 +18,5 @@
 # メールやスラックに通知を飛ばしたいとき
 1. ```cp properties/prototype/*.properties properties/```を実行
 2. propertiesファイルに必要項目を記入
+
+- 暗号化されたファイルは```properties/encryption/```にある
